@@ -191,11 +191,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		mouse_X = p.x;
 		mouse_Y = p.y;
 
-		mouse_X = e.getPoint().x;
-		mouse_Y = e.getPoint().y;
 
 		drawing.repaint();
-
 	}
 
 
