@@ -35,4 +35,10 @@ public interface TileInterface {
 	 */
 	public boolean occupied();
 
+	public void setVisited(boolean b);
+
+	public void setPrevTile(TileInterface tileInterface);
+
+	public TileInterface getPrevTile();
+
 }
