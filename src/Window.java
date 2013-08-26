@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.List;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -11,15 +13,17 @@ import javax.swing.JFrame;
 
 
 
-public class Window extends JFrame implements KeyListener {
+public class Window extends JFrame implements KeyListener, MouseListener {
 
-	private int yvalue=200;
-	private int xvalue=100;
+	private int yvalue  = 200;
+	private int xvalue  = 100;
+	private int mouse_X = 0;
+	private int mouse_Y = 0;
 
-	boolean up 		= false;
-	boolean down 	= false;
-	boolean left 	= false;
-	boolean right 	= false;
+	boolean up 			= false;
+	boolean down 		= false;
+	boolean left 		= false;
+	boolean right 		= false;
 
 	JComponent drawing;
 	// Display display
@@ -32,7 +36,7 @@ public class Window extends JFrame implements KeyListener {
 	}
 
 	public void initialize(){
-
+		
 		drawing = new JComponent() {
 			protected void paintComponent(Graphics g) {
 				redraw(g);
@@ -40,10 +44,10 @@ public class Window extends JFrame implements KeyListener {
 
 
 		};
-
-		this.addKeyListener(this);
-		this.setFocusable(true);
-		this.add(drawing);
+		addMouseListener(this);
+		addKeyListener(this);
+		setFocusable(true);
+		add(drawing);
 		drawing.repaint();
 
 
@@ -51,24 +55,21 @@ public class Window extends JFrame implements KeyListener {
 
 
 	private void redraw(Graphics g) {
-		g.setColor(Color.black);
-
-		if(up){
-			yvalue--;
-		//	redraw(g);
-		}
-		if(down)
-			yvalue++;
-		if(right)
-			xvalue++;
-		if(left)
-			xvalue--;
-
-		g.fillOval(xvalue, yvalue, 500, 500);
-
-
+		g.setColor(Color.BLACK);
+		g.fillOval(mouse_X - 10, mouse_Y - 20, 20, 20);
 	}
 
+	/*private void panMap(){
+		if(up)
+			display.setCameraY(display.getY--);
+		if(down)
+			display.setCameraY(display.getY++);
+		if(right)
+			display.setCameraX(display.getX()++);
+		if(left)
+			display.setCameraX(display.getX()--);
+
+	}*/
 
 	public static void main(String[] args) {
 		new Window();
@@ -107,7 +108,9 @@ public class Window extends JFrame implements KeyListener {
 				down = true;
 				break;
 		}
-		drawing.repaint();
+	//	panMap();
+		repaint();
+		//display.repaint();
 	}
 
 	@Override
@@ -138,6 +141,38 @@ public class Window extends JFrame implements KeyListener {
 			down = false;
 			break;
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		mouse_X = e.getPoint().x;
+		mouse_Y = e.getPoint().y;
+		drawing.repaint();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 }
 
