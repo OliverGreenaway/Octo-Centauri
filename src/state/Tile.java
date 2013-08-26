@@ -12,6 +12,7 @@ public class Tile implements TileInterface{
 	private boolean occupied;
 	private int height;
 	private Image leftSideImg, rightSideImg;
+	private Structure structure;
 
 
 	public Tile(String type){
@@ -82,5 +83,9 @@ public class Tile implements TileInterface{
 	@Override
 	public void setHeight(int h) {
 		height = h;
+	}
+
+	public Structure getStructure() {
+		return structure;
 	}
 }
