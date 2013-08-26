@@ -138,10 +138,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	//disables a given pan direction
 	@Override
 	public void keyReleased(KeyEvent e) {
-<<<<<<< HEAD
-=======
-		// TODO Auto-generated method stub
->>>>>>> 2352f9e51bc8f21f2fc613bbd3ff3b4e7103abd0
 
 		int code = e.getKeyCode();
 
