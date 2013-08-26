@@ -16,12 +16,15 @@ public class Window extends JFrame implements KeyListener {
 	private int yvalue=200;
 	private int xvalue=100;
 
-	ArrayList<pressCheck> presses;
+	boolean up 		= false;
+	boolean down 	= false;
+	boolean left 	= false;
+	boolean right 	= false;
+
 	JComponent drawing;
 	// Display display
 
 	public Window(){
-		presses = new ArrayList<pressCheck>();
 		initialize();
 		this.setSize(800, 800 );
 		this.setVisible(true);
@@ -49,9 +52,20 @@ public class Window extends JFrame implements KeyListener {
 
 	private void redraw(Graphics g) {
 		g.setColor(Color.black);
+
+		if(up){
+			yvalue--;
+		//	redraw(g);
+		}
+		if(down)
+			yvalue++;
+		if(right)
+			xvalue++;
+		if(left)
+			xvalue--;
+
 		g.fillOval(xvalue, yvalue, 500, 500);
 
-		// TODO Auto-generated method stub
 
 	}
 
@@ -60,7 +74,7 @@ public class Window extends JFrame implements KeyListener {
 		new Window();
 
 	}
-	
+
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -70,81 +84,63 @@ public class Window extends JFrame implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
-		presses.add(e);
-		for(KeyEvent key: presses)
-				presses.add(new pressCheck(key));
-		/*switch (code) {
 
-
-
+		switch (code) {
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_KP_RIGHT:
 			case KeyEvent.VK_D:
-				xvalue++;
+				right = true;
 				break;
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_KP_LEFT:
 			case KeyEvent.VK_A:
-				xvalue--;
+				left = true;
 				break;
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_KP_UP:
 			case KeyEvent.VK_W:
-				yvalue--;
+				up = true;
 				break;
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_KP_DOWN:
 			case KeyEvent.VK_S:
-				yvalue++;
+				down = true;
 				break;
 		}
-
-		if (code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT || code == KeyEvent.VK_D) {
-			xvalue++;
-		}else if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT || code == KeyEvent.VK_A){
-			xvalue--;
-		}else if (code == KeyEvent.VK_DOWN || code == KeyEvent.VK_KP_DOWN || code == KeyEvent.VK_S) {
-			yvalue++;
-		}else if( code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP || code == KeyEvent.VK_W){
-			yvalue--;
-		}else if (code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT || code == KeyEvent.VK_D
-			   || code == KeyEvent.VK_UP || code == KeyEvent.VK_KP_UP || code == KeyEvent.VK_W) {
-			xvalue++;
-		}*/
 		drawing.repaint();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		presses.remove(e);
-	}
-	//Is passed each current key press, performs the given action, one created for each current key
-	private class pressCheck{
-		private pressCheck(KeyEvent e){
-			if(e.getKeyCode() == KeyEvent.VK_UP)
-					up();
-		}
-		
-		private void up(){
-			while (true)
-				yvalue--;
-			
-		}
-		
-		private void left(){
-			
-		}
-		
-		private void right(){
-			
-		}
-		
-		private void down(){
-			
+
+		int code = e.getKeyCode();
+
+		switch (code) {
+		case KeyEvent.VK_RIGHT:
+		case KeyEvent.VK_KP_RIGHT:
+		case KeyEvent.VK_D:
+			right = false;
+			break;
+		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_KP_LEFT:
+		case KeyEvent.VK_A:
+			left = false;
+			break;
+		case KeyEvent.VK_UP:
+		case KeyEvent.VK_KP_UP:
+		case KeyEvent.VK_W:
+			up = false;
+			break;
+		case KeyEvent.VK_DOWN:
+		case KeyEvent.VK_KP_DOWN:
+		case KeyEvent.VK_S:
+			down = false;
+			break;
 		}
 	}
 }
+
 
 
 
