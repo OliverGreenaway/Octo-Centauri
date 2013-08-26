@@ -6,9 +6,13 @@ public class Character {
 	private int dPower;
 	private String type;
 	private int cost;
-	
-	public Character(String t){
+	private int xPos;
+	private int yPos;
+
+	public Character(String t, int x, int y){
 		type = t;
+		xPos = x;
+		yPos = y;
 		status = "free";
 		if (t == "worker"){
 			health = 50;
@@ -46,5 +50,13 @@ public class Character {
 	
 	public int charCost(){
 		return cost;
+	}
+	
+	public int getX(){
+		return xPos;
+	}
+	
+	public int getY(){
+		return yPos;
 	}
 }
