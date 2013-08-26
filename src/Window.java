@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import state.Tile;
+import state.World;
 
 
 
@@ -66,7 +67,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		// set up menu
 		TopMenu menu =new TopMenu();
 		setJMenuBar(menu);
-		display = new Display(map);
+		display = new Display(new World());
 
 		drawing = new JComponent() {
 			protected void paintComponent(Graphics g) {
@@ -85,6 +86,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 //Draws a basic graphic pane needs actual graphical outlines and suchlike
 	private void redraw(Graphics g) {
+
 		add(display);
 		//display.repaint();
 		g.setColor(Color.BLACK);
@@ -102,15 +104,14 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 	private void panMap(){
-	/*	if(up)
-			display.panUp();
+		if(up)
+			display.panUp(1);
 		if(down)
-			display.panDown();
-			*/
+			display.panDown(1);
 		if(right)
-			display.panRight(3);
+			display.panRight(1);
 		if(left)
-			display.panLeft(3);
+			display.panLeft(1);
 	}
 
 
@@ -191,11 +192,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		mouse_X = p.x;
 		mouse_Y = p.y;
 
-		mouse_X = e.getPoint().x;
-		mouse_Y = e.getPoint().y;
 
 		drawing.repaint();
-
 	}
 
 

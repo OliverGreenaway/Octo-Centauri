@@ -1,19 +1,14 @@
 package logic;
 
-<<<<<<< HEAD
-=======
+
 import state.TileInterface;
 
->>>>>>> 8f2bbfd473df82cb02e98a1bc26664ba4f4f2239
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-<<<<<<< HEAD
-=======
 import java.util.PriorityQueue;
->>>>>>> 8f2bbfd473df82cb02e98a1bc26664ba4f4f2239
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
