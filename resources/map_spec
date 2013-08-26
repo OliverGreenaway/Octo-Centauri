@@ -1,8 +1,9 @@
 Map File Specification
 
 Line 1: Dimensions in form of x [tab] y
-Line 2: Key - symbols to image files, separated by tabs
+Line 2: Key - symbols to image files, separated by commas, no spaces
 Lines 3 - y+3: ASCII representation of terrain
+Lines y+3 onwards: height specification for various x, y tiles
 
 . - sharp rocks - tile0.png
 v - grass - tile.png
