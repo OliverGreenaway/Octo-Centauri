@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Handles incoming connections.
+ */
 public class ConnectionListenThread extends Thread {
 
 	private ServerSocket listeningSocket;
@@ -19,7 +22,14 @@ public class ConnectionListenThread extends Thread {
 		try {
 			while(true) {
 				Socket connected = listeningSocket.accept();
-				node.addConnection(new Connection(connected));
+
+				Connection connection = new Connection(connected);
+
+				// Tell the newly connected nodes about
+				for(AddressAndPort aap : node.getConnectedAddresses())
+					connection.sendUpdate(new NodeConnectionUpdate(aap.address, aap.port));
+
+				node.addConnection(connection);
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
