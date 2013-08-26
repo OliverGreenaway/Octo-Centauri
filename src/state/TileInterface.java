@@ -16,6 +16,10 @@ public interface TileInterface {
 	 */
 	public int getY();
 
+	public void setY(int y);
+
+	public void setX(int x);
+
 	/**
 	 *
 	 * @return - the x,y point of this tile.
