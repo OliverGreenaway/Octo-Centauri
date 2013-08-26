@@ -2,6 +2,7 @@ package state;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
@@ -32,7 +33,7 @@ public class Structure {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.image = new ImageIcon("Assets/Environment Objects/"+image+".png").getImage();
+		this.image = new ImageIcon(image).getImage();
 	}
 
 	public void draw(Graphics g, int x, int y){
