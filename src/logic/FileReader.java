@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import state.TileInterface;
+
 
 /**
  * Helper class for reading menus for various objects
@@ -30,6 +32,35 @@ public class FileReader {
 			scan = new Scanner(file);
 		}catch(IOException e){System.out.println("Menu settings file not found.");}
 		menus = new HashMap<String, List<String>>();
+
+		while(scan.hasNextLine()){
+			List<String> menuOptions = new ArrayList<String>();
+			Scanner lineScan = new Scanner(scan.nextLine());
+			lineScan.useDelimiter("\t");
+			String className = lineScan.next();
+				while(lineScan.hasNext()){
+					menuOptions.add(lineScan.next());
+				}
+			lineScan.close();
+			menus.put(className, menuOptions);
+		}
+		scan.close();
+		return menus;
+	}
+
+	public static TileInterface[][] readMap(String filename){
+		File file = new File(filename);
+		Scanner scan = null;
+		TileInterface[][] tiles;
+
+		try{
+			scan = new Scanner(file);
+		}catch(IOException e){System.out.println("Map file not found.");}
+		Scanner lineScan = new Scanner(scan.nextLine());
+		lineScan.useDelimiter("\t");
+		int x = Integer.parseInt(lineScan.next());
+		int y = Integer.parseInt(lineScan.next());
+		tiles = new TileInterface[x][y];
 
 		while(scan.hasNextLine()){
 			List<String> menuOptions = new ArrayList<String>();
