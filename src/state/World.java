@@ -28,7 +28,7 @@ public class World {
 		for(int x = 0; x < 100; x++)
 			for(int y = 0; y < 100; y++) {
 				worldTile[x][y] = new Tile(generateRandomTile());
-				if(random.nextInt(5) == 0)
+				if(random.nextInt(20) == 0)
 					worldTile[x][y].setStructure(new Structure(x, y, 1, 1, "dark-tree"));
 			}
 	}
