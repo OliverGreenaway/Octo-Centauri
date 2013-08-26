@@ -13,8 +13,8 @@ public class Tile implements TileInterface{
 	private Point p;
 
 
-	public Tile(){
-		img = new ImageIcon("resources/tile0.png").getImage();
+	public Tile(String name){
+		img = new ImageIcon("Assets/" + s).getImage();
 	}
 
 	public Image getImage(){

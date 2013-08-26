@@ -1,4 +1,5 @@
 import java.awt.*;
+
 import javax.swing.*;
 
 public class Display extends JPanel{
@@ -31,7 +32,12 @@ public class Display extends JPanel{
 	//RENDERING
 	public void paintComponent(Graphics g){
 		paintMap(g);
+		paintPlayer(g);
+	}
 
+	private void paintPlayer(Graphics g) {
+		
+		
 	}
 
 	public int[] getCameraCoordinates(){
