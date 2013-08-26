@@ -46,19 +46,19 @@ public class World {
 	public boolean addStructure(Structure s) {
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
-		if(x < 0 || y < 0 || x+w > getXSize() || y+h > getYSize())
+		if(x-w < -1 || y-h < -1 || x >= getXSize() || y >= getYSize())
 			return false;
 
 		// check for overlap
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
-				if(worldTile[x][y].getStructure() != null)
+				if(worldTile[x-X][y-Y].getStructure() != null)
 					return false; // can't have two structures on one tile
 
 		// place the structure
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
-				worldTile[x][y].setStructure(s);
+				worldTile[x-X][y-Y].setStructure(s);
 
 		return true;
 	}
