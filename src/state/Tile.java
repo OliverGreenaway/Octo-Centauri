@@ -1,7 +1,7 @@
+package state;
 import java.awt.Image;
 import java.awt.Point;
 import javax.swing.ImageIcon;
-import state.TileInterface;
 
 public class Tile implements TileInterface{
 	// FIELDS
@@ -13,8 +13,8 @@ public class Tile implements TileInterface{
 	private Point p;
 
 
-	public Tile(){
-		img = new ImageIcon("resources/tile0.png").getImage();
+	public Tile(String type){
+		img = new ImageIcon("resources/"+type+".png").getImage();
 	}
 
 	public Image getImage(){

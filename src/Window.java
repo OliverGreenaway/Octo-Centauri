@@ -5,10 +5,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Random;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import state.Tile;
 
 
 
@@ -25,6 +28,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	boolean left 		= false;
 	boolean right 		= false;
 
+	Random random = new Random();
+
 	JComponent drawing;
 	Display display;
 
@@ -35,11 +40,25 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	public String generateRandomTile(){
+		if(random.nextInt(2)==1)
+			return "tile";
+
+			else
+				return "tile0";
+
+	}
+
 	public void initialize(){
+
+
+
 		Tile[][] map = new Tile[200][200];
+
+
 		for(int i = 0; i < 200; i++){
 			for(int j = 0; j < 200; j++){
-				map[i][j] = new Tile();
+				map[i][j] = new Tile(generateRandomTile());
 			}
 		}
 
