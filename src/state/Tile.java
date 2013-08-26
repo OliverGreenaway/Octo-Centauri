@@ -96,5 +96,9 @@ public class Tile implements TileInterface{
 	public Structure getStructure() {
 		return structure;
 	}
+
+	public void setStructure(Structure s) {
+		structure = s;
+	}
 }
 
