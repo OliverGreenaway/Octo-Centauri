@@ -37,4 +37,8 @@ public interface TileInterface {
 
 	public void setVisited(boolean b);
 
+	public void setPrevTile(TileInterface tileInterface);
+
+	public TileInterface getPrevTile();
+
 }
