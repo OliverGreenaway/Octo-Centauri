@@ -23,6 +23,10 @@ public class World {
 				worldTile[x][y] = new Tile(generateRandomTile());
 	}
 
+	public World(Tile[][] tiles) {
+		worldTile = tiles;
+	}
+
 	public Tile getTile(int x, int y) {
 		return worldTile[x][y];
 	}
