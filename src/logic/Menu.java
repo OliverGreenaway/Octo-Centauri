@@ -13,6 +13,11 @@ public class Menu {
 		options.addAll(Arrays.asList(opts));
 	}
 
+	public Menu(List<String> opts){
+		options = new ArrayList<String>();
+		options.addAll(opts);
+	}
+
 	public List<String> getOptions(){
 		return options;
 	}
