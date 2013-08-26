@@ -45,6 +45,7 @@ public class Display extends JPanel{
 	public void panLeft(int idx){
 		if(camera.x - idx < 0 || camera.y - idx < 0){
 			camera=new Coord(0,0);
+			return;
 		}
 		camera = new Coord(camera.x - idx, camera.y - idx);
 	}
@@ -52,6 +53,7 @@ public class Display extends JPanel{
 	public void panRight(int idx){
 		if(camera.y - idx < 0 || camera.x + idx >= map[0].length){
 			camera=new Coord(0,0);
+			return;
 		}
 		camera = new Coord(camera.x + idx, camera.y - idx);
 	}
@@ -59,6 +61,7 @@ public class Display extends JPanel{
 	public void panDown(int idx){
 		if(camera.x - idx < 0 || camera.y + idx >= map[0].length){
 			camera=new Coord(0,0);
+			return;
 		}
 		camera = new Coord(camera.x - idx, camera.y + idx);
 	}
@@ -66,6 +69,7 @@ public class Display extends JPanel{
 	public void panUp(int idx){
 		if(camera.x - idx < 0 || camera.y - idx < 0){
 			camera=new Coord(0,0);
+			return;
 		}
 		camera = new Coord(camera.x + idx, camera.y + idx);
 	}
