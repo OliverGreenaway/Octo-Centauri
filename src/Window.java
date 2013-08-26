@@ -56,7 +56,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		addMouseListener(this);
 		addKeyListener(this);
 		setFocusable(true);
-		
+
 		add(drawing);
 		drawing.repaint();
 
@@ -92,7 +92,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 			display.panLeft(3);
 
 	}
-	
+
 
 	public static void main(String[] args) {
 		new Window();
