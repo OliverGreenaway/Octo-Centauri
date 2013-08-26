@@ -22,7 +22,7 @@ public class World {
 			for(int y = 0; y < 100; y++) {
 				worldTile[x][y] = new Tile(generateRandomTile());
 				if(random.nextInt(5) == 0)
-					worldTile[x][y].setStructure(new Structure(x, y, 1, 1, "dark-tree"));
+					worldTile[x][y].setStructure(new Structure(x, y, 3, 3, "dark-tree"));
 			}
 	}
 
