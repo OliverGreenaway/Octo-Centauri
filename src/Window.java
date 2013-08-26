@@ -80,17 +80,19 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 
-	/*private void panMap(){
-		if(up)
+	private void panMap(){
+	/*	if(up)
 			display.panUp();
 		if(down)
 			display.panDown();
+			*/
 		if(right)
-			display.setCameraX(display.getX()++);
+			display.panRight(3);
 		if(left)
-			display.setCameraX(display.getX()--);
+			display.panLeft(3);
 
-	}*/
+	}
+	
 
 	public static void main(String[] args) {
 		new Window();
@@ -128,7 +130,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 				down = true;
 				break;
 		}
-	//	panMap();
+		panMap();
 		repaint();
 		//display.repaint();
 	}
