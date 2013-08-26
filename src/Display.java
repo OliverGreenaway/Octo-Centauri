@@ -99,8 +99,8 @@ public class Display extends JPanel{
 				 * Bask in it's majesty and awe-inspiring splendour.
 				 */
 
-				int i = (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2)-TILE_WIDTH; //?? - TILE_WIDTH ??
-				int j =  (x+y) * (TILE_HEIGHT/ 2);
+				int i = (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2);//-TILE_WIDTH; //?? - TILE_WIDTH ??
+				int j =  (x+y) * (TILE_HEIGHT/ 2) - TILE_HEIGHT;
 				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2), (x+y) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
 				if(t.getStructure() != null){
 					t.getStructure().draw(g, i, j);
