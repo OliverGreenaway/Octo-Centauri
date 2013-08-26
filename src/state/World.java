@@ -17,9 +17,9 @@ public class World {
 	}
 
 	public World(){
-		worldTile = new Tile[50][50];
-		for(int x = 0; x < 50; x++)
-			for(int y = 0; y < 50; y++)
+		worldTile = new Tile[100][100];
+		for(int x = 0; x < 100; x++)
+			for(int y = 0; y < 100; y++)
 				worldTile[x][y] = new Tile(generateRandomTile());
 	}
 
@@ -33,5 +33,13 @@ public class World {
 
 	public void setTile(int x, int y, Tile t) {
 		worldTile[x][y] = t;
+	}
+
+	public int getXSize() {
+		return worldTile.length;
+	}
+
+	public int getYSize() {
+		return worldTile[0].length;
 	}
 }
