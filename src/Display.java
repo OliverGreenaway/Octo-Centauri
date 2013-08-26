@@ -3,6 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import state.Tile;
+import state.World;
 
 public class Display extends JPanel{
 
@@ -10,7 +11,7 @@ public class Display extends JPanel{
 	private final Dimension DIMENSION = new Dimension(1920,1080);
 	private final int VIEW_WIDTH = 30, VIEW_HEIGHT = 30;	// Camera = 60x60
 
-	private Tile[][] map;
+	private World world;
 
 	private final int TILE_WIDTH = 64, TILE_HEIGHT = 32;
 
@@ -23,10 +24,10 @@ public class Display extends JPanel{
 	 */
 
 	// CONSTRUCTOR
-	public Display(Tile[][] map){
+	public Display(World world){
 		super();
 		setPreferredSize(DIMENSION); // Necessary?
-		this.map = map;
+		this.world = world;
 	}
 
 	private static final long serialVersionUID = 8274011568777903027L;
@@ -58,14 +59,14 @@ public class Display extends JPanel{
 	}
 
 	public void panRight(int idx) {
-		if (camera.x + 29 + idx >= map.length) {// Catch if out of bounds
+		if (camera.x + 29 + idx >= world.getXSize()) {// Catch if out of bounds
 			return;
 		}
 		camera = new Coord(camera.x + idx, camera.y);
 	}
 
 	public void panDown(int idy) {
-		if (camera.y + 29 + idy >= map.length) {// Catch if out of bounds
+		if (camera.y + 29 + idy >= world.getYSize()) {//ap.length) Catch if out of bounds
 			return;
 		}
 		camera = new Coord(camera.x, camera.y + idy);
@@ -87,8 +88,9 @@ public class Display extends JPanel{
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
-				Tile t = map[x+camera.x][y+camera.y];
-//				System.out.println("CAMERA: " + camera.x + " " + camera.y +".");//Debug code removed
+				Tile t = world.getTile(x+camera.x,y+camera.y);
+				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
+
 
 				/*This is the "magic line" -- It calculates the position of the
 				 * tile on screen, and was a slightly tricky piece of trigonometry.

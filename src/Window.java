@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import state.Tile;
+import state.World;
 
 
 
@@ -66,7 +67,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		// set up menu
 		TopMenu menu =new TopMenu();
 		setJMenuBar(menu);
-		display = new Display(map);
+		display = new Display(new World());
 
 		drawing = new JComponent() {
 			protected void paintComponent(Graphics g) {
@@ -190,11 +191,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		mouse_X = p.x;
 		mouse_Y = p.y;
 
-		mouse_X = e.getPoint().x;
-		mouse_Y = e.getPoint().y;
 
 		drawing.repaint();
-
 	}
 
 
