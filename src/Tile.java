@@ -11,11 +11,10 @@ public class Tile implements TileInterface{
 	private boolean visited;
 	private boolean occupied;
 	private Point p;
-	private TileInterface prevTile;
 
 
-	public Tile(String name){
-		img = new ImageIcon("Assets/" + s).getImage();
+	public Tile(){
+		img = new ImageIcon("resources/tile0.png").getImage();
 	}
 
 	public Image getImage(){
@@ -53,13 +52,14 @@ public class Tile implements TileInterface{
 	}
 
 	@Override
-	public void setPrevTile(TileInterface tile) {
-		prevTile = tile;
+	public void setPrevTile(TileInterface tileInterface) {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public TileInterface getPrevTile() {
-		return prevTile;
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

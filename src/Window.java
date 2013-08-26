@@ -37,7 +37,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		Tile[][] map = new Tile[200][200];
 		for(int i = 0; i < 200; i++){
 			for(int j = 0; j < 200; j++){
-				map[i][j] = new Tile("Grass.png");
+				map[i][j] = new Tile();
 			}
 		}
 
