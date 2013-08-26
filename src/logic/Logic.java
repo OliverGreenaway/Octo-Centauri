@@ -20,6 +20,7 @@ public class Logic {
 
 	private Map<String, List<String>> menus;
 	private TileInterface[][] tiles = new TileInterface[20][20];
+//	private TileInterface[][] tiles = World.getTiles();
 
 	public Logic() {
 		menus = FileReader.readMenus("menu_mappings.tab");
@@ -119,18 +120,17 @@ public class Logic {
 										currentTile.getPoint(),
 										routeGoal,
 										calcHeuristic(t.getPoint(), routeGoal),
-										t.setPrevPoint(
-												currentTuple.getPoint(),
-												currentTuple.getCostToHere() + 1)));
+										currentTuple.getCostToHere() + 1));
+								t.setPrevTile(tiles[(int) currentTuple.getPoint().getX()][(int) currentTuple.getPoint().getY()]);
 							}
 						}
 					} else {
 						//found the goal so go back through the tuples adding it and it's previous point to the route Stack
 						route.add(currentTile.getPoint());
-						Point point = currentTile.getPrevPoint();
-						while(point != null){
-							route.add(point);
-							point = currentTile.getPrevPoint();
+						TileInterface tile = currentTile.getPrevTile();
+						while(tile != null){
+							route.add(tile.getPoint());
+							tile = currentTile.getPrevTile();
 						}
 					}
 				}
@@ -175,7 +175,7 @@ public class Logic {
 			return estTotalCost;
 		}
 
-		public double getCostToHere() {
+		public int getCostToHere() {
 			return costToHere;
 		}
 

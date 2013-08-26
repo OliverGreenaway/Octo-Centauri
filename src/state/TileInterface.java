@@ -35,10 +35,10 @@ public interface TileInterface {
 	 */
 	public boolean occupied();
 
-	public int setPrevPoint(Point point, double d);
-
-	public Point getPrevPoint();
-
 	public void setVisited(boolean b);
+
+	public void setPrevTile(TileInterface tileInterface);
+
+	public TileInterface getPrevTile();
 
 }

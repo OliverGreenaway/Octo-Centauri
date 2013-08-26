@@ -1,24 +1,29 @@
+import java.awt.Image;
+import java.util.ArrayList;
 
 public class World {
-	private int[][] tiles;
-	private Player[] players;
+	private Tile tiles;
+	private Tile[][] worldTile;
+	private ArrayList<Player> players;
 	private Item[] items;
 	
 	public World(){
-		tiles = new int[50][50];
-		players = new Player[10];
+		worldTile = new Tile[50][50];
+		tiles = new Tile();
+		players = new ArrayList<Player>();
 		items = new Item[50];
+		Player player1 = new Player("Player1");
+		players.add(player1);
+		Player player2 = new Player("Player2");
+		players.add(player2);
 	}
 	
-	public void tiles(){
-		
+	public Image tileImage(){
+		return tiles.getImage();
 	}
 	
 	public void players(){
-		for (int i = 0; i<10; i++){
-			while (players[i] != null)
-				players[i].resource();
-		}
+		
 	}
 	
 	public void items(){
