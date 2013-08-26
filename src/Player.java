@@ -6,8 +6,10 @@ public class Player {
 	private int resources;
 	private Queue<Character> cQueue;
 	private String type;
+	private String pName;
 	
-	public Player(){
+	public Player(String name){
+		pName = name;
 		characters = new ArrayList<Character>();
 		resources = 500;
 		type = "worker";
@@ -25,5 +27,9 @@ public class Player {
 	
 	public int resource(){
 		return resources;
+	}
+	
+	public String name(){
+		return pName;
 	}
 }

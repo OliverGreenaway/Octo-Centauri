@@ -23,4 +23,28 @@ public class Character {
 			cost = 250;
 		}
 	}
+	
+	public int hp(){
+		return health;
+	}
+	
+	public String cStatus(){
+		return status;
+	}
+	
+	public int attack(){
+		return aPower;
+	}
+	
+	public int defence(){
+		return dPower;
+	}
+	
+	public String charType(){
+		return type;
+	}
+	
+	public int charCost(){
+		return cost;
+	}
 }
