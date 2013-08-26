@@ -11,6 +11,7 @@ public class Tile implements TileInterface{
 	private boolean visited;
 	private boolean occupied;
 	private Point p;
+	private TileInterface prevTile;
 
 
 	public Tile(){
@@ -50,5 +51,16 @@ public class Tile implements TileInterface{
 	@Override
 	public void setVisited(boolean b) {
 		visited = b;
+	}
+
+	@Override
+	public void setPrevTile(TileInterface tile) {
+		prevTile = tile;
+
+	}
+
+	@Override
+	public TileInterface getPrevTile() {
+		return prevTile;
 	}
 }
