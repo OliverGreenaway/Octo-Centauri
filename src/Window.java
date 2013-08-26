@@ -1,22 +1,18 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.List;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 
 
+
 public class Window extends JFrame implements KeyListener, MouseListener {
 
-	private int yvalue  = 200;
-	private int xvalue  = 100;
 	private int mouse_X = 0;
 	private int mouse_Y = 0;
 
@@ -29,8 +25,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	// Display display
 
 	public Window(){
-		initialize();
 		this.setSize(1900, 1080 );
+		initialize();
 		this.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -47,17 +43,15 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 		};
+
 		addMouseListener(this);
 		addKeyListener(this);
 		setFocusable(true);
 		add(drawing);
 		drawing.repaint();
-
-
-
 	}
 
-
+//Draws a basic graphic pane needs actual graphical outlines and suchlike
 	private void redraw(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
@@ -74,9 +68,9 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	/*private void panMap(){
 		if(up)
-			display.setCameraY(display.getY--);
+			display.panUp();
 		if(down)
-			display.setCameraY(display.getY++);
+			display.panDown();
 		if(right)
 			display.setCameraX(display.getX()++);
 		if(left)
@@ -94,7 +88,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	public void keyTyped(KeyEvent e) {
 
 	}
-
+	//gets key events for panning possibly add shortcuts
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
@@ -125,7 +119,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		repaint();
 		//display.repaint();
 	}
-
+	//disables a given pan direction
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -155,12 +149,9 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 			break;
 		}
 	}
-
+	//mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
-		//System.out.println(e.getButton());
-
 		mouse_X = e.getPoint().x;
 		mouse_Y = e.getPoint().y;
 
@@ -190,6 +181,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }
 
