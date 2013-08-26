@@ -10,11 +10,16 @@ public class Tile implements TileInterface{
 	private int y;
 	private boolean visited;
 	private boolean occupied;
-	private Point p;
+	private int height;
+	private Image leftSideImg, rightSideImg;
+	private Structure structure;
 
 
 	public Tile(String type){
 		img = new ImageIcon("/Assets/Environment_Tiles/"+type+".png").getImage();
+		img = new ImageIcon("resources/"+type+".png").getImage();
+		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
+		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
 	}
 
 	public Image getImage(){
@@ -27,6 +32,13 @@ public class Tile implements TileInterface{
 
 	public void setY(int y){
 		this.y = y;
+
+	public Image getLeftSideImg() {
+		return leftSideImg;
+	}
+
+	public Image getRightSideImg() {
+		return rightSideImg;
 	}
 
 	@Override
@@ -41,7 +53,7 @@ public class Tile implements TileInterface{
 
 	@Override
 	public Point getPoint() {
-		return p;
+		return new Point(x, y);
 	}
 
 	@Override
@@ -71,4 +83,18 @@ public class Tile implements TileInterface{
 		return null;
 	}
 
+	@Override
+	public int getHeight() {
+		return height;
+	}
+
+	@Override
+	public void setHeight(int h) {
+		height = h;
+	}
+
+	public Structure getStructure() {
+		return structure;
+	}
 }
+
