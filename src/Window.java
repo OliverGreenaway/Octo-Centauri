@@ -30,13 +30,13 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	public Window(){
 		initialize();
-		this.setSize(800, 800 );
+		this.setSize(1900, 1080 );
 		this.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public void initialize(){
-		
+
 		drawing = new JComponent() {
 			protected void paintComponent(Graphics g) {
 				redraw(g);
@@ -55,7 +55,16 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 	private void redraw(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
+		//Bottom pane
+		g.fillRect(0,getHeight()-(getHeight()/4),getWidth(),getHeight()/4);
+		//left hand pane
+		g.fillRect(0, 0, 25, getHeight()-(getHeight()/4));
+		//right hand pane
+		g.fillRect(getWidth() - 25, 0, 25, getHeight()-(getHeight()/4));
+		g.fillRect(25, 0, getWidth(), 25);
 		g.fillOval(mouse_X - 10, mouse_Y - 20, 20, 20);
 	}
 
