@@ -16,8 +16,7 @@ public class Tile implements TileInterface{
 
 
 	public Tile(String type){
-		img = new ImageIcon("/Assets/Environment_Tiles/"+type+".png").getImage();
-		img = new ImageIcon("resources/"+type+".png").getImage();
+		img = new ImageIcon("Assets/Environment_Tiles/"+type+".png").getImage();
 		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
 		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
 	}
