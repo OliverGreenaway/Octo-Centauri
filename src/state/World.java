@@ -2,12 +2,17 @@ package state;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class World {
 	private Tile[][] worldTile;
 
-	private Random random = new Random();
+	long seed = System.currentTimeMillis();
+	private Random random = new Random(seed);
+
+	private Set<Dude> allDudes = new HashSet<Dude>();
 
 	public String generateRandomTile(){
 		int rand = random.nextInt(5);
@@ -22,33 +27,31 @@ public class World {
 		else
 			return "Grass";
 	}
-
+	
+	
+	
 	public World(){
 		worldTile = new Tile[100][100];
 		for(int x = 0; x < 100; x++)
 			for(int y = 0; y < 100; y++) {
-				worldTile[x][y] = new Tile(generateRandomTile());
+				if (random.nextInt(2) == 1)
+					worldTile[x][y] = new Tile(generateRandomTile(),0);
+				else
+					worldTile[x][y] = new Tile(generateRandomTile(),1);
 			}
 
-
-		for(int x = 3; x < 100; x += 5)
-			for(int y = 3; y < 100; y += 5) {
-				if(random.nextBoolean())
+		for(int x = 3; x < 100; x += 1){
+			for(int y = 3; y < 100; y += 1) {
+				if(random.nextInt(20)==1)
 					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
-				else {
-					for(int dx = -2; dx <= 0; dx++) {
-						for(int dy = -2; dy <= 0; dy++) {
-							addStructure(new Structure(x+dx, y+dy, 1, 1, "Assets/Templates/TileTemplate.png"));
-						}
-					}
 				}
 			}
-
-		addDude(new Dude(7, 7, 1, 1, "Assets/Man.png"));
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	/**
@@ -64,8 +67,10 @@ public class World {
 		// check for overlap
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
-				if(worldTile[x-X][y-Y].getStructure() != null)
+				if(worldTile[x-X][y-Y].getStructure() != null){
+					System.out.println("Cannot add structure: overlap");
 					return false; // can't have two structures on one tile
+				}
 
 		// place the structure
 		for(int X = 0; X < w; X++)
@@ -74,6 +79,7 @@ public class World {
 
 		return true;
 	}
+
 
 	/**
 	 * Adds a dude to all tiles it overlaps and returns true.
@@ -89,12 +95,14 @@ public class World {
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
 				if(worldTile[x-X][y-Y].getDude() != null)
-					return false; // can't have two structures on one tile
+					return false; // can't have two structures on one tile <--The best comment! =)
 
 		// place the structure
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
 				worldTile[x-X][y-Y].setDude(s);
+
+		allDudes.add(s);
 
 		return true;
 	}
@@ -113,5 +121,10 @@ public class World {
 
 	public int getYSize() {
 		return worldTile[0].length;
+	}
+
+	public void update() {
+		for(Dude d : allDudes)
+			d.update();
 	}
 }

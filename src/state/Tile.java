@@ -1,9 +1,11 @@
 package state;
 import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+
 import javax.swing.ImageIcon;
 
-public class Tile implements TileInterface{
+public class Tile {
 	// FIELDS
 	private Image img;
 	private int x;
@@ -16,10 +18,13 @@ public class Tile implements TileInterface{
 	private Dude dude;
 
 
-	public Tile(String type){
+	public Tile(String type,int ht){
 		img = new ImageIcon("Assets/Environment_Tiles/"+type+".png").getImage();
+		File tileFile = new File("Assets/Environment_Tiles/"+type+".png");
+		assert(tileFile.exists());
 		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
 		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
+		height = ht;
 	}
 
 	public Image getImage(){
@@ -42,54 +47,44 @@ public class Tile implements TileInterface{
 		return rightSideImg;
 	}
 
-	@Override
 	public int getX() {
 		return x;
 	}
 
-	@Override
 	public int getY() {
 		return y;
 	}
 
-	@Override
 	public Point getPoint() {
 		return new Point(x, y);
 	}
 
-	@Override
 	public boolean visited() {
 		return visited;
 	}
 
-	@Override
 	public boolean occupied() {
 		return occupied;
 	}
 
-	@Override
 	public void setVisited(boolean b) {
 		visited = b;
 	}
 
-	@Override
-	public void setPrevTile(TileInterface tileInterface) {
+	public void setPrevTile(Tile tileInterface) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	public TileInterface getPrevTile() {
+	public Tile getPrevTile() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public int getHeight() {
 		return height;
 	}
 
-	@Override
 	public void setHeight(int h) {
 		height = h;
 	}
