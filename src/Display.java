@@ -38,8 +38,8 @@ public class Display extends JPanel{
 	}
 
 	private void paintPlayer(Graphics g) {
-		
-		
+
+
 	}
 
 	public int[] getCameraCoordinates(){
@@ -50,36 +50,32 @@ public class Display extends JPanel{
 		camera = new Coord(coord[0],coord[1]);
 	}
 
-	public void panLeft(int idx){
-		if(camera.x - idx < 0 || camera.y - idx < 0){
-			camera=new Coord(0,0);
+	public void panLeft(int idx) {
+		if (camera.x - idx < 0) {// Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x - idx, camera.y - idx);
+		camera = new Coord(camera.x - idx, camera.y);
 	}
 
-	public void panRight(int idx){
-		if(camera.y - idx < 0 || camera.x + idx >= map[0].length){
-			camera=new Coord(0,0);
+	public void panRight(int idx) {
+		if (camera.x + 29 + idx >= map.length) {// Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x + idx, camera.y - idx);
+		camera = new Coord(camera.x + idx, camera.y);
 	}
 
-	public void panDown(int idx){
-		if(camera.x - idx < 0 || camera.y + idx >= map[0].length){
-			camera=new Coord(0,0);
+	public void panDown(int idy) {
+		if (camera.y + 29 + idy >= map.length) {// Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x - idx, camera.y + idx);
+		camera = new Coord(camera.x, camera.y + idy);
 	}
 
-	public void panUp(int idx){
-		if(camera.x - idx < 0 || camera.y - idx < 0){
-			camera=new Coord(0,0);
+	public void panUp(int idy) {
+		if (camera.y - idy < 0) {// Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x + idx, camera.y + idx);
+		camera = new Coord(camera.x, camera.y - idy);
 	}
 
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
@@ -92,7 +88,8 @@ public class Display extends JPanel{
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
 				Tile t = map[x+camera.x][y+camera.y];
-				System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
+//				System.out.println("CAMERA: " + camera.x + " " + camera.y +".");//Debug code removed
+
 				/*This is the "magic line" -- It calculates the position of the
 				 * tile on screen, and was a slightly tricky piece of trigonometry.
 				 *
