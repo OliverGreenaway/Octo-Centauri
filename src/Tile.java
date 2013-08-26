@@ -13,8 +13,12 @@ public class Tile implements TileInterface{
 	private Point p;
 
 
-	public Tile(){
-		img = new ImageIcon("resources/tile0.png").getImage();
+	public Tile(String type) {
+		if (type.equals("grass")) {
+			img = new ImageIcon("resources/tile0.png").getImage();
+		}else if(type.equals("template")){
+			img = new ImageIcon("resources/tile.png").getImage();
+		}
 	}
 
 	public Image getImage(){

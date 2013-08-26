@@ -36,8 +36,8 @@ public class Display extends JPanel{
 	}
 
 	private void paintPlayer(Graphics g) {
-		
-		
+
+
 	}
 
 	public int[] getCameraCoordinates(){
@@ -48,36 +48,36 @@ public class Display extends JPanel{
 		camera = new Coord(coord[0],coord[1]);
 	}
 
-	public void panLeft(int idx){
-		if(camera.x - idx < 0 || camera.y - idx < 0){
-			camera=new Coord(0,0);
+	public void panRight(int idx) {
+		if (camera.x - idx < 0) {// Catch if out of bounds
+			camera = new Coord(0, camera.y);
 			return;
 		}
-		camera = new Coord(camera.x - idx, camera.y - idx);
+		camera = new Coord(camera.x - idx, camera.y);
 	}
 
-	public void panRight(int idx){
-		if(camera.y - idx < 0 || camera.x + idx >= map[0].length){
-			camera=new Coord(0,0);
+	public void panLeft(int idx) {
+		if (camera.x + idx >= map[0].length) {// Catch if out of bounds
+			camera = new Coord(map[0].length, camera.y);
 			return;
 		}
-		camera = new Coord(camera.x + idx, camera.y - idx);
+		camera = new Coord(camera.x + idx, camera.y);
 	}
 
-	public void panDown(int idx){
-		if(camera.x - idx < 0 || camera.y + idx >= map[0].length){
-			camera=new Coord(0,0);
+	public void panUp(int idy) {
+		if (camera.y + idy >= map[0].length) {// Catch if out of bounds
+			camera = new Coord(camera.x, map[0].length);
 			return;
 		}
-		camera = new Coord(camera.x - idx, camera.y + idx);
+		camera = new Coord(camera.x, camera.y + idy);
 	}
 
-	public void panUp(int idx){
-		if(camera.x - idx < 0 || camera.y - idx < 0){
-			camera=new Coord(0,0);
+	public void panDown(int idy) {
+		if (camera.y - idy < 0) {// Catch if out of bounds
+			camera = new Coord(camera.x, camera.y - idy);
 			return;
 		}
-		camera = new Coord(camera.x + idx, camera.y + idx);
+		camera = new Coord(camera.x, camera.y - idy);
 	}
 
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,

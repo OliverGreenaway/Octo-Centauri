@@ -39,7 +39,11 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		Tile[][] map = new Tile[200][200];
 		for(int i = 0; i < 200; i++){
 			for(int j = 0; j < 200; j++){
-				map[i][j] = new Tile();
+				if(i==20 && j == 20){
+					map[i][j] = new Tile("grass");
+				}else{
+					map[i][j] = new Tile("template");
+				}
 			}
 		}
 
@@ -66,6 +70,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 //Draws a basic graphic pane needs actual graphical outlines and suchlike
 	private void redraw(Graphics g) {
+
 		add(display);
 		//display.repaint();
 		g.setColor(Color.BLACK);
@@ -83,15 +88,14 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 	private void panMap(){
-	/*	if(up)
-			display.panUp();
+		if(up)
+			display.panUp(1);
 		if(down)
-			display.panDown();
-			*/
+			display.panDown(1);
 		if(right)
-			display.panRight(3);
+			display.panRight(1);
 		if(left)
-			display.panLeft(3);
+			display.panLeft(1);
 	}
 
 
