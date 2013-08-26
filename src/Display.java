@@ -2,6 +2,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import state.Tile;
+
 public class Display extends JPanel{
 
 	// FIELDS
@@ -36,8 +38,8 @@ public class Display extends JPanel{
 	}
 
 	private void paintPlayer(Graphics g) {
-		
-		
+
+
 	}
 
 	public int[] getCameraCoordinates(){
