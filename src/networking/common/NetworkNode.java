@@ -36,7 +36,11 @@ public class NetworkNode {
 		ci.readThread = new ConnectionReadThread(c, this);
 		ci.readThread.start();
 
+		// TODO THIS IS WRONG.
+		// TODO Instead of using the address we are actually connected to, it needs to use
+		// TODO the other node's listeningSocket address.
 		AddressAndPort where = new AddressAndPort(c.getAddress(), c.getPort());
+
 		connections.put(where, ci);
 
 		System.out.println("Now connected to "+where.address+":"+where.port);
