@@ -6,10 +6,10 @@ public class World {
 	private Tile[][] worldTile;
 	private ArrayList<Player> players;
 	private Item[] items;
-	
+
 	public World(){
 		worldTile = new Tile[50][50];
-		tiles = new Tile();
+		//tiles = new Tile();
 		players = new ArrayList<Player>();
 		items = new Item[50];
 		Player player1 = new Player("Player1");
@@ -17,16 +17,16 @@ public class World {
 		Player player2 = new Player("Player2");
 		players.add(player2);
 	}
-	
+
 	public Image tileImage(){
 		return tiles.getImage();
 	}
-	
+
 	public void players(){
-		
+
 	}
-	
+
 	public void items(){
-		
+
 	}
 }
