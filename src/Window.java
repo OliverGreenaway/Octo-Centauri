@@ -34,6 +34,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	}
 
 	public void initialize(){
+		// This is just a mock array for Testing
 		Tile[][] map = new Tile[200][200];
 		for(int i = 0; i < 200; i++){
 			for(int j = 0; j < 200; j++){
@@ -86,11 +87,10 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 	private void panMap(){
-	/*	if(up)
-			display.panUp();
+		if(up)
+			display.panUp(3);
 		if(down)
-			display.panDown();
-			*/
+			display.panDown(3);
 		if(right)
 			display.panRight(3);
 		if(left)
