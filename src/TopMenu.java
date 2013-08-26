@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 public class TopMenu extends JMenuBar {
 
 	public TopMenu(){
+		// Menu bar at top of screen
 		JMenu menu = new JMenu("File");
 		menu.setMnemonic(KeyEvent.VK_F);
 
@@ -25,9 +26,7 @@ public class TopMenu extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Add new game thing here
-
 			}
-
 		});
 
 		JMenuItem exit = new JMenuItem("Exit");
