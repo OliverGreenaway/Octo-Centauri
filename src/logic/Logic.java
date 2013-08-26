@@ -1,7 +1,6 @@
 package logic;
 
-<<<<<<< HEAD
-=======
+
 import state.TileInterface;
 
 >>>>>>> 8f2bbfd473df82cb02e98a1bc26664ba4f4f2239
