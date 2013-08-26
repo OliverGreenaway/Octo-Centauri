@@ -36,7 +36,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	}
 
 	public void initialize(){
-		// This is just a mock array for Testing
 		Tile[][] map = new Tile[200][200];
 		for(int i = 0; i < 200; i++){
 			for(int j = 0; j < 200; j++){
@@ -48,8 +47,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		// set up menu
 		TopMenu menu =new TopMenu();
 		setJMenuBar(menu);
-
-		// sets up Display
 		display = new Display(map);
 
 		drawing = new JComponent() {
@@ -64,6 +61,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 		add(drawing);
 		drawing.repaint();
+
 	}
 
 //Draws a basic graphic pane needs actual graphical outlines and suchlike
@@ -82,17 +80,14 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	}
 
-	public void RightClickMenu(){
-	//	drawing.setComponentPopupMenu(popup)
-
-	}
 
 
 	private void panMap(){
-		if(up)
-			display.panUp(3);
+	/*	if(up)
+			display.panUp();
 		if(down)
-			display.panDown(3);
+			display.panDown();
+			*/
 		if(right)
 			display.panRight(3);
 		if(left)
@@ -100,17 +95,20 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	}
 
 
+	public static void main(String[] args) {
+		new Window();
+	}
+
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 
 	}
-	/**gets key events for panning possibly add shortcuts
-	 *
-	 */
+	//gets key events for panning possibly add shortcuts
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
-		// for panning
+
 		switch (code) {
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_KP_RIGHT:
@@ -137,12 +135,13 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		repaint();
 		//display.repaint();
 	}
-	/**disables a given pan direction
-	 *
-	 *
-	 */
+	//disables a given pan direction
 	@Override
 	public void keyReleased(KeyEvent e) {
+<<<<<<< HEAD
+=======
+		// TODO Auto-generated method stub
+>>>>>>> 2352f9e51bc8f21f2fc613bbd3ff3b4e7103abd0
 
 		int code = e.getKeyCode();
 
@@ -177,7 +176,11 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		mouse_X = p.x;
 		mouse_Y = p.y;
 
-	    drawing.repaint();
+		mouse_X = e.getPoint().x;
+		mouse_Y = e.getPoint().y;
+
+		drawing.repaint();
+
 	}
 
 
@@ -204,11 +207,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 	}
 
-
-
-	public static void main(String[] args) {
-		new Window();
-	}
 
 
 }

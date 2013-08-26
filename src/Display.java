@@ -1,4 +1,5 @@
 import java.awt.*;
+
 import javax.swing.*;
 
 public class Display extends JPanel{
@@ -31,7 +32,12 @@ public class Display extends JPanel{
 	//RENDERING
 	public void paintComponent(Graphics g){
 		paintMap(g);
+		paintPlayer(g);
+	}
 
+	private void paintPlayer(Graphics g) {
+		
+		
 	}
 
 	public int[] getCameraCoordinates(){
@@ -84,7 +90,7 @@ public class Display extends JPanel{
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
 				Tile t = map[x+camera.x][y+camera.y];
-
+				System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
 				/*This is the "magic line" -- It calculates the position of the
 				 * tile on screen, and was a slightly tricky piece of trigonometry.
 				 *

@@ -5,11 +5,20 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
 
 public class Connection {
 	private Socket client ;
+
+	public InetAddress getAddress() {
+		return client.getInetAddress();
+	}
+
+	public int getPort() {
+		return client.getPort();
+	}
 
 	public Connection(Socket client) {
 		this.client = client;
