@@ -51,33 +51,29 @@ public class Display extends JPanel{
 		camera = new Coord(coord[0],coord[1]);
 	}
 
-	public void panRight(int idx) {
+	public void panLeft(int idx) {
 		if (camera.x - idx < 0) {// Catch if out of bounds
-			camera = new Coord(0, camera.y);
 			return;
 		}
 		camera = new Coord(camera.x - idx, camera.y);
 	}
 
-	public void panLeft(int idx) {
-		if (camera.x + idx >= map[0].length) {// Catch if out of bounds
-			camera = new Coord(map[0].length, camera.y);
+	public void panRight(int idx) {
+		if (camera.x + 29 + idx >= world.getXSize()) {// Catch if out of bounds
 			return;
 		}
 		camera = new Coord(camera.x + idx, camera.y);
 	}
 
-	public void panUp(int idy) {
-		if (camera.y + idy >= map[0].length) {// Catch if out of bounds
-			camera = new Coord(camera.x, map[0].length);
+	public void panDown(int idy) {
+		if (camera.y + 29 + idy >= world.getYSize()) {//ap.length) Catch if out of bounds
 			return;
 		}
 		camera = new Coord(camera.x, camera.y + idy);
 	}
 
-	public void panDown(int idy) {
+	public void panUp(int idy) {
 		if (camera.y - idy < 0) {// Catch if out of bounds
-			camera = new Coord(camera.x, camera.y - idy);
 			return;
 		}
 		camera = new Coord(camera.x, camera.y - idy);
@@ -93,7 +89,9 @@ public class Display extends JPanel{
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
 				Tile t = world.getTile(x+camera.x,y+camera.y);
-				System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
+				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
+
+
 				/*This is the "magic line" -- It calculates the position of the
 				 * tile on screen, and was a slightly tricky piece of trigonometry.
 				 *
