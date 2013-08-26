@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -7,6 +8,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 
 
@@ -95,7 +97,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 			display.panRight(3);
 		if(left)
 			display.panLeft(3);
-
 	}
 
 
@@ -143,7 +144,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 
-
 		int code = e.getKeyCode();
 
 		switch (code) {
@@ -172,11 +172,12 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	//mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		Point p = e.getPoint();
+		SwingUtilities.convertPointFromScreen(p,display);
+		mouse_X = p.x;
+		mouse_Y = p.y;
 
-		mouse_X = e.getPoint().x;
-		mouse_Y = e.getPoint().y;
-
-		drawing.repaint();
+	    drawing.repaint();
 	}
 
 
@@ -201,7 +202,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 

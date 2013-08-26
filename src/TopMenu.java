@@ -10,17 +10,17 @@ import javax.swing.JMenuItem;
 @SuppressWarnings("serial")
 public class TopMenu extends JMenuBar {
 
+
+
 	public TopMenu(){
 		// Menu bar at top of screen
 		JMenu menu = new JMenu("File");
 		menu.setMnemonic(KeyEvent.VK_F);
-
 		add(menu);
 
 		JMenuItem newGame = new JMenuItem("New Game");
 		menu.setMnemonic(KeyEvent.VK_N);
 		menu.add(newGame);
-
 		newGame.addActionListener(new ActionListener(){
 
 			@Override
@@ -28,6 +28,7 @@ public class TopMenu extends JMenuBar {
 				// TODO Add new game thing here
 			}
 		});
+
 
 		JMenuItem exit = new JMenuItem("Exit");
 		menu.add(exit);
