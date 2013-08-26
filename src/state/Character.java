@@ -1,3 +1,4 @@
+package state;
 
 public class Character {
 	private int health;

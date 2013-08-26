@@ -1,7 +1,7 @@
+package state;
 import java.awt.Image;
 import java.awt.Point;
 import javax.swing.ImageIcon;
-import state.TileInterface;
 
 public class Tile implements TileInterface{
 	// FIELDS
