@@ -30,6 +30,7 @@ public class World {
 				worldTile[x][y] = new Tile(generateRandomTile());
 			}
 
+
 		for(int x = 3; x < 100; x += 10)
 			for(int y = 3; y < 100; y += 10)
 				addStructure(new Structure(x, y, 3, 3, "dark-tree"));

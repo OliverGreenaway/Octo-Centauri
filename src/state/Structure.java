@@ -36,6 +36,7 @@ public class Structure {
 	}
 
 	public void draw(Graphics g, int x, int y){
+
 		g.drawImage(image, x, y-image.getHeight(null), image.getWidth(null), image.getWidth(null), null);
 	}
 }
