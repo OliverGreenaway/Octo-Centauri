@@ -45,6 +45,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		// set up menu
 		TopMenu menu =new TopMenu();
 		setJMenuBar(menu);
+
+		// sets up Display
 		display = new Display(map);
 
 		drawing = new JComponent() {
@@ -56,10 +58,9 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		addMouseListener(this);
 		addKeyListener(this);
 		setFocusable(true);
-		
+
 		add(drawing);
 		drawing.repaint();
-
 	}
 
 //Draws a basic graphic pane needs actual graphical outlines and suchlike
@@ -78,6 +79,10 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	}
 
+	public void RightClickMenu(){
+	//	drawing.setComponentPopupMenu(popup)
+
+	}
 
 
 	private void panMap(){
@@ -92,22 +97,19 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 			display.panLeft(3);
 
 	}
-	
-
-	public static void main(String[] args) {
-		new Window();
-	}
 
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 
 	}
-	//gets key events for panning possibly add shortcuts
+	/**gets key events for panning possibly add shortcuts
+	 *
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
-
+		// for panning
 		switch (code) {
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_KP_RIGHT:
@@ -134,10 +136,13 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		repaint();
 		//display.repaint();
 	}
-	//disables a given pan direction
+	/**disables a given pan direction
+	 *
+	 *
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+
 
 		int code = e.getKeyCode();
 
@@ -167,7 +172,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	//mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
 
 		mouse_X = e.getPoint().x;
 		mouse_Y = e.getPoint().y;
@@ -200,6 +204,11 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	}
 
+
+
+	public static void main(String[] args) {
+		new Window();
+	}
 
 
 }
