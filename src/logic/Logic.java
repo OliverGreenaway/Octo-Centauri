@@ -121,15 +121,16 @@ public class Logic {
 										routeGoal,
 										calcHeuristic(t.getPoint(), routeGoal),
 										currentTuple.getCostToHere() + 1));
+								t.setPrevTile(tiles[(int) currentTuple.getPoint().getX()][(int) currentTuple.getPoint().getY()]);
 							}
 						}
 					} else {
 						//found the goal so go back through the tuples adding it and it's previous point to the route Stack
 						route.add(currentTile.getPoint());
-						Point point = currentTile.getPrevPoint();
-						while(point != null){
-							route.add(point);
-							point = currentTile.getPrevPoint();
+						TileInterface tile = currentTile.getPrevTile();
+						while(tile != null){
+							route.add(tile.getPoint());
+							tile = currentTile.getPrevTile();
 						}
 					}
 				}
