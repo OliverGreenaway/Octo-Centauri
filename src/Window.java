@@ -36,6 +36,9 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	}
 
 	public void initialize(){
+		// set up menu
+		TopMenu menu =new TopMenu();
+		setJMenuBar(menu);
 
 		drawing = new JComponent() {
 			protected void paintComponent(Graphics g) {
@@ -49,6 +52,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		setFocusable(true);
 		add(drawing);
 		drawing.repaint();
+
 
 
 	}
@@ -154,9 +158,12 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+
+		//System.out.println(e.getButton());
+
 		mouse_X = e.getPoint().x;
 		mouse_Y = e.getPoint().y;
+
 		drawing.repaint();
 	}
 
@@ -183,6 +190,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 
 	}
+
 }
 
 
