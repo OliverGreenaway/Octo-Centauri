@@ -74,7 +74,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		//left hand pane
 		g.fillRect(0, 0, 25, getHeight()-(getHeight()/4));
 		//right hand pane
-		g.fillRect(getWidth() - 25, 0, 25, getHeight()-(getHeight()/4));
+		g.fillRect(getWidth() - 25, 0, 50, getHeight()-(getHeight()/4));
 		g.fillRect(25, 0, getWidth(), 25);
 		g.fillOval(mouse_X - 10, mouse_Y - 20, 20, 20);
 
