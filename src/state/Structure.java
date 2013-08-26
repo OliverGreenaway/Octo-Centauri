@@ -1,5 +1,6 @@
 package state;
 
+import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -32,5 +33,9 @@ public class Structure {
 		this.width = width;
 		this.height = height;
 		this.image = new ImageIcon("Assets/Environment Objects/"+image+".png").getImage();
+	}
+
+	public void draw(Graphics g){
+		g.drawImage(image, x, y, image.getWidth(null), image.getWidth(null), null);
 	}
 }

@@ -99,7 +99,9 @@ public class Display extends JPanel{
 				 * Bask in it's majesty and awe-inspiring splendour.
 				 */
 				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2), (x+y) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
-				t.getStructure().draw(g);
+				if(t.getStructure() != null){
+					t.getStructure().draw(g);
+				}
 			}
 		}
 	}
