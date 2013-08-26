@@ -7,6 +7,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 
+@SuppressWarnings("serial")
 public class TopMenu extends JMenuBar {
 
 	public TopMenu(){

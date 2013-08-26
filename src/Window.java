@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 
 
+@SuppressWarnings("serial")
 public class Window extends JFrame implements KeyListener, MouseListener {
 
 	private int mouse_X = 0;
@@ -40,8 +41,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 			protected void paintComponent(Graphics g) {
 				redraw(g);
 			}
-
-
 		};
 
 		addMouseListener(this);
@@ -53,8 +52,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 //Draws a basic graphic pane needs actual graphical outlines and suchlike
 	private void redraw(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
 		//Bottom pane
 		g.fillRect(0,getHeight()-(getHeight()/4),getWidth(),getHeight()/4);
@@ -152,11 +149,14 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	//mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
+
+
 		mouse_X = e.getPoint().x;
 		mouse_Y = e.getPoint().y;
 
 		drawing.repaint();
 	}
+
 
 	@Override
 	public void mousePressed(MouseEvent e) {
