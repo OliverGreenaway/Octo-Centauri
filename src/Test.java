@@ -26,7 +26,8 @@ public class Test extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Test();
+		new Window();
+	//	new Test();
 
 	}
 
