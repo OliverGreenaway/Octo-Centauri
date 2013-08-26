@@ -35,6 +35,21 @@ public class Display extends JPanel{
 
 	}
 
+	public int[] getCameraCoordinates(){
+		return new int[]{camera.x,camera.y};
+	}
+
+	public void setCameraCoordinates(int[] coord){
+		camera = new Coord(coord[0],coord[1]);
+	}
+
+	public void panLeft(int idx){
+		camera = new Coord(camera.x - idx, camera.y + idx);
+	}
+
+	public void panRight(int idx){
+		camera = new Coord(camera.x + idx, camera.y - idx);
+	}
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
 	 *
@@ -55,14 +70,6 @@ public class Display extends JPanel{
 				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2), (x+y) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
 			}
 		}
-	}
-
-	public int[] getCameraCoordinates(){
-		return new int[]{camera.x,camera.y};
-	}
-
-	public void setCameraCoordinates(int[] coord){
-		camera = new Coord(coord[0],coord[1]);
 	}
 
 }
