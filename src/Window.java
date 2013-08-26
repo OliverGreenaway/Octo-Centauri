@@ -101,7 +101,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	}
 
 
-
 	private void panMap(){
 		if(up)
 			display.panUp(1);
