@@ -32,6 +32,7 @@ public class Tile implements TileInterface{
 
 	public void setY(int y){
 		this.y = y;
+	}
 
 	public Image getLeftSideImg() {
 		return leftSideImg;
