@@ -11,10 +11,10 @@ public class Tile implements TileInterface{
 	private boolean visited;
 	private boolean occupied;
 	private Point p;
+	private TileInterface prevTile;
 
 
 	public Tile(){
-		//TODO: A generic tile, should be a parameter.
 		img = new ImageIcon("resources/tile0.png").getImage();
 	}
 
@@ -50,5 +50,16 @@ public class Tile implements TileInterface{
 	@Override
 	public void setVisited(boolean b) {
 		visited = b;
+	}
+
+	@Override
+	public void setPrevTile(TileInterface tile) {
+		prevTile = tile;
+
+	}
+
+	@Override
+	public TileInterface getPrevTile() {
+		return prevTile;
 	}
 }
