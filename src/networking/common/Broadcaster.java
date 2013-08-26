@@ -3,7 +3,7 @@ package networking.common;
 import java.util.List;
 
 public class Broadcaster {
-	List<Connection> connections ;
+	private List<Connection> connections ;
 
 	public Broadcaster(List<Connection> connections) {
 		this.connections = connections ;
