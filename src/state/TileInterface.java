@@ -41,4 +41,7 @@ public interface TileInterface {
 
 	public TileInterface getPrevTile();
 
+	public void setHeight(int height);
+
+	public int getHeight();
 }
