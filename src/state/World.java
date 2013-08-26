@@ -10,10 +10,17 @@ public class World {
 	private Random random = new Random();
 
 	public String generateRandomTile(){
-		if(random.nextInt(2)==1)
+		int rand = random.nextInt(5);
+		if(rand==1)
 			return "tile";
+		else if (rand == 2)
+			return "dark-sand";
+		else if (rand == 3)
+			return "barren-grass";
+		else if (rand == 4)
+			return "dark-sand";
 		else
-			return "tile0";
+			return "Grass";
 	}
 
 	public World(){

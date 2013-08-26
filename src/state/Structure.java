@@ -35,7 +35,7 @@ public class Structure {
 		this.image = new ImageIcon("Assets/Environment Objects/"+image+".png").getImage();
 	}
 
-	public void draw(Graphics g){
-		g.drawImage(image, x, y, image.getWidth(null), image.getWidth(null), null);
+	public void draw(Graphics g, int x, int y){
+		g.drawImage(image, x, y-image.getHeight(null), image.getWidth(null), image.getWidth(null), null);
 	}
 }
