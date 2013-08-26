@@ -19,8 +19,11 @@ public class World {
 	public World(){
 		worldTile = new Tile[100][100];
 		for(int x = 0; x < 100; x++)
-			for(int y = 0; y < 100; y++)
+			for(int y = 0; y < 100; y++) {
 				worldTile[x][y] = new Tile(generateRandomTile());
+				if(random.nextInt(5) == 0)
+					worldTile[x][y].setStructure(new Structure(x, y, 1, 1, "dark-tree"));
+			}
 	}
 
 	public World(Tile[][] tiles) {

@@ -12,9 +12,11 @@ public class Tile implements TileInterface{
 	private boolean occupied;
 	private int height;
 	private Image leftSideImg, rightSideImg;
+	private Structure structure;
 
 
 	public Tile(String type){
+		img = new ImageIcon("/Assets/Environment_Tiles/"+type+".png").getImage();
 		img = new ImageIcon("resources/"+type+".png").getImage();
 		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
 		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
@@ -23,6 +25,13 @@ public class Tile implements TileInterface{
 	public Image getImage(){
 		return img;
 	}
+
+	public void setX(int x){
+		this.x = x;
+	}
+
+	public void setY(int y){
+		this.y = y;
 
 	public Image getLeftSideImg() {
 		return leftSideImg;
@@ -83,4 +92,13 @@ public class Tile implements TileInterface{
 	public void setHeight(int h) {
 		height = h;
 	}
+
+	public Structure getStructure() {
+		return structure;
+	}
+
+	public void setStructure(Structure s) {
+		structure = s;
+	}
 }
+

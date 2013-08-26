@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import state.Tile;
 import state.TileInterface;
 
 
@@ -54,9 +55,15 @@ public class FileReader {
 		return menus;
 	}
 
+
+	/**
+	 * Read the terrain from the map file.  At the moment, this only reads terrain.
+	 * @param filename - map file to read from.
+	 * @return - a 2D array of TileInterface.
+	 */
 	public static TileInterface[][] readMap(String filename){
 		File file = new File(filename);
-		TileInterface[][] tiles;
+		TileInterface[][] tiles = null;
 
 		try{
 			InputStream in = new FileInputStream(file);
@@ -83,13 +90,24 @@ public class FileReader {
 			while (r = buffer.read() != -1){
 				for(int row = 0; row < y; ++row){
 					for(int col = 0; col < x; ++col){
-
+						int charInt = buffer.read();
+						char c = (char)charInt;
+						String symb = Character.toString(c);
+						assert(symbols.get(symb) != null);
+						tiles[row][col] = new Tile(symbols.get(symb));
+						tiles[row][col].setX(row);
+						tiles[row][col].setY(col);
 					}
 
 				}
 			}
-		}catch(IOException e){System.out.println("Error reading map file." + e.getMessage());}
+			buffer.close();
+			fileReader.close();
 
+		}catch(IOException e){System.out.println("Error reading map file." + e.getMessage());}
+		assert(tiles != null);
+		return tiles;
+	}
 //		try{
 //			scan = new Scanner(file);
 //		}catch(IOException e){System.out.println("Map file not found.");}
@@ -119,6 +137,6 @@ public class FileReader {
 //		}
 //		scan.close();
 //		return menus;
-	}
+
 
 }
