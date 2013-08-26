@@ -23,7 +23,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	boolean right 		= false;
 
 	JComponent drawing;
-	// Display display
+//	Display display;
 
 	public Window(){
 		this.setSize(1900, 1080 );
@@ -63,17 +63,17 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		g.fillOval(mouse_X - 10, mouse_Y - 20, 20, 20);
 	}
 
-	/*private void panMap(){
-		if(up)
-			display.panUp();
-		if(down)
-			display.panDown();
-		if(right)
-			display.setCameraX(display.getX()++);
-		if(left)
-			display.setCameraX(display.getX()--);
-
-	}*/
+//	private void panMap(){
+//		if(up)
+//			display.panUp(1);
+//		if(down)
+//			display.panDown(1);
+//		if(right)
+//			display.panRight(1);
+//		if(left)
+//			display.panLeft(1);
+//
+//	}
 
 	public static void main(String[] args) {
 		new Window();
@@ -119,8 +119,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	//disables a given pan direction
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 		int code = e.getKeyCode();
 
 		switch (code) {

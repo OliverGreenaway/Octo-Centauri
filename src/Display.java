@@ -44,12 +44,21 @@ public class Display extends JPanel{
 	}
 
 	public void panLeft(int idx){
-		camera = new Coord(camera.x - idx, camera.y + idx);
+		camera = new Coord(camera.x - idx, camera.y - idx);
 	}
 
 	public void panRight(int idx){
 		camera = new Coord(camera.x + idx, camera.y - idx);
 	}
+
+	public void panDown(int idx){
+		camera = new Coord(camera.x - idx, camera.y + idx);
+	}
+
+	public void panUp(int idx){
+		camera = new Coord(camera.x + idx, camera.y + idx);
+	}
+
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
 	 *

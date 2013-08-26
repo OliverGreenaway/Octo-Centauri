@@ -6,7 +6,7 @@ public class Character {
 	private int dPower;
 	private String type;
 	private int cost;
-	
+
 	public Character(String t){
 		type = t;
 		status = "free";
@@ -22,5 +22,9 @@ public class Character {
 			dPower = 5;
 			cost = 250;
 		}
+	}
+
+	public int charCost(){
+		return cost;
 	}
 }
