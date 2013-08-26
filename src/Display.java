@@ -7,8 +7,7 @@ public class Display extends JPanel{
 	private final Dimension DIMENSION = new Dimension(1920,1080);
 	private final int VIEW_WIDTH = 30, VIEW_HEIGHT = 30;	// Camera = 60x60
 
-	private final int MAP_TILES_X = 200, MAP_TILES_Y = 200;
-	private Tile[][] map = new Tile[MAP_TILES_X][MAP_TILES_Y];
+	private Tile[][] map;
 
 	private final int TILE_WIDTH = 64, TILE_HEIGHT = 32;
 
@@ -46,6 +45,7 @@ public class Display extends JPanel{
 	public void panLeft(int idx){
 		if(camera.x - idx < 0 || camera.y - idx < 0){
 			camera=new Coord(0,0);
+			return;
 		}
 		camera = new Coord(camera.x - idx, camera.y - idx);
 	}
@@ -53,6 +53,7 @@ public class Display extends JPanel{
 	public void panRight(int idx){
 		if(camera.y - idx < 0 || camera.x + idx >= map[0].length){
 			camera=new Coord(0,0);
+			return;
 		}
 		camera = new Coord(camera.x + idx, camera.y - idx);
 	}
@@ -60,6 +61,7 @@ public class Display extends JPanel{
 	public void panDown(int idx){
 		if(camera.x - idx < 0 || camera.y + idx >= map[0].length){
 			camera=new Coord(0,0);
+			return;
 		}
 		camera = new Coord(camera.x - idx, camera.y + idx);
 	}
@@ -67,6 +69,7 @@ public class Display extends JPanel{
 	public void panUp(int idx){
 		if(camera.x - idx < 0 || camera.y - idx < 0){
 			camera=new Coord(0,0);
+			return;
 		}
 		camera = new Coord(camera.x + idx, camera.y + idx);
 	}
