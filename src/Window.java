@@ -85,6 +85,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 //Draws a basic graphic pane needs actual graphical outlines and suchlike
 	private void redraw(Graphics g) {
+
 		add(display);
 		//display.repaint();
 		g.setColor(Color.BLACK);
@@ -102,15 +103,14 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 	private void panMap(){
-	/*	if(up)
-			display.panUp();
+		if(up)
+			display.panUp(1);
 		if(down)
-			display.panDown();
-			*/
+			display.panDown(1);
 		if(right)
-			display.panRight(3);
+			display.panRight(1);
 		if(left)
-			display.panLeft(3);
+			display.panLeft(1);
 	}
 
 
