@@ -6,7 +6,7 @@ public class Player {
 	private int resources;
 	private Queue<Character> cQueue;
 	private String type;
-	
+
 	public Player(){
 		characters = new ArrayList<Character>();
 		resources = 500;
@@ -15,14 +15,14 @@ public class Player {
 		type = "attacker";
 		newChar(type);
 	}
-	
+
 	public void newChar(String t){
 		Character character = new Character(t);
 		resources = resources - character.charCost();
 		characters.add(character);
 		cQueue.offer(character);
 	}
-	
+
 	public int resource(){
 		return resources;
 	}
