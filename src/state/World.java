@@ -9,4 +9,12 @@ public class World {
 	public World(){
 		worldTile = new Tile[50][50];
 	}
+
+	public Tile getTile(int x, int y) {
+		return worldTile[x][y];
+	}
+
+	public void setTile(int x, int y, Tile t) {
+		worldTile[x][y] = t;
+	}
 }
