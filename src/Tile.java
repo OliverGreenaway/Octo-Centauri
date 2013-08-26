@@ -15,7 +15,6 @@ public class Tile implements TileInterface{
 
 
 	public Tile(){
-		//TODO: A generic tile, should be a parameter.
 		img = new ImageIcon("resources/tile0.png").getImage();
 	}
 
