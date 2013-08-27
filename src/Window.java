@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import logic.FileReader;
-import logic.Logic;
+import logic.Logic;		// TODO Auto-generated catch block
 
 import state.Tile;
 import state.World;
@@ -37,6 +37,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	JComponent drawing;
 	Display display;
+	Update update;
 
 	public Window(){
 		this.setSize(1900, 1080 );
@@ -67,7 +68,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 		// set up menu
 		TopMenu menu =new TopMenu();
-		setJMenuBar(menu);
+		setJMenuBar(menu);		// TODO Auto-generated catch block
 		World world = new World(FileReader.readMap("resources/map"));
 		display = new Display(world); //was just new World()
 		FileReader.setStructures(world); //Set up the structures that the file reader now knows about
@@ -84,6 +85,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 		add(drawing);
 		drawing.repaint();
+        update = new Update(world, display);
+        update.start();
 
 	}
 
