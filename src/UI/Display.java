@@ -33,10 +33,7 @@ public class Display extends JPanel{
 	private static final long serialVersionUID = 8274011568777903027L;
 	// WHAT DOES THIS EVEN DO??
 
-	//RENDERING
-	public void paintComponent(Graphics g){
-		paintMap(g);
-	}
+
 
 	public int[] getCameraCoordinates(){
 		return new int[]{camera.x,camera.y};
@@ -74,12 +71,20 @@ public class Display extends JPanel{
 		camera = new Coord(camera.x, camera.y - idy);
 	}
 
+	//RENDERING
+		public void paintComponent(Graphics g){
+			g.setColor(Color.PINK);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			paintMap(g);
+		}
+
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
 	 *
 	 * @param g OVERRIDEN Parameter.
 	 */
 	private void paintMap(Graphics g){
+
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
