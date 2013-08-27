@@ -40,12 +40,12 @@ public class World {
 					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
 				}
 			}
-
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	/**
