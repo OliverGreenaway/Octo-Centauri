@@ -16,14 +16,11 @@ public class MainFrame extends JFrame {
 		this.setSize(600, 600);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.pack();
 		this.setVisible(true);
 	}
 
 	public static void main(String args[]) {
 		MainFrame f = new MainFrame();
-		// f.add(new MainMenuComponent());
-
 	}
 
 	public void addMenu(JPanel comp) {
@@ -31,14 +28,14 @@ public class MainFrame extends JFrame {
 			this.remove(frameStack.peek());
 		frameStack.add(comp);
 		this.add(frameStack.peek());
-		this.pack();
+		this.validate() ;
 		this.repaint();
 	}
 
 	public void back() {
 		this.remove(frameStack.pop());
 		this.add(frameStack.peek());
-		this.pack();
+		this.validate() ;
 		this.repaint();
 	}
 }
