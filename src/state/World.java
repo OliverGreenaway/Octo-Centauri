@@ -9,7 +9,8 @@ import java.util.Set;
 public class World {
 	private Tile[][] worldTile;
 
-	private Random random = new Random();
+	long seed = System.currentTimeMillis();
+	private Random random = new Random(seed);
 
 	private Set<Dude> allDudes = new HashSet<Dude>();
 
@@ -26,7 +27,9 @@ public class World {
 		else
 			return "Grass";
 	}
-
+	
+	
+	
 	public World(){
 		worldTile = new Tile[100][100];
 		for(int x = 0; x < 100; x++)

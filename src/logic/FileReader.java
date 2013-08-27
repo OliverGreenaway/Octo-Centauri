@@ -85,6 +85,7 @@ public class FileReader {
 
 			String line2 = buffer.readLine(); //Read the second line which specifies mapping from symbols to images
 			tiles = new Tile[x][y];
+
 			System.out.println("Line:" +line2);
 			lineScan = new Scanner(line2);
 			lineScan.useDelimiter(",");
