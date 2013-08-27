@@ -10,6 +10,7 @@ import java.util.Random;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import logic.FileReader;
@@ -22,7 +23,7 @@ import state.World;
 
 
 @SuppressWarnings("serial")
-public class Window extends JFrame implements KeyListener, MouseListener {
+public class Window extends JPanel implements KeyListener, MouseListener {
 
 
 	private int mouseX = 0;
@@ -41,8 +42,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	public Window(){
 		this.setSize(1900, 1080 );
 		initialize();
-		this.setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public String generateRandomTile(){
@@ -67,7 +66,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 		// set up menu
 		TopMenu menu =new TopMenu();
-		setJMenuBar(menu);
+//		setJMenuBar(menu);
 		World world = new World(FileReader.readMap("resources/map"));
 		display = new Display(world); //was just new World()
 		FileReader.setStructures(world); //Set up the structures that the file reader now knows about
@@ -120,7 +119,12 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 	public static void main(String[] args) {
-		new Window();
+		JFrame f = new JFrame("test");
+		f.add(new Window());
+		f.setSize(1920,1080);
+		f.setVisible(true);
+
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 
@@ -200,44 +204,32 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		mouseY = p.y;
 
 
-		int endX = mouseX - 960;
+	//	int endX = mouseX - 960;
 
 
-		double cx =  Math.cos(Math.toRadians(-30));  //.8509035245; // cos 45 also sin 45
-		double sx =  Math.sin(Math.toRadians(-60)); // .8509035245; // cos 45 also sin 45
+	/*	double cx =  Math.cos(Math.toRadians(45));  //.8509035245; // cos 45 also sin 45
+		double sx =  Math.sin(Math.toRadians(45)); // .8509035245; // cos 45 also sin 45
 
 		double newX = (cx*endX) - (sx*mouseY);
 		double newY = (sx*endX) + (cx*mouseY);
 
-		System.out.println("trig: " + (int)(newX/32) + " " +(int)(newY/32));
+		mouseX = (int) Math.abs((newX/32));
+		mouseY = (int) Math.abs((newY/32));*/
 
+
+		//System.out.println("trig: " + (int)(newX/32) + " " +(int)(newY/32));
+		double xMinusY= (mouseX - 960) /(32.0);
+		double xPlusY = (mouseY / 16.0);
+
+		double x = (xMinusY + xPlusY)/2;
+		double y = (xPlusY - xMinusY)/2;
+
+		System.out.println("X: " + x + "          y: " + y);
+//		mouseX = x*10;
+//		mouseY = y*10;
 
 
 		int [] cameraPoint = display.getCameraCoordinates();
-
-//
-//		if(mouseX < 960){//left side of the screen
-////			xSquare = 960 - mouseX;
-//		}
-
-
-
-	//	cameraPoint[0];
-
-
-
-
-//		Dimension DIMENSION = new Dimension(1920,1080);
-//		VIEW_WIDTH = 30, VIEW_HEIGHT = 30;	// Camera = 60x60
-//		TILE_WIDTH = 64, TILE_HEIGHT = 32;
-
-//		finds centre of next square
-//		this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2)
-//		(x+y) * (TILE_HEIGHT/ 2)
-//		TILE_WIDTH
-//		t.getImage().getHeight(null)
-//
-
 
 
 		drawing.repaint();
