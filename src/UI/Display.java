@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import state.Dude;
 import state.Tile;
 import state.World;
 
@@ -95,7 +96,6 @@ public class Display extends JPanel{
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
-				try{
 				Tile t = world.getTile(x+camera.x,y+camera.y);
 				if(t!=null){
 				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
@@ -123,8 +123,6 @@ public class Display extends JPanel{
 				}
 
 				}
-				}
-				catch(Exception e){}
 
 			}
 		}
