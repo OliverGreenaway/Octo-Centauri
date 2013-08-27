@@ -21,6 +21,7 @@ import logic.Logic;
 
 import logic.UpdateThread;
 
+import state.Tile;
 import state.World;
 
 @SuppressWarnings("serial")
@@ -229,6 +230,15 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			//Adjusts for the camera's possible location and sets the x/y acordingly
 			x = x + cameraPoint[0];
 			y = y + cameraPoint[1];
+
+			//set tile to be somthing
+			if(e.getButton()==3){
+				Tile t = new Tile("DarkTree",0, x,y);
+				display.getWorld().setTile(x, y, t);
+			}else{
+				Tile t = new Tile("BarrenWall",0, x,y);
+				display.getWorld().setTile(x, y, t);
+			}
 		}
 		this.repaint();
 	}
