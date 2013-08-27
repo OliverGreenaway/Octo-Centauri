@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import logic.GameUpdate;
+
 /**
  * Stores everything in the game.
  */
@@ -12,6 +14,8 @@ public class World {
 
 	long seed = System.currentTimeMillis();
 	private Random random = new Random(seed);
+
+	private GameUpdate gameUpdate; //the current game update object to send changes to
 
 	private Set<Dude> allDudes = new HashSet<Dude>();
 
@@ -50,10 +54,10 @@ public class World {
 		for(int x = 3; x < 100; x += 1){
 			for(int y = 3; y < 100; y += 1) {
 				if(random.nextInt(20)==1)
-					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
+					addStructure(new Structure(x, y, 3, 3, "Assets/EnvironmentObjects/dark-tree.png"));
 				}
 			}
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -61,7 +65,7 @@ public class World {
 	 */
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -153,5 +157,20 @@ public class World {
 	public void update() {
 		for(Dude d : allDudes)
 			d.update();
+	}
+
+	/**
+	 * Called when the game receives a network update,
+	 * in the test condition where clicking on a tile
+	 * changes its colour.
+	 * @param t - the tile that had its colour changed.
+	 */
+	public void changeTileColour(Tile t){
+		worldTile[t.getX()][t.getY()] = t;
+		gameUpdate.changedTileColour(t);
+	}
+
+	public void setGameUpdate(GameUpdate g){
+		gameUpdate = g;
 	}
 }

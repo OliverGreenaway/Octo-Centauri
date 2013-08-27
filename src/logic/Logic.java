@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
-import state.GameObject;
 import state.Tile;
 
 
@@ -30,7 +29,7 @@ public class Logic {
 	 * @param object - the item or tile selected
 	 * @return - stuff to go in the context menu
 	 */
-	public Menu rightClick(GameObject object){
+	public Menu rightClick(Object object){
 		//if(object instanceof GroundTile){
 		//	return new Menu(menus.get("GroundTile"));
 		//}
@@ -52,7 +51,7 @@ public class Logic {
 	/**
 	 * Left-clicking selects an object or character.
 	 */
-	public void leftClick(GameObject object){
+	public void leftClick(Object object){
 //	if(object instanceof GroundTile){
 //
 //		}
@@ -91,7 +90,7 @@ public class Logic {
 	 * @param routeStart - the point to begin path from
 	 * @param routeGoal - the goal point of the path
 	 */
-	public Stack<Point> findRoute(Point routeStart, Point routeGoal) {
+	/*public Stack<Point> findRoute(Point routeStart, Point routeGoal) {
 		Stack<Point> route = new Stack<Point>(); //to return
 
 		PriorityQueue<Tuple> fringe = new PriorityQueue<Tuple>();
@@ -136,7 +135,7 @@ public class Logic {
 			}
 		}
 		return route;
-	}
+	}*/
 
 	/**
 	 * Calculates straight line heuristic between two point start and goal
@@ -187,7 +186,7 @@ public class Logic {
 			if (t != null && this.getClass().equals(t.getClass())) {
 				if (estTotalCost - ((Tuple) t).getEstTotalCost() > 0)
 					return 1;// this is more costly
-				if (estTotalCost - ((Tuple) t).getEstTotalCost() < 0)
+				if (estTotalCost - ((Tuple) t).getEstGameObjectTotalCost() < 0)
 					return -1;// this is less costly
 				if (estTotalCost - ((Tuple) t).getEstTotalCost() == 0)
 					return 0;
