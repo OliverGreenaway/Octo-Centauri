@@ -1,5 +1,6 @@
 package state;
 
+import java.awt.Image;
 import java.awt.Point;
 
 public interface TileInterface {
@@ -48,4 +49,10 @@ public interface TileInterface {
 	public void setHeight(int height);
 
 	public int getHeight();
+
+	public Structure getStructure();
+
+	public void setStructure(Structure s);
+
+	public Image getImage();
 }
