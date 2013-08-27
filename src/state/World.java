@@ -77,7 +77,6 @@ public class World {
 		return true;
 	}
 
-	public TileInterface getTile(int x, int y) {
 	/**
 	 * Adds a dude to all tiles it overlaps and returns true.
 	 * If the dude can't be placed, returns false without changing anything.
@@ -102,7 +101,7 @@ public class World {
 		return true;
 	}
 
-	public Tile getTile(int x, int y) {
+	public TileInterface getTile(int x, int y) {
 		return worldTile[x][y];
 	}
 
