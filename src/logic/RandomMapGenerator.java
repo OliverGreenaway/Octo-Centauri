@@ -1,9 +1,15 @@
 package logic;
 
-public class RandomMapGenerator {
-	private
-	public RandomMapGenerator() {
-		// TODO Auto-generated constructor stub
-	}
+import java.io.File;
 
+public class RandomMapGenerator {
+	private Map<String,Integer>randMap;
+	public RandomMapGenerator(String filename) {
+		parseFile(filename);
+
+	}
+private void pareseFile(String f){
+	File freq = new File(f);
+	randMap = new HashMap<String,Integer>();
+}
 }
