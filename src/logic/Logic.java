@@ -1,8 +1,6 @@
 package logic;
 
 
-import state.TileInterface;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,14 +12,14 @@ import java.util.Stack;
 import java.util.TreeSet;
 
 import state.GameObject;
-import state.TileInterface;
+import state.Tile;
 
 
 public class Logic {
 
 	private Map<String, List<String>> menus;
-	private TileInterface[][] tiles = new TileInterface[20][20];
-//	private TileInterface[][] tiles = World.getTiles();
+	private Tile[][] tiles = new Tile[20][20];
+//	private Tile[][] tiles = World.getTiles();
 
 	public Logic() {
 		menus = FileReader.readMenus("menu_mappings.tab");
@@ -71,10 +69,10 @@ public class Logic {
 //		System.out.println("Was not a game object.");
 	}
 
-	private List<TileInterface> getNeighbours(TileInterface tile){
+	private List<Tile> getNeighbours(Tile tile){
 		int x = tile.getX();
 		int y = tile.getY();
-		List<TileInterface> neighbours = new ArrayList<TileInterface>();
+		List<Tile> neighbours = new ArrayList<Tile>();
 		neighbours.add(tiles[x-1][y]);
 		neighbours.add(tiles[x+1][y]);
 		neighbours.add(tiles[x][y+1]);
@@ -103,7 +101,7 @@ public class Logic {
 		// Repeat until fringe is empty:
 		while (!fringe.isEmpty()) {
 			Tuple currentTuple = fringe.poll();
-			TileInterface currentTile = tiles[(int) currentTuple.getPoint().getX()][(int) currentTuple
+			Tile currentTile = tiles[(int) currentTuple.getPoint().getX()][(int) currentTuple
 					.getPoint().getY()];
 			if (!currentTile.occupied()) {
 				// If not tile.visited then
@@ -113,7 +111,7 @@ public class Logic {
 					if (!currentTile.equals(routeGoal)) {
 						// for each edge to neigh out of node
 
-						for (TileInterface t : getNeighbours(currentTile)) {
+						for (Tile t : getNeighbours(currentTile)) {
 							// if neighbour tile hasn't been visited then
 							if (!t.visited()) {
 								fringe.offer(new Tuple(
@@ -128,7 +126,7 @@ public class Logic {
 					} else {
 						//found the goal so go back through the tuples adding it and it's previous point to the route Stack
 						route.add(currentTile.getPoint());
-						TileInterface tile = currentTile.getPrevTile();
+						Tile tile = currentTile.getPrevTile();
 						while(tile != null){
 							route.add(tile.getPoint());
 							tile = currentTile.getPrevTile();
