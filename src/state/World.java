@@ -2,12 +2,16 @@ package state;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class World {
 	private Tile[][] worldTile;
 
 	private Random random = new Random();
+
+	private Set<Dude> allDudes = new HashSet<Dude>();
 
 	public String generateRandomTile(){
 		int rand = random.nextInt(5);
@@ -44,7 +48,7 @@ public class World {
 				}
 			}
 
-		addDude(new Dude(7, 7, 1, 1, "Assets/Man.png"));
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	public World(Tile[][] tiles) {
@@ -98,6 +102,8 @@ public class World {
 			for(int Y = 0; Y < h; Y++)
 				worldTile[x-X][y-Y].setDude(s);
 
+		allDudes.add(s);
+
 		return true;
 	}
 
@@ -115,5 +121,10 @@ public class World {
 
 	public int getYSize() {
 		return worldTile[0].length;
+	}
+
+	public void update() {
+		for(Dude d : allDudes)
+			d.update();
 	}
 }

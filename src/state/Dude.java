@@ -76,6 +76,15 @@ public class Dude {
 		return true;
 	}
 
+	public void update() {
+		// move randomly
+		int r = new Random().nextInt(4);
+		if(r == 0) move(x+1, y);
+		if(r == 1) move(x-1, y);
+		if(r == 2) move(x, y+1);
+		if(r == 3) move(x, y-1);
+	}
+
 	public void draw(Graphics g, int width, int camx, int camy){
 		int x = this.x - camx;
 		int y = this.y - camy;
