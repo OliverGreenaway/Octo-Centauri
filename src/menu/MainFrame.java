@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
 		frameStack = new Stack<JPanel>();
 		frameStack.add(new MainMenuPanel(this));
 		this.add(frameStack.peek());
-		this.setSize(600, 600);
+		this.setSize(1920, 1080);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);

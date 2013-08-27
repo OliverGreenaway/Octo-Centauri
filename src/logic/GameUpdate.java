@@ -7,6 +7,7 @@ import java.util.Map;
 import networking.common.Update;
 import state.Dude;
 import state.Structure;
+import state.Tile;
 
 /**
  * The GameUpdate class contains fields representing changes in the game state.
@@ -21,6 +22,8 @@ public class GameUpdate extends Update {
 	private List<Structure> structuresRemoved;
 	private List<Dude> dudesAdded;
 	private List<Dude> dudesRemoved;
+
+	private List<Tile> colourChangedTiles;
 	private Map<Dude, Integer> dudeHealthChanges;
 
 
@@ -30,7 +33,7 @@ public class GameUpdate extends Update {
 		dudesAdded = new ArrayList<Dude>();
 		dudesRemoved = new ArrayList<Dude>();
 		dudeHealthChanges = new HashMap<Dude, Integer>();
-
+		colourChangedTiles = new ArrayList<Tile>();
 	}
 
 	/**
@@ -69,6 +72,14 @@ public class GameUpdate extends Update {
 		//For the unusual case where a dude was created and then died immediately:
 		if(dudesAdded.contains(d))
 			dudesAdded.remove(d);
+	}
+
+	/**
+	 * Called by World in the test where clicking on a tile changes its colour.
+	 * @param t - the tile that was clicked on.
+	 */
+	public void changedTileColour(Tile t){
+		colourChangedTiles.add(t);
 	}
 
 }

@@ -1,5 +1,6 @@
 package logic;
 
+import networking.common.Network;
 import UI.Display;
 
 import state.World;
@@ -31,6 +32,9 @@ private final World world;
 public void run(){
 	while(1 == 1){
 		world.update();
+		GameUpdate gUpdate = new GameUpdate();
+		//Network.sendUpdate(gUpdate);
+		//get the update back here
 		display.repaint();
 		try {
 			Thread.sleep(100);
