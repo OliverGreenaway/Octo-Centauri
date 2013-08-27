@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import networking.common.Update;
 
 import logic.FileReader;
 import logic.Logic;		// TODO Auto-generated catch block
@@ -70,7 +69,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		// set up menu
 		TopMenu menu =new TopMenu();
 
-		setJMenuBar(menu);
+//		setJMenuBar(menu);
 
 		World world = new World(FileReader.readMap("resources/map"));
 		display = new Display(world); //was just new World()
