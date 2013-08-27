@@ -50,7 +50,7 @@ public class World {
 		for(int x = 3; x < 100; x += 1){
 			for(int y = 3; y < 100; y += 1) {
 				if(random.nextInt(20)==1)
-					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
+					addStructure(new Structure(x, y, 3, 3, "Assets/EnvironmentObjects/dark-tree.png"));
 				}
 			}
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));

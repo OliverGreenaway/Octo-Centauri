@@ -90,7 +90,7 @@ public class Logic {
 	 * @param routeStart - the point to begin path from
 	 * @param routeGoal - the goal point of the path
 	 */
-	public Stack<Point> findRoute(Point routeStart, Point routeGoal) {
+	/*public Stack<Point> findRoute(Point routeStart, Point routeGoal) {
 		Stack<Point> route = new Stack<Point>(); //to return
 
 		PriorityQueue<Tuple> fringe = new PriorityQueue<Tuple>();
@@ -135,7 +135,7 @@ public class Logic {
 			}
 		}
 		return route;
-	}
+	}*/
 
 	/**
 	 * Calculates straight line heuristic between two point start and goal

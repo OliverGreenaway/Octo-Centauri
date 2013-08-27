@@ -67,28 +67,6 @@ public class Tile {
 		return new Point(x, y);
 	}
 
-	public boolean visited() {
-		return visited;
-	}
-
-	public boolean occupied() {
-		return occupied;
-	}
-
-	public void setVisited(boolean b) {
-		visited = b;
-	}
-
-	public void setPrevTile(Tile tileInterface) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public Tile getPrevTile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * Returns this tile's height.
 	 */
