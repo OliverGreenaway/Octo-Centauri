@@ -105,9 +105,7 @@ public class FileReader {
 						char c = (char)charInt;
 						String symb = Character.toString(c);
 						assert(symbols.get(symb) != null);
-						tiles[row][col] = new Tile(symbols.get(symb),0);
-						tiles[row][col].setX(row);
-						tiles[row][col].setY(col);
+						tiles[row][col] = new Tile(symbols.get(symb),0, row, col);
 					}
 				}
 
@@ -124,6 +122,22 @@ public class FileReader {
 						int strucY = Integer.parseInt(lineScanner.next());
 						Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/Environment_Tiles/" +fileName+ ".png");
 						structures.add(temp);;
+					}
+					numLines--;
+					line = buffer.readLine();
+				}
+			//read height
+				System.out.println(line);
+				numLines = Integer.parseInt(line);
+				line = buffer.readLine();
+				while(numLines > 0){
+					Scanner lineScanner = new Scanner(line);
+					lineScanner.useDelimiter("\\s");
+					while(lineScanner.hasNext()){
+						int strucX = Integer.parseInt(lineScanner.next());
+						int strucY = Integer.parseInt(lineScanner.next());
+						int height = Integer.parseInt(lineScanner.next());
+						tiles[strucX][strucY].setHeight(height);
 					}
 					numLines--;
 					line = buffer.readLine();
