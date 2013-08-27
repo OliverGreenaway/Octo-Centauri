@@ -2,23 +2,28 @@ package state;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
 /**
  * A tile in the world.
  */
-public class Tile {
+public class Tile implements Serializable{
+	private final long serialVersionUID = 7789269378738222222L;
 	// FIELDS
-	private Image img;
+	private transient Image img;
 	private int x;
 	private int y;
 	private boolean visited;
 	private boolean occupied;
 	private int height;
-	private Image leftSideImg, rightSideImg;
+	private transient Image leftSideImg, rightSideImg;
 	private Structure structure;
 	private Dude dude;
+	private String imgName; //Used to save the image for de-serializing later
 
 
 	/**
@@ -29,6 +34,7 @@ public class Tile {
 	 * @param y The Y coordinate.
 	 */
 	public Tile(String type,int ht,int x,int y){
+		this.imgName = type;
 		img = new ImageIcon("Assets/EnvironmentTiles/"+type+".png").getImage();
 		File tileFile = new File("Assets/EnvironmentTiles/"+type+".png");
 		assert(tileFile.exists());
@@ -108,5 +114,6 @@ public class Tile {
 	public void setDude(Dude d) {
 		dude = d;
 	}
+
 }
 

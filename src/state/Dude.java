@@ -6,6 +6,7 @@ import java.awt.image.ColorModel;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageConsumer;
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -16,7 +17,8 @@ import javax.swing.JPanel;
 /**
  * Stores information about a dude.
  */
-public class Dude {
+public class Dude implements Serializable{
+	public final long serialVersionUID = 55558278392826626L;
 	/**
 	 * The coordinates of the tile under the bottom corner of the dude.
 	 */
