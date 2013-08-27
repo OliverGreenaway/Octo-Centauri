@@ -15,8 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import state.Structure;
 import state.Tile;
-import state.TileInterface;
+import state.World;
 
 
 /**
@@ -27,6 +28,7 @@ import state.TileInterface;
  */
 public class FileReader {
 
+	private static List<Structure> structures;
 	/**
 	 * Read the menu file, which specifies the right-click menu options for game classes.
 	 * @param filename - File location.
@@ -62,9 +64,10 @@ public class FileReader {
 	 * @param filename - map file to read from.
 	 * @return - a 2D array of TileInterface.
 	 */
-	public static TileInterface[][] readMap(String filename){
+	public static Tile[][] readMap(String filename){
 		File file = new File(filename);
-		TileInterface[][] tiles = null;
+		Tile[][] tiles = null;
+		structures = new ArrayList<Structure>();
 
 		try{
 			InputStream in = new FileInputStream(file);
@@ -78,7 +81,7 @@ public class FileReader {
 			int y = Integer.parseInt(lineScan.next());
 			System.out.println(y);
 
-			tiles = new TileInterface[x][y];
+			tiles = new Tile[x][y];
 			String line2 = buffer.readLine();
 			System.out.println("Line:" +line2);
 			lineScan = new Scanner(line2);
@@ -93,7 +96,6 @@ public class FileReader {
 			}
 
 			boolean r;
-			//while (r = buffer.read() != -1){
 				int row, col;
 				for(row = 0; row < y; ++row){
 					StringReader lineReader = new StringReader(buffer.readLine());
@@ -101,24 +103,46 @@ public class FileReader {
 						int charInt = lineReader.read();
 						char c = (char)charInt;
 						String symb = Character.toString(c);
-						System.out.println("Row: "+row+ " Col" +col+ " Symbol: " +symb);
 						assert(symbols.get(symb) != null);
 						tiles[row][col] = new Tile(symbols.get(symb));
 						tiles[row][col].setX(row);
 						tiles[row][col].setY(col);
 					}
-//					if(col == 199)
-//						col = 0;
-					System.out.println("One column done");
-
 				}
-			//}
+
+				//Now read objects
+				buffer.readLine();
+				int numLines = Integer.parseInt(buffer.readLine());
+				System.out.println(numLines+ " lines.");
+				String line = buffer.readLine();
+				System.out.println("Line: "+line);
+				while(numLines > 0){
+					Scanner lineScanner = new Scanner(line);
+					lineScanner.useDelimiter("\\s");
+					String fileName = lineScanner.next();
+					System.out.println("File name: "+fileName);
+					while(lineScanner.hasNext()){
+					int strucX = Integer.parseInt(lineScanner.next());
+					int strucY = Integer.parseInt(lineScanner.next());
+					Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/Environment_Tiles/" +fileName+ ".png");
+					structures.add(temp);
+					//tiles[strucX][strucY].setStructure(temp);
+					}
+					numLines--;
+				}
+
 			buffer.close();
 			fileReader.close();
 
 		}catch(IOException e){System.out.println("Error reading map file." + e.getMessage());}
 		assert(tiles != null);
 		return tiles;
+	}
+
+	public static void setStructures(World w){
+		for(Structure struct: structures){
+			w.addStructure(struct);
+		}
 	}
 //		try{
 //			scan = new Scanner(file);
