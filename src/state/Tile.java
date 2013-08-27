@@ -13,6 +13,7 @@ public class Tile implements TileInterface{
 	private int height;
 	private Image leftSideImg, rightSideImg;
 	private Structure structure;
+	private Dude dude;
 
 
 	public Tile(String type){
@@ -99,6 +100,14 @@ public class Tile implements TileInterface{
 
 	public void setStructure(Structure s) {
 		structure = s;
+	}
+
+	public Dude getDude() {
+		return dude;
+	}
+
+	public void setDude(Dude d) {
+		dude = d;
 	}
 }
 
