@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.Random;
 
 import javax.swing.JComponent;
@@ -14,6 +15,8 @@ import javax.swing.JPanel;
 
 import javax.swing.SwingUtilities;
 
+import networking.common.Network;
+
 
 import logic.FileReader;
 
@@ -21,7 +24,12 @@ import logic.Logic;
 
 import logic.UpdateThread;
 
+import state.Tile;
 import state.World;
+
+//TODO Rotate the view by inverting the draw
+//TODO Hovering over the screen will show a tempory bit on the screen
+
 
 @SuppressWarnings("serial")
 public class Window extends JPanel implements KeyListener, MouseListener {
@@ -41,10 +49,33 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	Display display;
 	UpdateThread update;
 
+	public long seed;
+	public Network network;
+	public String fileMap= "resources/map";
+
 	public Window() {
 //		this.setSize(1920, 1080);
 		initialize();
 	}
+
+	/**
+	 *
+	 * @param seed
+	 * @param network
+	 * @param fileMap
+	 */
+	public Window(long seed, Network network, String fileMap) {//TODO //mapfile tpye?
+		this.seed = seed;
+		this.network = network;
+		fileMap = this.fileMap;
+
+		//TODO
+		//load map from file given
+		//store network as field
+		//use seed to generate any random events
+		initialize();
+	}
+
 
 	/**
 	 * Returns one of two random tiles.
@@ -74,9 +105,9 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 
 		//Create a new world with the map read from the file.
-		World world = new World(FileReader.readMap("resources/map"));
+		World world = new World();//new World(FileReader.readMap(fileMap));//resources/map
 		display = new Display(world); // was just new World()
-		FileReader.setStructures(world); // Set up the structures that the file
+		//FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
 
 		addMouseListener(this);
@@ -210,8 +241,10 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		mouseX = p.x;
 		mouseY = p.y;
 
+		mouseY += 490;
 
-		double xMinusY = (mouseX - 960) / (32.0); // ( x click - half width of screen )  / half the width of a tile
+
+		double xMinusY = (mouseX - display.getWidth()/2) / (32.0); // ( x click - half width of screen )  / half the width of a tile
 		double xPlusY = (mouseY / 16.0);		  // ( y click  /  half height of tile )
 
 		int[] cameraPoint = display.getCameraCoordinates();
@@ -222,15 +255,25 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		int y = (int) ((xPlusY - xMinusY) / 2 - 0.5);
 
 		// you are NOT off the map
-		if (x < 0 || x > 29 || y < 0 || y > 29) {
+//		if !(x < 0 || x > 29 || y < 0 || y > 29) {//TODO all wrong now
 			// invalid click
-//			System.out.println("outa boundz"); //Debug
-		} else {
+//		} else {
 			//Adjusts for the camera's possible location and sets the x/y acordingly
 			x = x + cameraPoint[0];
 			y = y + cameraPoint[1];
-		}
+
+			//set tile to be somthing
+			if(e.getButton()==3){
+				//Dude d = new Dude("")
+				Tile t = new Tile("DarkTree",0, x,y);
+				display.getWorld().setTile(x, y, t);
+			}else{
+				Tile t = new Tile("BarrenWall",1, x,y);
+				display.getWorld().setTile(x, y, t);
+			}
+
 		this.repaint();
+
 	}
 
 	@Override

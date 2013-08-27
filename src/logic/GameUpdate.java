@@ -23,6 +23,12 @@ public class GameUpdate extends Update {
 	private List<Dude> dudesAdded;
 	private List<Dude> dudesRemoved;
 
+	private List<Dude> dudesMoved;
+	//For now, I am going to assume that only one position change can take place
+	// for each character each timer tick.  If this is not the case, we need to make
+	//this a change-set of position changes
+	//(or discard intermediate moves and have them jump)
+
 	private List<Tile> colourChangedTiles;
 	private Map<Dude, Integer> dudeHealthChanges;
 
@@ -33,6 +39,7 @@ public class GameUpdate extends Update {
 		dudesAdded = new ArrayList<Dude>();
 		dudesRemoved = new ArrayList<Dude>();
 		dudeHealthChanges = new HashMap<Dude, Integer>();
+		dudesMoved = new ArrayList<Dude>();
 		colourChangedTiles = new ArrayList<Tile>();
 	}
 
@@ -72,6 +79,10 @@ public class GameUpdate extends Update {
 		//For the unusual case where a dude was created and then died immediately:
 		if(dudesAdded.contains(d))
 			dudesAdded.remove(d);
+	}
+
+	public void dudePositionChanged(Dude d){
+		dudesMoved.add(d);
 	}
 
 	/**
