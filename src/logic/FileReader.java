@@ -86,7 +86,6 @@ public class FileReader {
 			String line2 = buffer.readLine(); //Read the second line which specifies mapping from symbols to images
 			tiles = new Tile[x][y];
 
-			System.out.println("Line:" +line2);
 			lineScan = new Scanner(line2);
 			lineScan.useDelimiter(",");
 			Map<String, String> symbols = new HashMap<String, String>();
@@ -113,24 +112,26 @@ public class FileReader {
 				buffer.readLine();
 				int numLines = Integer.parseInt(buffer.readLine());
 				String line = buffer.readLine();
+				Scanner lineScanner = null;
 				while(numLines > 0){
-					Scanner lineScanner = new Scanner(line);
+					lineScanner = new Scanner(line);
 					lineScanner.useDelimiter("\\s");
 					String fileName = lineScanner.next();
 					while(lineScanner.hasNext()){
 						int strucX = Integer.parseInt(lineScanner.next());
 						int strucY = Integer.parseInt(lineScanner.next());
-						Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/Environment_Tiles/" +fileName+ ".png");
+						Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/EnvironmentTiles/" +fileName+ ".png");
 						structures.add(temp);;
 					}
 					numLines--;
 					line = buffer.readLine();
 				}
+				lineScanner.close();
 			//read height
 				System.out.println(line);
 				numLines = Integer.parseInt(line);
 				line = buffer.readLine();
-				Scanner lineScanner = null;
+				lineScanner = null;
 				while(numLines > 0){
 					lineScanner = new Scanner(line);
 					lineScanner.useDelimiter("\\s");
