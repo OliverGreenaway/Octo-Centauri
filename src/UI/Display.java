@@ -30,25 +30,20 @@ public class Display extends JPanel{
 	}
 
 	private static final long serialVersionUID = 8274011568777903027L;
+	// WHAT DOES THIS EVEN DO??
 
 	//RENDERING
 	public void paintComponent(Graphics g){
 		paintMap(g);
-		paintPlayer(g);
 	}
 
-	private void paintPlayer(Graphics g) {
+//	public int[] getCameraCoordinates(){
+//		return new int[]{camera.x,camera.y};
+//	}
 
-
-	}
-
-	public int[] getCameraCoordinates(){
-		return new int[]{camera.x,camera.y};
-	}
-
-	public void setCameraCoordinates(int[] coord){
-		camera = new Coord(coord[0],coord[1]);
-	}
+//	public void setCameraCoordinates(int[] coord){
+//		camera = new Coord(coord[0],coord[1]);
+//	}
 
 	public void panLeft(int idx) {
 		if (camera.x - idx < 0) {// Catch if out of bounds

@@ -13,7 +13,15 @@ public class Network {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private Socket peer;
-
+	/**
+	 *	Either connect to another host or set up a server
+	 *
+	 * @param server Name of host to connect to - null if this is the game host
+	 * @param port
+	 * @throws ServerNotFoundException
+	 * @throws SocketBusyException
+	 * @throws IOException
+	 */
 	public Network(String server, int port) throws ServerNotFoundException,
 			SocketBusyException, IOException {
 
@@ -55,7 +63,10 @@ public class Network {
 		 * out.writeObject("hi"); out.flush();
 		 */
 	}
-
+	/**
+	 * Closes the connection. Must always be called before program terminates
+	 * @throws IOException
+	 */
 	public void close() throws IOException {
 		try {
 			peer.close();
@@ -63,7 +74,11 @@ public class Network {
 			throw e;
 		}
 	}
-
+	/**
+	 * Send update to peer
+	 * @param u
+	 * @throws IOException
+	 */
 	public void sendUpdate(Update u) throws IOException {
 		try {
 			out.writeObject(u);
@@ -72,7 +87,12 @@ public class Network {
 			throw e;
 		}
 	}
-
+	/**
+	 * Wait for and receive an update from peer
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public Update getUpdate() throws IOException, ClassNotFoundException {
 		try {
 			return (Update) in.readObject();
@@ -96,7 +116,11 @@ public class Network {
 	}
 
 }
-
+/**
+ * Used for testing purposes
+ * @author muruphenr
+ *
+ */
 class ConcreteUpdate extends Update {
 	String s;
 
