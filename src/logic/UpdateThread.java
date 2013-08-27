@@ -1,5 +1,5 @@
 package logic;
-import Display;
+import UI.Display;
 import state.World;
 
 

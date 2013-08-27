@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import UI.Display;
+
 
 import logic.FileReader;
 import logic.Logic;		// TODO Auto-generated catch block
