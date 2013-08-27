@@ -5,7 +5,11 @@ import java.util.Stack;
 import javax.swing.JFrame;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-
+/**
+ * The root frame of the game. Presents all the menus, and can show the game.
+ * @author muruphenr , antunomate , richarhayd
+ *
+ */
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
 
@@ -22,7 +26,10 @@ public class MainFrame extends JFrame {
 	public static void main(String args[]) {
 		MainFrame f = new MainFrame();
 	}
-
+	/**
+	 * Add another JPanel. The current JPanel is stored.
+	 * @param comp
+	 */
 	public void addMenu(JPanel comp) {
 		if (frameStack.size() > 0)
 			this.remove(frameStack.peek());
@@ -31,8 +38,12 @@ public class MainFrame extends JFrame {
 		this.validate() ;
 		this.repaint();
 	}
-
+	/**
+	 * Return to previous JPanel.
+	 */
 	public void back() {
+		if (frameStack.size() == 1) return ;
+
 		this.remove(frameStack.pop());
 		this.add(frameStack.peek());
 		this.validate() ;
