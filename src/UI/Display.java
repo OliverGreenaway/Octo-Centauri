@@ -15,6 +15,7 @@ public class Display extends JPanel{
 
 	private World world;
 
+	//pixel size of each tile
 	private final int TILE_WIDTH = 64, TILE_HEIGHT = 32;
 
 
@@ -32,14 +33,11 @@ public class Display extends JPanel{
 	private static final long serialVersionUID = 8274011568777903027L;
 	// WHAT DOES THIS EVEN DO??
 
-	//RENDERING
-	public void paintComponent(Graphics g){
-		paintMap(g);
-	}
 
-//	public int[] getCameraCoordinates(){
-//		return new int[]{camera.x,camera.y};
-//	}
+
+	public int[] getCameraCoordinates(){
+		return new int[]{camera.x,camera.y};
+	}
 
 //	public void setCameraCoordinates(int[] coord){
 //		camera = new Coord(coord[0],coord[1]);
@@ -73,12 +71,20 @@ public class Display extends JPanel{
 		camera = new Coord(camera.x, camera.y - idy);
 	}
 
+	//RENDERING
+		public void paintComponent(Graphics g){
+			g.setColor(Color.PINK);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			paintMap(g);
+		}
+
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
 	 *
 	 * @param g OVERRIDEN Parameter.
 	 */
 	private void paintMap(Graphics g){
+
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
@@ -94,13 +100,15 @@ public class Display extends JPanel{
 				 */
 
 				// Translated tile coordinates to account for raised elevations (i,j)
-				int i = x + t.getHeight();
-				int	j = y + t.getHeight();
-
+				int i = x - t.getHeight();
+				int	j = y - t.getHeight();
+				//displays each tile
 				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
+
 				if(t.getStructure() != null){ // If there is a structure in the tile --> DRAW HE/SHE/IT!
 					t.getStructure().draw(g, this.getWidth(),camera.x,camera.y);
 				}
+
 				if(t.getDude() != null){ // If there is a dude in the tile --> DRAW THEM!
 					t.getDude().draw(g, this.getWidth(),camera.x,camera.y);
 				}
