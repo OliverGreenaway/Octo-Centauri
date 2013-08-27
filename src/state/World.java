@@ -27,9 +27,9 @@ public class World {
 		else
 			return "Grass";
 	}
-	
-	
-	
+
+
+
 	public World(){
 		worldTile = new Tile[100][100];
 		for(int x = 0; x < 100; x++)
