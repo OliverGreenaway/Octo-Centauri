@@ -2,23 +2,29 @@ package state;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  * A tile in the world.
  */
-public class Tile {
+public class Tile implements Serializable{
+	private final long serialVersionUID = 7789269378738222222L;
 	// FIELDS
-	private Image img;
+	private transient Image img;
 	private int x;
 	private int y;
 	private boolean visited;
 	private boolean occupied;
 	private int height;
-	private Image leftSideImg, rightSideImg;
+	private transient Image leftSideImg, rightSideImg;
 	private Structure structure;
 	private Dude dude;
+	private String imgName; //Used to save the image for de-serializing later
 
 
 	/**
@@ -29,11 +35,16 @@ public class Tile {
 	 * @param y The Y coordinate.
 	 */
 	public Tile(String type,int ht,int x,int y){
-		img = new ImageIcon("Assets/Environment_Tiles/"+type+".png").getImage();
-		File tileFile = new File("Assets/Environment_Tiles/"+type+".png");
+		this.imgName = type;
+		try{
+		img = new ImageIcon("Assets/EnvironmentTiles/"+type+".png").getImage();
+		File tileFile = new File("Assets/EnvironmentTiles/"+type+".png");
 		assert(tileFile.exists());
-		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
-		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
+		leftSideImg = new ImageIcon("Assets/EnvironmentTiles/WestFacingDirt.png").getImage();
+		rightSideImg = new ImageIcon("Assets/EnvironmentTiles/EastFacingDirt.png").getImage();
+		} catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning", JOptionPane.WARNING_MESSAGE);
+		}
 		height = ht;
 		this.x = x;
 		this.y = y;
@@ -65,28 +76,6 @@ public class Tile {
 	 */
 	public Point getPoint() {
 		return new Point(x, y);
-	}
-
-	public boolean visited() {
-		return visited;
-	}
-
-	public boolean occupied() {
-		return occupied;
-	}
-
-	public void setVisited(boolean b) {
-		visited = b;
-	}
-
-	public void setPrevTile(Tile tileInterface) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public Tile getPrevTile() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**
@@ -130,5 +119,6 @@ public class Tile {
 	public void setDude(Dude d) {
 		dude = d;
 	}
+
 }
 
