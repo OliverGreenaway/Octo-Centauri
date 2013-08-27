@@ -53,7 +53,7 @@ public class World {
 					addStructure(new Structure(x, y, 3, 3, "Assets/EnvironmentObjects/dark-tree.png"));
 				}
 			}
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class World {
 	 */
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 	}
 
 	/**

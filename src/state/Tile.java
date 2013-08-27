@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  * A tile in the world.
@@ -35,11 +36,15 @@ public class Tile implements Serializable{
 	 */
 	public Tile(String type,int ht,int x,int y){
 		this.imgName = type;
+		try{
 		img = new ImageIcon("Assets/EnvironmentTiles/"+type+".png").getImage();
 		File tileFile = new File("Assets/EnvironmentTiles/"+type+".png");
 		assert(tileFile.exists());
 		leftSideImg = new ImageIcon("Assets/EnvironmentTiles/WestFacingDirt.png").getImage();
 		rightSideImg = new ImageIcon("Assets/EnvironmentTiles/EastFacingDirt.png").getImage();
+		} catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning", JOptionPane.WARNING_MESSAGE);
+		}
 		height = ht;
 		this.x = x;
 		this.y = y;
