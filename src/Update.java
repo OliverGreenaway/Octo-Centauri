@@ -9,7 +9,7 @@ private final World world;
     display = d;
 	}
 public void run(){
-	while(1 == 1){
+	while(true){
 	world.update();
 	display.repaint();
 	try {
