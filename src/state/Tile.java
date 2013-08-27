@@ -29,11 +29,11 @@ public class Tile {
 	 * @param y The Y coordinate.
 	 */
 	public Tile(String type,int ht,int x,int y){
-		img = new ImageIcon("Assets/Environment_Tiles/"+type+".png").getImage();
-		File tileFile = new File("Assets/Environment_Tiles/"+type+".png");
+		img = new ImageIcon("Assets/EnvironmentTiles/"+type+".png").getImage();
+		File tileFile = new File("Assets/EnvironmentTiles/"+type+".png");
 		assert(tileFile.exists());
-		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
-		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
+		leftSideImg = new ImageIcon("Assets/EnvironmentTiles/WestFacingDirt.png").getImage();
+		rightSideImg = new ImageIcon("Assets/EnvironmentTiles/EastFacingDirt.png").getImage();
 		height = ht;
 		this.x = x;
 		this.y = y;

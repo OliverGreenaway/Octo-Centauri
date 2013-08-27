@@ -1,3 +1,4 @@
+package logic;
 import UI.Display;
 import state.World;
 
