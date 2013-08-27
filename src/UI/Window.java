@@ -38,12 +38,11 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 	Random random = new Random();
 
-	JComponent drawing;
 	Display display;
 	UpdateThread update;
 
 	public Window() {
-		this.setSize(1920, 1080);
+//		this.setSize(1920, 1080);
 		initialize();
 	}
 
@@ -80,19 +79,11 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
 
-		drawing = new JComponent() {
-			protected void paintComponent(Graphics g) {
-				redraw(g);
-			}
-		};
-
 		addMouseListener(this);
 		addKeyListener(this);
 		setFocusable(true);
 
-		add(drawing);
-		drawing.repaint();
-
+		this.add(display);
         update = new UpdateThread(world, display);
         update.start();
 
@@ -103,22 +94,21 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	 * -Outdated-
 	 * @param Graphics
 	 */
-	private void redraw(Graphics g) {
+	public void paint(Graphics g) {
+		super.paint(g);
 
-		add(display);
-		// display.repaint();
-		g.setColor(Color.BLACK);
-		// Bottom pane
-		g.fillRect(0, getHeight() - (getHeight() / 4), getWidth(),
-				getHeight() / 4);
-		// left hand pane
-		g.fillRect(0, 0, 25, getHeight() - (getHeight() / 4));
-		// right hand pane
-		g.fillRect(getWidth() - 25, 0, 50, getHeight() - (getHeight() / 4));
-		g.fillRect(25, 0, getWidth(), 25);
-		g.setColor(Color.red);
-
-		g.fillOval(mouseX, mouseY, 20, 20);
+//		g.setColor(Color.BLACK);
+//		// Bottom pane
+//		g.fillRect(0, getHeight() - (getHeight() / 4), getWidth(),
+//				getHeight() / 4);
+//		// left hand pane
+//		g.fillRect(0, 0, 25, getHeight() - (getHeight() / 4));
+//		// right hand pane
+//		g.fillRect(getWidth() - 25, 0, 50, getHeight() - (getHeight() / 4));
+//		g.fillRect(25, 0, getWidth(), 25);
+//		g.setColor(Color.red);
+//
+//		g.fillOval(mouseX, mouseY, 20, 20);
 
 	}
 
@@ -137,8 +127,10 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 	public static void main(String[] args) {
 		JFrame f = new JFrame("test");
-		f.add(new Window());
+		f.getContentPane().add(new Window()) ;
+		//f.add(new Window());
 		f.setSize(1920, 1080);
+		f.pack();
 		f.setVisible(true);
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -238,7 +230,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			x = x + cameraPoint[0];
 			y = y + cameraPoint[1];
 		}
-		drawing.repaint();
+		this.repaint();
 	}
 
 	@Override
