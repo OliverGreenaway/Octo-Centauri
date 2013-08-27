@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 
 import logic.FileReader;
 
+import logic.Logic;
+import logic.UpdateThread;
+
 import state.World;
 
 @SuppressWarnings("serial")
@@ -32,7 +35,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 	JComponent drawing;
 	Display display;
-	Update update;
+	UpdateThread update;
 
 	public Window() {
 		this.setSize(1920, 1080);
@@ -80,8 +83,9 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 		add(drawing);
 		drawing.repaint();
-		update = new Update(world, display);
-		update.start();
+
+        update = new UpdateThread(world, display);
+        update.start();
 
 	}
 

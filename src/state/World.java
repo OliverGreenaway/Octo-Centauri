@@ -21,15 +21,15 @@ public class World {
 		else if (rand == 2)
 			return "dark-sand";
 		else if (rand == 3)
-			return "barren-grass";
+		return "barren-grass";
 		else if (rand == 4)
 			return "dark-sand";
 		else
 			return "Grass";
 	}
-	
-	
-	
+
+
+
 	public World(){
 		worldTile = new Tile[100][100];
 		for(int x = 0; x < 100; x++)
