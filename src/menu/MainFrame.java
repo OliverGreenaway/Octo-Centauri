@@ -1,7 +1,17 @@
 package menu;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Stack;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -48,5 +58,14 @@ public class MainFrame extends JFrame {
 		this.add(frameStack.peek());
 		this.validate() ;
 		this.repaint();
+	}
+	
+	public static void addButton(final MainFrame frame, final JPanel panel, ActionListener listener,  String path, int y) {
+		ImageIcon icon = new ImageIcon("Assets/Menus/" + path + ".png");
+		JButton button = new JButton(icon);	
+		button.setBorder(null);
+		button.setBackground(new Color(255, 255, 255, 0));
+		panel.add(button);
+		button.addActionListener(listener);
 	}
 }
