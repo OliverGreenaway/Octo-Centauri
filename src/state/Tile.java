@@ -20,6 +20,9 @@ public class Tile implements Serializable{
 	private int y;
 	private boolean visited;
 	private boolean occupied;
+	// height: 0 = flat plain 1 = the step above 2 = above that so on and so forth
+	//		   the height drawing is handled by the display class
+	//		   some kind of ramping theory needs to exist to make this less arbitrary
 	private int height;
 	private transient Image leftSideImg, rightSideImg;
 	private Structure structure;
