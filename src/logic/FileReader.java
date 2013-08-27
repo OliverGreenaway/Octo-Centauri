@@ -74,28 +74,29 @@ public class FileReader {
 			Reader fileReader = new InputStreamReader(in, Charset.defaultCharset());
 			BufferedReader buffer = new BufferedReader(fileReader);
 
-			String line1 = buffer.readLine();
+			String line1 = buffer.readLine();//Read the first line which specifies the dimensions
 			Scanner lineScan = new Scanner(line1);
 			lineScan.useDelimiter("\\s");
 			int x = Integer.parseInt(lineScan.next());
 			int y = Integer.parseInt(lineScan.next());
-			System.out.println(y);
+
 
 			tiles = new Tile[x][y];
-			String line2 = buffer.readLine();
+
+			String line2 = buffer.readLine(); //Read the second line which specifies mapping from symbols to images
+			tiles = new Tile[x][y];
+
 			System.out.println("Line:" +line2);
 			lineScan = new Scanner(line2);
 			lineScan.useDelimiter(",");
 			Map<String, String> symbols = new HashMap<String, String>();
 			while(lineScan.hasNext()){
 				String sym = lineScan.next();
-				System.out.println(sym);
 				String img = lineScan.next();
-				System.out.println("Image: " +img);
 				symbols.put(sym, img);
 			}
 
-			boolean r;
+			//Read the text representation of the map
 				int row, col;
 				for(row = 0; row < y; ++row){
 					StringReader lineReader = new StringReader(buffer.readLine());
@@ -104,7 +105,7 @@ public class FileReader {
 						char c = (char)charInt;
 						String symb = Character.toString(c);
 						assert(symbols.get(symb) != null);
-						tiles[row][col] = new Tile(symbols.get(symb));
+						tiles[row][col] = new Tile(symbols.get(symb),0);
 						tiles[row][col].setX(row);
 						tiles[row][col].setY(col);
 					}
@@ -113,22 +114,35 @@ public class FileReader {
 				//Now read objects
 				buffer.readLine();
 				int numLines = Integer.parseInt(buffer.readLine());
-				System.out.println(numLines+ " lines.");
 				String line = buffer.readLine();
-				System.out.println("Line: "+line);
 				while(numLines > 0){
 					Scanner lineScanner = new Scanner(line);
 					lineScanner.useDelimiter("\\s");
 					String fileName = lineScanner.next();
-					System.out.println("File name: "+fileName);
 					while(lineScanner.hasNext()){
-					int strucX = Integer.parseInt(lineScanner.next());
-					int strucY = Integer.parseInt(lineScanner.next());
-					Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/Environment_Tiles/" +fileName+ ".png");
-					structures.add(temp);
-					//tiles[strucX][strucY].setStructure(temp);
+						int strucX = Integer.parseInt(lineScanner.next());
+						int strucY = Integer.parseInt(lineScanner.next());
+						Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/Environment_Tiles/" +fileName+ ".png");
+						structures.add(temp);;
 					}
 					numLines--;
+					line = buffer.readLine();
+				}
+			//read height
+				System.out.println(line);
+				numLines = Integer.parseInt(line);
+				line = buffer.readLine();
+				while(numLines > 0){
+					Scanner lineScanner = new Scanner(line);
+					lineScanner.useDelimiter("\\s");
+					while(lineScanner.hasNext()){
+						int strucX = Integer.parseInt(lineScanner.next());
+						int strucY = Integer.parseInt(lineScanner.next());
+						int height = Integer.parseInt(lineScanner.next());
+						tiles[strucX][strucY].setHeight(height);
+					}
+					numLines--;
+					line = buffer.readLine();
 				}
 
 			buffer.close();
@@ -144,39 +158,7 @@ public class FileReader {
 			w.addStructure(struct);
 		}
 	}
-//		try{
-//			scan = new Scanner(file);
-//		}catch(IOException e){System.out.println("Map file not found.");}
-//		Scanner lineScan = new Scanner(scan.nextLine());
-//		lineScan.useDelimiter("\t");
-//		int x = Integer.parseInt(lineScan.next());
-//		int y = Integer.parseInt(lineScan.next());
-//		tiles = new TileInterface[x][y];
-//		lineScan = new Scanner(scan.nextLine());
-//		lineScan.useDelimiter("\t");
-//		Map<String, String> symbols = new HashMap<String, String>();
-//		while(lineScan.hasNext()){
-//			String sym = lineScan.next();
-//			String img = lineScan.next();
-//			symbols.put(sym, img);
-//		}
-//
-//		while(scan.hasNextLine()){
-//			Scanner lineScan = new Scanner(scan.nextLine());
-//			lineScan.useDelimiter("\t");//		for(int i = 0; i < 200; i++){
-//	for(int j = 0; j < 200; j++){
-//	map[i][j] = new Tile(generateRandomTile());
-//}
-//}
-//			String className = lineScan.next();
-//				while(lineScan.hasNext()){
-//					menuOptions.add(lineScan.next());
-//				}
-//			lineScan.close();
-//			menus.put(className, menuOptions);
-//		}
-//		scan.close();
-//		return menus;
+
 
 
 }

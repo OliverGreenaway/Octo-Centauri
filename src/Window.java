@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -9,10 +10,13 @@ import java.util.Random;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+
 import logic.FileReader;
-import logic.Logic;
+import logic.Logic;		// TODO Auto-generated catch block
+import logic.UpdateThread;
 
 import state.Tile;
 import state.World;
@@ -21,11 +25,11 @@ import state.World;
 
 
 @SuppressWarnings("serial")
-public class Window extends JFrame implements KeyListener, MouseListener {
+public class Window extends JPanel implements KeyListener, MouseListener {
 
 
-	private int mouse_X = 0;
-	private int mouse_Y = 0;
+	private int mouseX = 0;
+	private int mouseY = 0;
 
 	boolean up 			= false;
 	boolean down 		= false;
@@ -36,12 +40,11 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	JComponent drawing;
 	Display display;
+	UpdateThread update;
 
 	public Window(){
 		this.setSize(1900, 1080 );
 		initialize();
-		this.setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public String generateRandomTile(){
@@ -54,9 +57,6 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	}
 
 	public void initialize(){
-
-
-
 		Tile[][] map = FileReader.readMap("resources/map");
 
 
@@ -69,7 +69,9 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 		// set up menu
 		TopMenu menu =new TopMenu();
-		setJMenuBar(menu);
+
+//		setJMenuBar(menu);
+
 		World world = new World(FileReader.readMap("resources/map"));
 		display = new Display(world); //was just new World()
 		FileReader.setStructures(world); //Set up the structures that the file reader now knows about
@@ -86,6 +88,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 		add(drawing);
 		drawing.repaint();
+        update = new UpdateThread(world, display);
+        update.start();
 
 	}
 
@@ -102,10 +106,11 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		//right hand pane
 		g.fillRect(getWidth() - 25, 0, 50, getHeight()-(getHeight()/4));
 		g.fillRect(25, 0, getWidth(), 25);
-		g.fillOval(mouse_X - 10, mouse_Y - 20, 20, 20);
+		g.setColor(Color.red);
+
+		g.fillOval(mouseX - 10, mouseY - 20, 20, 20);
 
 	}
-
 
 
 	private void panMap(){
@@ -121,7 +126,12 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 	public static void main(String[] args) {
-		new Window();
+		JFrame f = new JFrame("test");
+		f.add(new Window());
+		f.setSize(1920,1080);
+		f.setVisible(true);
+
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 
@@ -193,9 +203,40 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Point p = e.getPoint();
-		SwingUtilities.convertPointFromScreen(p,display);
-		mouse_X = p.x;
-		mouse_Y = p.y;
+
+		//SwingUtilities.convertPointFromScreen(p,display); // Adjusts point visually
+
+		System.out.println(p.getX() + " " + p.getY());
+		mouseX = p.x;
+		mouseY = p.y;
+
+
+	//	int endX = mouseX - 960;
+
+
+	/*	double cx =  Math.cos(Math.toRadians(45));  //.8509035245; // cos 45 also sin 45
+		double sx =  Math.sin(Math.toRadians(45)); // .8509035245; // cos 45 also sin 45
+
+		double newX = (cx*endX) - (sx*mouseY);
+		double newY = (sx*endX) + (cx*mouseY);
+
+		mouseX = (int) Math.abs((newX/32));
+		mouseY = (int) Math.abs((newY/32));*/
+
+
+		//System.out.println("trig: " + (int)(newX/32) + " " +(int)(newY/32));
+		double xMinusY= (mouseX - 960) /(32.0);
+		double xPlusY = (mouseY / 16.0);
+
+		double x = (xMinusY + xPlusY)/2;
+		double y = (xPlusY - xMinusY)/2;
+
+		System.out.println("X: " + x + "          y: " + y);
+//		mouseX = x*10;
+//		mouseY = y*10;
+
+
+		int [] cameraPoint = display.getCameraCoordinates();
 
 
 		drawing.repaint();
