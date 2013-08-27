@@ -65,8 +65,8 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 		// set up menu
-		TopMenu menu =new TopMenu();
-		setJMenuBar(menu);
+		TopMenu menu = new TopMenu();
+		setJMenuBar(menu) ;
 		display = new Display(new World());
 
 		drawing = new JComponent() {

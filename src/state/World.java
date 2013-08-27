@@ -7,7 +7,8 @@ import java.util.Random;
 public class World {
 	private Tile[][] worldTile;
 
-	private Random random = new Random();
+	long seed = System.currentTimeMillis();
+	private Random random = new Random(seed);
 
 	public String generateRandomTile(){
 		int rand = random.nextInt(5);
@@ -22,7 +23,9 @@ public class World {
 		else
 			return "Grass";
 	}
-
+	
+	
+	
 	public World(){
 		worldTile = new Tile[100][100];
 		for(int x = 0; x < 100; x++)
