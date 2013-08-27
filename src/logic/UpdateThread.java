@@ -1,5 +1,6 @@
 package logic;
 
+import networking.common.Network;
 import UI.Display;
 
 import state.World;
@@ -14,6 +15,7 @@ public class UpdateThread extends Thread {
 
 private final Display display;
 private final World world;
+private GameUpdate gUpdate;
 
 /**
  * Creates a new UpdateThread with references to the World and Display.
@@ -23,6 +25,8 @@ private final World world;
 	public UpdateThread(World w, Display d) {
     world = w;
     display = d;
+    gUpdate = new GameUpdate();
+    w.setGameUpdate(gUpdate);
 	}
 
 	/**
@@ -31,6 +35,11 @@ private final World world;
 public void run(){
 	while(1 == 1){
 		world.update();
+
+		//Network.sendUpdate(gUpdate);
+		//get the update back here
+		gUpdate = new GameUpdate();
+		world.setGameUpdate(gUpdate);
 		display.repaint();
 		try {
 			Thread.sleep(100);
