@@ -20,6 +20,12 @@ public class MainMenuPanel extends JPanel {
 				});
 		JButton multiPlayer = new JButton("Multi Player");
 		this.add(multiPlayer);
+		multiPlayer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.addMenu(new MultiplayerMenuPanel(frame));
+			}
+		}) ;
 		JButton quit = new JButton("Quit");
 		this.add(quit);
 		quit.addActionListener(new ActionListener() {
