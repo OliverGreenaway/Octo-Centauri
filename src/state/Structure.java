@@ -3,6 +3,7 @@ package state;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -10,7 +11,8 @@ import javax.swing.JOptionPane;
 /**
  * Stores information about a structure.
  */
-public class Structure {
+public class Structure implements Serializable {
+	private final long serialVersionUID = 22222397388326626L;
 	/**
 	 * The coordinates of the tile under the bottom corner of the structure.
 	 */
