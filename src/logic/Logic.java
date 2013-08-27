@@ -183,7 +183,7 @@ public class Logic {
 
 		@Override
 		public int compareTo(Object t) {
-			if (t != null && this.getClass().equals(t.getClass())) {
+			/*if (t != null && this.getClass().equals(t.getClass())) {
 				if (estTotalCost - ((Tuple) t).getEstTotalCost() > 0)
 					return 1;// this is more costly
 				if (estTotalCost - ((Tuple) t).getEstGameObjectTotalCost() < 0)
@@ -191,7 +191,8 @@ public class Logic {
 				if (estTotalCost - ((Tuple) t).getEstTotalCost() == 0)
 					return 0;
 			}
-			throw new IllegalArgumentException("Need to compare same type");
+			throw new IllegalArgumentException("Need to compare same type");*/
+			return 0;
 		}
 
 	}
