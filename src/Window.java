@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 import logic.FileReader;
 import logic.Logic;		// TODO Auto-generated catch block
+import logic.UpdateThread;
 
 import state.Tile;
 import state.World;
@@ -37,7 +38,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 	JComponent drawing;
 	Display display;
-	Update update;
+	UpdateThread update;
 
 	public Window(){
 		this.setSize(1900, 1080 );
@@ -85,7 +86,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 		add(drawing);
 		drawing.repaint();
-        update = new Update(world, display);
+        update = new UpdateThread(world, display);
         update.start();
 
 	}
