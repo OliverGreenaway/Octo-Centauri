@@ -43,6 +43,6 @@ public class Structure {
 		int y = this.y - camy;
 		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
 		int j =  (x+y) * (TILE_HEIGHT/ 2) ;
-		g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getWidth(null), null);
+		g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getHeight(null), null);
 	}
 }

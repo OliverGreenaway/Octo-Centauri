@@ -34,7 +34,7 @@ public class World {
 		for(int x = 3; x < 100; x += 5)
 			for(int y = 3; y < 100; y += 5) {
 				if(random.nextBoolean())
-					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
+					addStructure(new Structure(x, y, 3, 3, "Assets/Environment_Objects/DarkTree.png"));
 				else {
 					for(int dx = -2; dx <= 0; dx++) {
 						for(int dy = -2; dy <= 0; dy++) {
