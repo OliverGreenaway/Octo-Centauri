@@ -5,6 +5,9 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 
+/**
+ * A tile in the world.
+ */
 public class Tile {
 	// FIELDS
 	private Image img;
@@ -18,43 +21,48 @@ public class Tile {
 	private Dude dude;
 
 
-	public Tile(String type,int ht){
+	/**
+	 * Creates a tile.
+	 * @param type The icon name.
+	 * @param ht The height.
+	 * @param x The X coordinate.
+	 * @param y The Y coordinate.
+	 */
+	public Tile(String type,int ht,int x,int y){
 		img = new ImageIcon("Assets/Environment_Tiles/"+type+".png").getImage();
 		File tileFile = new File("Assets/Environment_Tiles/"+type+".png");
 		assert(tileFile.exists());
 		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
 		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
 		height = ht;
+		this.x = x;
+		this.y = y;
 	}
 
+	/**
+	 * Returns the tile's icon.
+	 */
 	public Image getImage(){
 		return img;
 	}
 
-	public void setX(int x){
-		this.x = x;
-	}
-
-	public void setY(int y){
-		this.y = y;
-	}
-
-	public Image getLeftSideImg() {
-		return leftSideImg;
-	}
-
-	public Image getRightSideImg() {
-		return rightSideImg;
-	}
-
+	/**
+	 * Returns the tile's X coordinate.
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Returns the tile's Y coordinate.
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * Returns the tile's coordinates as a Point.
+	 */
 	public Point getPoint() {
 		return new Point(x, y);
 	}
@@ -81,26 +89,44 @@ public class Tile {
 		return null;
 	}
 
+	/**
+	 * Returns this tile's height.
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Sets this tile's height.
+	 */
 	public void setHeight(int h) {
 		height = h;
 	}
 
+	/**
+	 * Returns the structure on this tile.
+	 */
 	public Structure getStructure() {
 		return structure;
 	}
 
+	/**
+	 * Sets the structure on this tile.
+	 */
 	public void setStructure(Structure s) {
 		structure = s;
 	}
 
+	/**
+	 * Returns the dude on this tile.
+	 */
 	public Dude getDude() {
 		return dude;
 	}
 
+	/**
+	 * Sets the dude on this tile.
+	 */
 	public void setDude(Dude d) {
 		dude = d;
 	}

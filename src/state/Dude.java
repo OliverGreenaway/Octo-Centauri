@@ -13,6 +13,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+/**
+ * Stores information about a dude.
+ */
 public class Dude {
 	/**
 	 * The coordinates of the tile under the bottom corner of the dude.
@@ -34,20 +37,55 @@ public class Dude {
 	private Image[] images = new  Image[4]; // A single image stored per facing
 
 	/**
-	 * The structure's image.
+	 * The dude's image.
 	 */
 	//private Image image;
 
 	private World world;
 
-	public int getX() {return x;}
-	public int getY() {return y;}
-	public int getWidth() {return width;}
-	public int getHeight() {return height;}
+	/**
+	 * Returns the X coordinate of the bottom corner of the dude.
+	 */
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * Returns the Y coordinate of the bottom corner of the dude.
+	 */
+	public int getY() {
+		return y;
+	}
+	/**
+	 * Returns the width of the dude, in tiles.
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * Returns the height of the dude, in tiles.
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * Returns the dude's image.
+	 */
 	public Image getImage() {
 		return images[facing];
-		}
+	}
 
+	/**
+	 * Creates a dude.
+	 * @param world The world the dude is in.
+	 * @param x The X coordinate of the bottom corner of the dude.
+	 * @param y The Y coordinate of the bottom corner of the dude.
+	 * @param width The width of the dude.
+	 * @param height The height of the dude.
+	 * @param image The path to the dude's image.
+	 */
 	public Dude(World world, int x, int y, int width, int height, String image) {
 		this.x = x;
 		this.y = y;
@@ -105,6 +143,9 @@ public class Dude {
 		return true;
 	}
 
+	/**
+	 * Called every tick. Does stuff.
+	 */
 	public void update() {
 		// move randomly
 		int r = new Random().nextInt(4);
@@ -114,6 +155,13 @@ public class Dude {
 		if(r == 3) move(x, y-1);
 	}
 
+	/**
+	 * Draws the dude.
+	 * @param g The Graphics object to draw on.
+	 * @param width The width of the display.
+	 * @param camx The camera X.
+	 * @param camy The camera Y.
+	 */
 	public void draw(Graphics g, int width, int camx, int camy){
 
 		// Tile coordinates of The Dude (x,y)
