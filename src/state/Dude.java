@@ -152,8 +152,8 @@ public class Dude implements Serializable{
 		return true;
 	}
 
-	public boolean canMove(Tile t1, Tile t2) {
-		if(t1.getHeight() > t2.getHeight())
+	public boolean canMove(Tile from, Tile to) {
+		if(from.getHeight() < to.getHeight())
 			return false;
 		return true;
 	}

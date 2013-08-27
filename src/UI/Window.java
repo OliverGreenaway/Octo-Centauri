@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.Random;
 
 import javax.swing.JComponent;
@@ -13,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import javax.swing.SwingUtilities;
+
+import networking.common.Network;
 
 
 import logic.FileReader;
@@ -23,6 +26,9 @@ import logic.UpdateThread;
 
 import state.Tile;
 import state.World;
+
+//TODO Rotate the view by inverting the draw
+
 
 @SuppressWarnings("serial")
 public class Window extends JPanel implements KeyListener, MouseListener {
@@ -42,10 +48,34 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	Display display;
 	UpdateThread update;
 
+	public long seed;
+	public Network network;
+	public String fileMap;
+
 	public Window() {
 //		this.setSize(1920, 1080);
+		//Get passed map file to use
 		initialize();
 	}
+
+	/**
+	 *
+	 * @param seed
+	 * @param network
+	 * @param fileMap
+	 */
+	public Window(long seed, Network network, String fileMap) {//TODO //mapfile tpye?
+		this.seed = seed;
+		this.network = network;
+		fileMap = this.fileMap;
+
+		//TODO
+		//load map from file given
+		//store network as field
+		//use seed to generate any random events
+		initialize();
+	}
+
 
 	/**
 	 * Returns one of two random tiles.
@@ -75,7 +105,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 
 		//Create a new world with the map read from the file.
-		World world = new World(FileReader.readMap("resources/map"));
+		World world = new World(FileReader.readMap(fileMap));//resources/map
 		display = new Display(world); // was just new World()
 		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
