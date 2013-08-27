@@ -2,8 +2,16 @@ Map File Specification
 
 Line 1: Dimensions in form of x [tab] y
 Line 2: Key - symbols to image files, separated by commas, no spaces
-Lines 3 - y+3: ASCII representation of terrain
-Lines y+3 onwards: height specification for various x, y tiles
+What we have at the moment is:
+. - dark-sand
+v - barren-grass
+w - Grass
 
-. - sharp rocks - tile0.png
-v - grass - tile.png
+Lines 3 - y+3: ASCII representation of terrain
+Line y+3: Contains the number(n) of following lines that contain information about objects
+Lines y+4 to y+4+n - An image name followed by pairs of x, y coordinates specifying where that image occurs, separated by spaces.
+Line y+4+n - A number (m) specifying the number of following lines specifying heights for various tiles
+Lines y+4+n+1 to y+4+n+1 to y+4+n+1+m height specification for various x, y tiles in the format x, y, z separated by spaces
+
+(Look at the file, this stuff will make sense)
+

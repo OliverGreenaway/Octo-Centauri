@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -11,14 +10,11 @@ import java.util.Random;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 
 import logic.FileReader;
-import logic.Logic;		// TODO Auto-generated catch block
 import logic.UpdateThread;
 
-import state.Tile;
 import state.World;
 
 
@@ -57,7 +53,8 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	}
 
 	public void initialize(){
-		Tile[][] map = FileReader.readMap("resources/map");
+		//Was code to randomly generate a map.  Replaced now by reading a map from a file.
+		//Tile[][] map = FileReader.readMap("resources/map");
 
 
 //		for(int i = 0; i < 200; i++){
@@ -72,6 +69,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 //		setJMenuBar(menu);
 
+		//Create a new world with the map read from the file.
 		World world = new World(FileReader.readMap("resources/map"));
 		display = new Display(world); //was just new World()
 		FileReader.setStructures(world); //Set up the structures that the file reader now knows about

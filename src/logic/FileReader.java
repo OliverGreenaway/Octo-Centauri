@@ -79,7 +79,7 @@ public class FileReader {
 			lineScan.useDelimiter("\\s");
 			int x = Integer.parseInt(lineScan.next());
 			int y = Integer.parseInt(lineScan.next());
-
+			lineScan.close();
 
 			tiles = new Tile[x][y];
 
@@ -95,7 +95,7 @@ public class FileReader {
 				String img = lineScan.next();
 				symbols.put(sym, img);
 			}
-
+			lineScan.close();
 			//Read the text representation of the map
 				int row, col;
 				for(row = 0; row < y; ++row){
@@ -132,8 +132,9 @@ public class FileReader {
 				System.out.println(line);
 				numLines = Integer.parseInt(line);
 				line = buffer.readLine();
+				Scanner lineScanner = null;
 				while(numLines > 0){
-					Scanner lineScanner = new Scanner(line);
+					lineScanner = new Scanner(line);
 					lineScanner.useDelimiter("\\s");
 					while(lineScanner.hasNext()){
 						int strucX = Integer.parseInt(lineScanner.next());
@@ -144,6 +145,7 @@ public class FileReader {
 					numLines--;
 					line = buffer.readLine();
 				}
+			lineScanner.close();
 
 			buffer.close();
 			fileReader.close();
