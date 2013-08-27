@@ -12,6 +12,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import logic.FileReader;
+import logic.Logic;
+
 import state.Tile;
 import state.World;
 
@@ -52,20 +55,22 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	}
 
 	public void initialize(){
-		Tile[][] map = new Tile[200][200];
+		Tile[][] map = FileReader.readMap("resources/map");
 
 
-		for(int i = 0; i < 200; i++){
-			for(int j = 0; j < 200; j++){
-				map[i][j] = new Tile(generateRandomTile());
-			}
-		}
+//		for(int i = 0; i < 200; i++){
+//			for(int j = 0; j < 200; j++){
+//				map[i][j] = new Tile(generateRandomTile());
+//			}
+//		}
 
 
 		// set up menu
 		TopMenu menu =new TopMenu();
 		setJMenuBar(menu);
-		display = new Display(new World());
+		World world = new World(FileReader.readMap("resources/map"));
+		display = new Display(world); //was just new World()
+		FileReader.setStructures(world); //Set up the structures that the file reader now knows about
 
 		drawing = new JComponent() {
 			protected void paintComponent(Graphics g) {
