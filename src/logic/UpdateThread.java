@@ -1,16 +1,17 @@
+package logic;
 import UI.Display;
 import state.World;
 
 
-public class Update extends Thread {
+public class UpdateThread extends Thread {
 private final Display display;
 private final World world;
-	public Update(World w, Display d) {
+	public UpdateThread(World w, Display d) {
     world = w;
     display = d;
 	}
 public void run(){
-	while(true){
+	while(1 == 1){
 	world.update();
 	display.repaint();
 	try {

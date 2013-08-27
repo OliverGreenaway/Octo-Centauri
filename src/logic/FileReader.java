@@ -126,6 +126,22 @@ public class FileReader {
 					numLines--;
 					line = buffer.readLine();
 				}
+			//read height
+				System.out.println(line);
+				numLines = Integer.parseInt(line);
+				line = buffer.readLine();
+				while(numLines > 0){
+					Scanner lineScanner = new Scanner(line);
+					lineScanner.useDelimiter("\\s");
+					while(lineScanner.hasNext()){
+						int strucX = Integer.parseInt(lineScanner.next());
+						int strucY = Integer.parseInt(lineScanner.next());
+						int height = Integer.parseInt(lineScanner.next());
+						tiles[strucX][strucY].setHeight(height);
+					}
+					numLines--;
+					line = buffer.readLine();
+				}
 
 			buffer.close();
 			fileReader.close();
