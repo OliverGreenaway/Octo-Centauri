@@ -2,13 +2,13 @@ package state;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.File;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class Structure {
+public class Dude {
 	/**
-	 * The coordinates of the tile under the bottom corner of the structure.
+	 * The coordinates of the tile under the bottom corner of the dude.
 	 */
 	private int x, y;
 	private int TILE_HEIGHT = 32;
@@ -30,13 +30,11 @@ public class Structure {
 	public int getHeight() {return height;}
 	public Image getImage() {return image;}
 
-	public Structure(int x, int y, int width, int height, String image) {
+	public Dude(int x, int y, int width, int height, String image) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		File imgFile = new File(image);
-		assert(imgFile.exists());
 		this.image = new ImageIcon(image).getImage();
 	}
 
