@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * Stores everything in the game.
+ */
 public class World {
 	private Tile[][] worldTile;
 
@@ -14,6 +17,9 @@ public class World {
 
 	private Set<Dude> allDudes = new HashSet<Dude>();
 
+	/**
+	 * Returns a random tile name.
+	 */
 	public String generateRandomTile(){
 		int rand = random.nextInt(5);
 		if(rand==1)
@@ -27,17 +33,20 @@ public class World {
 		else
 			return "Grass";
 	}
-	
-	
-	
+
+
+
+	/**
+	 * Creates a 100x100 world with random tiles.
+	 */
 	public World(){
 		worldTile = new Tile[100][100];
 		for(int x = 0; x < 100; x++)
 			for(int y = 0; y < 100; y++) {
 				if (random.nextInt(2) == 1)
-					worldTile[x][y] = new Tile(generateRandomTile(),0);
+					worldTile[x][y] = new Tile(generateRandomTile(),0,x,y);
 				else
-					worldTile[x][y] = new Tile(generateRandomTile(),1);
+					worldTile[x][y] = new Tile(generateRandomTile(),1,x,y);
 			}
 
 		for(int x = 3; x < 100; x += 1){
@@ -49,13 +58,16 @@ public class World {
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
+	/**
+	 * Creates a world from a tile array.
+	 */
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	/**
-	 * Adds a structure to all tiles it overlaps and returns true.
+	 * Adds a structure to the world and returns true.
 	 * If the structure can't be placed, returns false without changing anything.
 	 */
 	public boolean addStructure(Structure s) {
@@ -82,7 +94,7 @@ public class World {
 
 
 	/**
-	 * Adds a dude to all tiles it overlaps and returns true.
+	 * Adds a dude to the world and returns true.
 	 * If the dude can't be placed, returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
@@ -107,22 +119,39 @@ public class World {
 		return true;
 	}
 
+	/**
+	 * Returns a tile at given coordinates.
+	 * Throws an exception if coordinates are invalid.
+	 */
 	public Tile getTile(int x, int y) {
 		return worldTile[x][y];
 	}
 
+	/**
+	 * Sets a tile at given coordinates.
+	 * Throws an exception if coordinates are invalid.
+	 */
 	public void setTile(int x, int y, Tile t) {
 		worldTile[x][y] = t;
 	}
 
+	/**
+	 * Returns the size of the world in the X direction.
+	 */
 	public int getXSize() {
 		return worldTile.length;
 	}
 
+	/**
+	 * Returns the size of the world in the Y direction.
+	 */
 	public int getYSize() {
 		return worldTile[0].length;
 	}
 
+	/**
+	 * Updates everything in the world.
+	 */
 	public void update() {
 		for(Dude d : allDudes)
 			d.update();
