@@ -95,6 +95,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 		//right hand pane
 		g.fillRect(getWidth() - 25, 0, 50, getHeight()-(getHeight()/4));
 		g.fillRect(25, 0, getWidth(), 25);
+		g.setColor(Color.red);
 
 		g.fillOval(mouseX - 10, mouseY - 20, 20, 20);
 
@@ -187,16 +188,32 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		Point p = e.getPoint();
 
-		SwingUtilities.convertPointFromScreen(p,display); // Adjusts point visually
+		//SwingUtilities.convertPointFromScreen(p,display); // Adjusts point visually
 
 		System.out.println(p.getX() + " " + p.getY());
 		mouseX = p.x;
 		mouseY = p.y;
 
+
+		int endX = mouseX - 960;
+
+
+		double cx =  Math.cos(Math.toRadians(-30));  //.8509035245; // cos 45 also sin 45
+		double sx =  Math.sin(Math.toRadians(-60)); // .8509035245; // cos 45 also sin 45
+
+		double newX = (cx*endX) - (sx*mouseY);
+		double newY = (sx*endX) + (cx*mouseY);
+
+		System.out.println("trig: " + (int)(newX/32) + " " +(int)(newY/32));
+
+
+
 		int [] cameraPoint = display.getCameraCoordinates();
-		if(mouseX < 960){//left side of the screen
-//			xSquare = 960 - mouse_X;
-		}
+
+//
+//		if(mouseX < 960){//left side of the screen
+////			xSquare = 960 - mouseX;
+//		}
 
 
 
