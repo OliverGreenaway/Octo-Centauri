@@ -2,9 +2,16 @@ package state;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.ColorModel;
+import java.awt.image.CropImageFilter;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageConsumer;
+import java.util.Hashtable;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class Dude {
 	/**
@@ -18,12 +25,17 @@ public class Dude {
 	/**
 	 * Size of the structure, in tiles.
 	 */
+
+	private final int FORWARD = 0, LEFT = 1, RIGHT = 3, BACK = 2;
+
 	private int width, height;
+	private int facing = FORWARD;
+	private Image[] images = new  Image[4];
 
 	/**
 	 * The structure's image.
 	 */
-	private Image image;
+	//private Image image;
 
 	private World world;
 
@@ -31,15 +43,28 @@ public class Dude {
 	public int getY() {return y;}
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}
-	public Image getImage() {return image;}
+	public Image getImage() {
+		return images[facing];
+		}
 
 	public Dude(World world, int x, int y, int width, int height, String image) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.image = new ImageIcon(image).getImage();
+		//this.image = new ImageIcon(image).getImage();
 		this.world = world;
+		JPanel panel = new JPanel();
+
+		int num_images = NUM_SPRITES/4;
+
+		for (int i = 0; i<4; i++){
+
+			images[i] = new ImageIcon(image).getImage();
+			CropImageFilter filter = new CropImageFilter((images[i].getWidth(null)/NUM_SPRITES)*i*num_images,0,(images[i].getWidth(null)/NUM_SPRITES),images[i].getHeight(null));
+			images[i] = panel.createImage(new FilteredImageSource(images[i].getSource(), filter));
+			//filter.getFilterInstance(new ImageConsumer)
+		}
 	}
 
 	/**
@@ -89,8 +114,9 @@ public class Dude {
 	public void draw(Graphics g, int width, int camx, int camy){
 		int x = this.x - camx;
 		int y = this.y - camy;
-		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
+		int i = (width/2)-(images[facing].getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
 		int j =  (x+y) * (TILE_HEIGHT/ 2) ;
-		g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getWidth(null), null);
+		g.drawImage(images[facing], i, j-images[facing].getHeight(null)-(TILE_HEIGHT/2), images[facing].getWidth(null), images[facing].getHeight(null), null);
+
 	}
 }

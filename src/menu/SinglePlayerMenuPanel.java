@@ -11,10 +11,28 @@ import javax.swing.JPanel;
 public class SinglePlayerMenuPanel extends JPanel {
 
 	private JButton back;
-	//private final JFrame frame;
 
 	public SinglePlayerMenuPanel(final MainFrame frame) {
-		//this.frame = frame;
+		
+		JButton newGame = new JButton("New Game");
+		this.add(newGame);
+		newGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Launch Game
+				
+			}
+		});
+		
+		JButton loadGame = new JButton("Load Game");
+		this.add(loadGame);
+		loadGame.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Load Game
+			}
+		});
+		
 		back = new JButton("Back");
 		this.add(back);
 		back.addActionListener(new ActionListener() {
