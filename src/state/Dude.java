@@ -11,6 +11,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -29,11 +30,11 @@ public class Dude {
 	 * Size of the structure, in tiles.
 	 */
 
-	private final int FORWARD = 0, LEFT = 1, RIGHT = 3, BACK = 2; // Numerical constants for facing
+	private final int UP = 0, LEFT = 1, RIGHT = 3, DOWN = 2; // Numerical constants for facing
 		// NOTE: Usable as images array indices
 
 	private int width, height; // ???
-	private int facing = FORWARD; // Facing constant
+	private int facing = UP; // Facing constant
 	private Image[] images = new  Image[4]; // A single image stored per facing
 
 	/**
@@ -98,6 +99,7 @@ public class Dude {
 		// Load Images
 		int num_images = NUM_SPRITES/4; // NOTE: Currently skips out all but first image of each facing
 
+		try{
 		for (int i = 0; i<4; i++){ // Iterate through facings --> Load an image into each facing
 			// For animations this code will need to be extended to include an array of images per facing
 			// Idea: Make images double array?
@@ -105,6 +107,9 @@ public class Dude {
 			images[i] = new ImageIcon(image).getImage();
 			CropImageFilter filter = new CropImageFilter((images[i].getWidth(null)/NUM_SPRITES)*i*num_images,0,(images[i].getWidth(null)/NUM_SPRITES),images[i].getHeight(null));
 			images[i] = panel.createImage(new FilteredImageSource(images[i].getSource(), filter));
+		}
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -149,10 +154,22 @@ public class Dude {
 	public void update() {
 		// move randomly
 		int r = new Random().nextInt(4);
-		if(r == 0) move(x+1, y);
-		if(r == 1) move(x-1, y);
-		if(r == 2) move(x, y+1);
-		if(r == 3) move(x, y-1);
+		if(r == 0) {
+			move(x+1, y);
+			facing = RIGHT;
+		}
+		if(r == 1){
+			move(x-1, y);
+			facing = LEFT;
+		}
+		if(r == 2){
+			move(x, y+1);
+			facing = DOWN;
+		}
+		if(r == 3){
+			move(x, y-1);
+			facing = UP;
+		}
 	}
 
 	/**
@@ -165,8 +182,8 @@ public class Dude {
 	public void draw(Graphics g, int width, int camx, int camy){
 
 		// Tile coordinates of The Dude (x,y)
-		int x = this.x - camx;
-		int y = this.y - camy;
+		int x = this.x - camx +1;
+		int y = this.y - camy +1;
 
 		// Pixel coordinates (on screen) of the Dude (i,j)
 		int i = (width/2)-(images[facing].getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
