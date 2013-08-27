@@ -1,3 +1,4 @@
+package UI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -10,6 +11,9 @@ import java.util.Random;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import javax.swing.SwingUtilities;
+
 
 import logic.FileReader;
 
