@@ -37,9 +37,9 @@ public class Display extends JPanel{
 		paintMap(g);
 	}
 
-//	public int[] getCameraCoordinates(){
-//		return new int[]{camera.x,camera.y};
-//	}
+	public int[] getCameraCoordinates(){
+		return new int[]{camera.x,camera.y};
+	}
 
 //	public void setCameraCoordinates(int[] coord){
 //		camera = new Coord(coord[0],coord[1]);
@@ -94,8 +94,8 @@ public class Display extends JPanel{
 				 */
 
 				// Translated tile coordinates to account for raised elevations (i,j)
-				int i = x + t.getHeight();
-				int	j = y + t.getHeight();
+				int i = x - t.getHeight();
+				int	j = y - t.getHeight();
 
 				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
 				if(t.getStructure() != null){ // If there is a structure in the tile --> DRAW HE/SHE/IT!
