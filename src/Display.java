@@ -3,7 +3,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import state.Tile;
-import state.TileInterface;
 import state.World;
 
 public class Display extends JPanel{
@@ -89,7 +88,7 @@ public class Display extends JPanel{
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
-				TileInterface t = world.getTile(x+camera.x,y+camera.y);
+				Tile t = world.getTile(x+camera.x,y+camera.y);
 				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
 
 

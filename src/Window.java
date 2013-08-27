@@ -15,7 +15,6 @@ import logic.FileReader;
 import logic.Logic;
 
 import state.Tile;
-import state.TileInterface;
 import state.World;
 
 
@@ -58,7 +57,7 @@ public class Window extends JFrame implements KeyListener, MouseListener {
 
 
 
-		TileInterface[][] map = FileReader.readMap("resources/map");
+		Tile[][] map = FileReader.readMap("resources/map");
 
 
 //		for(int i = 0; i < 200; i++){

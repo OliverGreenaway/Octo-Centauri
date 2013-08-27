@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class World {
-	private TileInterface[][] worldTile;
+	private Tile[][] worldTile;
 
 	private Random random = new Random();
 
@@ -47,7 +47,7 @@ public class World {
 		addDude(new Dude(7, 7, 1, 1, "Assets/Man.png"));
 	}
 
-	public World(TileInterface[][] tiles) {
+	public World(Tile[][] tiles) {
 		worldTile = tiles;
 	}
 
@@ -77,7 +77,6 @@ public class World {
 		return true;
 	}
 
-	public TileInterface getTile(int x, int y) {
 	/**
 	 * Adds a dude to all tiles it overlaps and returns true.
 	 * If the dude can't be placed, returns false without changing anything.

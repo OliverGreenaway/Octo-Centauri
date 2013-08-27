@@ -17,7 +17,6 @@ import java.util.Scanner;
 
 import state.Structure;
 import state.Tile;
-import state.TileInterface;
 import state.World;
 
 
@@ -65,9 +64,9 @@ public class FileReader {
 	 * @param filename - map file to read from.
 	 * @return - a 2D array of TileInterface.
 	 */
-	public static TileInterface[][] readMap(String filename){
+	public static Tile[][] readMap(String filename){
 		File file = new File(filename);
-		TileInterface[][] tiles = null;
+		Tile[][] tiles = null;
 		structures = new ArrayList<Structure>();
 
 		try{
@@ -82,7 +81,7 @@ public class FileReader {
 			int y = Integer.parseInt(lineScan.next());
 			System.out.println(y);
 
-			tiles = new TileInterface[x][y];
+			tiles = new Tile[x][y];
 			String line2 = buffer.readLine();
 			System.out.println("Line:" +line2);
 			lineScan = new Scanner(line2);
