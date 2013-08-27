@@ -36,7 +36,7 @@ public class World {
 					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
 				}
 		}
-		addDude(new Dude(7, 7, 1, 1, "Assets/Man.png"));
+		addDude(new Dude(this,7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	public World(Tile[][] tiles) {
@@ -94,7 +94,7 @@ public class World {
 		return true;
 	}
 
-	public TileInterface getTile(int x, int y) {
+	public Tile getTile(int x, int y) {
 		return worldTile[x][y];
 	}
 
