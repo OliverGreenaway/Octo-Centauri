@@ -11,7 +11,7 @@ public class Display extends JPanel{
 
 	// FIELDS
 	private final Dimension DIMENSION = new Dimension(1920,1080);
-	private final int VIEW_WIDTH = 30, VIEW_HEIGHT = 30;	// Camera = 60x60
+	private final int VIEW_WIDTH = 70, VIEW_HEIGHT = 70;	// Camera = 60x60
 
 	private World world;
 
@@ -44,30 +44,30 @@ public class Display extends JPanel{
 //	}
 
 	public void panLeft(int idx) {
-		if (camera.x - idx < 0) {// Catch if out of bounds
-			return;
-		}
+//		if (camera.x - idx < 0) {// Catch if out of bounds
+//			return;
+//		}
 		camera = new Coord(camera.x - idx, camera.y);
 	}
 
 	public void panRight(int idx) {
-		if (camera.x + 29 + idx >= world.getXSize()) {// Catch if out of bounds
-			return;
-		}
+//		if (camera.x + 29 + idx >= world.getXSize()) {// Catch if out of bounds
+//			return;
+//		}
 		camera = new Coord(camera.x + idx, camera.y);
 	}
 
 	public void panDown(int idy) {
-		if (camera.y + 29 + idy >= world.getYSize()) {//ap.length) Catch if out of bounds
-			return;
-		}
+//		if (camera.y + 29 + idy >= world.getYSize()) {//ap.length) Catch if out of bounds
+//			return;
+//		}
 		camera = new Coord(camera.x, camera.y + idy);
 	}
 
 	public void panUp(int idy) {
-		if (camera.y - idy < 0) {// Catch if out of bounds
-			return;
-		}
+//		if (camera.y - idy < 0) {// Catch if out of bounds
+//			return;
+//		}
 		camera = new Coord(camera.x, camera.y - idy);
 	}
 
@@ -88,7 +88,9 @@ public class Display extends JPanel{
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
+				try{
 				Tile t = world.getTile(x+camera.x,y+camera.y);
+				if(t!=null){
 				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
 
 
@@ -112,6 +114,11 @@ public class Display extends JPanel{
 				if(t.getDude() != null){ // If there is a dude in the tile --> DRAW THEM!
 					t.getDude().draw(g, this.getWidth(),camera.x,camera.y);
 				}
+
+				}
+				}
+				catch(Exception e){}
+
 			}
 		}
 	}
