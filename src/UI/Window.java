@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import logic.FileReader;
 
 import logic.Logic;
+
 import logic.UpdateThread;
 
 import state.World;
@@ -57,19 +58,23 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			return "tile0";
 	}
 
-	public void initialize() {
-		/*Removed in favour of the map loading
-		Tile[][] map = FileReader.readMap("resources/map");
-		for (int i = 0; i < 200; i++) { //Removed
-			for (int j = 0; j < 200; j++) {
-				map[i][j] = new Tile(generateRandomTile());
-			}
-		}
-		 */
+
+	public void initialize(){
+		//Was code to randomly generate a map.  Replaced now by reading a map from a file.
+		//Tile[][] map = FileReader.readMap("resources/map");
+
+
+//		for(int i = 0; i < 200; i++){
+//			for(int j = 0; j < 200; j++){
+//				map[i][j] = new Tile(generateRandomTile());
+//			}
+//		}
+
 
 		// set up menu
 
 
+		//Create a new world with the map read from the file.
 		World world = new World(FileReader.readMap("resources/map"));
 		display = new Display(world); // was just new World()
 		FileReader.setStructures(world); // Set up the structures that the file

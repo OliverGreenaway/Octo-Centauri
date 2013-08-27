@@ -10,6 +10,6 @@ public abstract class Update implements Serializable{
 
 	//private static final long serialVersionUID = 1L;
 
-//	public abstract void doUpdate(NetworkNode node) ;
+	//	public abstract void doUpdate(NetworkNode node) ;
 }
 
