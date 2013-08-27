@@ -181,7 +181,7 @@ public class Dude implements Serializable{
 	 * @param camx The camera X.
 	 * @param camy The camera Y.
 	 */
-	public void draw(Graphics g, int width, int camx, int camy){
+	public void draw(Graphics g, int width, int height, int camx, int camy){
 
 		// Tile coordinates of The Dude (x,y)
 		int x = this.x - camx +1;
@@ -189,7 +189,7 @@ public class Dude implements Serializable{
 
 		// Pixel coordinates (on screen) of the Dude (i,j)
 		int i = (width/2)-(images[facing].getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
-		int j =  (x+y) * (TILE_HEIGHT/ 2) -images[facing].getHeight(null)-(TILE_HEIGHT/2);
+		int j =  (x+y) * (TILE_HEIGHT/ 2) -images[facing].getHeight(null)-(TILE_HEIGHT/2) - height;
 		// Draw image at (i,j)
 		g.drawImage(images[facing], i, j, images[facing].getWidth(null), images[facing].getHeight(null), null);
 

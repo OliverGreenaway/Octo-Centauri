@@ -13,6 +13,9 @@ public class Display extends JPanel{
 	private final Dimension DIMENSION = new Dimension(1920,1080);
 	private final int VIEW_WIDTH = 70, VIEW_HEIGHT = 70;	// Camera = 60x60
 
+	private final int SCREEN_Y_DISPLACEMENT = 490; // Arbitrary y axis displacement
+	private final int SCREEN_BUFFER_ZONE = 20; // Arbitrary screen edge buffer
+
 	private World world;
 
 	//pixel size of each tile
@@ -44,30 +47,30 @@ public class Display extends JPanel{
 //	}
 
 	public void panLeft(int idx) {
-//		if (camera.x - idx < 0) {// Catch if out of bounds
-//			return;
-//		}
+		if (camera.x - idx + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
+			return;
+		}
 		camera = new Coord(camera.x - idx, camera.y);
 	}
 
 	public void panRight(int idx) {
-//		if (camera.x + 29 + idx >= world.getXSize()) {// Catch if out of bounds
-//			return;
-//		}
+		if (camera.x + idx + SCREEN_BUFFER_ZONE>= world.getXSize()) {// Catch if out of bounds
+			return;
+		}
 		camera = new Coord(camera.x + idx, camera.y);
 	}
 
 	public void panDown(int idy) {
-//		if (camera.y + 29 + idy >= world.getYSize()) {//ap.length) Catch if out of bounds
-//			return;
-//		}
+		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {//ap.length) Catch if out of bounds
+			return;
+		}
 		camera = new Coord(camera.x, camera.y + idy);
 	}
 
 	public void panUp(int idy) {
-//		if (camera.y - idy < 0) {// Catch if out of bounds
-//			return;
-//		}
+		if (camera.y - idy + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
+			return;
+		}
 		camera = new Coord(camera.x, camera.y - idy);
 	}
 
@@ -105,14 +108,14 @@ public class Display extends JPanel{
 				int i = x - t.getHeight();
 				int	j = y - t.getHeight();
 				//displays each tile
-				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
+				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2)-SCREEN_Y_DISPLACEMENT, TILE_WIDTH, t.getImage().getHeight(null), null);
 
 				if(t.getStructure() != null){ // If there is a structure in the tile --> DRAW HE/SHE/IT!
-					t.getStructure().draw(g, this.getWidth(),camera.x,camera.y);
+					t.getStructure().draw(g, this.getWidth(),SCREEN_Y_DISPLACEMENT,camera.x,camera.y);
 				}
 
 				if(t.getDude() != null){ // If there is a dude in the tile --> DRAW THEM!
-					t.getDude().draw(g, this.getWidth(),camera.x,camera.y);
+					t.getDude().draw(g, this.getWidth(),SCREEN_Y_DISPLACEMENT,camera.x,camera.y);
 				}
 
 				}
