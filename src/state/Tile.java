@@ -1,6 +1,8 @@
 package state;
 import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+
 import javax.swing.ImageIcon;
 
 public class Tile implements TileInterface{
@@ -17,6 +19,8 @@ public class Tile implements TileInterface{
 
 	public Tile(String type){
 		img = new ImageIcon("Assets/Environment_Tiles/"+type+".png").getImage();
+		File tileFile = new File("Assets/Environment_Tiles/"+type+".png");
+		assert(tileFile.exists());
 		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
 		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
 	}

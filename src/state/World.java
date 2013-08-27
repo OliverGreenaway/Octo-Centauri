@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class World {
-	private Tile[][] worldTile;
+	private TileInterface[][] worldTile;
 
 	private Random random = new Random();
 
@@ -45,7 +45,7 @@ public class World {
 			}
 	}
 
-	public World(Tile[][] tiles) {
+	public World(TileInterface[][] tiles) {
 		worldTile = tiles;
 	}
 
@@ -62,8 +62,10 @@ public class World {
 		// check for overlap
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
-				if(worldTile[x-X][y-Y].getStructure() != null)
+				if(worldTile[x-X][y-Y].getStructure() != null){
+					System.out.println("Cannot add structure: overlap");
 					return false; // can't have two structures on one tile
+				}
 
 		// place the structure
 		for(int X = 0; X < w; X++)
@@ -73,7 +75,7 @@ public class World {
 		return true;
 	}
 
-	public Tile getTile(int x, int y) {
+	public TileInterface getTile(int x, int y) {
 		return worldTile[x][y];
 	}
 
