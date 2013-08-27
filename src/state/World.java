@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import logic.GameUpdate;
+
 /**
  * Stores everything in the game.
  */
@@ -12,6 +14,8 @@ public class World {
 
 	long seed = System.currentTimeMillis();
 	private Random random = new Random(seed);
+
+	private GameUpdate gameUpdate; //the current game update object to send changes to
 
 	private Set<Dude> allDudes = new HashSet<Dude>();
 
@@ -131,6 +135,7 @@ public class World {
 	 */
 	public void setTile(int x, int y, Tile t) {
 		worldTile[x][y] = t;
+		gameUpdate.changedTileColour(t);
 	}
 
 	/**
@@ -153,5 +158,9 @@ public class World {
 	public void update() {
 		for(Dude d : allDudes)
 			d.update();
+	}
+
+	public void setGameUpdate(GameUpdate g){
+		gameUpdate = g;
 	}
 }

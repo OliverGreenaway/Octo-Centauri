@@ -94,11 +94,11 @@ public class Structure implements Serializable {
 	 * @param camx The camera X.
 	 * @param camy The camera Y.
 	 */
-	public void draw(Graphics g, int width, int camx, int camy){
+	public void draw(Graphics g, int width, int height, int camx, int camy){
 		int x = this.x - camx; //tile coords of structure
 		int y = this.y - camy; //tile coords of structure
 		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2); //pixel coords of the structure
-		int j =  (x+y) * (TILE_HEIGHT/ 2) ;									 //pixel coords of the structure
+		int j =  (x+y) * (TILE_HEIGHT/ 2) - height ;									 //pixel coords of the structure
 		//draws the structure at (i,j) using the images dimensions to find its final dimension
 		g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getHeight(null), null);
 	}
