@@ -36,6 +36,7 @@ public class Dude {
 		this.width = width;
 		this.height = height;
 		this.image = new ImageIcon(image).getImage();
+
 	}
 
 	public void draw(Graphics g, int width, int camx, int camy){

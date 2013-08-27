@@ -31,19 +31,14 @@ public class World {
 			}
 
 
-		for(int x = 3; x < 100; x += 5)
-			for(int y = 3; y < 100; y += 5) {
-				if(random.nextBoolean())
+		for(int x = 3; x < 100; x += 1)
+			for(int y = 3; y < 100; y += 1) {
+				if(random.nextInt(20)==1)
 					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
-				else {
-					for(int dx = -2; dx <= 0; dx++) {
-						for(int dy = -2; dy <= 0; dy++) {
-							addStructure(new Structure(x+dx, y+dy, 1, 1, "Assets/Templates/TileTemplate.png"));
-						}
-					}
+
 				}
 			}
-	}
+
 
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
@@ -71,6 +66,10 @@ public class World {
 				worldTile[x-X][y-Y].setStructure(s);
 
 		return true;
+	}
+
+	public void generateARandomDude(){
+
 	}
 
 	public Tile getTile(int x, int y) {

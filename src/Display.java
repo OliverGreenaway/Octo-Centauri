@@ -105,10 +105,10 @@ public class Display extends JPanel{
 				if(t.getStructure() != null){
 					t.getStructure().draw(g, this.getWidth(),camera.x,camera.y);
 				}
+				if(t.getDude() != null){
+					t.getDude().draw(g, this.getWidth(),camera.x,camera.y);
+				}
 			}
 		}
 	}
-
-
-
 }
