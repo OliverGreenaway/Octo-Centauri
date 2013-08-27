@@ -19,9 +19,6 @@ public class Display extends JPanel{
 	private Coord camera = new Coord(0,0); // ARBITRARY START POINT
 			// Camera stores coord of topmost tile
 
-	/**
-	 *
-	 */
 
 	// CONSTRUCTOR
 	public Display(World world){
