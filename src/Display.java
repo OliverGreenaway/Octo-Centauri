@@ -98,7 +98,13 @@ public class Display extends JPanel{
 
 				//int i = (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2);//-TILE_WIDTH; //?? - TILE_WIDTH ??
 				//int j =  (x+y) * (TILE_HEIGHT/ 2) ;
-				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2), (x+y) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
+				int i = x;
+				int	j = y;
+
+				i += t.getHeight();
+				j += t.getHeight();
+
+				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
 				if(t.getStructure() != null){
 					t.getStructure().draw(g, this.getWidth(),camera.x,camera.y);
 				}
