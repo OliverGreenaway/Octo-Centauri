@@ -1,3 +1,4 @@
+package logic;
 import networking.common.Update;
 
 /**
@@ -7,6 +8,7 @@ import networking.common.Update;
  *
  */
 public class GameUpdate extends Update {
+	public long serialVersionUID = 748279847839274987L;
 
 	public GameUpdate() {
 		// TODO Auto-generated constructor stub

@@ -104,6 +104,7 @@ public class FileReader {
 						int charInt = lineReader.read();
 						char c = (char)charInt;
 						String symb = Character.toString(c);
+						System.out.println("Symbol: "+symb);
 						assert(symbols.get(symb) != null);
 						tiles[row][col] = new Tile(symbols.get(symb),0, row, col);
 					}
@@ -113,24 +114,26 @@ public class FileReader {
 				buffer.readLine();
 				int numLines = Integer.parseInt(buffer.readLine());
 				String line = buffer.readLine();
+				Scanner lineScanner = null;
 				while(numLines > 0){
-					Scanner lineScanner = new Scanner(line);
+					lineScanner = new Scanner(line);
 					lineScanner.useDelimiter("\\s");
 					String fileName = lineScanner.next();
 					while(lineScanner.hasNext()){
 						int strucX = Integer.parseInt(lineScanner.next());
 						int strucY = Integer.parseInt(lineScanner.next());
-						Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/Environment_Tiles/" +fileName+ ".png");
+						Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/EnvironmentTiles/" +fileName+ ".png");
 						structures.add(temp);;
 					}
 					numLines--;
 					line = buffer.readLine();
 				}
+				lineScanner.close();
 			//read height
 				System.out.println(line);
 				numLines = Integer.parseInt(line);
 				line = buffer.readLine();
-				Scanner lineScanner = null;
+				lineScanner = null;
 				while(numLines > 0){
 					lineScanner = new Scanner(line);
 					lineScanner.useDelimiter("\\s");
