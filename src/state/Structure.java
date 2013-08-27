@@ -2,7 +2,7 @@ package state;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.Random;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 
@@ -35,6 +35,8 @@ public class Structure {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		File imgFile = new File(image);
+		assert(imgFile.exists());
 		this.image = new ImageIcon(image).getImage();
 	}
 
