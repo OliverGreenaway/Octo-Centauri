@@ -85,6 +85,7 @@ public class FileReader {
 
 			String line2 = buffer.readLine(); //Read the second line which specifies mapping from symbols to images
 			tiles = new Tile[x][y];
+
 			System.out.println("Line:" +line2);
 			lineScan = new Scanner(line2);
 			lineScan.useDelimiter(",");
@@ -104,7 +105,7 @@ public class FileReader {
 						char c = (char)charInt;
 						String symb = Character.toString(c);
 						assert(symbols.get(symb) != null);
-						tiles[row][col] = new Tile(symbols.get(symb));
+						tiles[row][col] = new Tile(symbols.get(symb),0);
 						tiles[row][col].setX(row);
 						tiles[row][col].setY(col);
 					}
