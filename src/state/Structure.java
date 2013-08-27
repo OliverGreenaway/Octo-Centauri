@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  * Stores information about a structure.
@@ -77,7 +78,11 @@ public class Structure {
 		this.height = height;
 		File imgFile = new File(image);
 		assert(imgFile.exists());
+		try{
 		this.image = new ImageIcon(image).getImage();
+		} catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
 	/**
