@@ -3,7 +3,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import state.Tile;
-import state.TileInterface;
 import state.World;
 
 public class Display extends JPanel{
@@ -89,7 +88,7 @@ public class Display extends JPanel{
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
-				TileInterface t = world.getTile(x+camera.x,y+camera.y);
+				Tile t = world.getTile(x+camera.x,y+camera.y);
 				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
 
 
@@ -100,8 +99,8 @@ public class Display extends JPanel{
 				 * Bask in it's majesty and awe-inspiring splendour.
 				 */
 
-				int i = (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2);//-TILE_WIDTH; //?? - TILE_WIDTH ??
-				int j =  (x+y) * (TILE_HEIGHT/ 2) ;
+				//int i = (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2);//-TILE_WIDTH; //?? - TILE_WIDTH ??
+				//int j =  (x+y) * (TILE_HEIGHT/ 2) ;
 				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (x-y) * (TILE_WIDTH/2), (x+y) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
 				if(t.getStructure() != null){
 					t.getStructure().draw(g, this.getWidth(),camera.x,camera.y);
