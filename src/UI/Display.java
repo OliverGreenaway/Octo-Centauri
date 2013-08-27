@@ -15,6 +15,7 @@ public class Display extends JPanel{
 
 	private World world;
 
+	//pixel size of each tile
 	private final int TILE_WIDTH = 64, TILE_HEIGHT = 32;
 
 
@@ -96,11 +97,13 @@ public class Display extends JPanel{
 				// Translated tile coordinates to account for raised elevations (i,j)
 				int i = x - t.getHeight();
 				int	j = y - t.getHeight();
-
+				//displays each tile
 				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2), TILE_WIDTH, t.getImage().getHeight(null), null);
+
 				if(t.getStructure() != null){ // If there is a structure in the tile --> DRAW HE/SHE/IT!
 					t.getStructure().draw(g, this.getWidth(),camera.x,camera.y);
 				}
+
 				if(t.getDude() != null){ // If there is a dude in the tile --> DRAW THEM!
 					t.getDude().draw(g, this.getWidth(),camera.x,camera.y);
 				}
