@@ -270,9 +270,10 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			}else{
 				Tile t = new Tile("BarrenWall",1, x,y);
 				display.getWorld().setTile(x, y, t);
-//			}
-		}
+			}
+
 		this.repaint();
+
 	}
 
 	@Override
