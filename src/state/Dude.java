@@ -13,6 +13,7 @@ public class Dude {
 	private int x, y;
 	private int TILE_HEIGHT = 32;
 	private int TILE_WIDTH = 64;
+	private int NUM_SPRITES = 16;
 
 	/**
 	 * Size of the structure, in tiles.
