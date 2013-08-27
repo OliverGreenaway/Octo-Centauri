@@ -18,12 +18,13 @@ public class Tile {
 	private Dude dude;
 
 
-	public Tile(String type){
+	public Tile(String type,int ht){
 		img = new ImageIcon("Assets/Environment_Tiles/"+type+".png").getImage();
 		File tileFile = new File("Assets/Environment_Tiles/"+type+".png");
 		assert(tileFile.exists());
 		leftSideImg = new ImageIcon("Assets/Environment Tiles/WestFacingDirt.png").getImage();
 		rightSideImg = new ImageIcon("Assets/Environment Tiles/EastFacingDirt.png").getImage();
+		height = ht;
 	}
 
 	public Image getImage(){

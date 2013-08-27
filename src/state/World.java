@@ -34,7 +34,10 @@ public class World {
 		worldTile = new Tile[100][100];
 		for(int x = 0; x < 100; x++)
 			for(int y = 0; y < 100; y++) {
-				worldTile[x][y] = new Tile(generateRandomTile());
+				if (random.nextInt(2) == 1)
+					worldTile[x][y] = new Tile(generateRandomTile(),0);
+				else
+					worldTile[x][y] = new Tile(generateRandomTile(),1);
 			}
 
 		for(int x = 3; x < 100; x += 1){
@@ -43,12 +46,12 @@ public class World {
 					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
 				}
 			}
-
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Man.png"));
 	}
 
 	/**
