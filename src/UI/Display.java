@@ -46,6 +46,10 @@ public class Display extends JPanel{
 //		camera = new Coord(coord[0],coord[1]);
 //	}
 
+	public World getWorld(){
+		return world;
+	}
+
 	public void panLeft(int idx) {
 		if (camera.x - idx + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
 			return;
