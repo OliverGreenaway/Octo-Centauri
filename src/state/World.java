@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class World {
-	private TileInterface[][] worldTile;
+	private Tile[][] worldTile;
 
 	private Random random = new Random();
 
@@ -30,19 +30,16 @@ public class World {
 				worldTile[x][y] = new Tile(generateRandomTile());
 			}
 
-
 		for(int x = 3; x < 100; x += 1){
 			for(int y = 3; y < 100; y += 1) {
 				if(random.nextInt(20)==1)
 					addStructure(new Structure(x, y, 3, 3, "Assets/Environment Objects/dark-tree.png"));
-
 				}
-			}
-
-	addDude(new Dude(7, 7, 1, 1, "Assets/Man.png"));
+		}
+		addDude(new Dude(7, 7, 1, 1, "Assets/Man.png"));
 	}
 
-	public World(TileInterface[][] tiles) {
+	public World(Tile[][] tiles) {
 		worldTile = tiles;
 	}
 
@@ -71,8 +68,6 @@ public class World {
 
 		return true;
 	}
-
-	public TileInterface getTile(int x, int y) {
 	/**
 	 * Adds a dude to all tiles it overlaps and returns true.
 	 * If the dude can't be placed, returns false without changing anything.
@@ -87,7 +82,7 @@ public class World {
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
 				if(worldTile[x-X][y-Y].getDude() != null)
-					return false; // can't have two structures on one tile
+					return false; // can't have two structures on one tile <--The best comment! =)
 
 		// place the structure
 		for(int X = 0; X < w; X++)
