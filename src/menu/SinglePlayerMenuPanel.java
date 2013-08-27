@@ -21,35 +21,37 @@ public class SinglePlayerMenuPanel extends JPanel {
 		/*
 		 * Launches a new game, randomly generated from a seed
 		 */
-		JButton newGame = new JButton("New Game");
-		this.add(newGame);
-		newGame.addActionListener(new ActionListener() {
+		ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.addMenu(new Window());
 			}
-		});
+		};
+		
+		MainFrame.addButton(frame, this, listener, "NewGameButton", 0);
+		
 		/*
 		 * Brings up a file chooser and loads the game from file.
 		 */
-		JButton loadGame = new JButton("Load Game");
-		this.add(loadGame);
-		loadGame.addActionListener(new ActionListener() {
+		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Load Game
+				frame.addMenu(new Window());
 			}
-		});
-
-		JButton back = new JButton("Back");
-
-		this.add(back);
-		back.addActionListener(new ActionListener() {
+		};
+		
+		MainFrame.addButton(frame, this, listener, "LoadGameButton", 0);
+		
+		/*
+		 * back
+		 */
+		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.back();
-
 			}
-		});
+		};
+		
+		MainFrame.addButton(frame, this, listener, "BackButton", 0);
 	}
 }
