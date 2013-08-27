@@ -233,10 +233,11 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 			//set tile to be somthing
 			if(e.getButton()==3){
+				//Dude d = new Dude("")
 				Tile t = new Tile("DarkTree",0, x,y);
 				display.getWorld().setTile(x, y, t);
 			}else{
-				Tile t = new Tile("BarrenWall",0, x,y);
+				Tile t = new Tile("BarrenWall",1, x,y);
 				display.getWorld().setTile(x, y, t);
 			}
 		}
