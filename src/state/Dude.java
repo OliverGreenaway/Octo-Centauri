@@ -125,11 +125,13 @@ public class Dude implements Serializable{
 		if(newX-width < -1 || newY-height < -1 || newX >= world.getXSize() || newY >= world.getYSize())
 			return false;
 
-		// check for overlap with other dudes
+		// check for overlap with other dudes, and invalid moves
 		for(int X = 0; X < width; X++)
 			for(int Y = 0; Y < height; Y++) {
 				Tile tile = world.getTile(x-X, y-Y);
 				if(tile.getDude() != null && tile.getDude() != this)
+					return false;
+				if(!canMove(tile, world.getTile(newX-X, newY-Y)))
 					return false;
 			}
 
@@ -147,6 +149,12 @@ public class Dude implements Serializable{
 			for(int Y = 0; Y < height; Y++)
 				world.getTile(x-X, y-Y).setDude(this);
 
+		return true;
+	}
+
+	public boolean canMove(Tile from, Tile to) {
+		if(from.getHeight() < to.getHeight())
+			return false;
 		return true;
 	}
 
@@ -181,7 +189,7 @@ public class Dude implements Serializable{
 	 * @param camx The camera X.
 	 * @param camy The camera Y.
 	 */
-	public void draw(Graphics g, int width, int camx, int camy){
+	public void draw(Graphics g, int width, int height, int camx, int camy){
 
 		// Tile coordinates of The Dude (x,y)
 		int x = this.x - camx +1;
@@ -189,7 +197,7 @@ public class Dude implements Serializable{
 
 		// Pixel coordinates (on screen) of the Dude (i,j)
 		int i = (width/2)-(images[facing].getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
-		int j =  (x+y) * (TILE_HEIGHT/ 2) -images[facing].getHeight(null)-(TILE_HEIGHT/2);
+		int j =  (x+y) * (TILE_HEIGHT/ 2) -images[facing].getHeight(null)-(TILE_HEIGHT/2) - height;
 		// Draw image at (i,j)
 		g.drawImage(images[facing], i, j, images[facing].getWidth(null), images[facing].getHeight(null), null);
 

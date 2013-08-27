@@ -7,8 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import UI.Window;
 /**
- * Allows user to choose between creating a new game from a random seed, or
+ * Prompts user to choose between creating a new game from a random seed, or
  * loading a world from file
  * @author muruphenr , antunomate , richarhayd
  *
@@ -24,7 +26,7 @@ public class SinglePlayerMenuPanel extends JPanel {
 		newGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//frame.addMenu(new Window());
+				frame.addMenu(new Window());
 			}
 		});
 		/*
