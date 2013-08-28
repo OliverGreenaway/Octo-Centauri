@@ -9,8 +9,16 @@ import javax.swing.JPanel;
 
 public class MainMenuPanel extends AbstractMenuPanel {
 
+	//AudioPlayer audioPlayer = new AudioPlayer("timer1.wav", false);
+
+
 	public MainMenuPanel(final MainFrame frame) {
+
+	//	audioPlayer.start();
+
+
 		ActionListener listener = new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.addMenu(new SinglePlayerMenuPanel(frame));
@@ -29,10 +37,13 @@ public class MainMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//audioPlayer.stopPlayer();
 				frame.dispose();
 			}
 		};
 
 		addButton(frame, listener, "QuitButton");
+
+
 	}
 }
