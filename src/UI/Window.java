@@ -28,6 +28,7 @@ import logic.UpdateThread;
 import state.Structure;
 import state.Tile;
 import state.World;
+import util.UIImageStorage;
 
 //TODO Rotate the view by inverting the draw
 //TODO Hovering over the screen will show a tempory bit on the screen
@@ -129,6 +130,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
         update = new UpdateThread(world, display);
         update.start();
 
+
+        UIImageStorage.add("HealthBarsToggle");
 	}
 
 	/**
@@ -359,6 +362,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+
+
 		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
 
 		display.setHighlightedTile(tilePt.x, tilePt.y);
