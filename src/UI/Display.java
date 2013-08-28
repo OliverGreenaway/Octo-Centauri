@@ -115,13 +115,7 @@ public class Display extends JPanel{
 	public Point displayToTileCoordinates(int x, int y) {
 		/*x -= camera.x; y -= camera.y;
 
-		double temp;
-		switch(rotation) {
-		case 0: break;
-		case 3: temp = VIEW_WIDTH-x; x = y; y = temp; break;
-		case 2: x=VIEW_WIDTH-x; y=VIEW_HEIGHT-y; break;
-		case 1: temp = VIEW_HEIGHT-y; y = x; x = temp; break;
-		}
+
 
 		return new Point(getPixelX(x, y), getPixelY(x, y));*/
 
@@ -132,6 +126,14 @@ public class Display extends JPanel{
 		// where the camera is looking
 		int tileX = (int) ((xPlusY + xMinusY) / 2);
 		int tileY = (int) ((xPlusY - xMinusY) / 2);
+
+		int temp;
+		switch(rotation) {
+		case 0: break;
+		case 1: temp = VIEW_WIDTH-tileX; tileX = tileY; tileY = temp; break;
+		case 2: tileX=VIEW_WIDTH-tileX; tileY=VIEW_HEIGHT-tileY; break;
+		case 3: temp = VIEW_HEIGHT-tileY; tileY = x; tileY = temp; break;
+		}
 
 		tileX += camera.x;
 		tileY += camera.y;
