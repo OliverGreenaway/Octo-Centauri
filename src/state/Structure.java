@@ -105,7 +105,7 @@ public class Structure implements Serializable {
 			// TODO Auto-generated catch block
 			System.out.println("Unable to read buffered image of structure: "+e.getMessage());
 		}
-		//bufferedImage = new BufferedImage(imageIcon.getIconWidth(), imageIcon.getIconHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+
 	}
 
 	/**	/**
@@ -118,20 +118,6 @@ public class Structure implements Serializable {
 		return filter;
 	}
 
-//<<<<<<< HEAD
-//	public void draw(Graphics g, int width, int height, int camx, int camy){
-//		int x = this.x - camx; //tile coords of structure
-//		int y = this.y - camy; //tile coords of structure
-//		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2); //pixel coords of the structure
-//		int j =  (x+y) * (TILE_HEIGHT/ 2) - height ;									 //pixel coords of the structure
-//		//draws the structure at (i,j) using the images dimensions to find its final dimension
-//		if(filter != null){
-//			Graphics2D g2d = (Graphics2D) g;
-//			g2d.drawImage(bufferedImage, filter, i, j-image.getHeight(null));
-//		}
-//		else
-//			g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getHeight(null), null);
-//	}
 
 	/**
 	 * Adds a transparency filter to this structure.
@@ -139,7 +125,6 @@ public class Structure implements Serializable {
 	 */
 	public void setFilter(RescaleOp rs){
 		filter = rs;
-		System.out.println("Something");
 	}
 
 	 /** Draws the structure.
@@ -148,9 +133,7 @@ public class Structure implements Serializable {
 	 * @param bottomPixelY The Y coordinate of the bottom corner of the object
 	 */
 	public void draw(Graphics g, int bottomPixelX, int bottomPixelY){
-		g.drawImage(image, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
 		if(filter != null){
-			System.out.println("Transparency draw method");
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.drawImage(bufferedImage, filter, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null));
 		}

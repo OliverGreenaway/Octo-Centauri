@@ -18,6 +18,7 @@ import java.util.Scanner;
 import state.Structure;
 import state.Tile;
 import state.World;
+import util.TileImageStorage;
 
 
 /**
