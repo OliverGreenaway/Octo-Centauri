@@ -65,10 +65,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	private AudioPlayer audioPlayer;
 
+	private Tile selectedTile1;
+	private Tile selectedTile2;
+
 	public Window() {
 		// startAudio(thread);
 		initialize();
-		logic = new Logic(display.getWorld());
+		//logic = new Logic(display.getWorld());
 	}
 
 	/**
@@ -79,7 +82,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	public Window(long seed, Network network, String fileMap,
 			AudioPlayer audioPlayer) {// TODO //mapfile tpye?
 
-		// audioPl
+		this.audioPlayer = audioPlayer;
+
 
 		this.seed = seed;
 		this.network = network;
@@ -94,7 +98,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	/**
 	 * Returns one of two random tiles.
-	 * 
+	 *
 	 * @return String
 	 */
 	public String generateRandomTile() {
@@ -137,12 +141,22 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		UIImageStorage.add("HealthBarsToggle");
 		UIImageStorage.add("NewDudeToggle");
 		UIImageStorage.add("SlugBalancingToggle");
+		// setup audio
+
+		if(audioPlayer!=null){
+			System.out.println("stop");
+			audioPlayer.stopPlayer();
+			audioPlayer = new AudioPlayer("testMusic.wav", true);
+			audioPlayer.start();
+		}
+
+
 	}
 
 	/**
 	 * Draws a basic graphic pane needs actual graphical outlines and suchlike
 	 * -Outdated-
-	 * 
+	 *
 	 * @param Graphics
 	 */
 	public void paint(Graphics g) {
@@ -327,6 +341,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 		} else {
 
+
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
 
@@ -388,13 +403,18 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	}
 
-	/*
-	 * public void displayPath() { System.out.println("HIII!"); if
-	 * (selectedTile1 != null && selectedTile2 != null) { Stack<Tile> route =
-	 * new Logic(display.getWorld()).findRoute( selectedTile1, selectedTile2);
-	 * while (!route.isEmpty()) { Tile t = route.pop(); t.setImage("Path"); } }
-	 * }
-	 */
+	public void displayPath() {
+		System.out.println("HIII!");
+		if (selectedTile1 != null && selectedTile2 != null) {
+			Stack<Tile> route = new Logic(display.getWorld()).findRoute(
+					selectedTile1, selectedTile2);
+			while (!route.isEmpty()) {
+				Tile t = route.pop();
+				t.setImage("Path");
+			}
+		}
+	}
+
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -470,10 +490,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		}
 	}
 
-	public void startAudio(Thread thread) {
-		// TODO We need to implement this
-		AudioPlayer audioplayer = new AudioPlayer("TempInGameSong.wav", true);
-		audioplayer.start();
+
+	public void startAudio(){
+
+
 
 	}
 

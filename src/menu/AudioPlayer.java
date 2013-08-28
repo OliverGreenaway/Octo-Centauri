@@ -128,7 +128,7 @@ public class AudioPlayer extends Thread {
 		a.join();
 		System.out.println("stopped");
 
-		a = new AudioPlayer("laugh.wav", false);
+		a = new AudioPlayer("laugh.wav", true);
 		a.start();
 
 	}
