@@ -80,6 +80,13 @@ public class Logic {
 		neighbours.add(world.getTile(x,y-1));
 		neighbours.add(world.getTile(x,y+1));
 		neighbours.add(world.getTile(x+1,y));
+		List<Tile> toRemove = new ArrayList<Tile>();
+		for(Tile n : neighbours){
+			if(n.getHeight() != tile.getHeight() || n.getDude() != null /* || n.getStructure() != null*/){
+				toRemove.add(n);
+			}
+		}
+		neighbours.removeAll(toRemove);
 //		neighbours.add(tiles[x-1][y-1]);
 //		neighbours.add(tiles[x+1][y+1]);
 //		neighbours.add(tiles[x-1][y+1]);
