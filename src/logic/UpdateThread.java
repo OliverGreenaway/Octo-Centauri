@@ -33,7 +33,7 @@ private GameUpdate gUpdate;
 	 * Every 100 milliseconds, updates the display and the world state.
 	 */
 public void run(){
-	while(1 == 1){
+	while(true){
 		world.update();
 
 		//Network.sendUpdate(gUpdate);
