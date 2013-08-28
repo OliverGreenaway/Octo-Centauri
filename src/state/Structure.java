@@ -54,7 +54,9 @@ public class Structure implements Serializable {
 	/**
 	 * Returns the height of the structure, in tiles.
 	 */
-	public int getHeight() {
+	public int getHeight() {WestFaceDirtRamp 5 5 45 24 32 177 37 164 188 23 150 150
+		EastFaceDirtRamp 25 25 77 155
+
 		return height;
 	}
 
@@ -95,7 +97,6 @@ public class Structure implements Serializable {
 		int y = this.y - camy; //tile coords of structure
 		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2); //pixel coords of the structure
 		int j =  (x+y) * (TILE_HEIGHT/ 2) - height ;									 //pixel coords of the structure
-		System.out.println("drawing "+image+" at "+i+","+j);
 		//draws the structure at (i,j) using the images dimensions to find its final dimension
 		g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getHeight(null), null);
 	}
