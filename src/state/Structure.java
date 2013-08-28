@@ -55,6 +55,7 @@ public class Structure implements Serializable {
 	 * Returns the height of the structure, in tiles.
 	 */
 	public int getHeight() {
+
 		return height;
 	}
 
@@ -79,12 +80,8 @@ public class Structure implements Serializable {
 		this.width = width;
 		this.height = height;
 		File imgFile = new File(image);
-		assert(imgFile.exists());
-		try{
+		assert(imgFile.exists()) : image+" not found";
 		this.image = new ImageIcon(image).getImage();
-		} catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning", JOptionPane.WARNING_MESSAGE);
-		}
 	}
 
 	/**

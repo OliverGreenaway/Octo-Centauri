@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import state.Dude;
 import state.Tile;
 import state.World;
 
@@ -95,7 +96,6 @@ public class Display extends JPanel{
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
-				try{
 				Tile t = world.getTile(x+camera.x,y+camera.y);
 				if(t!=null){
 				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
@@ -108,11 +108,21 @@ public class Display extends JPanel{
 				 * Bask in it's majesty and awe-inspiring splendour.
 				 */
 
-				// Translated tile coordinates to account for raised elevations (i,j)
-				int i = x - t.getHeight();
-				int	j = y - t.getHeight();
-				//displays each tile
-				g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2)-SCREEN_Y_DISPLACEMENT, TILE_WIDTH, t.getImage().getHeight(null), null);
+				// minimum depth to render to
+				int minDepth;
+				Tile t1 = world.getTile(x+camera.x+1, y+camera.y);
+				Tile t2 = world.getTile(x+camera.x, y+camera.y+1);
+				int t1Depth = (t1 == null ? -10 : t1.getHeight());
+				int t2Depth = (t2 == null ? -10 : t2.getHeight());
+				minDepth = Math.min(t1Depth, t2Depth);
+
+				for(int σ = minDepth; σ <= t.getHeight(); σ++) {
+					// Translated tile coordinates to account for raised elevations (i,j)
+					int i = x - σ;
+					int	j = y - σ;
+					//displays each tile
+					g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2)-SCREEN_Y_DISPLACEMENT, TILE_WIDTH, t.getImage().getHeight(null), null);
+				}
 
 				if(t.getStructure() != null){ // If there is a structure in the tile --> DRAW HE/SHE/IT!
 					t.getStructure().draw(g, this.getWidth(),SCREEN_Y_DISPLACEMENT,camera.x,camera.y);
@@ -123,8 +133,6 @@ public class Display extends JPanel{
 				}
 
 				}
-				}
-				catch(Exception e){}
 
 			}
 		}

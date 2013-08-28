@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Network {
-
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private Socket peer;

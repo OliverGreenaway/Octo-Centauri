@@ -105,9 +105,9 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 
 		//Create a new world with the map read from the file.
-		World world = new World();//new World(FileReader.readMap(fileMap));//resources/map
+		World world = new World(FileReader.readMap(fileMap));//resources/map
 		display = new Display(world); // was just new World()
-		//FileReader.setStructures(world); // Set up the structures that the file
+		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
 
 		addMouseListener(this);

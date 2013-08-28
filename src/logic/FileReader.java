@@ -120,7 +120,11 @@ public class FileReader {
 					while(lineScanner.hasNext()){
 						int strucX = Integer.parseInt(lineScanner.next());
 						int strucY = Integer.parseInt(lineScanner.next());
-						Structure temp = new Structure(strucX, strucY, 3, 3, "Assets/EnvironmentTiles/" +fileName+ ".png");
+						Structure temp;
+						if(fileName.equals("DarkTree"))
+							temp = new Structure(strucX, strucY, 3, 3, "Assets/EnvironmentObjects/"+fileName+".png");
+						else
+							temp = new Structure(strucX, strucY, 3, 3, "Assets/EnvironmentTiles/" +fileName+ ".png");
 						structures.add(temp);;
 					}
 					numLines--;
