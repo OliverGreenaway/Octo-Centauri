@@ -261,6 +261,9 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		case KeyEvent.VK_S:
 			down = false;
 			break;
+		case KeyEvent.VK_R:
+			display.rotate();
+			break;
 		}
 	}
 
@@ -304,14 +307,16 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			x = x + cameraPoint[0];
 			y = y + cameraPoint[1];
 
+			Tile oldTile = display.getWorld().getTile(x, y);
+
 			//set tile to be somthing
 			if(e.getButton()==MouseEvent.BUTTON3){
 				//Dude d = new Dude("")
-				Tile t = new Tile("BarrenGrass", display.getWorld().getTile(x, y).getHeight() - 1, x,y);
-				display.getWorld().setTile(x, y, t);
+				oldTile.setImage("BarrenGrass");
+				oldTile.setHeight(oldTile.getHeight() - 1);
 			}else{
-				Tile t = new Tile("BarrenWall", display.getWorld().getTile(x, y).getHeight() + 1, x,y);
-				display.getWorld().setTile(x, y, t);
+				oldTile.setImage("BarrenWall");
+				oldTile.setHeight(oldTile.getHeight() + 1);
 			}
 
 		this.repaint();
