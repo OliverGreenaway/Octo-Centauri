@@ -85,6 +85,7 @@ public class Display extends JPanel{
 			g.setColor(new Color(new Random().nextInt()));
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			paintMap(g);
+			drawHUD(g);
 		}
 
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
@@ -130,5 +131,25 @@ public class Display extends JPanel{
 
 			}
 		}
+	}
+
+	/**
+	 * Displays the HUD on the main game window
+	 * @param g Display graphics object
+	 */
+	private void drawHUD(Graphics g){
+		//draw the Minimap
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.BLACK);
+		g2d.fillRect(this.getWidth()-300, 0, 300, 300);
+		g2d.setColor(Color.YELLOW);
+		Stroke orig = g2d.getStroke();
+		g2d.setStroke(new BasicStroke(3));
+		g2d.drawRect(this.getWidth()-300,0,300,300);
+		g2d.setStroke(orig);
+		//draw the button panel
+
+		//draw the object selecter
+
 	}
 }
