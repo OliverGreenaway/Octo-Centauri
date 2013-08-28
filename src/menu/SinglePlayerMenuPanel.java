@@ -1,5 +1,6 @@
 package menu;
 
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,6 +19,9 @@ import UI.Window;
 public class SinglePlayerMenuPanel extends JPanel {
 
 	public SinglePlayerMenuPanel(final MainFrame frame) {
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
 		/*
 		 * Launches a new game, randomly generated from a seed
 		 */
@@ -27,9 +31,9 @@ public class SinglePlayerMenuPanel extends JPanel {
 				frame.addMenu(new Window());
 			}
 		};
-		
-		MainFrame.addButton(frame, this, listener, "NewGameButton", 0);
-		
+
+		MainFrame.addButton(frame, this, c, listener, "NewGameButton", 0);
+
 		/*
 		 * Brings up a file chooser and loads the game from file.
 		 */
@@ -39,9 +43,9 @@ public class SinglePlayerMenuPanel extends JPanel {
 				frame.addMenu(new Window());
 			}
 		};
-		
-		MainFrame.addButton(frame, this, listener, "LoadGameButton", 0);
-		
+
+		MainFrame.addButton(frame, this, c, listener, "LoadGameButton", 1);
+
 		/*
 		 * back
 		 */
@@ -51,7 +55,7 @@ public class SinglePlayerMenuPanel extends JPanel {
 				frame.back();
 			}
 		};
-		
-		MainFrame.addButton(frame, this, listener, "BackButton", 0);
+
+		MainFrame.addButton(frame, this, c, listener, "BackButton", 2);
 	}
 }

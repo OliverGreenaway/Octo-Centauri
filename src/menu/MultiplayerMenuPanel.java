@@ -1,5 +1,6 @@
 package menu;
 
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,8 @@ import UI.Window;
  */
 public class MultiplayerMenuPanel extends JPanel {
 	public MultiplayerMenuPanel(final MainFrame frame) {
+
+		GridBagConstraints c = new GridBagConstraints();
 		
 		/*
 		 * Launches a new game, randomly generated from a seed
@@ -26,9 +29,9 @@ public class MultiplayerMenuPanel extends JPanel {
 				frame.addMenu(new HostMenuPanel(frame)) ;
 			}
 		};
-		
-		MainFrame.addButton(frame, this, listener, "HostButton", 0);
-		
+
+		MainFrame.addButton(frame, this, c, listener, "HostButton", 0);
+
 		/*
 		 * join a game
 		 */
@@ -38,9 +41,9 @@ public class MultiplayerMenuPanel extends JPanel {
 				frame.addMenu(new JoinMenuPanel(frame));
 			}
 		};
-		
-		MainFrame.addButton(frame, this, listener, "HostButton", 0);
-		
+
+		MainFrame.addButton(frame, this, c, listener, "JoinButton", 1);
+
 		/*
 		 * back
 		 */
@@ -50,7 +53,7 @@ public class MultiplayerMenuPanel extends JPanel {
 				frame.back();
 			}
 		};
-		
-		MainFrame.addButton(frame, this, listener, "BackButton", 0);
+
+		MainFrame.addButton(frame, this, c, listener, "BackButton", 2);
 	}
 }
