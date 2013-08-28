@@ -14,6 +14,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -94,7 +95,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	/**
 	 * Returns one of two random tiles.
-	 * 
+	 *
 	 * @return String
 	 */
 	public String generateRandomTile() {
@@ -142,7 +143,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	/**
 	 * Draws a basic graphic pane needs actual graphical outlines and suchlike
 	 * -Outdated-
-	 * 
+	 *
 	 * @param Graphics
 	 */
 	public void paint(Graphics g) {
@@ -408,7 +409,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				break;
 			}
 		}
-
 		if (onUI) {
 
 		} else {
@@ -420,8 +420,27 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		Point p = e.getPoint();
+		boolean onUI = false;
+		Set<Rectangle> UISpace = display.getUISpace();
+		for (Rectangle uiSquare : UISpace) {
+			if (uiSquare.contains(p)) {
+				onUI = true;
+				break;
+			}
+		}
 
+		if (onUI) {
+			Map<String, Rectangle> toggleMap = display.getToggleMap();
+			for (String key : toggleMap.keySet()) {
+				if (toggleMap.get(key).contains(p)) {
+					display.buttonClicked(key).mouseClicked(e);
+				}
+			}
+
+		} else {
+			// map clicked here
+		}
 	}
 
 	@Override
