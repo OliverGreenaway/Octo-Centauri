@@ -29,6 +29,11 @@ public class Structure implements Serializable {
 	private BufferedImage bufferedImage;
 
 	/**
+	 * The world the structure is in.
+	 */
+	private World world;
+
+	/**
 	 * Size of the structure, in tiles.
 	 */
 	private int width, height;
@@ -112,25 +117,21 @@ public class Structure implements Serializable {
 			return null;
 		return filter;
 	}
-	 /** Draws the structure.
-	 * @param g The Graphics object to draw on.
-	 * @param width The width of the display.
-	 * @param camx The camera X.
-	 * @param camy The camera Y.
-	 */
-	public void draw(Graphics g, int width, int height, int camx, int camy){
-		int x = this.x - camx; //tile coords of structure
-		int y = this.y - camy; //tile coords of structure
-		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2); //pixel coords of the structure
-		int j =  (x+y) * (TILE_HEIGHT/ 2) - height ;									 //pixel coords of the structure
-		//draws the structure at (i,j) using the images dimensions to find its final dimension
-		if(filter != null){
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.drawImage(bufferedImage, filter, i, j-image.getHeight(null));
-		}
-		else
-			g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getHeight(null), null);
-	}
+
+//<<<<<<< HEAD
+//	public void draw(Graphics g, int width, int height, int camx, int camy){
+//		int x = this.x - camx; //tile coords of structure
+//		int y = this.y - camy; //tile coords of structure
+//		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2); //pixel coords of the structure
+//		int j =  (x+y) * (TILE_HEIGHT/ 2) - height ;									 //pixel coords of the structure
+//		//draws the structure at (i,j) using the images dimensions to find its final dimension
+//		if(filter != null){
+//			Graphics2D g2d = (Graphics2D) g;
+//			g2d.drawImage(bufferedImage, filter, i, j-image.getHeight(null));
+//		}
+//		else
+//			g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getHeight(null), null);
+//	}
 
 	/**
 	 * Adds a transparency filter to this structure.
@@ -138,5 +139,27 @@ public class Structure implements Serializable {
 	 */
 	public void setFilter(RescaleOp rs){
 		filter = rs;
+		System.out.println("Something");
+	}
+
+	 /** Draws the structure.
+	 * @param g The Graphics object to draw on.
+	 * @param bottomPixelX The X coordinate of the bottom corner of the object
+	 * @param bottomPixelY The Y coordinate of the bottom corner of the object
+	 */
+	public void draw(Graphics g, int bottomPixelX, int bottomPixelY){
+		g.drawImage(image, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
+		if(filter != null){
+			System.out.println("Transparency draw method");
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.drawImage(bufferedImage, filter, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null));
+		}
+		else
+			g.drawImage(image, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
+	}
+
+	public void setWorld(World w) {
+		assert world == null || world == w;
+		world = w;
 	}
 }

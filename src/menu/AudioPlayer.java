@@ -14,13 +14,19 @@ import javax.swing.JFileChooser;
 public class AudioPlayer {
 	private static final int EXTERNAL_BUFFER_SIZE = 128000;
 
-	public AudioPlayer() {
+	public AudioPlayer(String soundFileName) {
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle("select wav file");
-//		fc.showOpenDialog(null);
-//		File soundFile = fc.getSelectedFile();
-		File soundFile = new File("/u/students/gibbchri/workspace/other/sound/laugh.wav");
+		// fc.showOpenDialog(null);
+		// File soundFile = fc.getSelectedFile();
+
+		File soundFile = new File("Assets/sounds/"+soundFileName);
+
+		// File soundFile = new File(
+		// "/u/students/gibbchri/workspace/other/sound/testEffect.wav");
+
 		AudioInputStream audioInputStream = null;
+
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(soundFile);
 		} catch (Exception e) {
@@ -28,10 +34,12 @@ public class AudioPlayer {
 			e.printStackTrace();
 			System.exit(1);
 		}
+
 		AudioFormat audioFormat = audioInputStream.getFormat();
 		SourceDataLine line = null;
 		DataLine.Info info = new DataLine.Info(SourceDataLine.class,
 				audioFormat);
+
 		try {
 			line = (SourceDataLine) AudioSystem.getLine(info);
 			line.open(audioFormat);
@@ -62,9 +70,38 @@ public class AudioPlayer {
 
 	/**
 	 * for testing
+	 *
+	 * @throws InterruptedException
 	 */
-	public static void main(String args[]){
-		new AudioPlayer();
+	public static void main(String args[]) throws InterruptedException {
+		Thread a = new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("timer1.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            });
+		a.start();
+		Thread.sleep(4000);
+		a.stop();
+		a = new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("testMusic.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            });
+		a.start();
+
+
 	}
 
 }

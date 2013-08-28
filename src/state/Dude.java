@@ -2,6 +2,7 @@ package state;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.ColorModel;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
@@ -14,6 +15,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import UI.Display;
 
 /**
  * Stores information about a dude.
@@ -182,9 +185,9 @@ public class Dude implements Serializable{
 
 	}
 	public boolean canMove(Tile from, Tile to) {
-		if(from.getHeight() < to.getHeight())
+		if(from.getHeight() < to.getHeight() - 1)
 			return false;
-		else if (from.getHeight()> to.getHeight())
+		else if (from.getHeight()> to.getHeight() + 1)
 			return false;
 		return true;
 	}
@@ -229,23 +232,28 @@ public class Dude implements Serializable{
 	/**
 	 * Draws the dude.
 	 * @param g The Graphics object to draw on.
-	 * @param width The width of the display.
-	 * @param camx The camera X.
-	 * @param camy The camera Y.
+	 * @param d The display being drawn on.
+	 * @param bottomPixelX The X coordinate of the bottom corner of the object
+	 * @param bottomPixelY The Y coordinate of the bottom corner of the object
 	 */
-	public void draw(Graphics g, int width, int height, int camx, int camy){
+	public void draw(Graphics g, Display d, int bottomPixelX, int bottomPixelY){
 
 		double percentMoved = count * 0.25;
 
 		// Tile coordinates of The Dude (x,y)
-		double x = this.oldX + (this.x - this.oldX) * percentMoved - camx +1;
-		double y = this.oldY + (this.y - this.oldY) * percentMoved - camy +1;
+		double x = this.oldX + (this.x - this.oldX) * percentMoved;
+		double y = this.oldY + (this.y - this.oldY) * percentMoved;
 
 		// Pixel coordinates (on screen) of the Dude (i,j)
-		double i = (width/2)-(images[facing][count].getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
-		double j =  (x+y) * (TILE_HEIGHT/ 2) -images[facing][count].getHeight(null)-(TILE_HEIGHT/2) - height;
+		Point pt = d.tileToDisplayCoordinates(x, y);
+
+		pt.y -= TILE_HEIGHT * world.getTile(this.x, this.y).getHeight();
+		pt.y -= TILE_HEIGHT/2;
+
+		Image i = images[(facing + d.getRotation()) % 4][count];
+
 		// Draw image at (i,j)
-		g.drawImage(images[facing][count], (int)i, (int)j, images[facing][count].getWidth(null), images[facing][count].getHeight(null), null);
+		g.drawImage(i, pt.x - i.getWidth(null)/2, pt.y - i.getHeight(null), null);
 
 	}
 }

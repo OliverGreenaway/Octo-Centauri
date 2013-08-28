@@ -1,4 +1,6 @@
 package UI;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -6,14 +8,21 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.RescaleOp;
+import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+
+import javax.swing.SwingUtilities;
+
+import menu.AudioPlayer;
+import networking.common.Network;
+
 import logic.FileReader;
 import logic.UpdateThread;
-import networking.common.Network;
 import state.Structure;
 import state.Tile;
 import state.World;
@@ -23,7 +32,7 @@ import state.World;
 
 
 @SuppressWarnings("serial")
-public class Window extends JPanel implements KeyListener, MouseListener {
+public class Window extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
 
 	//mouse x y points on a click
 	private int mouseX = 0;
@@ -35,7 +44,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	boolean left = false;
 	boolean right = false;
 
-	private boolean drawTransparent;
+	private boolean drawTransparent = true;
 
 	Random random = new Random();
 
@@ -46,7 +55,20 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	public Network network;
 	public String fileMap= "resources/map";
 
-	public Window() {
+	public Window(Thread thread) {
+		//thread.stop();
+		new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("testMusic.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+
 //		this.setSize(1920, 1080);
 		initialize();
 	}
@@ -57,7 +79,21 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	 * @param network
 	 * @param fileMap
 	 */
-	public Window(long seed, Network network, String fileMap) {//TODO //mapfile tpye?
+	public Window(long seed, Network network, String fileMap, Thread thread) {//TODO //mapfile tpye?
+
+		thread.stop();
+		new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("testMusic.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+
 		this.seed = seed;
 		this.network = network;
 		fileMap = this.fileMap;
@@ -104,10 +140,12 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 											// reader now knows about
 
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		addKeyListener(this);
 		setFocusable(true);
 
-		this.add(display);
+		this.setLayout(new BorderLayout());
+		this.add(display, BorderLayout.CENTER);
         update = new UpdateThread(world, display);
         update.start();
 
@@ -140,18 +178,38 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	private void panMap() {
 	// Pans the map by 1 tile but only while direction keys are currently being held down
 		if (up)
-			display.panUp(1);
+			switch(display.getRotation()) {
+			case 0: display.panUp(1); break;
+			case 1: display.panLeft(1); break;
+			case 2: display.panDown(1); break;
+			case 3: display.panRight(1); break;
+			}
 		if (down)
-			display.panDown(1);
+			switch(display.getRotation()) {
+			case 2: display.panUp(1); break;
+			case 3: display.panLeft(1); break;
+			case 0: display.panDown(1); break;
+			case 1: display.panRight(1); break;
+			}
 		if (right)
-			display.panRight(1);
+			switch(display.getRotation()) {
+			case 1: display.panUp(1); break;
+			case 2: display.panLeft(1); break;
+			case 3: display.panDown(1); break;
+			case 0: display.panRight(1); break;
+			}
 		if (left)
-			display.panLeft(1);
+			switch(display.getRotation()) {
+			case 3: display.panUp(1); break;
+			case 0: display.panLeft(1); break;
+			case 1: display.panDown(1); break;
+			case 2: display.panRight(1); break;
+			}
 	}
 
 	public static void main(String[] args) {
 		JFrame f = new JFrame("test");
-		f.getContentPane().add(new Window()) ;
+		f.getContentPane().add(new Window(null)) ;
 		//f.add(new Window());
 		f.setSize(1920, 1080);
 		f.pack();
@@ -224,20 +282,24 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		case KeyEvent.VK_S:
 			down = false;
 			break;
+		case KeyEvent.VK_R:
+			display.rotate();
+			break;
 		}
 	}
 
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
-			Point point = getTilePosition(e);
-
+//<<<<<<< HEAD
+			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			//set tile to be somthing
 			if(e.getButton()==3){
 				//Dude d = new Dude("")
 				Tile t = new Tile("DarkTree",0, (int)point.getX(), (int)point.getY());
 				display.getWorld().setTile((int)point.getX(), (int)point.getY(), t);
 			}else if (drawTransparent == true){
+				System.out.println("Should draw transparent");
 				Structure s = new Structure((int)point.getX(), (int)point.getY(), 1, 1, "Assets/EnvironmentTiles/BarrenWall.png");
 				/* Copied from Java tutorial.
 				 * Create a rescale filter op that makes the image
@@ -256,36 +318,63 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			}
 
 		this.repaint();
+		//
 
 	}
 
-	public Point getTilePosition(MouseEvent e){
-		Point p = e.getPoint();
-		mouseX = p.x;
-		mouseY = p.y;
+//	public Point getTilePosition(MouseEvent e){
+//		Point p = e.getPoint();
+//		mouseX = p.x;
+//		mouseY = p.y;
+//		mouseY += 490;
+//
+//
+//		int x = x + cameraPoint[0];
+//		int y = y + cameraPoint[1];
+//		return new Point(x, y);
+//
 
-		mouseY += 490;
+//		double xMinusY = (mouseX - display.getWidth()/2) / (32.0); // ( x click - half width of screen )  / half the width of a tile
+//		double xPlusY = (mouseY / 16.0);		  // ( y click  /  half height of tile )
+//		new Thread(
+//	            new Runnable() {
+//	                public void run() {
+//	                    try {
+//	                    	new AudioPlayer("laugh.wav");
+//	                        // PLAY AUDIO CODE
+//	                    } catch (Exception e) {
+//	                        e.printStackTrace();
+//	                    }
+//	                }
+//	            }).start();
+//
+//		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
+//		display.setHighlightedTile(tilePt.x, tilePt.y);
 
-
-		double xMinusY = (mouseX - display.getWidth()/2) / (32.0); // ( x click - half width of screen )  / half the width of a tile
-		double xPlusY = (mouseY / 16.0);		  // ( y click  /  half height of tile )
-
-		int[] cameraPoint = display.getCameraCoordinates();
-
-		// finds interger value of square in array position and adjusts for
-		// where the camera is looking
-		int x = (int) ((xMinusY + xPlusY) / 2 - 0.5);
-		int y = (int) ((xPlusY - xMinusY) / 2 - 0.5);
-
+//<<<<<<< HEAD
 		// you are NOT off the map
 //		if !(x < 0 || x > 29 || y < 0 || y > 29) {//TODO all wrong now
 			// invalid click
 //		} else {
 			//Adjusts for the camera's possible location and sets the x/y acordingly
-			x = x + cameraPoint[0];
-			y = y + cameraPoint[1];
-			return new Point(x, y);
-	}
+
+//=======
+//			Tile oldTile = display.getWorld().getTile(tilePt.x, tilePt.y);
+//
+//			//set tile to be somthing
+//			if(e.getButton()==MouseEvent.BUTTON3){
+//				//Dude d = new Dude("")
+//				oldTile.setImage("BarrenGrass");
+//				oldTile.setHeight(oldTile.getHeight() - 1);
+//			}else{
+//				oldTile.setImage("BarrenWall");
+//				oldTile.setHeight(oldTile.getHeight() + 1);
+//			}
+//
+//		this.repaint();
+//
+////>>>>>>> 038f85fca2e009fb0ccbdd9a99cd1a2e0440ce18
+//	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -308,6 +397,19 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
+
+		display.setHighlightedTile(tilePt.x, tilePt.y);
 	}
 
 }
