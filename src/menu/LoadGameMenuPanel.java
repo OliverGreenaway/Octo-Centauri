@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import UI.Window;
 /**
@@ -16,29 +18,25 @@ import UI.Window;
  * @author muruphenr , antunomate , richarhayd
  *
  */
-public class SinglePlayerMenuPanel extends AbstractMenuPanel {
+public class LoadGameMenuPanel extends AbstractMenuPanel {
 
-	public SinglePlayerMenuPanel(final MainFrame frame) {
+	public LoadGameMenuPanel(final MainFrame frame) {
 
-		/*
-		 * Launches a new game, randomly generated from a seed
-		 */
-		ActionListener listener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new Window(System.currentTimeMillis(), null, null, frame.musicThread));
-			}
-		};
-
-		addButton(frame, listener, "NewGameButton");
-
+		final JLabel error = new JLabel();
+		
+		final JTextArea file = new JTextArea(1, 30);
+		this.addComponent(file);	
+		
 		/*
 		 * Brings up a file chooser and loads the game from file.
 		 */
-		listener = new ActionListener() {
+		ActionListener listener = new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new LoadGameMenuPanel(frame));
+			public void actionPerformed(ActionEvent e) {			
+				//frame.addMenu(new Window(System.currentTimeMillis(), null, file.getText(), frame.musicThread));
+				
+				// TODO add try catch if file not found
+				error.setText("Loading not Implemented");
 			}
 		};
 
@@ -55,5 +53,7 @@ public class SinglePlayerMenuPanel extends AbstractMenuPanel {
 		};
 
 		addButton(frame, listener, "BackButton");
+		
+		this.addComponent(error);
 	}
 }

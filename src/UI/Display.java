@@ -56,7 +56,7 @@ public class Display extends JPanel {
 		if (camera.x - idx + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x - idx, camera.y);
+		camera = new Coord(camera.x - idx, camera.y + idx);
 	}
 
 	public void panRight(int idx) {
@@ -67,26 +67,21 @@ public class Display extends JPanel {
 																		// bounds
 			return;
 		}
-		camera = new Coord(camera.x + idx, camera.y);
+		camera = new Coord(camera.x + idx, camera.y - idx);
 	}
 
 	public void panDown(int idy) {
-		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {// ap.length)
-																		// Catch
-																		// if
-																		// out
-																		// of
-																		// bounds
+		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {//map.length) Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x, camera.y + idy);
+		camera = new Coord(camera.x + idy, camera.y + idy);
 	}
 
 	public void panUp(int idy) {
 		if (camera.y - idy + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x, camera.y - idy);
+		camera = new Coord(camera.x - idy, camera.y - idy);
 	}
 
 	// RENDERING
