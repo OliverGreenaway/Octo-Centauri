@@ -1,24 +1,12 @@
 package menu;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Stack;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
@@ -29,14 +17,24 @@ import javax.swing.JPanel;
  */
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
+	public final Thread musicThread = new Thread(
+            new Runnable() {
+                public void run() {
+                    try {
+                    	new AudioPlayer("timer1.wav");//TODO to be replaced with menuMusic.wav when it's written
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
 	public MainFrame() {
+		musicThread.start();
 		frameStack = new Stack<JPanel>();
 		frameStack.add(new MainMenuPanel(this));
 		this.add(frameStack.peek());
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = ge.getScreenDevices();
 		for (int i = 0; i < 1; i++) {
@@ -48,6 +46,51 @@ public class MainFrame extends JFrame {
 				//this.setVisible(true);
 			}
 		}
+		this.addWindowListener(new WindowListener() {
+						
+			@Override
+			public void windowClosed(WindowEvent e) {
+				musicThread.stop();
+				System.out.println("closinbg");
+				
+			}
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	public static void main(String args[]) {

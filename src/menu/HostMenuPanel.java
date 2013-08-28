@@ -20,18 +20,16 @@ import networking.common.SocketBusyException;
 public class HostMenuPanel extends AbstractMenuPanel {
 
 	public HostMenuPanel(final MainFrame frame) {
-	
+
 		final JLabel error = new JLabel();;
 
 
 		this.addLabel(frame, "PortLabel");
-		
-		
-		
+
+
+
 		final JTextArea port = new JTextArea(1, 30);
-		this.add(port);
-		
-		this.increaseElementCount();
+		this.addComponent(port);
 
 		ActionListener listener = new ActionListener() {
 
@@ -70,12 +68,12 @@ public class HostMenuPanel extends AbstractMenuPanel {
 				showError("game joined");
 				frame.addWindowListener(new java.awt.event.WindowAdapter() {
 				    public void windowClosing(java.awt.event.WindowEvent evt) {
-				         
+
 				    }
 				});
 				JoinGame jg;
 				try {
-					jg = new JoinGame(n, true);
+					jg = new JoinGame(n, true, frame.musicThread);
 				} catch (IOException e1) {
 					showError("Connection failed, please try again");
 					return;
