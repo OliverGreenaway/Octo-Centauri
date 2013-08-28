@@ -20,6 +20,8 @@ public class World {
 
 	private Set<Dude> allDudes = new HashSet<Dude>();
 
+	private Set<Resource> resources;
+
 	/**
 	 * Returns a random tile name.
 	 */
@@ -67,8 +69,8 @@ public class World {
 	 */
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
+		resources = new HashSet<Resource>();
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
-
 		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
@@ -91,6 +93,9 @@ public class World {
 				}
 
 		s.setWorld(this);
+
+		if(s instanceof Resource)
+			resources.add((Resource)s);
 
 		// place the structure
 		for(int X = 0; X < w; X++)
