@@ -8,6 +8,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -28,7 +29,7 @@ import javax.swing.JPanel;
  */
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
-
+	
 	public MainFrame() {
 		frameStack = new Stack<JPanel>();
 		frameStack.add(new MainMenuPanel(this));
@@ -62,7 +63,8 @@ public class MainFrame extends JFrame {
 		if (frameStack.size() > 0)
 			this.remove(frameStack.peek());
 		frameStack.add(comp);
-		this.add(frameStack.peek());
+		this.add(comp);
+		comp.requestFocus();
 		this.validate();
 		this.repaint();
 	}
@@ -78,22 +80,5 @@ public class MainFrame extends JFrame {
 		this.add(frameStack.peek());
 		this.validate();
 		this.repaint();
-	}
-
-	public static void addButton(final MainFrame frame, final JPanel panel,
-			GridBagConstraints c, ActionListener listener, String path, int y) {
-		panel.setLayout(new GridBagLayout());
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		ImageIcon icon = new ImageIcon("Assets/Menus/" + path + ".png");
-		JButton button = new JButton(icon);
-		c.weightx = 0.5;
-		c.insets = new Insets(5, 0, 0, 0);
-		c.gridx = 1;
-		c.gridy = y;
-		panel.add(button, c);
-		button.setBorder(null);
-		button.setBackground(new Color(255, 255, 255, 0));
-		button.addActionListener(listener);
 	}
 }
