@@ -373,7 +373,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		display.setHighlightedTile(tilePt.x, tilePt.y);
 	}
 
-	public void startAudio(Thread thread){
+	public void startAudio(){
 		// TODO We need to implement this
 		AudioPlayer audioplayer = new AudioPlayer("TempInGameSong.wav", true);
 		audioplayer.start();
