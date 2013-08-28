@@ -29,6 +29,8 @@ import networking.common.Network;
 import logic.FileReader;
 import logic.Logic;
 import logic.UpdateThread;
+import state.Direction;
+import state.Ramp;
 import state.Structure;
 import state.Tile;
 import state.World;
@@ -337,10 +339,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 				display.getWorld().addStructure(s);
 			} else {
-				Tile w = new Tile("BarrenWall", 0, (int) point.getX(),
-						(int) point.getY());
-				display.getWorld().setTile((int) point.getX(),
-						(int) point.getY(), w);
+				display.getWorld().addStructure(new Ramp(point.x, point.y, 1, 1, "PathRamp", Direction.values()[display.getRotation()]));
+				display.getWorld().getTile(point.x, point.y);
 			}
 
 		} else {
