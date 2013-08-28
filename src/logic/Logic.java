@@ -134,6 +134,10 @@ public class Logic {
 				}
 			}
 		}
+//		for(every tile in tiles[][]){
+//			tile.setVisited(false);
+//			tile.setPrevTile(null);
+//		}
 		return route;
 	}*/
 
@@ -186,7 +190,7 @@ public class Logic {
 			if (t != null && this.getClass().equals(t.getClass())) {
 				if (estTotalCost - ((Tuple) t).getEstTotalCost() > 0)
 					return 1;// this is more costly
-				if (estTotalCost - ((Tuple) t).getEstGameObjectTotalCost() < 0)
+				if (estTotalCost - ((Tuple) t).getEstTotalCost() < 0)
 					return -1;// this is less costly
 				if (estTotalCost - ((Tuple) t).getEstTotalCost() == 0)
 					return 0;

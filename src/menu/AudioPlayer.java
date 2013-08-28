@@ -59,4 +59,12 @@ public class AudioPlayer {
 		line.drain();
 		line.close();
 	}
+
+	/**
+	 * for testing
+	 */
+	public static void main(String args[]){
+		new AudioPlayer();
+	}
+
 }
