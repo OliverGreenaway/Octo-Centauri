@@ -36,7 +36,7 @@ public class Network {
 			System.out.println("server established");
 			peer = output;
 		}
-
+		
 		else {
 			System.out.println("listening");
 			ServerSocket listen;
