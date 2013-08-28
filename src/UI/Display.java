@@ -1,6 +1,7 @@
 package UI;
 
 import java.awt.*;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -81,15 +82,13 @@ public class Display extends JPanel{
 
 	//RENDERING
 		public void paintComponent(Graphics g){
-			g.setColor(Color.PINK);
+			g.setColor(new Color(new Random().nextInt()));
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			paintMap(g);
 		}
 
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
-	 *
-	 * @param g OVERRIDEN Parameter.
 	 */
 	private void paintMap(Graphics g){
 
@@ -100,14 +99,6 @@ public class Display extends JPanel{
 				if(t!=null){
 				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
 
-
-				/*This is the "magic line" -- It calculates the position of the
-				 * tile on screen, and was a slightly tricky piece of trigonometry.
-				 *
-				 * DON'T CHANGE IT UNLESS YOU *REALLY* KNOW WHAT YOU'RE DOING.
-				 * Bask in it's majesty and awe-inspiring splendour.
-				 */
-
 				// minimum depth to render to
 				int minDepth;
 				Tile t1 = world.getTile(x+camera.x+1, y+camera.y);
@@ -115,6 +106,9 @@ public class Display extends JPanel{
 				int t1Depth = (t1 == null ? -10 : t1.getHeight());
 				int t2Depth = (t2 == null ? -10 : t2.getHeight());
 				minDepth = Math.min(t1Depth, t2Depth);
+
+				if(minDepth < t.getHeight())
+					minDepth++;
 
 				for(int σ = minDepth; σ <= t.getHeight(); σ++) {
 					// Translated tile coordinates to account for raised elevations (i,j)

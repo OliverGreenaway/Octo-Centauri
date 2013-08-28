@@ -264,12 +264,12 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			y = y + cameraPoint[1];
 
 			//set tile to be somthing
-			if(e.getButton()==3){
+			if(e.getButton()==MouseEvent.BUTTON3){
 				//Dude d = new Dude("")
-				Tile t = new Tile("DarkTree",0, x,y);
+				Tile t = new Tile("BarrenGrass", display.getWorld().getTile(x, y).getHeight() - 1, x,y);
 				display.getWorld().setTile(x, y, t);
 			}else{
-				Tile t = new Tile("BarrenWall",1, x,y);
+				Tile t = new Tile("BarrenWall", display.getWorld().getTile(x, y).getHeight() + 1, x,y);
 				display.getWorld().setTile(x, y, t);
 			}
 
