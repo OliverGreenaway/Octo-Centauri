@@ -15,43 +15,39 @@ import networking.common.Network;
 import networking.common.ServerNotFoundException;
 import networking.common.SocketBusyException;
 
-public class JoinMenuPanel extends JPanel{
+public class JoinMenuPanel extends AbstractMenuPanel {
 
 	public JoinMenuPanel(final MainFrame frame) {
 
-		final JLabel error = new JLabel();;
+		final JLabel error = new JLabel();
+		;
 
-		JLabel label = new JLabel("Host Name:");
-		this.add(label);
-
+		this.addLabel(frame, "HostnameLabel");
 
 		final JTextArea hostName = new JTextArea(1, 30);
-		this.add(hostName);
+		this.addComponent(hostName);
 
-		label = new JLabel("Port:");
-		this.add(label);
+		this.addLabel(frame, "PortLabel");
 
 		final JTextArea port = new JTextArea(1, 30);
-		this.add(port);
+		this.addComponent(port);
 
-		JButton join = new JButton("Join") ;
-		this.add(join) ;
-		join.addActionListener( new ActionListener() {
+		ActionListener listener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = hostName.getText() ;
+				String name = hostName.getText();
 				int portNumber = 0;
 				try {
 					portNumber = Integer.parseInt(port.getText());
 				} catch (NumberFormatException e2) {
-					showError("Please enter a valid port number") ;
+					showError("Please enter a valid port number");
 					return;
 				}
 				int minPort = 1024;
-				int maxPort = (int)Math.pow(2, 16) - 1;
-				if (portNumber <= minPort){
-					showError("Port number must excede " + minPort) ;
+				int maxPort = (int) Math.pow(2, 16) - 1;
+				if (portNumber <= minPort) {
+					showError("Port number must excede " + minPort);
 					return;
 				}
 				if (portNumber > maxPort) {
@@ -60,7 +56,7 @@ public class JoinMenuPanel extends JPanel{
 				}
 				Network n;
 				try {
-					n = new Network(name , portNumber );
+					n = new Network(name, portNumber);
 				} catch (ServerNotFoundException e1) {
 					showError("Server not found");
 					return;
@@ -73,13 +69,13 @@ public class JoinMenuPanel extends JPanel{
 				}
 				showError("game joined");
 				frame.addWindowListener(new java.awt.event.WindowAdapter() {
-				    public void windowClosing(java.awt.event.WindowEvent evt) {
-				         
-				    }
+					public void windowClosing(java.awt.event.WindowEvent evt) {
+
+					}
 				});
 				JoinGame jg;
 				try {
-					jg = new JoinGame(n, false);
+					jg = new JoinGame(n, false, frame.musicThread);
 				} catch (IOException e1) {
 					showError("Connection failed, please try again");
 					return;
@@ -87,26 +83,25 @@ public class JoinMenuPanel extends JPanel{
 					showError("Connection failed, please try again");
 					return;
 				}
-				frame.addMenu(jg.getWindow());	
+				frame.addMenu(jg.getWindow());
 			}
 
 			private void showError(String string) {
 				error.setText(string);
 			}
 
-		}) ;
+		};
+		this.addButton(frame, listener, "JoinButton");
 
-		JButton back = new JButton("Back") ;
-		this.add(back) ;
-		back.addActionListener( new ActionListener() {
+		listener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.back() ;
+				frame.back();
 			}
-		}) ;
+		};
+		this.addButton(frame, listener, "BackButton");
 
 		this.add(error);
 	}
-
 }

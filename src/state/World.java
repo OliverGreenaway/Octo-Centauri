@@ -59,6 +59,7 @@ public class World {
 				}
 			}
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -67,6 +68,8 @@ public class World {
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+
+		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -87,10 +90,12 @@ public class World {
 					return false; // can't have two structures on one tile
 				}
 
+		s.setWorld(this);
+
 		// place the structure
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
-				worldTile[x-X][y-Y].setStructure(s);
+				worldTile[x-X][y-Y].setStructure(s, false);
 
 		return true;
 	}

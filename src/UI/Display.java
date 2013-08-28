@@ -24,6 +24,7 @@ public class Display extends JPanel {
 	// pixel size of each tile
 	private final int TILE_WIDTH = 64, TILE_HEIGHT = 32;
 
+	private int rotation = 0;
 	private Coord camera = new Coord(0, 0); // ARBITRARY START POINT
 
 	// Camera stores coord of topmost tile
@@ -96,6 +97,121 @@ public class Display extends JPanel {
 		drawHUD(g);
 	}
 
+	private Tile getCameraRelativeTile(int x, int y) {
+		int temp;
+		switch (rotation) {
+		case 0:
+			break;
+		case 1:
+			temp = VIEW_WIDTH - x;
+			x = y;
+			y = temp;
+			break;
+		case 2:
+			x = VIEW_WIDTH - x;
+			y = VIEW_HEIGHT - y;
+			break;
+		case 3:
+			temp = VIEW_HEIGHT - y;
+			y = x;
+			x = temp;
+			break;
+		}
+		return world.getTile(x + camera.x, y + camera.y);
+	}
+
+	public Point tileToDisplayCoordinates(double x, double y) {
+		x -= camera.x;
+		y -= camera.y;
+
+		double temp;
+		switch (rotation) {
+		case 0:
+			break;
+		case 3:
+			temp = VIEW_WIDTH - x;
+			x = y;
+			y = temp;
+			break;
+		case 2:
+			x = VIEW_WIDTH - x;
+			y = VIEW_HEIGHT - y;
+			break;
+		case 1:
+			temp = VIEW_HEIGHT - y;
+			y = x;
+			x = temp;
+			break;
+		}
+
+		return new Point(getPixelX(x, y), getPixelY(x, y));
+	}
+
+	public Point displayToTileCoordinates(int x, int y) {
+		/*
+		 * x -= camera.x; y -= camera.y;
+		 *
+		 *
+		 *
+		 * return new Point(getPixelX(x, y), getPixelY(x, y));
+		 */
+
+		double xMinusY = (x - getWidth() / 2) / (TILE_WIDTH / 2.0); // ( x click
+																	// - half
+																	// width of
+																	// screen )
+																	// / half
+																	// the width
+																	// of a tile
+		double xPlusY = ((y + SCREEN_Y_DISPLACEMENT) / (TILE_HEIGHT / 2.0)); // (
+																				// y
+																				// click
+																				// /
+																				// half
+																				// height
+																				// of
+																				// tile
+																				// )
+
+		// finds integer value of square in array position and adjusts for
+		// where the camera is looking
+		int tileX = (int) ((xPlusY + xMinusY) / 2);
+		int tileY = (int) ((xPlusY - xMinusY) / 2);
+
+		int temp;
+		switch (rotation) {
+		case 0:
+			break;
+		case 1:
+			temp = VIEW_WIDTH - tileX;
+			tileX = tileY;
+			tileY = temp;
+			break;
+		case 2:
+			tileX = VIEW_WIDTH - tileX;
+			tileY = VIEW_HEIGHT - tileY;
+			break;
+		case 3:
+			temp = VIEW_HEIGHT - tileY;
+			tileY = tileX;
+			tileX = temp;
+			break;
+		}
+
+		tileX += camera.x;
+		tileY += camera.y;
+
+		return new Point(tileX, tileY);
+	}
+
+	private int getPixelX(double x, double y) {
+		return (int) ((this.getWidth() / 2) + (x - y) * (TILE_WIDTH / 2));
+	}
+
+	private int getPixelY(double x, double y) {
+		return (int) ((x + y) * (TILE_HEIGHT / 2) - SCREEN_Y_DISPLACEMENT + TILE_HEIGHT);
+	}
+
 	/**
 	 * Paints the "view" on-screen at any one time. The algorithm goes through,
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
@@ -104,15 +220,15 @@ public class Display extends JPanel {
 
 		for (int x = 0; x < VIEW_WIDTH; x++) {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {
-				Tile t = world.getTile(x + camera.x, y + camera.y);
+				Tile t = getCameraRelativeTile(x, y);
 				if (t != null) {
 					// System.out.println("CAMERA: " + camera.x + " " + camera.y
 					// +".");
 
 					// minimum depth to render to
 					int minDepth;
-					Tile t1 = world.getTile(x + camera.x + 1, y + camera.y);
-					Tile t2 = world.getTile(x + camera.x, y + camera.y + 1);
+					Tile t1 = getCameraRelativeTile(x + 1, y);
+					Tile t2 = getCameraRelativeTile(x, y + 1);
 					int t1Depth = (t1 == null ? -10 : t1.getHeight());
 					int t2Depth = (t2 == null ? -10 : t2.getHeight());
 					minDepth = Math.min(t1Depth, t2Depth);
@@ -126,31 +242,37 @@ public class Display extends JPanel {
 						int i = x - σ;
 						int j = y - σ;
 						// displays each tile
-						g.drawImage(t.getImage(),
-								(this.getWidth() / 2) - (TILE_WIDTH / 2)
-										+ (i - j) * (TILE_WIDTH / 2), (i + j)
-										* (TILE_HEIGHT / 2)
-										- SCREEN_Y_DISPLACEMENT, TILE_WIDTH, t
-										.getImage().getHeight(null), null);
+						g.drawImage(t.getImage(), getPixelX(i, j)
+								- (TILE_WIDTH / 2), getPixelY(i, j)
+								- TILE_HEIGHT, TILE_WIDTH, t.getImage()
+								.getHeight(null), null);
+						if (t.getX() == hoverX && t.getY() == hoverY)
+							g.drawImage(hoverImage, getPixelX(i, j)
+									- (TILE_WIDTH / 2), getPixelY(i, j)
+									- TILE_HEIGHT, TILE_WIDTH, 32, null);
 					}
+
+					int bottomPixelX = getPixelX(x - t.getHeight(),
+							y - t.getHeight());
+					int bottomPixelY = getPixelY(x - t.getHeight(),
+							y - t.getHeight());
 
 					if (t.getStructure() != null) { // If there is a structure
 													// in the tile --> DRAW
 													// HE/SHE/IT!
-						t.getStructure().draw(g, this.getWidth(),
-								SCREEN_Y_DISPLACEMENT, camera.x, camera.y);
+
+						t.getStructure().draw(g, bottomPixelX, bottomPixelY);
+
 					}
 
 					if (t.getDude() != null) { // If there is a dude in the tile
 												// --> DRAW THEM!
-						t.getDude().draw(g, this.getWidth(),
-								SCREEN_Y_DISPLACEMENT, camera.x, camera.y);
+						t.getDude().draw(g, this, bottomPixelX, bottomPixelY);
 					}
-
 				}
-
 			}
 		}
+
 	}
 
 	/**
@@ -165,15 +287,16 @@ public class Display extends JPanel {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(this.getWidth() - 275, 0, 275, 280);
 
-		for (int x = 0; x < VIEW_WIDTH*2; x++) {
-			for (int y = 0; y < VIEW_HEIGHT*2; y++) {
-				Tile t = world.getTile(x + camera.x/2, y + camera.y/2);
+		for (int x = 0; x < VIEW_WIDTH * 2; x++) {
+			for (int y = 0; y < VIEW_HEIGHT * 2; y++) {
+				Tile t = world.getTile(x + camera.x / 2, y + camera.y / 2);
 				if (t != null) {
 					g2d.setColor(t.getColor());
-					g2d.fillRect(this.getWidth() - 275  + x * 2, y * 2,2, 2);
+					g2d.fillRect(this.getWidth() - 275 + x * 2, y * 2, 2, 2);
 				}
 				for (Dude d : world.getDudes()) {
-					if (d.getX() == x+camera.x/2 && d.getY() == y+camera.y/2) {
+					if (d.getX() == x + camera.x / 2
+							&& d.getY() == y + camera.y / 2) {
 						g2d.setColor(Color.YELLOW);
 						g2d.fillRect(this.getWidth() - 275 + x * 2, y * 2, 2, 2);
 					}
@@ -189,5 +312,26 @@ public class Display extends JPanel {
 
 		// draw the object selecter
 
+	}
+
+	public void rotate() {
+		rotation = (rotation + 1) % 4;
+	}
+
+	/**
+	 * Returns the number of steps clockwise the display is rotated, from 0 to
+	 * 3.
+	 */
+	public int getRotation() {
+		return rotation;
+	}
+
+	private int hoverX, hoverY;
+	private Image hoverImage = new ImageIcon(
+			"Assets/Templates/TileTemplate.png").getImage();
+
+	public void setHighlightedTile(int x, int y) {
+		hoverX = x;
+		hoverY = y;
 	}
 }
