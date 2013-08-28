@@ -23,13 +23,13 @@ import javax.swing.JPanel;
 
 /**
  * The root frame of the game. Presents all the menus, and can show the game.
- * 
+ *
  * @author muruphenr , antunomate , richarhayd
- * 
+ *
  */
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
-	
+
 	public MainFrame() {
 		frameStack = new Stack<JPanel>();
 		frameStack.add(new MainMenuPanel(this));
@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
 
 	/**
 	 * Add another JPanel. The current JPanel is stored.
-	 * 
+	 *
 	 * @param comp
 	 */
 	public void addMenu(JPanel comp) {
