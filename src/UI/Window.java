@@ -56,20 +56,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	public String fileMap= "resources/map";
 
 	public Window(Thread thread) {
-		//thread.stop();
-		new Thread(
-	            new Runnable() {
-	                public void run() {
-	                    try {
-	                    	new AudioPlayer("testMusic.wav");
-	                        // PLAY AUDIO CODE
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }).start();
-
-//		this.setSize(1920, 1080);
+		startAudio(thread);
 		initialize();
 	}
 
@@ -81,18 +68,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	 */
 	public Window(long seed, Network network, String fileMap, Thread thread) {//TODO //mapfile tpye?
 
-		thread.stop();
-		new Thread(
-	            new Runnable() {
-	                public void run() {
-	                    try {
-	                    	new AudioPlayer("testMusic.wav");
-	                        // PLAY AUDIO CODE
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }).start();
+
+		startAudio(thread);
 
 		this.seed = seed;
 		this.network = network;
@@ -291,7 +268,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
-//<<<<<<< HEAD
+
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			//set tile to be somthing
 			if(e.getButton()==3){
@@ -322,59 +299,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	}
 
-//	public Point getTilePosition(MouseEvent e){
-//		Point p = e.getPoint();
-//		mouseX = p.x;
-//		mouseY = p.y;
-//		mouseY += 490;
-//
-//
-//		int x = x + cameraPoint[0];
-//		int y = y + cameraPoint[1];
-//		return new Point(x, y);
-//
 
-//		double xMinusY = (mouseX - display.getWidth()/2) / (32.0); // ( x click - half width of screen )  / half the width of a tile
-//		double xPlusY = (mouseY / 16.0);		  // ( y click  /  half height of tile )
-//		new Thread(
-//	            new Runnable() {
-//	                public void run() {
-//	                    try {
-//	                    	new AudioPlayer("laugh.wav");
-//	                        // PLAY AUDIO CODE
-//	                    } catch (Exception e) {
-//	                        e.printStackTrace();
-//	                    }
-//	                }
-//	            }).start();
-//
-//		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
-//		display.setHighlightedTile(tilePt.x, tilePt.y);
-
-//<<<<<<< HEAD
-		// you are NOT off the map
-//		if !(x < 0 || x > 29 || y < 0 || y > 29) {//TODO all wrong now
-			// invalid click
-//		} else {
-			//Adjusts for the camera's possible location and sets the x/y acordingly
-
-//=======
-//			Tile oldTile = display.getWorld().getTile(tilePt.x, tilePt.y);
-//
-//			//set tile to be somthing
-//			if(e.getButton()==MouseEvent.BUTTON3){
-//				//Dude d = new Dude("")
-//				oldTile.setImage("BarrenGrass");
-//				oldTile.setHeight(oldTile.getHeight() - 1);
-//			}else{
-//				oldTile.setImage("BarrenWall");
-//				oldTile.setHeight(oldTile.getHeight() + 1);
-//			}
-//
-//		this.repaint();
-//
-////>>>>>>> 038f85fca2e009fb0ccbdd9a99cd1a2e0440ce18
-//	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -410,6 +335,22 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
 
 		display.setHighlightedTile(tilePt.x, tilePt.y);
+	}
+
+	public void startAudio(Thread thread){
+//		thread.stop();//TODO THIS CAUSES NULL POINTER EXCEPTIONS
+		new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("laugh.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+
 	}
 
 }
