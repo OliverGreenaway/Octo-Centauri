@@ -210,7 +210,7 @@ public class Dude implements Serializable{
 			linkTiles(x, y);
 			oldX = x; oldY = y;
 
-			if(storedResources > 3) {
+			if(storedResources > 9) {
 				if(crate == null)
 					crate = (Crate)world.getNearestStructure(Crate.class, world.getTile(x, y));
 
@@ -218,6 +218,7 @@ public class Dude implements Serializable{
 					boolean moved = moveTowards(crate.getX(), crate.getY());
 					if(!moved) {
 						if(crate.getX() == x && crate.getY() == y) {
+							crate.dropoff(storedResources, storedResType);
 							crate = null;
 							storedResType = null;
 							storedResources = 0;
@@ -232,10 +233,9 @@ public class Dude implements Serializable{
 					boolean moved = moveTowards(harvesting.getX(), harvesting.getY());
 					if(!moved) {
 						if(harvesting.getX() == x && harvesting.getY() == y) {
-							harvesting.harvest();
+							storedResources += harvesting.harvest();
 							storedResType = harvesting.getResType();
 							harvesting = null;
-							storedResources++;
 						}
 					}
 				}

@@ -12,6 +12,10 @@ import logic.GameUpdate;
  */
 public class World {
 
+	private int woodResource = 0;
+	private int plantResource = 0;
+	private int crystalResource = 0;
+
 	private boolean showHealth = true;
 
 	private Tile[][] worldTile;
@@ -254,5 +258,29 @@ public class World {
 			}
 		}
 		return bestStructure;
+	}
+
+	public int getCrystalResource() {
+		return crystalResource;
+	}
+
+	public void setCrystalResource(int crystalResource) {
+		this.crystalResource = crystalResource;
+	}
+
+	public int getPlantResource() {
+		return plantResource;
+	}
+
+	public void setPlantResource(int plantResource) {
+		this.plantResource = plantResource;
+	}
+
+	public int getWoodResource() {
+		return woodResource;
+	}
+
+	public void setWoodResource(int woodResource) {
+		this.woodResource = woodResource;
 	}
 }

@@ -7,12 +7,15 @@ public class Crystal extends Resource{
 		this.amount = 50;
 	}
 
-	public void harvest() {
-		if(amount <= 10){
-			depleted();
-			setImage("Assets/EnvironmentObjects/ResourcesDepleted.png");
+	public int harvest() {
+		if(amount < 10){
+			return 0;
 		}
 		amount = amount - 10;
+		if(amount < 10){
+			setImage("Assets/EnvironmentObjects/ResourcesDepleted.png");
+		}
+		return 10;
 	}
 
 	public ResourceType getResType() {
