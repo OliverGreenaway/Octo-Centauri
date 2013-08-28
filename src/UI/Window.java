@@ -67,10 +67,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	private AudioPlayer audioPlayer;
 
+	private Tile selectedTile1;
+	private Tile selectedTile2;
+
 	public Window() {
 		// startAudio(thread);
 		initialize();
-		logic = new Logic(display.getWorld());
+		//logic = new Logic(display.getWorld());
 	}
 
 	/**
@@ -81,7 +84,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	public Window(long seed, Network network, String fileMap,
 			AudioPlayer audioPlayer) {// TODO //mapfile tpye?
 
-		// audioPl
+		this.audioPlayer = audioPlayer;
+
 
 		this.seed = seed;
 		this.network = network;
@@ -139,6 +143,16 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		UIImageStorage.add("HealthBarsToggle");
 		UIImageStorage.add("NewDudeToggle");
 		UIImageStorage.add("SlugBalancingToggle");
+		// setup audio
+
+		if(audioPlayer!=null){
+			System.out.println("stop");
+			audioPlayer.stopPlayer();
+			audioPlayer = new AudioPlayer("testMusic.wav", true);
+			audioPlayer.start();
+		}
+
+
 	}
 
 	/**
@@ -314,66 +328,81 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mousePressed(MouseEvent e) {
-		Point point = display.displayToTileCoordinates(e.getX(), e.getY());
-		if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
-
-			// set tile to be somthing
-			if (e.getButton() == 3) {
-				// Dude d = new Dude("")
-				Tile t = new Tile("Grass", 0, (int) point.getX(),
-						(int) point.getY());
-				display.getWorld().setTile((int) point.getX(),
-						(int) point.getY(), t);
-			} else if (drawTransparent == true) {
-				Structure s = new Structure((int) point.getX(),
-						(int) point.getY(), 1, 1,
-						"Assets/EnvironmentTiles/BarrenWall.png");
-				/*
-				 * Copied from Java tutorial. Create a rescale filter op that
-				 * makes the image 50% opaque.
-				 */
-				float[] scales = { 1f, 1f, 1f, 0.5f };
-				float[] offsets = new float[4];
-				RescaleOp rop = new RescaleOp(scales, offsets, null);
-				s.setFilter(rop);
-
-				display.getWorld().addStructure(s);
-			} else {
-				display.getWorld().addStructure(new Ramp(point.x, point.y, 1, 1, "PathRamp", Direction.values()[display.getRotation()]));
-				display.getWorld().getTile(point.x, point.y);
-			}
-
-		} else {
-			Tile t = display.getWorld().getTile(point.x, point.y);
-			if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
-				switch (e.getButton()) {
-				case 1:
-					t.setImage("BarrenGrass");
-					break;
-				case 2:
-					t.setImage("DarkSand");
-					break;
-				case 3:
-					t.setImage("BarrenWall");
-					break;
-				}
-			} else {
-				switch (e.getButton()) {
-				case 3:
-					t.setHeight(t.getHeight() - 1);
-					break;
-				case 1:
-					t.setHeight(t.getHeight() + 1);
-					break;
-				}
+		boolean onUI = false;
+		Set<Rectangle> UISpace = display.getUISpace();
+		Point p = e.getPoint();
+		for (Rectangle uiSquare : UISpace) {
+			if (uiSquare.contains(p)) {
+				onUI = true;
+				break;
 			}
 		}
 
+		if (onUI) {
+
+		} else {
+
+
+			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
+			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
+
+				// set tile to be somthing
+				if (e.getButton() == 3) {
+					// Dude d = new Dude("")
+					Tile t = new Tile("Grass", 0, (int) point.getX(),
+							(int) point.getY());
+					display.getWorld().setTile((int) point.getX(),
+							(int) point.getY(), t);
+				} else if (drawTransparent == true) {
+					Structure s = new Structure((int) point.getX(),
+							(int) point.getY(), 1, 1,
+							"Assets/EnvironmentTiles/BarrenWall.png");
+					/*
+					 * Copied from Java tutorial. Create a rescale filter op
+					 * that makes the image 50% opaque.
+					 */
+					float[] scales = { 1f, 1f, 1f, 0.5f };
+					float[] offsets = new float[4];
+					RescaleOp rop = new RescaleOp(scales, offsets, null);
+					s.setFilter(rop);
+
+					display.getWorld().addStructure(s);
+				} else {
+					display.getWorld().addStructure(new Ramp(point.x, point.y, 1, 1, "PathRamp", Direction.values()[display.getRotation()]));
+					display.getWorld().getTile(point.x, point.y);
+				}
+
+			} else {
+				Tile t = display.getWorld().getTile(point.x, point.y);
+				if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
+					switch (e.getButton()) {
+					case 1:
+						t.setImage("BarrenGrass");
+						break;
+					case 2:
+						t.setImage("DarkSand");
+						break;
+					case 3:
+						t.setImage("BarrenWall");
+						break;
+					}
+				} else {
+					switch (e.getButton()) {
+					case 3:
+						t.setHeight(t.getHeight() - 1);
+						break;
+					case 1:
+						t.setHeight(t.getHeight() + 1);
+						break;
+					}
+				}
+			}
+		}
 		this.repaint();
 
 	}
 
-	/*public void displayPath() {
+	public void displayPath() {
 		System.out.println("HIII!");
 		if (selectedTile1 != null && selectedTile2 != null) {
 			Stack<Tile> route = new Logic(display.getWorld()).findRoute(
@@ -383,13 +412,29 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				t.setImage("Path");
 			}
 		}
-	}*/
+	}
+
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		Point point = display.displayToTileCoordinates(e.getX(), e.getY());
-		Tile t = display.getWorld().getTile(point.x, point.y);
-		t.setHeight(t.getHeight() + e.getWheelRotation());
+
+		boolean onUI = false;
+		Set<Rectangle> UISpace = display.getUISpace();
+		Point p = e.getPoint();
+		for (Rectangle uiSquare : UISpace) {
+			if (uiSquare.contains(p)) {
+				onUI = true;
+				break;
+			}
+		}
+
+		if (onUI) {
+
+		} else {
+			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
+			Tile t = display.getWorld().getTile(point.x, point.y);
+			t.setHeight(t.getHeight() + e.getWheelRotation());
+		}
 	}
 
 	@Override
@@ -424,18 +469,30 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	@Override
 	public void mouseMoved(MouseEvent e) {
 
-
+		boolean onUI = false;
 		Set<Rectangle> UISpace = display.getUISpace();
+		Point p = e.getPoint();
+		for (Rectangle uiSquare : UISpace) {
+			if (uiSquare.contains(p)) {
+				onUI = true;
+				break;
+			}
+		}
 
-		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
+		if (onUI) {
 
-		display.setHighlightedTile(tilePt.x, tilePt.y);
+			display.unHighlightTile();
+		} else {
+			Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
+
+			display.setHighlightedTile(tilePt.x, tilePt.y);
+		}
 	}
 
-	public void startAudio(Thread thread) {
-		// TODO We need to implement this
-		AudioPlayer audioplayer = new AudioPlayer("TempInGameSong.wav", true);
-		audioplayer.start();
+
+	public void startAudio(){
+
+
 
 	}
 

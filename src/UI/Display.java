@@ -38,6 +38,8 @@ public class Display extends JPanel {
 	private final int SCREEN_BUFFER_ZONE = 20; // Arbitrary screen edge buffer
 
 	private World world;
+	
+	private boolean tileHighLighted = false;
 
 	// <UI
 	int miniMapWidth = 280;
@@ -282,7 +284,7 @@ public class Display extends JPanel {
 								- (TILE_WIDTH / 2), getPixelY(i, j)
 								- TILE_HEIGHT, TILE_WIDTH, t.getImage()
 								.getHeight(null), null);
-						if (t.getX() == hoverX && t.getY() == hoverY)
+						if (tileHighLighted && t.getX() == hoverX && t.getY() == hoverY)
 							g.drawImage(hoverImage, getPixelX(i, j)
 									- (TILE_WIDTH / 2), getPixelY(i, j)
 									- TILE_HEIGHT, TILE_WIDTH, 32, null);
@@ -395,5 +397,10 @@ public class Display extends JPanel {
 	public void setHighlightedTile(int x, int y) {
 		hoverX = x;
 		hoverY = y;
+		tileHighLighted = true;
+	}
+
+	public void unHighlightTile() {
+		tileHighLighted = false;
 	}
 }
