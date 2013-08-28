@@ -1,18 +1,13 @@
 package state;
 
-public class Resource extends Structure {
+public abstract class Resource extends Structure {
 
 	private static final long serialVersionUID = -9044185320248377571L;
 	protected int amount;
-	private boolean depleted = false;
 
 
 	public Resource(int x, int y, int width, int height, String image) {
 		super(x, y, width, height, image);
-	}
-
-	protected void depleted() {
-		depleted = true;
 	}
 
 	public int getAmount(){
@@ -25,12 +20,12 @@ public class Resource extends Structure {
 
 	public int harvest() {
 		if(amount <= 10){
-			depleted();
 			getWorld().removeStructure(this);
 		}
 		amount =- 10;
 		return 10;
 	}
 
+	public abstract ResourceType getResType();
 
 }
