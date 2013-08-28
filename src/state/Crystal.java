@@ -10,9 +10,9 @@ public class Crystal extends Resource{
 	public void harvest() {
 		if(amount <= 10){
 			depleted();
-			setImage("/Assets/EvironmentObjects/ResourcesDepleted.png");
+			setImage("Assets/EnvironmentObjects/ResourcesDepleted.png");
 		}
-		amount =- 10;
+		amount = amount - 10;
 	}
 
 }
