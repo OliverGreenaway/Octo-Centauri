@@ -10,11 +10,14 @@ import java.awt.image.ImageConsumer;
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.Stack;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import logic.Logic;
 
 import UI.Display;
 
@@ -210,7 +213,7 @@ public class Dude implements Serializable{
 			linkTiles(x, y);
 			oldX = x; oldY = y;
 
-			if(storedResources > 3) {
+			if(storedResources > 9) {
 				if(crate == null) {
 					crate = (Crate)world.getNearestStructure(Crate.class, world.getTile(x, y));
 				}
@@ -219,6 +222,7 @@ public class Dude implements Serializable{
 					boolean moved = followPath(crate.getX(), crate.getY());
 					if(!moved) {
 						if(crate.getX() == x && crate.getY() == y) {
+							crate.dropoff(storedResources, storedResType);
 							crate = null;
 							storedResType = null;
 							storedResources = 0;
@@ -236,10 +240,9 @@ public class Dude implements Serializable{
 					boolean moved = followPath(nowHarvesting.getX(), nowHarvesting.getY());
 					if(!moved) {
 						if(harvesting.getX() == x && harvesting.getY() == y) {
-							harvesting.harvest();
+							storedResources += harvesting.harvest();
 							storedResType = harvesting.getResType();
 							harvesting = null;
-							storedResources++;
 						}
 					}
 				}
@@ -250,14 +253,29 @@ public class Dude implements Serializable{
 	}
 
 	int targetX = -1, targetY = -1;
+	Stack<Tile> path;
+	int failedMoveCount = 0;
 
 	private boolean followPath(int x, int y) {
-		if(x != targetX || y != targetY) {
+		if(x != targetX || y != targetY || path == null || path.size() == 0 || failedMoveCount > 10) {
 			targetX = x;
 			targetY = y;
+			path = new Logic(world).findRoute(world.getTile(this.x, this.y), world.getTile(targetX, targetY));
+			failedMoveCount = 0;
 		}
 
+		if(path.size() > 0) {
+			Tile next = path.pop();
+			if(!move(next.getX(), next.getY())) {
+				path.push(next);
+				failedMoveCount++;
+				return false;
+			}
+			failedMoveCount = 0;
+			return true;
+		}
 
+		return false;
 	}
 
 

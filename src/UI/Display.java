@@ -54,39 +54,18 @@ public class Display extends JPanel {
 	}
 
 	public void panLeft(int idx) {
-		if (camera.x - idx + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
-			return;
-		}
 		camera = new Coord(camera.x - idx, camera.y + idx);
 	}
 
 	public void panRight(int idx) {
-		if (camera.x + idx + SCREEN_BUFFER_ZONE >= world.getXSize()) {// Catch
-																		// if
-																		// out
-																		// of
-																		// bounds
-			return;
-		}
 		camera = new Coord(camera.x + idx, camera.y - idx);
 	}
 
 	public void panDown(int idy) {
-		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {// map.length)
-																		// Catch
-																		// if
-																		// out
-																		// of
-																		// bounds
-			return;
-		}
 		camera = new Coord(camera.x + idy, camera.y + idy);
 	}
 
 	public void panUp(int idy) {
-		if (camera.y - idy + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
-			return;
-		}
 		camera = new Coord(camera.x - idy, camera.y - idy);
 	}
 
