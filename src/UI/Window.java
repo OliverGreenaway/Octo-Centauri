@@ -1,4 +1,5 @@
 package UI;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -54,7 +55,20 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	public Network network;
 	public String fileMap= "resources/map";
 
-	public Window() {
+	public Window(Thread thread) {
+		thread.stop();
+		new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("testMusic.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+
 //		this.setSize(1920, 1080);
 		initialize();
 	}
@@ -65,7 +79,21 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	 * @param network
 	 * @param fileMap
 	 */
-	public Window(long seed, Network network, String fileMap) {//TODO //mapfile tpye?
+	public Window(long seed, Network network, String fileMap, Thread thread) {//TODO //mapfile tpye?
+
+		thread.stop();
+		new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("testMusic.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+
 		this.seed = seed;
 		this.network = network;
 		fileMap = this.fileMap;
@@ -115,7 +143,8 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		addKeyListener(this);
 		setFocusable(true);
 
-		this.add(display);
+		this.setLayout(new BorderLayout());
+		this.add(display, BorderLayout.CENTER);
         update = new UpdateThread(world, display);
         update.start();
 
@@ -159,7 +188,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 
 	public static void main(String[] args) {
 		JFrame f = new JFrame("test");
-		f.getContentPane().add(new Window()) ;
+		f.getContentPane().add(new Window(null)) ;
 		//f.add(new Window());
 		f.setSize(1920, 1080);
 		f.pack();
@@ -232,13 +261,27 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		case KeyEvent.VK_S:
 			down = false;
 			break;
+		case KeyEvent.VK_R:
+			display.rotate();
+			break;
 		}
 	}
 
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		new AudioPlayer();
+		new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("laugh.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+
 		Point p = e.getPoint();
 		mouseX = p.x;
 		mouseY = p.y;
@@ -264,14 +307,16 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			x = x + cameraPoint[0];
 			y = y + cameraPoint[1];
 
+			Tile oldTile = display.getWorld().getTile(x, y);
+
 			//set tile to be somthing
 			if(e.getButton()==MouseEvent.BUTTON3){
 				//Dude d = new Dude("")
-				Tile t = new Tile("BarrenGrass", display.getWorld().getTile(x, y).getHeight() - 1, x,y);
-				display.getWorld().setTile(x, y, t);
+				oldTile.setImage("BarrenGrass");
+				oldTile.setHeight(oldTile.getHeight() - 1);
 			}else{
-				Tile t = new Tile("BarrenWall", display.getWorld().getTile(x, y).getHeight() + 1, x,y);
-				display.getWorld().setTile(x, y, t);
+				oldTile.setImage("BarrenWall");
+				oldTile.setHeight(oldTile.getHeight() + 1);
 			}
 
 		this.repaint();

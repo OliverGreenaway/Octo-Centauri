@@ -86,6 +86,8 @@ public class World {
 					return false; // can't have two structures on one tile
 				}
 
+		s.setWorld(this);
+
 		// place the structure
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
