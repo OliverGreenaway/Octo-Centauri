@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
 
 import javax.swing.JFrame;
@@ -70,7 +72,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	/**
-	 *
 	 * @param seed
 	 * @param network
 	 * @param fileMap
@@ -422,6 +423,9 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+
+
+		Set<Rectangle> UISpace = display.getUISpace();
 
 		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
 
