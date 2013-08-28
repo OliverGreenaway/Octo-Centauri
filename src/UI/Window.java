@@ -370,18 +370,6 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	}
 
 	public void startAudio(Thread thread){
-//		thread.stop();//TODO THIS CAUSES NULL POINTER EXCEPTIONS
-		new Thread(
-	            new Runnable() {
-	                public void run() {
-	                    try {
-	                    	new AudioPlayer("laugh.wav");
-	                        // PLAY AUDIO CODE
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }).start();
 
 	}
 

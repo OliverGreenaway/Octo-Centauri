@@ -30,7 +30,7 @@ public abstract class AbstractMenuPanel extends JPanel {
 			.getImage();
 
 	private int y = 0;
-	
+
 
 	public void addButton(final MainFrame frame, ActionListener listener, String path) {
 
@@ -51,10 +51,11 @@ public abstract class AbstractMenuPanel extends JPanel {
 				new Thread(new Runnable() {
 					public void run() {
 						try {
-							new AudioPlayer("laugh.wav");// TODO to be replaced
+							AudioPlayer p = new AudioPlayer("laugh.wav", false);// TODO to be replaced
 															// with
 															// menuMusic.wav
 															// when it's written
+							p.start();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
