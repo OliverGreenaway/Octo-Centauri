@@ -95,7 +95,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	/**
 	 * Returns one of two random tiles.
-	 * 
+	 *
 	 * @return String
 	 */
 	public String generateRandomTile() {
@@ -141,6 +141,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		// setup audio
 
 		if(audioPlayer!=null){
+			System.out.println("stop");
 			audioPlayer.stopPlayer();
 			audioPlayer = new AudioPlayer("testMusic.wav", true);
 			audioPlayer.start();
@@ -152,7 +153,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	/**
 	 * Draws a basic graphic pane needs actual graphical outlines and suchlike
 	 * -Outdated-
-	 * 
+	 *
 	 * @param Graphics
 	 */
 	public void paint(Graphics g) {
