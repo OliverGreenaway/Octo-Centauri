@@ -56,43 +56,4 @@ public class SinglePlayerMenuPanel extends AbstractMenuPanel {
 
 		addButton(frame, listener, "BackButton");
 	}
-
-	public SinglePlayerMenuPanel(final MainFrame frame, final Thread a) {
-
-		/*
-		 * Launches a new game, randomly generated from a seed
-		 */
-		ActionListener listener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new Window(a));
-			}
-		};
-
-		addButton(frame, listener, "NewGameButton");
-
-		/*
-		 * Brings up a file chooser and loads the game from file.
-		 */
-		listener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new Window(a));
-			}
-		};
-
-		addButton(frame, listener, "LoadGameButton");
-
-		/*
-		 * back
-		 */
-		listener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.back();
-			}
-		};
-
-		addButton(frame, listener, "BackButton");
-	}
 }
