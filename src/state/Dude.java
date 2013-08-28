@@ -32,12 +32,14 @@ public class Dude implements Serializable{
 	 * Size of the structure, in tiles.
 	 */
 
-	private final int UP = 0, LEFT = 1, RIGHT = 3, DOWN = 2; // Numerical constants for facing
+	public static final int DOWN = 0, LEFT = 1, RIGHT = 3, UP = 2; // Numerical constants for facing
 		// NOTE: Usable as images array indices
 
+
 	private int width, height; // ???
-	private int facing = UP; // Facing constant
-	private Image[] images = new  Image[4]; // A single image stored per facing
+	private int facing = DOWN; // Facing constant
+	private int oldX, oldY;
+	private Image[][] images = new  Image[4][4]; // A single image stored per facing
 
 	/**
 	 * The dude's image.
@@ -77,7 +79,7 @@ public class Dude implements Serializable{
 	 * Returns the dude's image.
 	 */
 	public Image getImage() {
-		return images[facing];
+		return images[facing][count];
 	}
 
 	/**
@@ -92,6 +94,8 @@ public class Dude implements Serializable{
 	public Dude(World world, int x, int y, int width, int height, String image) {
 		this.x = x;
 		this.y = y;
+		this.oldX = x;
+		this.oldY = y;
 		this.width = width;
 		this.height = height;
 		//this.image = new ImageIcon(image).getImage();
@@ -99,21 +103,21 @@ public class Dude implements Serializable{
 		JPanel panel = new JPanel(); // Instantiated JPanel to use createImage method
 
 		// Load Images
-		int num_images = NUM_SPRITES/4; // NOTE: Currently skips out all but first image of each facing
+		int num_images = NUM_SPRITES; // NOTE: Currently skips out all but first image of each facing
 
-		try{
 		for (int i = 0; i<4; i++){ // Iterate through facings --> Load an image into each facing
 			// For animations this code will need to be extended to include an array of images per facing
 			// Idea: Make images double array?
+			for(int ß = 0; ß<4; ß++){
+				images[i][ß] = new ImageIcon(image).getImage();
+				CropImageFilter filter = new CropImageFilter((images[i][ß].getWidth(null)/NUM_SPRITES)*(i*4 + ß),0,(images[i][ß].getWidth(null)/NUM_SPRITES),images[i][ß].getHeight(null));
+				images[i][ß] = panel.createImage(new FilteredImageSource(images[i][ß].getSource(), filter));
+			}
+		}
 
-			images[i] = new ImageIcon(image).getImage();
-			CropImageFilter filter = new CropImageFilter((images[i].getWidth(null)/NUM_SPRITES)*i*num_images,0,(images[i].getWidth(null)/NUM_SPRITES),images[i].getHeight(null));
-			images[i] = panel.createImage(new FilteredImageSource(images[i].getSource(), filter));
-		}
-		} catch (Exception e){
-			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning", JOptionPane.WARNING_MESSAGE);
-		}
+
 	}
+
 
 	/**
 	 * Tries to move the dude.
@@ -135,25 +139,52 @@ public class Dude implements Serializable{
 					return false;
 			}
 
+		setFacing(newX, newY, x, y);
 		// unlink the tiles at the old location
-		for(int X = 0; X < width; X++)
-			for(int Y = 0; Y < height; Y++)
-				world.getTile(x-X, y-Y).setDude(null);
+		//unlinkTiles(x, y);
 
 		// update the location
 		x = newX;
 		y = newY;
 
 		// link the tiles at the new location
-		for(int X = 0; X < width; X++)
-			for(int Y = 0; Y < height; Y++)
-				world.getTile(x-X, y-Y).setDude(this);
+		linkTiles(x, y);
+
 
 		return true;
 	}
 
+	private void unlinkTiles(int x, int y) {
+		for(int X = 0; X < width; X++)
+			for(int Y = 0; Y < height; Y++)
+				world.getTile(x-X, y-Y).setDude(null);
+	}
+
+	private void linkTiles(int x, int y) {
+		for(int X = 0; X < width; X++)
+			for(int Y = 0; Y < height; Y++)
+				world.getTile(x-X, y-Y).setDude(this);
+	}
+
+	public void setFacing(int newX,int newY, int x, int y){
+		if((x -newX) > 0){
+			facing = LEFT;
+		}
+		if ((x - newX)<0){
+			facing = RIGHT;
+		}
+		if ((y- newY) > 0){
+			facing = UP;
+		}
+		if ((y - newY) < 0){
+			facing = DOWN;
+		}
+
+	}
 	public boolean canMove(Tile from, Tile to) {
 		if(from.getHeight() < to.getHeight())
+			return false;
+		else if (from.getHeight()> to.getHeight())
 			return false;
 		return true;
 	}
@@ -161,26 +192,39 @@ public class Dude implements Serializable{
 	/**
 	 * Called every tick. Does stuff.
 	 */
+	int count;
+	int direction = DOWN;
 	public void update() {
-		// move randomly
-		int r = new Random().nextInt(4);
-		if(r == 0) {
-			move(x+1, y);
-			facing = RIGHT;
-		}
-		if(r == 1){
-			move(x-1, y);
-			facing = LEFT;
-		}
-		if(r == 2){
-			move(x, y+1);
-			facing = DOWN;
-		}
-		if(r == 3){
-			move(x, y-1);
-			facing = UP;
+		count++;
+		if (count == 4){
+			unlinkTiles(oldX, oldY);
+			linkTiles(x, y);
+
+			oldX = x; oldY = y;
+			if(direction == DOWN) {
+				boolean ok = move(x, y+1);
+				if(!ok)
+					direction = UP;
+			}
+			if(direction == UP) {
+				boolean ok = move(x, y-1);
+				if(!ok)
+					direction = LEFT;
+			}
+			if(direction == LEFT) {
+				boolean ok = move(x-1, y);
+				if(!ok)
+					direction = RIGHT;
+			}
+			if(direction == RIGHT) {
+				boolean ok = move(x+1, y);
+				if(!ok)
+					direction = DOWN;
+			}
+			count = 0;
 		}
 	}
+
 
 	/**
 	 * Draws the dude.
@@ -191,15 +235,17 @@ public class Dude implements Serializable{
 	 */
 	public void draw(Graphics g, int width, int height, int camx, int camy){
 
+		double percentMoved = count * 0.25;
+
 		// Tile coordinates of The Dude (x,y)
-		int x = this.x - camx +1;
-		int y = this.y - camy +1;
+		double x = this.oldX + (this.x - this.oldX) * percentMoved - camx +1;
+		double y = this.oldY + (this.y - this.oldY) * percentMoved - camy +1;
 
 		// Pixel coordinates (on screen) of the Dude (i,j)
-		int i = (width/2)-(images[facing].getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
-		int j =  (x+y) * (TILE_HEIGHT/ 2) -images[facing].getHeight(null)-(TILE_HEIGHT/2) - height;
+		double i = (width/2)-(images[facing][count].getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);
+		double j =  (x+y) * (TILE_HEIGHT/ 2) -images[facing][count].getHeight(null)-(TILE_HEIGHT/2) - height;
 		// Draw image at (i,j)
-		g.drawImage(images[facing], i, j, images[facing].getWidth(null), images[facing].getHeight(null), null);
+		g.drawImage(images[facing][count], (int)i, (int)j, images[facing][count].getWidth(null), images[facing][count].getHeight(null), null);
 
 	}
 }
