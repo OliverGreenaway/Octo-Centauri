@@ -1,5 +1,6 @@
 package menu;
 
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,38 +19,43 @@ import UI.Window;
 public class SinglePlayerMenuPanel extends JPanel {
 
 	public SinglePlayerMenuPanel(final MainFrame frame) {
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
 		/*
 		 * Launches a new game, randomly generated from a seed
 		 */
-		JButton newGame = new JButton("New Game");
-		this.add(newGame);
-		newGame.addActionListener(new ActionListener() {
+		ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.addMenu(new Window());
 			}
-		});
+		};
+
+		MainFrame.addButton(frame, this, c, listener, "NewGameButton", 0);
+
 		/*
 		 * Brings up a file chooser and loads the game from file.
 		 */
-		JButton loadGame = new JButton("Load Game");
-		this.add(loadGame);
-		loadGame.addActionListener(new ActionListener() {
+		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Load Game
+				frame.addMenu(new Window());
 			}
-		});
+		};
 
-		JButton back = new JButton("Back");
+		MainFrame.addButton(frame, this, c, listener, "LoadGameButton", 1);
 
-		this.add(back);
-		back.addActionListener(new ActionListener() {
+		/*
+		 * back
+		 */
+		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.back();
-
 			}
-		});
+		};
+
+		MainFrame.addButton(frame, this, c, listener, "BackButton", 2);
 	}
 }

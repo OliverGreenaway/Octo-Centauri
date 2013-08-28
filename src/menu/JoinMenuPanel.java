@@ -72,6 +72,11 @@ public class JoinMenuPanel extends JPanel{
 					return;
 				}
 				showError("game joined");
+				frame.addWindowListener(new java.awt.event.WindowAdapter() {
+				    public void windowClosing(java.awt.event.WindowEvent evt) {
+				         
+				    }
+				});
 				JoinGame jg;
 				try {
 					jg = new JoinGame(n, false);
