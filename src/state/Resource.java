@@ -11,12 +11,7 @@ public class Resource extends Structure {
 		super(x, y, width, height, image);
 	}
 
-	public void setAmount(int idx){
-		if(amount <= 10){
-			depleted();
-		}
-		amount =- idx;
-	}
+
 
 	private void depleted() {
 		depleted = true;
@@ -26,5 +21,13 @@ public class Resource extends Structure {
 		return amount;
 	}
 
+
+	public void harvest() {
+		if(amount <= 10){
+			depleted();
+			getWorld().removeStructure(this);
+		}
+		amount =- 10;
+	}
 
 }

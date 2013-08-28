@@ -282,7 +282,7 @@ public class Display extends JPanel {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(this.getWidth() - 275, 0, 275, 280);
 
-		for (int x = 0; x < VIEW_WIDTH * 2; x++) {
+		/*for (int x = 0; x < VIEW_WIDTH * 2; x++) {
 			for (int y = 0; y < VIEW_HEIGHT * 2; y++) {
 				Tile t = world.getTile(x + camera.x / 2, y + camera.y / 2);
 				if (t != null) {
@@ -297,7 +297,7 @@ public class Display extends JPanel {
 					}
 				}
 			}
-		}
+		}*/
 
 		// draw the button panel
 		g2d.setColor(Color.black);

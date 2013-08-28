@@ -135,10 +135,10 @@ public class Dude implements Serializable{
 		// check for overlap with other dudes, and invalid moves
 		for(int X = 0; X < width; X++)
 			for(int Y = 0; Y < height; Y++) {
-				Tile tile = world.getTile(x-X, y-Y);
+				Tile tile = world.getTile(newX-X, newY-Y);
 				if(tile.getDude() != null && tile.getDude() != this)
 					return false;
-				if(!canMove(tile, world.getTile(newX-X, newY-Y)))
+				if(!canMove(world.getTile(x-X, y-Y), tile))
 					return false;
 			}
 
@@ -192,38 +192,44 @@ public class Dude implements Serializable{
 		return true;
 	}
 
+	Resource harvesting;
+
 	/**
 	 * Called every tick. Does stuff.
 	 */
 	int count;
-	int direction = DOWN;
 	public void update() {
 		count++;
 		if (count == 4){
 			unlinkTiles(oldX, oldY);
 			linkTiles(x, y);
-
 			oldX = x; oldY = y;
-			if(direction == DOWN) {
-				boolean ok = move(x, y+1);
-				if(!ok)
-					direction = UP;
+
+			if(harvesting == null)
+				harvesting = world.getNearestResource(world.getTile(x, y));
+
+			if(harvesting != null) {
+				boolean moved = false;
+				if(!moved && harvesting.getX() > x) {
+					moved = move(x+1, y);
+				}
+				if(!moved && harvesting.getX() < x) {
+					moved = move(x-1, y);
+				}
+				if(!moved && harvesting.getY() > y) {
+					moved = move(x, y+1);
+				}
+				if(!moved && harvesting.getY() < y) {
+					moved = move(x, y-1);
+				}
+				if(!moved) {
+					if(harvesting.getX() == x && harvesting.getY() == y) {
+						harvesting.harvest();
+						harvesting = null;
+					}
+				}
 			}
-			if(direction == UP) {
-				boolean ok = move(x, y-1);
-				if(!ok)
-					direction = LEFT;
-			}
-			if(direction == LEFT) {
-				boolean ok = move(x-1, y);
-				if(!ok)
-					direction = RIGHT;
-			}
-			if(direction == RIGHT) {
-				boolean ok = move(x+1, y);
-				if(!ok)
-					direction = DOWN;
-			}
+
 			count = 0;
 		}
 	}
