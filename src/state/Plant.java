@@ -7,4 +7,8 @@ public class Plant extends Resource{
 		this.amount = 100;
 	}
 
+	public ResourceType getResType() {
+		return ResourceType.PLANT;
+	}
+
 }
