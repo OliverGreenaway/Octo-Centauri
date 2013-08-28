@@ -301,7 +301,10 @@ public class Dude implements Serializable{
 		// Pixel coordinates (on screen) of the Dude (i,j)
 		Point pt = d.tileToDisplayCoordinates(x, y);
 
-		pt.y -= TILE_HEIGHT * world.getTile(this.x, this.y).getHeight();
+		int height = world.getTile(this.x, this.y).getHeight();
+		int oldHeight = world.getTile(oldX, oldY).getHeight();
+
+		pt.y -= TILE_HEIGHT * (oldHeight + (height - oldHeight) * percentMoved);
 		pt.y -= TILE_HEIGHT/2;
 
 		Image i = images[(facing + d.getRotation()) % 4][Math.min(count, 3)];
