@@ -4,6 +4,7 @@ package logic;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -76,10 +77,10 @@ public class Logic {
 		neighbours.add(tiles[x+1][y]);
 		neighbours.add(tiles[x][y+1]);
 		neighbours.add(tiles[x][y-1]);
-		neighbours.add(tiles[x-1][y-1]);
-		neighbours.add(tiles[x+1][y+1]);
-		neighbours.add(tiles[x-1][y+1]);
-		neighbours.add(tiles[x+1][y-1]);
+//		neighbours.add(tiles[x-1][y-1]);
+//		neighbours.add(tiles[x+1][y+1]);
+//		neighbours.add(tiles[x-1][y+1]);
+//		neighbours.add(tiles[x+1][y-1]);
 		return neighbours;
 	}
 
@@ -90,6 +91,42 @@ public class Logic {
 	 * @param routeStart - the point to begin path from
 	 * @param routeGoal - the goal point of the path
 	 */
+
+	public Stack<Tile> findRoute(Tile start, Tile target){
+		Stack<Tile> route = new Stack<Tile>();
+		HashSet<Tile> visited = new HashSet<Tile>();
+		PriorityQueue<SearchNode> fringe = new PriorityQueue<SearchNode>();
+
+		//Enqueue root
+		fringe.offer(new SearchNode(start,target,0,null));
+
+		while(!fringe.isEmpty()){
+			SearchNode sNode = fringe.poll();
+			Tile tile = sNode.tile;
+
+			if(!visited.contains(tile)){
+				visited.add(tile);
+				//node.pathFrom <- from
+				if(tile==target){
+					//EXIT
+					while(sNode.parent != null){
+						route.push(sNode.tile);
+						sNode = sNode.parent;
+					}
+					return route;
+				}
+				List<Tile> neighbours = getNeighbours(tile);
+				for(Tile neighbour: neighbours){
+					if(neighbour!=null && !visited.contains(neighbour)){
+						fringe.offer(new SearchNode(neighbour,target,sNode.costToStart+1,sNode));
+					}
+				}
+			}
+		}
+		return null;
+
+	}
+
 	/*public Stack<Point> findRoute(Point routeStart, Point routeGoal) {
 		Stack<Point> route = new Stack<Point>(); //to return
 
