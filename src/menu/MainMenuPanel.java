@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 public class MainMenuPanel extends AbstractMenuPanel {
 
 	public MainMenuPanel(final MainFrame frame) {
-
 		ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
