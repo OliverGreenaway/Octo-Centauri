@@ -58,6 +58,7 @@ public class World {
 				}
 			}
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -66,6 +67,8 @@ public class World {
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+
+		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
 	/**
