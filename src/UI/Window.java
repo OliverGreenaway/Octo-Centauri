@@ -267,8 +267,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	// mouse commands, awaiting some level of world to play with
 	@Override
-	public void mouseClicked(MouseEvent e) {
-
+	public void mousePressed(MouseEvent e) {
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			//set tile to be somthing
 			if(e.getButton()==3){
@@ -302,7 +301,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
