@@ -298,15 +298,22 @@ public class Display extends JPanel {
 				}
 			}
 		}
+
+		// draw the button panel
+		g2d.setColor(Color.black);
+		g2d.fillRect(this.getWidth() - 340, 0, 65, 280);
+		/*int buttonx = this.getWidth() - 235;
+		g2d.setColor(Color.red);
+		g2d.fillRect(buttonx, 5, 55, 55);*///TODO upto here
+		// draw the object selecter
+
+		//border minimap and buttons
 		g2d.setColor(new Color(212, 175, 55));
 		Stroke orig = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(3));
-		g2d.drawRoundRect(this.getWidth() - 277, 0, 275, 280, 10, 10);
+		g2d.drawRoundRect(this.getWidth() - 340, 0, 340, 280, 10, 10);
+		g2d.drawLine(this.getWidth() - 275, 0, this.getWidth() - 275, 280);
 		g2d.setStroke(orig);
-		// draw the button panel
-
-		// draw the object selecter
-
 	}
 
 	public void rotate() {

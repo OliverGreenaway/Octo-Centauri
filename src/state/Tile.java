@@ -67,7 +67,7 @@ public class Tile implements Serializable {
 			rightSideImg = new ImageIcon(
 					"Assets/EnvironmentTiles/EastFacingDirt.png").getImage();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning",
+			JOptionPane.showMessageDialog(null, "Image Not Found x01", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 		}
 		height = ht;

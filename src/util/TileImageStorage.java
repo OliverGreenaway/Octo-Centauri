@@ -20,7 +20,7 @@ public class TileImageStorage {
 			images.put(key, img);
 		}
 		}catch(IOException e){
-			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Image Not Found x02", "Warning", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
