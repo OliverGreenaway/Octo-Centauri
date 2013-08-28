@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
 
 import javax.swing.JFrame;
@@ -73,7 +75,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	/**
-	 *
 	 * @param seed
 	 * @param network
 	 * @param fileMap
@@ -314,67 +315,79 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mousePressed(MouseEvent e) {
-		Point point = display.displayToTileCoordinates(e.getX(), e.getY());
-		if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
 
-			// set tile to be somthing
-			if (e.getButton() == 3) {
-				// Dude d = new Dude("")
-				Tile t = new Tile("Grass", 0, (int) point.getX(),
-						(int) point.getY());
-				display.getWorld().setTile((int) point.getX(),
-						(int) point.getY(), t);
-			} else if (drawTransparent == true) {
-				Structure s = new Structure((int) point.getX(),
-						(int) point.getY(), 1, 1,
-						"Assets/EnvironmentTiles/BarrenWall.png");
-				/*
-				 * Copied from Java tutorial. Create a rescale filter op that
-				 * makes the image 50% opaque.
-				 */
-				float[] scales = { 1f, 1f, 1f, 0.5f };
-				float[] offsets = new float[4];
-				RescaleOp rop = new RescaleOp(scales, offsets, null);
-				s.setFilter(rop);
-
-				display.getWorld().addStructure(s);
-			} else {
-				Tile w = new Tile("BarrenWall", 0, (int) point.getX(),
-						(int) point.getY());
-				display.getWorld().setTile((int) point.getX(),
-						(int) point.getY(), w);
-			}
-
-		} else {
-			Tile t = display.getWorld().getTile(point.x, point.y);
-			if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
-				switch (e.getButton()) {
-				case 1:
-					t.setImage("BarrenGrass");
-//					selectedTile1 = t;
-//					displayPath();
-					break;
-				case 2:
-					t.setImage("DarkSand");
-					break;
-				case 3:
-					t.setImage("BarrenWall");
-//					selectedTile2 = t;
-//					displayPath();
-					break;
-				}
-			} else {
-				switch (e.getButton()) {
-				case 3:
-					t.setHeight(t.getHeight() - 1);
-					break;
-				case 1:
-					t.setHeight(t.getHeight() + 1);
-					break;
-				}
+		boolean onUI = false;
+		Set<Rectangle> UISpace = display.getUISpace();
+		Point p = e.getPoint();
+		for (Rectangle uiSquare : UISpace) {
+			if (uiSquare.contains(p)) {
+				onUI = true;
+				break;
 			}
 		}
 
+		if (onUI) {
+
+		} else {
+
+
+			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
+			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
+
+				// set tile to be somthing
+				if (e.getButton() == 3) {
+					// Dude d = new Dude("")
+					Tile t = new Tile("Grass", 0, (int) point.getX(),
+							(int) point.getY());
+					display.getWorld().setTile((int) point.getX(),
+							(int) point.getY(), t);
+				} else if (drawTransparent == true) {
+					Structure s = new Structure((int) point.getX(),
+							(int) point.getY(), 1, 1,
+							"Assets/EnvironmentTiles/BarrenWall.png");
+					/*
+					 * Copied from Java tutorial. Create a rescale filter op
+					 * that makes the image 50% opaque.
+					 */
+					float[] scales = { 1f, 1f, 1f, 0.5f };
+					float[] offsets = new float[4];
+					RescaleOp rop = new RescaleOp(scales, offsets, null);
+					s.setFilter(rop);
+
+					display.getWorld().addStructure(s);
+				} else {
+					Tile w = new Tile("BarrenWall", 0, (int) point.getX(),
+							(int) point.getY());
+					display.getWorld().setTile((int) point.getX(),
+							(int) point.getY(), w);
+				}
+
+			} else {
+				Tile t = display.getWorld().getTile(point.x, point.y);
+				if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
+					switch (e.getButton()) {
+					case 1:
+						t.setImage("BarrenGrass");
+						break;
+					case 2:
+						t.setImage("DarkSand");
+						break;
+					case 3:
+						t.setImage("BarrenWall");
+						break;
+					}
+				} else {
+					switch (e.getButton()) {
+					case 3:
+						t.setHeight(t.getHeight() - 1);
+						break;
+					case 1:
+						t.setHeight(t.getHeight() + 1);
+						break;
+					}
+				}
+			}
+		}
 		this.repaint();
 
 	}
@@ -391,11 +404,27 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		}
 	}
 
+
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		Point point = display.displayToTileCoordinates(e.getX(), e.getY());
-		Tile t = display.getWorld().getTile(point.x, point.y);
-		t.setHeight(t.getHeight() + e.getWheelRotation());
+
+		boolean onUI = false;
+		Set<Rectangle> UISpace = display.getUISpace();
+		Point p = e.getPoint();
+		for (Rectangle uiSquare : UISpace) {
+			if (uiSquare.contains(p)) {
+				onUI = true;
+				break;
+			}
+		}
+
+		if (onUI) {
+
+		} else {
+			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
+			Tile t = display.getWorld().getTile(point.x, point.y);
+			t.setHeight(t.getHeight() + e.getWheelRotation());
+		}
 	}
 
 	@Override
@@ -430,9 +459,24 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	@Override
 	public void mouseMoved(MouseEvent e) {
 
-		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
+		boolean onUI = false;
+		Set<Rectangle> UISpace = display.getUISpace();
+		Point p = e.getPoint();
+		for (Rectangle uiSquare : UISpace) {
+			if (uiSquare.contains(p)) {
+				onUI = true;
+				break;
+			}
+		}
 
-		display.setHighlightedTile(tilePt.x, tilePt.y);
+		if (onUI) {
+
+			display.unHighlightTile();
+		} else {
+			Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
+
+			display.setHighlightedTile(tilePt.x, tilePt.y);
+		}
 	}
 
 	public void startAudio(Thread thread) {

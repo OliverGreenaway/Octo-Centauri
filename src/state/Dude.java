@@ -10,11 +10,14 @@ import java.awt.image.ImageConsumer;
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.Stack;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import logic.Logic;
 
 import UI.Display;
 
@@ -30,7 +33,9 @@ public class Dude implements Serializable{
 	private int TILE_HEIGHT = 32;
 	private int TILE_WIDTH = 64;
 	private int NUM_SPRITES = 16; // Number of model sprites per  images
-
+	private int maxHealth;
+	private int currentHealth;
+	private int damage;
 
 	/**
 	 * Size of the structure, in tiles.
@@ -102,6 +107,8 @@ public class Dude implements Serializable{
 		this.oldY = y;
 		this.width = width;
 		this.height = height;
+		maxHealth = 100;
+		currentHealth = maxHealth;
 		//this.image = new ImageIcon(image).getImage();
 		this.world = world;
 		JPanel panel = new JPanel(); // Instantiated JPanel to use createImage method
@@ -112,10 +119,10 @@ public class Dude implements Serializable{
 		for (int i = 0; i<4; i++){ // Iterate through facings --> Load an image into each facing
 			// For animations this code will need to be extended to include an array of images per facing
 			// Idea: Make images double array?
-			for(int ß = 0; ß<4; ß++){
-				images[i][ß] = new ImageIcon(image).getImage();
-				CropImageFilter filter = new CropImageFilter((images[i][ß].getWidth(null)/NUM_SPRITES)*(i*4 + ß),0,(images[i][ß].getWidth(null)/NUM_SPRITES),images[i][ß].getHeight(null));
-				images[i][ß] = panel.createImage(new FilteredImageSource(images[i][ß].getSource(), filter));
+			for(int j = 0; j<4; j++){
+				images[i][j] = new ImageIcon(image).getImage();
+				CropImageFilter filter = new CropImageFilter((images[i][j].getWidth(null)/NUM_SPRITES)*(i*4 + j),0,(images[i][j].getWidth(null)/NUM_SPRITES),images[i][j].getHeight(null));
+				images[i][j] = panel.createImage(new FilteredImageSource(images[i][j].getSource(), filter));
 			}
 		}
 
@@ -211,11 +218,12 @@ public class Dude implements Serializable{
 			oldX = x; oldY = y;
 
 			if(storedResources > 9) {
-				if(crate == null)
+				if(crate == null) {
 					crate = (Crate)world.getNearestStructure(Crate.class, world.getTile(x, y));
+				}
 
 				if(crate != null) {
-					boolean moved = moveTowards(crate.getX(), crate.getY());
+					boolean moved = followPath(crate.getX(), crate.getY());
 					if(!moved) {
 						if(crate.getX() == x && crate.getY() == y) {
 							crate.dropoff(storedResources, storedResType);
@@ -227,10 +235,13 @@ public class Dude implements Serializable{
 				}
 
 			} else {
-				harvesting = world.getNearestResource(world.getTile(x, y), storedResType);
+				Resource nowHarvesting = world.getNearestResource(world.getTile(x, y), storedResType);
+				if(harvesting != nowHarvesting) {
+					harvesting = nowHarvesting;
+				}
 
 				if(harvesting != null) {
-					boolean moved = moveTowards(harvesting.getX(), harvesting.getY());
+					boolean moved = followPath(nowHarvesting.getX(), nowHarvesting.getY());
 					if(!moved) {
 						if(harvesting.getX() == x && harvesting.getY() == y) {
 							storedResources += harvesting.harvest();
@@ -245,21 +256,30 @@ public class Dude implements Serializable{
 		}
 	}
 
-	private boolean moveTowards(int tx, int ty) {
-		boolean moved = false;
-		if(!moved && tx > x) {
-			moved = move(x+1, y);
+	int targetX = -1, targetY = -1;
+	Stack<Tile> path;
+	int failedMoveCount = 0;
+
+	private boolean followPath(int x, int y) {
+		if(x != targetX || y != targetY || path == null || path.size() == 0 || failedMoveCount > 10) {
+			targetX = x;
+			targetY = y;
+			path = new Logic(world).findRoute(world.getTile(this.x, this.y), world.getTile(targetX, targetY));
+			failedMoveCount = 0;
 		}
-		if(!moved && tx < x) {
-			moved = move(x-1, y);
+
+		if(path.size() > 0) {
+			Tile next = path.pop();
+			if(!move(next.getX(), next.getY())) {
+				path.push(next);
+				failedMoveCount++;
+				return false;
+			}
+			failedMoveCount = 0;
+			return true;
 		}
-		if(!moved && ty > y) {
-			moved = move(x, y+1);
-		}
-		if(!moved && ty < y) {
-			moved = move(x, y-1);
-		}
-		return moved;
+
+		return false;
 	}
 
 
@@ -289,5 +309,21 @@ public class Dude implements Serializable{
 		// Draw image at (i,j)
 		g.drawImage(i, pt.x - i.getWidth(null)/2, pt.y - i.getHeight(null), null);
 
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int health) {
+		this.maxHealth = health;
+	}
+
+	public int getCurrentHealth() {
+		return currentHealth;
+	}
+
+	public void setCurrentHealth(int currentHealth) {
+		this.currentHealth = currentHealth;
 	}
 }
