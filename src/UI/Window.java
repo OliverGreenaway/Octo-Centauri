@@ -30,6 +30,8 @@ import networking.common.Network;
 import logic.FileReader;
 import logic.Logic;
 import logic.UpdateThread;
+import state.Direction;
+import state.Ramp;
 import state.Structure;
 import state.Tile;
 import state.World;
@@ -66,10 +68,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	private AudioPlayer audioPlayer;
 
+	private Tile selectedTile1;
+	private Tile selectedTile2;
+
 	public Window() {
 		// startAudio(thread);
 		initialize();
-		logic = new Logic(display.getWorld());
+		//logic = new Logic(display.getWorld());
 	}
 
 	/**
@@ -80,7 +85,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	public Window(long seed, Network network, String fileMap,
 			AudioPlayer audioPlayer) {// TODO //mapfile tpye?
 
-		// audioPl
+		this.audioPlayer = audioPlayer;
+
 
 		this.seed = seed;
 		this.network = network;
@@ -138,6 +144,16 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		UIImageStorage.add("HealthBarsToggle");
 		UIImageStorage.add("NewDudeToggle");
 		UIImageStorage.add("SlugBalancingToggle");
+		// setup audio
+
+		if(audioPlayer!=null){
+			System.out.println("stop");
+			audioPlayer.stopPlayer();
+			audioPlayer = new AudioPlayer("testMusic.wav", true);
+			audioPlayer.start();
+		}
+
+
 	}
 
 	/**
@@ -313,7 +329,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 		boolean onUI = false;
 		Set<Rectangle> UISpace = display.getUISpace();
 		Point p = e.getPoint();
@@ -327,6 +342,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		if (onUI) {
 
 		} else {
+
 
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
@@ -353,10 +369,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 					display.getWorld().addStructure(s);
 				} else {
-					Tile w = new Tile("BarrenWall", 0, (int) point.getX(),
-							(int) point.getY());
-					display.getWorld().setTile((int) point.getX(),
-							(int) point.getY(), w);
+					display.getWorld().addStructure(new Ramp(point.x, point.y, 1, 1, "PathRamp", Direction.values()[display.getRotation()]));
+					display.getWorld().getTile(point.x, point.y);
 				}
 
 			} else {
@@ -389,13 +403,18 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	}
 
-	/*
-	 * public void displayPath() { System.out.println("HIII!"); if
-	 * (selectedTile1 != null && selectedTile2 != null) { Stack<Tile> route =
-	 * new Logic(display.getWorld()).findRoute( selectedTile1, selectedTile2);
-	 * while (!route.isEmpty()) { Tile t = route.pop(); t.setImage("Path"); } }
-	 * }
-	 */
+	public void displayPath() {
+		System.out.println("HIII!");
+		if (selectedTile1 != null && selectedTile2 != null) {
+			Stack<Tile> route = new Logic(display.getWorld()).findRoute(
+					selectedTile1, selectedTile2);
+			while (!route.isEmpty()) {
+				Tile t = route.pop();
+				t.setImage("Path");
+			}
+		}
+	}
+
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -489,10 +508,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		}
 	}
 
-	public void startAudio(Thread thread) {
-		// TODO We need to implement this
-		AudioPlayer audioplayer = new AudioPlayer("TempInGameSong.wav", true);
-		audioplayer.start();
+
+	public void startAudio(){
+
+
 
 	}
 

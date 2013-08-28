@@ -360,7 +360,7 @@ public class Display extends JPanel {
 													// in the tile --> DRAW
 													// HE/SHE/IT!
 
-						t.getStructure().draw(g, bottomPixelX, bottomPixelY);
+						t.getStructure().draw(g, this, bottomPixelX, bottomPixelY);
 
 					}
 
