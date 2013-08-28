@@ -12,6 +12,10 @@ import logic.GameUpdate;
  */
 public class World {
 
+	private int woodResource = 200;
+	private int plantResource = 200;
+	private int crystalResource = 200;
+
 	private boolean showHealth = true;
 
 	private Tile[][] worldTile;
@@ -212,13 +216,21 @@ public class World {
 		return allDudes;
 	}
 
-	public Resource getNearestResource(Tile tile) {
+	/**
+	 * Finds the nearest resource structure of the given type.
+	 * resType is the type to look for, or null if any type is ok.
+	 */
+	public Resource getNearestResource(Tile tile, ResourceType resType) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
 
 		for(Resource r : resources) {
+			if(resType != null && r.getResType() != resType)
+				continue;
+			if(r.getResType() == null)
+				continue;
 			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
 			if(squaredDistance < bestSquaredDistance) {
 				bestSquaredDistance = squaredDistance;
@@ -246,5 +258,29 @@ public class World {
 			}
 		}
 		return bestStructure;
+	}
+
+	public int getCrystalResource() {
+		return crystalResource;
+	}
+
+	public void setCrystalResource(int crystalResource) {
+		this.crystalResource = crystalResource;
+	}
+
+	public int getPlantResource() {
+		return plantResource;
+	}
+
+	public void setPlantResource(int plantResource) {
+		this.plantResource = plantResource;
+	}
+
+	public int getWoodResource() {
+		return woodResource;
+	}
+
+	public void setWoodResource(int woodResource) {
+		this.woodResource = woodResource;
 	}
 }
