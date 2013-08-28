@@ -34,5 +34,14 @@ public class MainMenuPanel extends JPanel {
 				System.exit(0) ;
 			}
 		});
+
+		JButton sound = new JButton("Sound");
+		this.add(sound);
+		sound.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new AudioPlayer();
+			}
+		});
 	}
 }
