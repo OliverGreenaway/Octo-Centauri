@@ -7,4 +7,8 @@ public class Resource extends Structure {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void harvest() {
+		getWorld().removeStructure(this);
+	}
+
 }

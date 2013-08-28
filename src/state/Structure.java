@@ -145,4 +145,8 @@ public class Structure implements Serializable {
 		assert world == null || world == w;
 		world = w;
 	}
+
+	public World getWorld() {
+		return world;
+	}
 }

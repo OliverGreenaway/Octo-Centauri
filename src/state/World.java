@@ -105,6 +105,16 @@ public class World {
 		return true;
 	}
 
+	public void removeStructure(Structure s) {
+		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
+
+		for(int X = 0; X < w; X++)
+			for(int Y = 0; Y < h; Y++)
+				worldTile[x-X][y-Y].setStructure(null, false);
+
+		if(s instanceof Resource)
+			resources.remove(s);
+	}
 
 	/**
 	 * Adds a dude to the world and returns true.
@@ -183,5 +193,21 @@ public class World {
 	 */
 	public Set<Dude> getDudes(){
 		return allDudes;
+	}
+
+	public Resource getNearestResource(Tile tile) {
+		int x = tile.getX();
+		int y = tile.getY();
+		int bestSquaredDistance = Integer.MAX_VALUE;
+		Resource bestResource = null;
+
+		for(Resource r : resources) {
+			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
+			if(squaredDistance < bestSquaredDistance) {
+				bestSquaredDistance = squaredDistance;
+				bestResource = r;
+			}
+		}
+		return bestResource;
 	}
 }
