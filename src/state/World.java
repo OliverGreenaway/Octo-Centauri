@@ -19,7 +19,7 @@ public class World {
 	private GameUpdate gameUpdate; //the current game update object to send changes to
 
 	private Set<Dude> allDudes = new HashSet<Dude>();
-
+	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
 
 	/**
@@ -96,6 +96,7 @@ public class World {
 
 		if(s instanceof Resource)
 			resources.add((Resource)s);
+		structures.add(s);
 
 		// place the structure
 		for(int X = 0; X < w; X++)
@@ -114,6 +115,7 @@ public class World {
 
 		if(s instanceof Resource)
 			resources.remove(s);
+		structures.remove(s);
 	}
 
 	/**
@@ -209,5 +211,25 @@ public class World {
 			}
 		}
 		return bestResource;
+	}
+
+
+
+	public Structure getNearestStructure(Class<?> class1, Tile tile) {
+		int x = tile.getX();
+		int y = tile.getY();
+		int bestSquaredDistance = Integer.MAX_VALUE;
+		Structure bestStructure = null;
+
+		for(Structure r : structures) {
+			if(!class1.isInstance(r))
+				continue;
+			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
+			if(squaredDistance < bestSquaredDistance) {
+				bestSquaredDistance = squaredDistance;
+				bestStructure = r;
+			}
+		}
+		return bestStructure;
 	}
 }
