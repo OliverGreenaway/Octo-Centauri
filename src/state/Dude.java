@@ -237,9 +237,11 @@ public class Dude implements Serializable{
 
 		double percentMoved = count * 0.25;
 
+		int tileHeight = world.getTile(x, y).getHeight();
+
 		// Tile coordinates of The Dude (x,y)
-		double x = this.oldX + (this.x - this.oldX) * percentMoved - camx +1;
-		double y = this.oldY + (this.y - this.oldY) * percentMoved - camy +1;
+		double x = this.oldX + (this.x - this.oldX) * percentMoved - camx +1 + tileHeight;
+		double y = this.oldY + (this.y - this.oldY) * percentMoved - camy +1 + tileHeight;
 
 		// Pixel coordinates (on screen) of the Dude (i,j)
 		double i = (width/2)-(images[facing][count].getWidth(null)/2) + (x-y) * (TILE_WIDTH/2);

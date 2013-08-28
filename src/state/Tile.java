@@ -123,5 +123,11 @@ public class Tile implements Serializable{
 		dude = d;
 	}
 
+	public void setImage(String string) {
+		img = new ImageIcon("Assets/EnvironmentTiles/"+string+".png").getImage();
+		File tileFile = new File("Assets/EnvironmentTiles/"+string+".png");
+		assert(tileFile.exists());
+	}
+
 }
 

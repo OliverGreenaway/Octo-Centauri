@@ -23,7 +23,7 @@ public class Display extends JPanel{
 	//pixel size of each tile
 	private final int TILE_WIDTH = 64, TILE_HEIGHT = 32;
 
-
+	private int rotation = 0;
 	private Coord camera = new Coord(0,0); // ARBITRARY START POINT
 			// Camera stores coord of topmost tile
 
@@ -87,6 +87,10 @@ public class Display extends JPanel{
 			paintMap(g);
 		}
 
+	private Tile getCameraRelativeTile(int x, int y) {
+		return world.getTile(x+camera.x, y+camera.y);
+	}
+
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
 	 */
@@ -95,14 +99,14 @@ public class Display extends JPanel{
 
 		for(int x = 0; x<VIEW_WIDTH; x++){
 			for(int y = 0; y<VIEW_HEIGHT; y++){
-				Tile t = world.getTile(x+camera.x,y+camera.y);
+				Tile t = getCameraRelativeTile(x, y);
 				if(t!=null){
 				//System.out.println("CAMERA: " + camera.x + " " + camera.y +".");
 
 				// minimum depth to render to
 				int minDepth;
-				Tile t1 = world.getTile(x+camera.x+1, y+camera.y);
-				Tile t2 = world.getTile(x+camera.x, y+camera.y+1);
+				Tile t1 = getCameraRelativeTile(x+1, y);
+				Tile t2 = getCameraRelativeTile(x, y+1);
 				int t1Depth = (t1 == null ? -10 : t1.getHeight());
 				int t2Depth = (t2 == null ? -10 : t2.getHeight());
 				minDepth = Math.min(t1Depth, t2Depth);
@@ -130,5 +134,9 @@ public class Display extends JPanel{
 
 			}
 		}
+	}
+
+	public void rotate() {
+		rotation = (rotation + 1) % 4;
 	}
 }
