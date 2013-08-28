@@ -53,8 +53,8 @@ public class Structure implements Serializable {
 		return x;
 	}
 
-	public void setImage(String img){
-		File imgFile = new File(img);
+	public void setImage(String image){
+		File imgFile = new File(image);
 		assert(imgFile.exists()) : image+" not found";
 		try {
 			imageIcon = new ImageIcon(image);
@@ -110,7 +110,14 @@ public class Structure implements Serializable {
 		this.height = height;
 		File imgFile = new File(image);
 		assert(imgFile.exists()) : image+" not found";
-		setImage(image);
+		try {
+			imageIcon = new ImageIcon(image);
+			this.image = new ImageIcon(image).getImage();
+			bufferedImage = ImageIO.read(imgFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Unable to read buffered image of structure: "+e.getMessage());
+		}
 	}
 
 	/**	/**
