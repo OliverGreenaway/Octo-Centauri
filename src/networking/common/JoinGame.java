@@ -41,7 +41,7 @@ public class JoinGame {
 
 
 
-		window = new Window();
+		window = new Window(seed, n, file);
 
 	}
 

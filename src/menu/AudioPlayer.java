@@ -20,10 +20,9 @@ public class AudioPlayer {
 		// fc.showOpenDialog(null);
 		// File soundFile = fc.getSelectedFile();
 
-		File soundFile = new File(
-				"Assets/sounds/laugh.wav");
-		//File soundFile = new File(
-	//			"/u/students/gibbchri/workspace/other/sound/testEffect.wav");
+		File soundFile = new File("Assets/sounds/laugh.wav");
+		// File soundFile = new File(
+		// "/u/students/gibbchri/workspace/other/sound/testEffect.wav");
 		AudioInputStream audioInputStream = null;
 		try {
 			audioInputStream = AudioSystem.getAudioInputStream(soundFile);
@@ -66,13 +65,11 @@ public class AudioPlayer {
 
 	/**
 	 * for testing
+	 *
 	 * @throws InterruptedException
 	 */
 	public static void main(String args[]) throws InterruptedException {
-		while (true) {
-			new AudioPlayer();
-			Thread.sleep(2000);
-		}
+		new AudioPlayer();
 	}
 
 }

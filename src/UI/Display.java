@@ -82,7 +82,7 @@ public class Display extends JPanel{
 
 	//RENDERING
 		public void paintComponent(Graphics g){
-			g.setColor(new Color(new Random().nextInt()));
+			g.setColor(Color.PINK);
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			paintMap(g);
 			drawHUD(g);
