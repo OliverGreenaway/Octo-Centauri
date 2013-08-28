@@ -1,7 +1,10 @@
 package state;
 
 import java.io.FileReader;
+import java.util.ArrayDeque;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
@@ -18,6 +21,8 @@ public class World {
 
 	private boolean showHealth = true;
 
+	public Queue<Task> tasks = new ArrayDeque<Task>();
+	
 	private Tile[][] worldTile;
 
 	long seed = System.currentTimeMillis();
