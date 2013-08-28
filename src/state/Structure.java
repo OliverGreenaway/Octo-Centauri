@@ -79,12 +79,8 @@ public class Structure implements Serializable {
 		this.width = width;
 		this.height = height;
 		File imgFile = new File(image);
-		assert(imgFile.exists());
-		try{
+		assert(imgFile.exists()) : image+" not found";
 		this.image = new ImageIcon(image).getImage();
-		} catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Image Not Found", "Warning", JOptionPane.WARNING_MESSAGE);
-		}
 	}
 
 	/**
@@ -99,6 +95,7 @@ public class Structure implements Serializable {
 		int y = this.y - camy; //tile coords of structure
 		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2); //pixel coords of the structure
 		int j =  (x+y) * (TILE_HEIGHT/ 2) - height ;									 //pixel coords of the structure
+		System.out.println("drawing "+image+" at "+i+","+j);
 		//draws the structure at (i,j) using the images dimensions to find its final dimension
 		g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getHeight(null), null);
 	}
