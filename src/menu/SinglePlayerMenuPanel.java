@@ -38,7 +38,7 @@ public class SinglePlayerMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new Window(System.currentTimeMillis(), null, null, frame.musicThread));
+				frame.addMenu(new LoadGameMenuPanel(frame));
 			}
 		};
 
