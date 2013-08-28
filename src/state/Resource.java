@@ -23,12 +23,14 @@ public class Resource extends Structure {
 		amount =  amount + amt;
 	}
 
-	public void harvest() {
+	public int harvest() {
 		if(amount <= 10){
 			depleted();
 			getWorld().removeStructure(this);
 		}
 		amount =- 10;
+		return 10;
 	}
+
 
 }
