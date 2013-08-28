@@ -35,41 +35,4 @@ public class MainMenuPanel extends AbstractMenuPanel {
 
 		addButton(frame, listener, "QuitButton");
 	}
-/*
-		GridBagConstraints c = new GridBagConstraints();
-
-
-
-		ActionListener listener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new SinglePlayerMenuPanel(frame)) ;
-			}
-		};
-
-		MainFrame.addButton(frame, this, c, listener, "SinglePlayerButton", 0);
-
-		listener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new MultiplayerMenuPanel(frame)) ;
-			}
-		};
-
-		MainFrame.addButton(frame, this, c, listener, "MultiPlayerButton", 1);
-
-		listener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-			}
-		};
-
-		MainFrame.addButton(frame, this, c, listener, "QuitButton", 2);
-	}
-
-	protected void paintComponent(Graphics g) {
-        g.drawImage(MainFrame.background, 0, 0, null);
-        g.drawImage(MainFrame.planet, 0, 0, null);
-    }*/
 }
