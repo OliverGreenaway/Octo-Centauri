@@ -13,16 +13,19 @@ import java.util.Stack;
 import java.util.TreeSet;
 
 import state.Tile;
+import state.World;
 
 
 public class Logic {
 
 	private Map<String, List<String>> menus;
-	private Tile[][] tiles = new Tile[20][20];
+	private World world;
+	//private Tile[][] tiles = new Tile[20][20];
 //	private Tile[][] tiles = World.getTiles();
 
-	public Logic() {
-		menus = FileReader.readMenus("menu_mappings.tab");
+	public Logic(World world) {
+		this.world = world;
+		//menus = FileReader.readMenus("menu_mappings.tab");
 	}
 
 	/**
@@ -73,10 +76,17 @@ public class Logic {
 		int x = tile.getX();
 		int y = tile.getY();
 		List<Tile> neighbours = new ArrayList<Tile>();
-		neighbours.add(tiles[x-1][y]);
-		neighbours.add(tiles[x+1][y]);
-		neighbours.add(tiles[x][y+1]);
-		neighbours.add(tiles[x][y-1]);
+		neighbours.add(world.getTile(x-1,y));
+		neighbours.add(world.getTile(x,y-1));
+		neighbours.add(world.getTile(x,y+1));
+		neighbours.add(world.getTile(x+1,y));
+		List<Tile> toRemove = new ArrayList<Tile>();
+		for(Tile n : neighbours){
+			if(n.getHeight() != tile.getHeight() || n.getDude() != null /* || n.getStructure() != null*/){
+				toRemove.add(n);
+			}
+		}
+		neighbours.removeAll(toRemove);
 //		neighbours.add(tiles[x-1][y-1]);
 //		neighbours.add(tiles[x+1][y+1]);
 //		neighbours.add(tiles[x-1][y+1]);
@@ -92,7 +102,7 @@ public class Logic {
 	 * @param routeGoal - the goal point of the path
 	 */
 
-	public Stack<Tile> findRoute(Tile start, Tile target){
+	public Stack<Tile> findRoute(Tile start, Tile target){ //TODO Needs to be extended to account for obstacles
 		Stack<Tile> route = new Stack<Tile>();
 		HashSet<Tile> visited = new HashSet<Tile>();
 		PriorityQueue<SearchNode> fringe = new PriorityQueue<SearchNode>();
