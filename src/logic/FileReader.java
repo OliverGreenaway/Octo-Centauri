@@ -15,8 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import state.Crystal;
+import state.Resource;
 import state.Structure;
 import state.Tile;
+import state.Tree;
 import state.World;
 import util.TileImageStorage;
 
@@ -123,7 +126,9 @@ public class FileReader {
 						int strucY = Integer.parseInt(lineScanner.next());
 						Structure temp;
 						if(fileName.equals("DarkTree"))
-							temp = new Structure(strucX, strucY, 1, 1, "Assets/EnvironmentObjects/"+fileName+".png");
+							temp = new Tree(strucX, strucY, 1, 1, "Assets/EnvironmentObjects/"+fileName+".png");
+						else if(fileName.equals("Resources"))
+							temp = new Crystal(strucX, strucY, 1, 1, "Assets/EnvironmentObjects/"+fileName+".png");
 						else
 							temp = new Structure(strucX, strucY, 1, 1, "Assets/EnvironmentTiles/" +fileName+ ".png");
 						structures.add(temp);;

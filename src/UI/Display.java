@@ -8,6 +8,7 @@ import javax.swing.*;
 import state.Dude;
 import state.Tile;
 import state.World;
+import util.UIImageStorage;
 
 public class Display extends JPanel {
 
@@ -71,7 +72,12 @@ public class Display extends JPanel {
 	}
 
 	public void panDown(int idy) {
-		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {//map.length) Catch if out of bounds
+		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {// map.length)
+																		// Catch
+																		// if
+																		// out
+																		// of
+																		// bounds
 			return;
 		}
 		camera = new Coord(camera.x + idy, camera.y + idy);
@@ -278,42 +284,67 @@ public class Display extends JPanel {
 	 */
 	private void drawHUD(Graphics g) {
 		// draw the Minimap
+
+		int miniMapWidth = 280;
+		int miniMapHeight = 280;
+
+		int padding = 10;
+
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.WHITE);
-		g2d.fillRect(this.getWidth() - 275, 0, 275, 280);
+		g2d.fillRect(this.getWidth() - miniMapWidth - padding, padding,
+				miniMapWidth, miniMapHeight);
 
 		for (int x = 0; x < VIEW_WIDTH * 2; x++) {
 			for (int y = 0; y < VIEW_HEIGHT * 2; y++) {
 				Tile t = world.getTile(x + camera.x / 2, y + camera.y / 2);
 				if (t != null) {
 					g2d.setColor(t.getColor());
-					g2d.fillRect(this.getWidth() - 275 + x * 2, y * 2, 2, 2);
-				}
-				for (Dude d : world.getDudes()) {
-					if (d.getX() == x + camera.x / 2
-							&& d.getY() == y + camera.y / 2) {
-						g2d.setColor(Color.YELLOW);
-						g2d.fillRect(this.getWidth() - 275 + x * 2, y * 2, 2, 2);
+					g2d.fillRect(this.getWidth() - miniMapWidth - padding + x * 2, padding + y * 2,
+							2, 2);
+					Dude dude = t.getDude();
+					if (dude != null) {
+						g2d.setColor(Color.yellow);
+						g2d.fillRect(this.getWidth() - miniMapWidth - padding + x * 2, padding + y * 2,
+								2, 2);
 					}
 				}
+
 			}
+
 		}
+		int toggleSize = 64;
+
+		Rectangle toggleHealth = new Rectangle(this.getWidth() - miniMapWidth - toggleSize - padding, padding, toggleSize, toggleSize);
+
 
 		// draw the button panel
 		g2d.setColor(Color.black);
-		g2d.fillRect(this.getWidth() - 340, 0, 65, 280);
-		/*int buttonx = this.getWidth() - 235;
-		g2d.setColor(Color.red);
-		g2d.fillRect(buttonx, 5, 55, 55);*///TODO upto here
+		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
+				padding, toggleSize, miniMapHeight);
+
+
+
+		/*
+		 * int buttonx = this.getWidth() - 235; g2d.setColor(Color.red);
+		 * g2d.fillRect(buttonx, 5, 55, 55);
+		 */// TODO upto here
 		// draw the object selecter
 
-		//border minimap and buttons
+		// border minimap and buttons
 		g2d.setColor(new Color(212, 175, 55));
 		Stroke orig = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(3));
-		g2d.drawRoundRect(this.getWidth() - 340, 0, 340, 280, 10, 10);
-		g2d.drawLine(this.getWidth() - 275, 0, this.getWidth() - 275, 280);
+		int r = 10;
+		g2d.drawRoundRect(this.getWidth() - miniMapWidth - toggleSize
+				- padding, padding, miniMapWidth + toggleSize, miniMapHeight,
+				r, r);
+		g2d.drawLine(this.getWidth() - miniMapWidth - padding, padding,
+				this.getWidth() - miniMapWidth - padding, miniMapHeight
+						+ padding);
 		g2d.setStroke(orig);
+
+		g2d.drawImage(UIImageStorage.get("HealthBarsToggle"), this.getWidth() - padding - miniMapWidth - toggleSize, padding,  null);
 	}
 
 	public void rotate() {
