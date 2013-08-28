@@ -1,4 +1,5 @@
 package UI;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -114,7 +115,8 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 		addKeyListener(this);
 		setFocusable(true);
 
-		this.add(display);
+		this.setLayout(new BorderLayout());
+		this.add(display, BorderLayout.CENTER);
         update = new UpdateThread(world, display);
         update.start();
 
