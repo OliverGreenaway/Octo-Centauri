@@ -132,7 +132,7 @@ public class Display extends JPanel{
 		case 0: break;
 		case 1: temp = VIEW_WIDTH-tileX; tileX = tileY; tileY = temp; break;
 		case 2: tileX=VIEW_WIDTH-tileX; tileY=VIEW_HEIGHT-tileY; break;
-		case 3: temp = VIEW_HEIGHT-tileY; tileY = x; tileY = temp; break;
+		case 3: temp = VIEW_HEIGHT-tileY; tileY = tileX; tileX = temp; break;
 		}
 
 		tileX += camera.x;

@@ -179,13 +179,33 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	private void panMap() {
 	// Pans the map by 1 tile but only while direction keys are currently being held down
 		if (up)
-			display.panUp(1);
+			switch(display.getRotation()) {
+			case 0: display.panUp(1); break;
+			case 1: display.panLeft(1); break;
+			case 2: display.panDown(1); break;
+			case 3: display.panRight(1); break;
+			}
 		if (down)
-			display.panDown(1);
+			switch(display.getRotation()) {
+			case 2: display.panUp(1); break;
+			case 3: display.panLeft(1); break;
+			case 0: display.panDown(1); break;
+			case 1: display.panRight(1); break;
+			}
 		if (right)
-			display.panRight(1);
+			switch(display.getRotation()) {
+			case 1: display.panUp(1); break;
+			case 2: display.panLeft(1); break;
+			case 3: display.panDown(1); break;
+			case 0: display.panRight(1); break;
+			}
 		if (left)
-			display.panLeft(1);
+			switch(display.getRotation()) {
+			case 3: display.panUp(1); break;
+			case 0: display.panLeft(1); break;
+			case 1: display.panDown(1); break;
+			case 2: display.panRight(1); break;
+			}
 	}
 
 	public static void main(String[] args) {
