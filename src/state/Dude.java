@@ -197,6 +197,7 @@ public class Dude implements Serializable{
 	Crate crate;
 
 	int storedResources = 0;
+	ResourceType storedResType = null;
 
 	/**
 	 * Called every tick. Does stuff.
@@ -218,20 +219,21 @@ public class Dude implements Serializable{
 					if(!moved) {
 						if(crate.getX() == x && crate.getY() == y) {
 							crate = null;
+							storedResType = null;
 							storedResources = 0;
 						}
 					}
 				}
 
 			} else {
-				if(harvesting == null)
-					harvesting = world.getNearestResource(world.getTile(x, y));
+				harvesting = world.getNearestResource(world.getTile(x, y), storedResType);
 
 				if(harvesting != null) {
 					boolean moved = moveTowards(harvesting.getX(), harvesting.getY());
 					if(!moved) {
 						if(harvesting.getX() == x && harvesting.getY() == y) {
 							harvesting.harvest();
+							storedResType = harvesting.getResType();
 							harvesting = null;
 							storedResources++;
 						}
@@ -282,7 +284,7 @@ public class Dude implements Serializable{
 		pt.y -= TILE_HEIGHT * world.getTile(this.x, this.y).getHeight();
 		pt.y -= TILE_HEIGHT/2;
 
-		Image i = images[(facing + d.getRotation()) % 4][count];
+		Image i = images[(facing + d.getRotation()) % 4][Math.min(count, 3)];
 
 		// Draw image at (i,j)
 		g.drawImage(i, pt.x - i.getWidth(null)/2, pt.y - i.getHeight(null), null);

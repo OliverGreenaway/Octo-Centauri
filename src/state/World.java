@@ -212,13 +212,21 @@ public class World {
 		return allDudes;
 	}
 
-	public Resource getNearestResource(Tile tile) {
+	/**
+	 * Finds the nearest resource structure of the given type.
+	 * resType is the type to look for, or null if any type is ok.
+	 */
+	public Resource getNearestResource(Tile tile, ResourceType resType) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
 
 		for(Resource r : resources) {
+			if(resType != null && r.getResType() != resType)
+				continue;
+			if(r.getResType() == null)
+				continue;
 			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
 			if(squaredDistance < bestSquaredDistance) {
 				bestSquaredDistance = squaredDistance;

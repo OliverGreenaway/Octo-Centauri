@@ -7,5 +7,8 @@ public class Tree extends Resource{
 		this.amount = 200;
 	}
 
+	public ResourceType getResType() {
+		return ResourceType.WOOD;
+	}
 
 }
