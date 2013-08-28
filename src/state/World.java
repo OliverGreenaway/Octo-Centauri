@@ -1,5 +1,6 @@
 package state;
 
+import java.io.FileReader;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -164,5 +165,13 @@ public class World {
 
 	public void setGameUpdate(GameUpdate g){
 		gameUpdate = g;
+	}
+
+	/**
+	 * Returns all stored Dudes
+	 * @return
+	 */
+	public Set<Dude> getDudes(){
+		return allDudes;
 	}
 }
