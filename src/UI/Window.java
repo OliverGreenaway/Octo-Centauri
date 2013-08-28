@@ -63,6 +63,9 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	private AudioPlayer audioPlayer;
 
+	private Tile selectedTile1;
+	private Tile selectedTile2;
+
 	public Window() {
 		// startAudio(thread);
 		initialize();
@@ -348,12 +351,16 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				switch (e.getButton()) {
 				case 1:
 					t.setImage("BarrenGrass");
+//					selectedTile1 = t;
+//					displayPath();
 					break;
 				case 2:
 					t.setImage("DarkSand");
 					break;
 				case 3:
 					t.setImage("BarrenWall");
+//					selectedTile2 = t;
+//					displayPath();
 					break;
 				}
 			} else {
@@ -372,7 +379,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	}
 
-	/*public void displayPath() {
+	public void displayPath() {
 		System.out.println("HIII!");
 		if (selectedTile1 != null && selectedTile2 != null) {
 			Stack<Tile> route = new Logic(display.getWorld()).findRoute(
@@ -382,7 +389,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				t.setImage("Path");
 			}
 		}
-	}*/
+	}
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {

@@ -1,6 +1,5 @@
 package logic;
 
-
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,120 +14,131 @@ import java.util.TreeSet;
 import state.Tile;
 import state.World;
 
-
 public class Logic {
 
 	private Map<String, List<String>> menus;
 	private World world;
-	//private Tile[][] tiles = new Tile[20][20];
-//	private Tile[][] tiles = World.getTiles();
+
+	// private Tile[][] tiles = new Tile[20][20];
+	// private Tile[][] tiles = World.getTiles();
 
 	public Logic(World world) {
 		this.world = world;
-		//menus = FileReader.readMenus("menu_mappings.tab");
+		// menus = FileReader.readMenus("menu_mappings.tab");
 	}
 
 	/**
 	 * Right-clicking brings up the context menu.
-	 * @param object - the item or tile selected
+	 *
+	 * @param object
+	 *            - the item or tile selected
 	 * @return - stuff to go in the context menu
 	 */
-	public Menu rightClick(Object object){
-		//if(object instanceof GroundTile){
-		//	return new Menu(menus.get("GroundTile"));
-		//}
-		//else if (object instanceof Building){
-		//	if(object instanceof Barracks){
-//
-	//		}
-	//		if(object instanceof Mill){
+	public Menu rightClick(Object object) {
+		// if(object instanceof GroundTile){
+		// return new Menu(menus.get("GroundTile"));
+		// }
+		// else if (object instanceof Building){
+		// if(object instanceof Barracks){
+		//
+		// }
+		// if(object instanceof Mill){
 
-	//		}
-	//	}
-	//	else{
-	//		System.out.println("Was not a game object.");
-	//	}
+		// }
+		// }
+		// else{
+		// System.out.println("Was not a game object.");
+		// }
 		return null;
 	}
-
 
 	/**
 	 * Left-clicking selects an object or character.
 	 */
-	public void leftClick(Object object){
-//	if(object instanceof GroundTile){
-//
-//		}
-//		else if (object instanceof Building){
-//			if(object instanceof Barracks){
-//
-//			}
-//			if(object instanceof Mill){
-//
-//			}
-//		}
-//	}
-//	else{
-//		System.out.println("Was not a game object.");
+	public void leftClick(Object object) {
+		// if(object instanceof GroundTile){
+		//
+		// }
+		// else if (object instanceof Building){
+		// if(object instanceof Barracks){
+		//
+		// }
+		// if(object instanceof Mill){
+		//
+		// }
+		// }
+		// }
+		// else{
+		// System.out.println("Was not a game object.");
 	}
 
-	private List<Tile> getNeighbours(Tile tile){
+	private List<Tile> getNeighbours(Tile tile) {
 		int x = tile.getX();
 		int y = tile.getY();
 		List<Tile> neighbours = new ArrayList<Tile>();
-		neighbours.add(world.getTile(x-1,y));
-		neighbours.add(world.getTile(x,y-1));
-		neighbours.add(world.getTile(x,y+1));
-		neighbours.add(world.getTile(x+1,y));
-		List<Tile> toRemove = new ArrayList<Tile>();
-		for(Tile n : neighbours){
-			if(n.getHeight() != tile.getHeight() || n.getDude() != null /* || n.getStructure() != null*/){
-				toRemove.add(n);
+		neighbours.add(world.getTile(x - 1, y));
+		neighbours.add(world.getTile(x, y - 1));
+		neighbours.add(world.getTile(x, y + 1));
+		neighbours.add(world.getTile(x + 1, y));
+		List<Tile> toAdd = new ArrayList<Tile>();
+		for (Tile n : neighbours) {
+			if (n != null) {
+				if (!(Math.abs(n.getHeight() - tile.getHeight()) > 1 || n
+						.getDude() != null /* || n.getStructure() != null */)) {
+					toAdd.add(n);
+				}
 			}
 		}
-		neighbours.removeAll(toRemove);
-//		neighbours.add(tiles[x-1][y-1]);
-//		neighbours.add(tiles[x+1][y+1]);
-//		neighbours.add(tiles[x-1][y+1]);
-//		neighbours.add(tiles[x+1][y-1]);
-		return neighbours;
+		// neighbours.add(tiles[x-1][y-1]);
+		// neighbours.add(tiles[x+1][y+1]);
+		// neighbours.add(tiles[x-1][y+1]);
+		// neighbours.add(tiles[x+1][y-1]);
+		return toAdd;
 	}
 
 	/**
-	 * Given a start point and goal point, returns a Stack of the route to take using A* algorithm.
+	 * Given a start point and goal point, returns a Stack of the route to take
+	 * using A* algorithm.
 	 *
-	 * @return Stack route - route to be followed from first value popped, through to goal at the bottom of the stack
-	 * @param routeStart - the point to begin path from
-	 * @param routeGoal - the goal point of the path
+	 * @return Stack route - route to be followed from first value popped,
+	 *         through to goal at the bottom of the stack
+	 * @param routeStart
+	 *            - the point to begin path from
+	 * @param routeGoal
+	 *            - the goal point of the path
 	 */
 
-	public Stack<Tile> findRoute(Tile start, Tile target){ //TODO Needs to be extended to account for obstacles
+	public Stack<Tile> findRoute(Tile start, Tile target) { // TODO Needs to be
+															// extended to
+															// account for
+															// obstacles
 		Stack<Tile> route = new Stack<Tile>();
 		HashSet<Tile> visited = new HashSet<Tile>();
 		PriorityQueue<SearchNode> fringe = new PriorityQueue<SearchNode>();
 
-		//Enqueue root
-		fringe.offer(new SearchNode(start,target,0,null));
+		// Enqueue root
+		fringe.offer(new SearchNode(start, target, 0, null));
 
-		while(!fringe.isEmpty()){
+		while (!fringe.isEmpty()) {
 			SearchNode sNode = fringe.poll();
 			Tile tile = sNode.tile;
 
-			if(!visited.contains(tile)){
+			if (!visited.contains(tile)) {
 				visited.add(tile);
-				//node.pathFrom <- from
-				if(tile==target){
-					//EXIT
-					while(sNode.parent != null){
+				// node.pathFrom <- from
+				if (tile == target) {
+					// EXIT
+					while (sNode.parent != null) {
 						route.push(sNode.tile);
 						sNode = sNode.parent;
 					}
 					return route;
 				}
 				List<Tile> neighbours = getNeighbours(tile);
-				for(Tile neighbour: neighbours){
-					if(neighbour!=null && !visited.contains(neighbour)){
-						fringe.offer(new SearchNode(neighbour,target,sNode.costToStart+1,sNode));
+				for (Tile neighbour : neighbours) {
+					if (neighbour != null && !visited.contains(neighbour)) {
+						fringe.offer(new SearchNode(neighbour, target,
+								sNode.costToStart + 1, sNode));
 					}
 				}
 			}
@@ -137,56 +147,34 @@ public class Logic {
 
 	}
 
-	/*public Stack<Point> findRoute(Point routeStart, Point routeGoal) {
-		Stack<Point> route = new Stack<Point>(); //to return
-
-		PriorityQueue<Tuple> fringe = new PriorityQueue<Tuple>();
-
-		fringe.add(new Tuple(routeStart, null, routeGoal, calcHeuristic(
-				routeStart, routeGoal), 0));
-		// Repeat until fringe is empty:
-		while (!fringe.isEmpty()) {
-			Tuple currentTuple = fringe.poll();
-			Tile currentTile = tiles[(int) currentTuple.getPoint().getX()][(int) currentTuple
-					.getPoint().getY()];
-			if (!currentTile.occupied()) {
-				// If not tile.visited then
-				if (!currentTile.visited()) {
-					currentTile.setVisited(true);
-					// If tile = goal then exit
-					if (!currentTile.equals(routeGoal)) {
-						// for each edge to neigh out of node
-
-						for (Tile t : getNeighbours(currentTile)) {
-							// if neighbour tile hasn't been visited then
-							if (!t.visited()) {
-								fringe.offer(new Tuple(
-										t.getPoint(),
-										currentTile.getPoint(),
-										routeGoal,
-										calcHeuristic(t.getPoint(), routeGoal),
-										currentTuple.getCostToHere() + 1));
-								t.setPrevTile(tiles[(int) currentTuple.getPoint().getX()][(int) currentTuple.getPoint().getY()]);
-							}
-						}
-					} else {
-						//found the goal so go back through the tuples adding it and it's previous point to the route Stack
-						route.add(currentTile.getPoint());
-						Tile tile = currentTile.getPrevTile();
-						while(tile != null){
-							route.add(tile.getPoint());
-							tile = currentTile.getPrevTile();
-						}
-					}
-				}
-			}
-		}
-//		for(every tile in tiles[][]){
-//			tile.setVisited(false);
-//			tile.setPrevTile(null);
-//		}
-		return route;
-	}*/
+	/*
+	 * public Stack<Point> findRoute(Point routeStart, Point routeGoal) {
+	 * Stack<Point> route = new Stack<Point>(); //to return
+	 *
+	 * PriorityQueue<Tuple> fringe = new PriorityQueue<Tuple>();
+	 *
+	 * fringe.add(new Tuple(routeStart, null, routeGoal, calcHeuristic(
+	 * routeStart, routeGoal), 0)); // Repeat until fringe is empty: while
+	 * (!fringe.isEmpty()) { Tuple currentTuple = fringe.poll(); Tile
+	 * currentTile = tiles[(int) currentTuple.getPoint().getX()][(int)
+	 * currentTuple .getPoint().getY()]; if (!currentTile.occupied()) { // If
+	 * not tile.visited then if (!currentTile.visited()) {
+	 * currentTile.setVisited(true); // If tile = goal then exit if
+	 * (!currentTile.equals(routeGoal)) { // for each edge to neigh out of node
+	 *
+	 * for (Tile t : getNeighbours(currentTile)) { // if neighbour tile hasn't
+	 * been visited then if (!t.visited()) { fringe.offer(new Tuple(
+	 * t.getPoint(), currentTile.getPoint(), routeGoal,
+	 * calcHeuristic(t.getPoint(), routeGoal), currentTuple.getCostToHere() +
+	 * 1)); t.setPrevTile(tiles[(int) currentTuple.getPoint().getX()][(int)
+	 * currentTuple.getPoint().getY()]); } } } else { //found the goal so go
+	 * back through the tuples adding it and it's previous point to the route
+	 * Stack route.add(currentTile.getPoint()); Tile tile =
+	 * currentTile.getPrevTile(); while(tile != null){
+	 * route.add(tile.getPoint()); tile = currentTile.getPrevTile(); } } } } }
+	 * // for(every tile in tiles[][]){ // tile.setVisited(false); //
+	 * tile.setPrevTile(null); // } return route; }
+	 */
 
 	/**
 	 * Calculates straight line heuristic between two point start and goal
@@ -204,7 +192,7 @@ public class Logic {
 		private Point prevPoint;
 		private Point goal;
 		private int costToHere;
-		private double estTotalCost;//cost to this point + heuristic to goal
+		private double estTotalCost;// cost to this point + heuristic to goal
 
 		public Tuple(Point point, Point prevPoint, Point goal,
 				double heuristic, int costToHere) {
@@ -234,22 +222,17 @@ public class Logic {
 
 		@Override
 		public int compareTo(Object t) {
-			/*if (t != null && this.getClass().equals(t.getClass())) {
-				if (estTotalCost - ((Tuple) t).getEstTotalCost() > 0)
-					return 1;// this is more costly
-				if (estTotalCost - ((Tuple) t).getEstTotalCost() < 0)
-					return -1;// this is less costly
-				if (estTotalCost - ((Tuple) t).getEstTotalCost() == 0)
-					return 0;
-			}
-			throw new IllegalArgumentException("Need to compare same type");*/
+			/*
+			 * if (t != null && this.getClass().equals(t.getClass())) { if
+			 * (estTotalCost - ((Tuple) t).getEstTotalCost() > 0) return 1;//
+			 * this is more costly if (estTotalCost - ((Tuple)
+			 * t).getEstTotalCost() < 0) return -1;// this is less costly if
+			 * (estTotalCost - ((Tuple) t).getEstTotalCost() == 0) return 0; }
+			 * throw new IllegalArgumentException("Need to compare same type");
+			 */
 			return 0;
 		}
 
 	}
 
-
 }
-
-
-

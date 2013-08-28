@@ -16,9 +16,9 @@ public class SearchNode implements Comparable{
 	}
 
 	public int calcHeuristic(Tile current,Tile target){
-		int x = Math.abs(current.getX()-target.getX());
-		int y = Math.abs(current.getY()-target.getY());
-		return x +y;
+		double xSquared = Math.pow((current.getX()-target.getX()),2);
+		double ySquared = Math.pow((current.getY()-target.getY()),2);
+		return (int)(Math.sqrt(xSquared +ySquared));
 	}
 
 	@Override
