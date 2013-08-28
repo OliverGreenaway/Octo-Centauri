@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import javax.swing.SwingUtilities;
 
+import menu.AudioPlayer;
 import networking.common.Network;
 
 
@@ -239,6 +240,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		new AudioPlayer();
 		Point p = e.getPoint();
 		mouseX = p.x;
 		mouseY = p.y;
