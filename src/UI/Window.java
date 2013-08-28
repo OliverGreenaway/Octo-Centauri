@@ -44,7 +44,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	boolean left = false;
 	boolean right = false;
 
-	private boolean drawTransparent = true;
+	private boolean drawTransparent = false;
 
 	Random random = new Random();
 
@@ -268,15 +268,13 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			//set tile to be somthing
 			if(e.getButton()==3){
 				//Dude d = new Dude("")
-				Tile t = new Tile("DarkTree",0, (int)point.getX(), (int)point.getY());
+				Tile t = new Tile("Grass",0, (int)point.getX(), (int)point.getY());
 				display.getWorld().setTile((int)point.getX(), (int)point.getY(), t);
 			}else if (drawTransparent == true){
-				System.out.println("Should draw transparent");
 				Structure s = new Structure((int)point.getX(), (int)point.getY(), 1, 1, "Assets/EnvironmentTiles/BarrenWall.png");
 				/* Copied from Java tutorial.
 				 * Create a rescale filter op that makes the image
