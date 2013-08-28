@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.util.Random;
 
@@ -34,7 +35,7 @@ import state.World;
 
 
 @SuppressWarnings("serial")
-public class Window extends JPanel implements KeyListener, MouseListener {
+public class Window extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
 
 	//mouse x y points on a click
 	private int mouseX = 0;
@@ -56,7 +57,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	public String fileMap= "resources/map";
 
 	public Window(Thread thread) {
-		thread.stop();
+		//thread.stop();
 		new Thread(
 	            new Runnable() {
 	                public void run() {
@@ -140,6 +141,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 											// reader now knows about
 
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		addKeyListener(this);
 		setFocusable(true);
 
@@ -282,32 +284,11 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	                }
 	            }).start();
 
-		Point p = e.getPoint();
-		mouseX = p.x;
-		mouseY = p.y;
+		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
 
-		mouseY += 490;
+		display.setHighlightedTile(tilePt.x, tilePt.y);
 
-
-		double xMinusY = (mouseX - display.getWidth()/2) / (32.0); // ( x click - half width of screen )  / half the width of a tile
-		double xPlusY = (mouseY / 16.0);		  // ( y click  /  half height of tile )
-
-		int[] cameraPoint = display.getCameraCoordinates();
-
-		// finds interger value of square in array position and adjusts for
-		// where the camera is looking
-		int x = (int) ((xMinusY + xPlusY) / 2 - 0.5);
-		int y = (int) ((xPlusY - xMinusY) / 2 - 0.5);
-
-		// you are NOT off the map
-//		if !(x < 0 || x > 29 || y < 0 || y > 29) {//TODO all wrong now
-			// invalid click
-//		} else {
-			//Adjusts for the camera's possible location and sets the x/y acordingly
-			x = x + cameraPoint[0];
-			y = y + cameraPoint[1];
-
-			Tile oldTile = display.getWorld().getTile(x, y);
+			Tile oldTile = display.getWorld().getTile(tilePt.x, tilePt.y);
 
 			//set tile to be somthing
 			if(e.getButton()==MouseEvent.BUTTON3){
@@ -344,6 +325,19 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
+
+		display.setHighlightedTile(tilePt.x, tilePt.y);
 	}
 
 }

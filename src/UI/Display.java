@@ -112,6 +112,35 @@ public class Display extends JPanel{
 		return new Point(getPixelX(x, y), getPixelY(x, y));
 	}
 
+	public Point displayToTileCoordinates(int x, int y) {
+		/*x -= camera.x; y -= camera.y;
+
+		double temp;
+		switch(rotation) {
+		case 0: break;
+		case 3: temp = VIEW_WIDTH-x; x = y; y = temp; break;
+		case 2: x=VIEW_WIDTH-x; y=VIEW_HEIGHT-y; break;
+		case 1: temp = VIEW_HEIGHT-y; y = x; x = temp; break;
+		}
+
+		return new Point(getPixelX(x, y), getPixelY(x, y));*/
+
+		double xMinusY = (x - getWidth()/2) / (TILE_WIDTH/2.0); // ( x click - half width of screen )  / half the width of a tile
+		double xPlusY = ((y + SCREEN_Y_DISPLACEMENT) / (TILE_HEIGHT/2.0));		  // ( y click  /  half height of tile )
+
+		// finds integer value of square in array position and adjusts for
+		// where the camera is looking
+		int tileX = (int) ((xPlusY + xMinusY) / 2);
+		int tileY = (int) ((xPlusY - xMinusY) / 2);
+
+		tileX += camera.x;
+		tileY += camera.y;
+
+		return new Point(tileX, tileY);
+	}
+
+
+
 	private int getPixelX(double x, double y) {
 		return (int)((this.getWidth()/2) + (x-y) * (TILE_WIDTH/2));
 	}
@@ -149,6 +178,8 @@ public class Display extends JPanel{
 					int	j = y - σ;
 					//displays each tile
 					g.drawImage(t.getImage(), getPixelX(i, j)-(TILE_WIDTH/2), getPixelY(i, j)-TILE_HEIGHT, TILE_WIDTH, t.getImage().getHeight(null), null);
+					if(t.getX() == hoverX && t.getY() == hoverY)
+						g.drawImage(hoverImage, getPixelX(i, j)-(TILE_WIDTH/2), getPixelY(i, j)-TILE_HEIGHT, TILE_WIDTH, 32, null);
 				}
 
 				int bottomPixelX = getPixelX(x - t.getHeight(), y - t.getHeight());
@@ -177,5 +208,12 @@ public class Display extends JPanel{
 	 */
 	public int getRotation() {
 		return rotation;
+	}
+
+	private int hoverX, hoverY;
+	private Image hoverImage = new ImageIcon("Assets/Templates/TileTemplate.png").getImage();
+	public void setHighlightedTile(int x, int y) {
+		hoverX = x;
+		hoverY = y;
 	}
 }
