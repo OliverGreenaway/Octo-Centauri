@@ -163,20 +163,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	 */
 	public void paint(Graphics g) {
 		super.paint(g);
-
-		// g.setColor(Color.BLACK);
-		// // Bottom pane
-		// g.fillRect(0, getHeight() - (getHeight() / 4), getWidth(),
-		// getHeight() / 4);
-		// // left hand pane
-		// g.fillRect(0, 0, 25, getHeight() - (getHeight() / 4));
-		// // right hand pane
-		// g.fillRect(getWidth() - 25, 0, 50, getHeight() - (getHeight() / 4));
-		// g.fillRect(25, 0, getWidth(), 25);
-		// g.setColor(Color.red);
-		//
-		// g.fillOval(mouseX, mouseY, 20, 20);
-
 	}
 
 	private void panMap() {
