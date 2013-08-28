@@ -47,6 +47,8 @@ public class MainFrame extends JFrame {
 			}
 		}
 
+		this.addWindowListener(new WindowListener() {
+
 			@Override
 			public void windowClosed(WindowEvent e) {
 				musicThread.stop();

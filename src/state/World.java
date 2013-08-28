@@ -142,7 +142,7 @@ public class World {
 	 * Throws an exception if coordinates are invalid.
 	 */
 	public void setTile(int x, int y, Tile t) {
-		worldTile[x][y] = t;
+		worldTile[x][y] = t;//TODO add bounds checking
 		gameUpdate.changedTileColour(t);
 	}
 

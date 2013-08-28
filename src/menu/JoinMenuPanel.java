@@ -20,7 +20,6 @@ public class JoinMenuPanel extends AbstractMenuPanel {
 	public JoinMenuPanel(final MainFrame frame) {
 
 		final JLabel error = new JLabel();
-		;
 
 		this.addLabel(frame, "HostnameLabel");
 

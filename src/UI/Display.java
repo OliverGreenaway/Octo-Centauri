@@ -56,7 +56,7 @@ public class Display extends JPanel {
 		if (camera.x - idx + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x - idx, camera.y);
+		camera = new Coord(camera.x - idx, camera.y + idx);
 	}
 
 	public void panRight(int idx) {
@@ -67,26 +67,21 @@ public class Display extends JPanel {
 																		// bounds
 			return;
 		}
-		camera = new Coord(camera.x + idx, camera.y);
+		camera = new Coord(camera.x + idx, camera.y - idx);
 	}
 
 	public void panDown(int idy) {
-		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {// ap.length)
-																		// Catch
-																		// if
-																		// out
-																		// of
-																		// bounds
+		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {//map.length) Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x, camera.y + idy);
+		camera = new Coord(camera.x + idy, camera.y + idy);
 	}
 
 	public void panUp(int idy) {
 		if (camera.y - idy + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
 			return;
 		}
-		camera = new Coord(camera.x, camera.y - idy);
+		camera = new Coord(camera.x - idy, camera.y - idy);
 	}
 
 	// RENDERING
@@ -303,15 +298,22 @@ public class Display extends JPanel {
 				}
 			}
 		}
+
+		// draw the button panel
+		g2d.setColor(Color.black);
+		g2d.fillRect(this.getWidth() - 340, 0, 65, 280);
+		/*int buttonx = this.getWidth() - 235;
+		g2d.setColor(Color.red);
+		g2d.fillRect(buttonx, 5, 55, 55);*///TODO upto here
+		// draw the object selecter
+
+		//border minimap and buttons
 		g2d.setColor(new Color(212, 175, 55));
 		Stroke orig = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(3));
-		g2d.drawRoundRect(this.getWidth() - 277, 0, 275, 280, 10, 10);
+		g2d.drawRoundRect(this.getWidth() - 340, 0, 340, 280, 10, 10);
+		g2d.drawLine(this.getWidth() - 275, 0, this.getWidth() - 275, 280);
 		g2d.setStroke(orig);
-		// draw the button panel
-
-		// draw the object selecter
-
 	}
 
 	public void rotate() {

@@ -6,3 +6,4 @@ bin/
 .classpath
 .manifest
 .directory
+.metadata

@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
@@ -32,7 +34,7 @@ import state.World;
 
 
 @SuppressWarnings("serial")
-public class Window extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
+public class Window extends JPanel implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
 	//mouse x y points on a click
 	private int mouseX = 0;
@@ -44,7 +46,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	boolean left = false;
 	boolean right = false;
 
-	private boolean drawTransparent = true;
+	private boolean drawTransparent = false;
 
 	Random random = new Random();
 
@@ -118,6 +120,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addMouseWheelListener(this);
 		addKeyListener(this);
 		setFocusable(true);
 
@@ -267,16 +270,17 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	// mouse commands, awaiting some level of world to play with
 	@Override
-	public void mouseClicked(MouseEvent e) {
 
-			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
+	public void mousePressed(MouseEvent e) {
+		Point point = display.displayToTileCoordinates(e.getX(), e.getY());
+		if(0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
+
 			//set tile to be somthing
 			if(e.getButton()==3){
 				//Dude d = new Dude("")
-				Tile t = new Tile("DarkTree",0, (int)point.getX(), (int)point.getY());
+				Tile t = new Tile("Grass",0, (int)point.getX(), (int)point.getY());
 				display.getWorld().setTile((int)point.getX(), (int)point.getY(), t);
 			}else if (drawTransparent == true){
-				System.out.println("Should draw transparent");
 				Structure s = new Structure((int)point.getX(), (int)point.getY(), 1, 1, "Assets/EnvironmentTiles/BarrenWall.png");
 				/* Copied from Java tutorial.
 				 * Create a rescale filter op that makes the image
@@ -294,15 +298,38 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 				display.getWorld().setTile((int)point.getX(), (int)point.getY(), w);
 			}
 
+		} else {
+			Tile t = display.getWorld().getTile(point.x, point.y);
+			if(0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
+				switch(e.getButton()) {
+				case 1: t.setImage("BarrenGrass"); break;
+				case 2: t.setImage("DarkSand"); break;
+				case 3: t.setImage("BarrenWall"); break;
+				}
+			} else {
+				switch(e.getButton()) {
+				case 3: t.setHeight(t.getHeight() - 1); break;
+				case 1: t.setHeight(t.getHeight() + 1); break;
+				}
+			}
+		}
+
 		this.repaint();
 		//
 
 	}
 
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		Point point = display.displayToTileCoordinates(e.getX(), e.getY());
+		Tile t = display.getWorld().getTile(point.x, point.y);
+		t.setHeight(t.getHeight() + e.getWheelRotation());
+	}
+
 
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
