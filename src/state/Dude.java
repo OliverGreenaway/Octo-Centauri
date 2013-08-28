@@ -211,11 +211,12 @@ public class Dude implements Serializable{
 			oldX = x; oldY = y;
 
 			if(storedResources > 3) {
-				if(crate == null)
+				if(crate == null) {
 					crate = (Crate)world.getNearestStructure(Crate.class, world.getTile(x, y));
+				}
 
 				if(crate != null) {
-					boolean moved = moveTowards(crate.getX(), crate.getY());
+					boolean moved = followPath(crate.getX(), crate.getY());
 					if(!moved) {
 						if(crate.getX() == x && crate.getY() == y) {
 							crate = null;
@@ -226,10 +227,13 @@ public class Dude implements Serializable{
 				}
 
 			} else {
-				harvesting = world.getNearestResource(world.getTile(x, y), storedResType);
+				Resource nowHarvesting = world.getNearestResource(world.getTile(x, y), storedResType);
+				if(harvesting != nowHarvesting) {
+					harvesting = nowHarvesting;
+				}
 
 				if(harvesting != null) {
-					boolean moved = moveTowards(harvesting.getX(), harvesting.getY());
+					boolean moved = followPath(nowHarvesting.getX(), nowHarvesting.getY());
 					if(!moved) {
 						if(harvesting.getX() == x && harvesting.getY() == y) {
 							harvesting.harvest();
@@ -245,21 +249,15 @@ public class Dude implements Serializable{
 		}
 	}
 
-	private boolean moveTowards(int tx, int ty) {
-		boolean moved = false;
-		if(!moved && tx > x) {
-			moved = move(x+1, y);
+	int targetX = -1, targetY = -1;
+
+	private boolean followPath(int x, int y) {
+		if(x != targetX || y != targetY) {
+			targetX = x;
+			targetY = y;
 		}
-		if(!moved && tx < x) {
-			moved = move(x-1, y);
-		}
-		if(!moved && ty > y) {
-			moved = move(x, y+1);
-		}
-		if(!moved && ty < y) {
-			moved = move(x, y-1);
-		}
-		return moved;
+
+
 	}
 
 
