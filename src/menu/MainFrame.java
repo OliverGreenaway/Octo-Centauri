@@ -46,6 +46,7 @@ public class MainFrame extends JFrame {
 				//this.setVisible(true);
 			}
 		}
+
 		this.addWindowListener(new WindowListener() {
 
 			@Override
@@ -95,6 +96,7 @@ public class MainFrame extends JFrame {
 
 	public static void main(String args[]) {
 		MainFrame f = new MainFrame();
+
 	}
 
 	/**

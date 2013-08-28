@@ -311,6 +311,7 @@ public class Display extends JPanel {
 				}
 
 			}
+
 		}
 		int toggleSize = 64;
 
@@ -322,7 +323,7 @@ public class Display extends JPanel {
 		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
 				padding, toggleSize, miniMapHeight);
 
-		
+
 
 		/*
 		 * int buttonx = this.getWidth() - 235; g2d.setColor(Color.red);
@@ -342,7 +343,7 @@ public class Display extends JPanel {
 				this.getWidth() - miniMapWidth - padding, miniMapHeight
 						+ padding);
 		g2d.setStroke(orig);
-		
+
 		g2d.drawImage(UIImageStorage.get("HealthBarsToggle"), this.getWidth() - padding - miniMapWidth - toggleSize, padding,  null);
 	}
 
