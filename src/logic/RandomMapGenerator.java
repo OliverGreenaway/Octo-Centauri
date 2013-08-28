@@ -1,11 +1,13 @@
 package logic;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RandomMapGenerator {
 	private Map<String,Integer>randMap;
 	public RandomMapGenerator(String filename) {
-		parseFile(filename);
+		pareseFile(filename);
 
 	}
 private void pareseFile(String f){

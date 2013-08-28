@@ -7,26 +7,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.util.Random;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 
 import javax.swing.SwingUtilities;
 
 import menu.AudioPlayer;
 import networking.common.Network;
 
-
 import logic.FileReader;
-
-import logic.Logic;
-
 import logic.UpdateThread;
-
+import state.Structure;
 import state.Tile;
 import state.World;
 
@@ -46,6 +43,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	boolean down = false;
 	boolean left = false;
 	boolean right = false;
+
+	private boolean drawTransparent = true;
 
 	Random random = new Random();
 
@@ -292,37 +291,90 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		new Thread(
-	            new Runnable() {
-	                public void run() {
-	                    try {
-	                    	new AudioPlayer("laugh.wav");
-	                        // PLAY AUDIO CODE
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }).start();
-
-		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
-
-		display.setHighlightedTile(tilePt.x, tilePt.y);
-
-			Tile oldTile = display.getWorld().getTile(tilePt.x, tilePt.y);
-
+//<<<<<<< HEAD
+			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			//set tile to be somthing
-			if(e.getButton()==MouseEvent.BUTTON3){
+			if(e.getButton()==3){
 				//Dude d = new Dude("")
-				oldTile.setImage("BarrenGrass");
-				oldTile.setHeight(oldTile.getHeight() - 1);
-			}else{
-				oldTile.setImage("BarrenWall");
-				oldTile.setHeight(oldTile.getHeight() + 1);
+				Tile t = new Tile("DarkTree",0, (int)point.getX(), (int)point.getY());
+				display.getWorld().setTile((int)point.getX(), (int)point.getY(), t);
+			}else if (drawTransparent == true){
+				System.out.println("Should draw transparent");
+				Structure s = new Structure((int)point.getX(), (int)point.getY(), 1, 1, "Assets/EnvironmentTiles/BarrenWall.png");
+				/* Copied from Java tutorial.
+				 * Create a rescale filter op that makes the image
+				 * 50% opaque.
+				 */
+				float[] scales = { 1f, 1f, 1f, 0.5f };
+				float[] offsets = new float[4];
+				RescaleOp rop = new RescaleOp(scales, offsets, null);
+				s.setFilter(rop);
+
+				display.getWorld().addStructure(s);
+			}
+			else{
+				Tile w = new Tile("BarrenWall", 0, (int)point.getX(), (int)point.getY());
+				display.getWorld().setTile((int)point.getX(), (int)point.getY(), w);
 			}
 
 		this.repaint();
+		//
 
 	}
+
+//	public Point getTilePosition(MouseEvent e){
+//		Point p = e.getPoint();
+//		mouseX = p.x;
+//		mouseY = p.y;
+//		mouseY += 490;
+//
+//
+//		int x = x + cameraPoint[0];
+//		int y = y + cameraPoint[1];
+//		return new Point(x, y);
+//
+
+//		double xMinusY = (mouseX - display.getWidth()/2) / (32.0); // ( x click - half width of screen )  / half the width of a tile
+//		double xPlusY = (mouseY / 16.0);		  // ( y click  /  half height of tile )
+//		new Thread(
+//	            new Runnable() {
+//	                public void run() {
+//	                    try {
+//	                    	new AudioPlayer("laugh.wav");
+//	                        // PLAY AUDIO CODE
+//	                    } catch (Exception e) {
+//	                        e.printStackTrace();
+//	                    }
+//	                }
+//	            }).start();
+//
+//		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
+//		display.setHighlightedTile(tilePt.x, tilePt.y);
+
+//<<<<<<< HEAD
+		// you are NOT off the map
+//		if !(x < 0 || x > 29 || y < 0 || y > 29) {//TODO all wrong now
+			// invalid click
+//		} else {
+			//Adjusts for the camera's possible location and sets the x/y acordingly
+
+//=======
+//			Tile oldTile = display.getWorld().getTile(tilePt.x, tilePt.y);
+//
+//			//set tile to be somthing
+//			if(e.getButton()==MouseEvent.BUTTON3){
+//				//Dude d = new Dude("")
+//				oldTile.setImage("BarrenGrass");
+//				oldTile.setHeight(oldTile.getHeight() - 1);
+//			}else{
+//				oldTile.setImage("BarrenWall");
+//				oldTile.setHeight(oldTile.getHeight() + 1);
+//			}
+//
+//		this.repaint();
+//
+////>>>>>>> 038f85fca2e009fb0ccbdd9a99cd1a2e0440ce18
+//	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {

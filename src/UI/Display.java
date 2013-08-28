@@ -188,7 +188,12 @@ public class Display extends JPanel{
 				int bottomPixelY = getPixelY(x - t.getHeight(), y - t.getHeight());
 
 				if(t.getStructure() != null){ // If there is a structure in the tile --> DRAW HE/SHE/IT!
+//<<<<<<< HEAD
+//						t.getStructure().draw(g, this.getWidth(),SCREEN_Y_DISPLACEMENT,camera.x,camera.y);
+//
+//=======
 					t.getStructure().draw(g, bottomPixelX, bottomPixelY);
+//>>>>>>> 038f85fca2e009fb0ccbdd9a99cd1a2e0440ce18
 				}
 
 				if(t.getDude() != null){ // If there is a dude in the tile --> DRAW THEM!
