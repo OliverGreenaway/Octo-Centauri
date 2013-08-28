@@ -1,5 +1,6 @@
 package state;
 
+import java.io.FileReader;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -58,6 +59,7 @@ public class World {
 				}
 			}
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -66,6 +68,8 @@ public class World {
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+
+		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -91,7 +95,7 @@ public class World {
 		// place the structure
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
-				worldTile[x-X][y-Y].setStructure(s);
+				worldTile[x-X][y-Y].setStructure(s, false);
 
 		return true;
 	}
@@ -166,5 +170,13 @@ public class World {
 
 	public void setGameUpdate(GameUpdate g){
 		gameUpdate = g;
+	}
+
+	/**
+	 * Returns all stored Dudes
+	 * @return
+	 */
+	public Set<Dude> getDudes(){
+		return allDudes;
 	}
 }

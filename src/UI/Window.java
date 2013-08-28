@@ -7,26 +7,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.util.Random;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 
 import javax.swing.SwingUtilities;
 
 import menu.AudioPlayer;
 import networking.common.Network;
 
-
 import logic.FileReader;
-
-import logic.Logic;
-
 import logic.UpdateThread;
-
+import state.Structure;
 import state.Tile;
 import state.World;
 
@@ -47,6 +44,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	boolean left = false;
 	boolean right = false;
 
+	private boolean drawTransparent = true;
+
 	Random random = new Random();
 
 	Display display;
@@ -57,20 +56,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	public String fileMap= "resources/map";
 
 	public Window(Thread thread) {
-		//thread.stop();
-		new Thread(
-	            new Runnable() {
-	                public void run() {
-	                    try {
-	                    	new AudioPlayer("testMusic.wav");
-	                        // PLAY AUDIO CODE
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }).start();
-
-//		this.setSize(1920, 1080);
+		startAudio(thread);
 		initialize();
 	}
 
@@ -82,18 +68,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	 */
 	public Window(long seed, Network network, String fileMap, Thread thread) {//TODO //mapfile tpye?
 
-		thread.stop();
-		new Thread(
-	            new Runnable() {
-	                public void run() {
-	                    try {
-	                    	new AudioPlayer("testMusic.wav");
-	                        // PLAY AUDIO CODE
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }).start();
+
+		startAudio(thread);
 
 		this.seed = seed;
 		this.network = network;
@@ -292,37 +268,38 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		new Thread(
-	            new Runnable() {
-	                public void run() {
-	                    try {
-	                    	new AudioPlayer("laugh.wav");
-	                        // PLAY AUDIO CODE
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }).start();
 
-		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
-
-		display.setHighlightedTile(tilePt.x, tilePt.y);
-
-			Tile oldTile = display.getWorld().getTile(tilePt.x, tilePt.y);
-
+			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			//set tile to be somthing
-			if(e.getButton()==MouseEvent.BUTTON3){
+			if(e.getButton()==3){
 				//Dude d = new Dude("")
-				oldTile.setImage("BarrenGrass");
-				oldTile.setHeight(oldTile.getHeight() - 1);
-			}else{
-				oldTile.setImage("BarrenWall");
-				oldTile.setHeight(oldTile.getHeight() + 1);
+				Tile t = new Tile("DarkTree",0, (int)point.getX(), (int)point.getY());
+				display.getWorld().setTile((int)point.getX(), (int)point.getY(), t);
+			}else if (drawTransparent == true){
+				System.out.println("Should draw transparent");
+				Structure s = new Structure((int)point.getX(), (int)point.getY(), 1, 1, "Assets/EnvironmentTiles/BarrenWall.png");
+				/* Copied from Java tutorial.
+				 * Create a rescale filter op that makes the image
+				 * 50% opaque.
+				 */
+				float[] scales = { 1f, 1f, 1f, 0.5f };
+				float[] offsets = new float[4];
+				RescaleOp rop = new RescaleOp(scales, offsets, null);
+				s.setFilter(rop);
+
+				display.getWorld().addStructure(s);
+			}
+			else{
+				Tile w = new Tile("BarrenWall", 0, (int)point.getX(), (int)point.getY());
+				display.getWorld().setTile((int)point.getX(), (int)point.getY(), w);
 			}
 
 		this.repaint();
+		//
 
 	}
+
+
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -358,6 +335,22 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
 
 		display.setHighlightedTile(tilePt.x, tilePt.y);
+	}
+
+	public void startAudio(Thread thread){
+//		thread.stop();//TODO THIS CAUSES NULL POINTER EXCEPTIONS
+		new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	new AudioPlayer("laugh.wav");
+	                        // PLAY AUDIO CODE
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+
 	}
 
 }

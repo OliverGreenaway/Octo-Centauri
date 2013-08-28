@@ -1,12 +1,17 @@
 package state;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.RescaleOp;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 /**
  * Stores information about a structure.
@@ -19,6 +24,9 @@ public class Structure implements Serializable {
 	private int x, y;
 	private int TILE_HEIGHT = 32;
 	private int TILE_WIDTH = 64;
+
+	private BufferedImageOp filter;
+	private BufferedImage bufferedImage;
 
 	/**
 	 * The world the structure is in.
@@ -34,6 +42,9 @@ public class Structure implements Serializable {
 	 * The structure's image.
 	 */
 	private Image image;
+
+	//This is used to get the image from later
+	private ImageIcon imageIcon;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the structure.
@@ -86,17 +97,48 @@ public class Structure implements Serializable {
 		this.height = height;
 		File imgFile = new File(image);
 		assert(imgFile.exists()) : image+" not found";
-		this.image = new ImageIcon(image).getImage();
+		try {
+			imageIcon = new ImageIcon(image);
+			this.image = new ImageIcon(image).getImage();
+			bufferedImage = ImageIO.read(imgFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Unable to read buffered image of structure: "+e.getMessage());
+		}
+
 	}
 
+	/**	/**
+	 * Used when drawing the tile to check if its structure is transparent.
+	 * @return the filter if there is one, or null if not.
+	 */
+	public BufferedImageOp getFilter(){
+		if(filter == null)
+			return null;
+		return filter;
+	}
+
+
 	/**
-	 * Draws the structure.
+	 * Adds a transparency filter to this structure.
+	 * @param rs
+	 */
+	public void setFilter(RescaleOp rs){
+		filter = rs;
+	}
+
+	 /** Draws the structure.
 	 * @param g The Graphics object to draw on.
 	 * @param bottomPixelX The X coordinate of the bottom corner of the object
 	 * @param bottomPixelY The Y coordinate of the bottom corner of the object
 	 */
 	public void draw(Graphics g, int bottomPixelX, int bottomPixelY){
-		g.drawImage(image, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
+		if(filter != null){
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.drawImage(bufferedImage, filter, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null));
+		}
+		else
+			g.drawImage(image, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
 	}
 
 	public void setWorld(World w) {
