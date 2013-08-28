@@ -6,4 +6,6 @@ public class Tree extends Resource{
 		super(x, y, width, height, image);
 		this.amount = 200;
 	}
+
+
 }
