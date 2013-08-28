@@ -38,7 +38,6 @@ public class Tile implements Serializable {
 	private Structure structure;
 	private Dude dude;
 	private String imgName; // Used to save the image for de-serializing later
-	private Color storedColor;
 
 	// cache of all images loaded so far
 	private static TileImageStorage imagesCache = new TileImageStorage();
@@ -150,7 +149,8 @@ public class Tile implements Serializable {
 
 
 	public Color getColor() {
-		BufferedImage img = getImage();
+		return imagesCache.getColor(imgName);
+		/*BufferedImage img = getImage();
 		if (img != null) {
 			if (storedColor != null) {
 				return storedColor;
@@ -176,7 +176,7 @@ public class Tile implements Serializable {
 			return storedColor;
 		} else {
 			return Color.BLACK;
-		}
+		}*/
 	}
 
 

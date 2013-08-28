@@ -28,6 +28,7 @@ import logic.UpdateThread;
 import state.Structure;
 import state.Tile;
 import state.World;
+import util.UIImageStorage;
 
 //TODO Rotate the view by inverting the draw
 //TODO Hovering over the screen will show a tempory bit on the screen
@@ -129,6 +130,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
         update = new UpdateThread(world, display);
         update.start();
 
+
+        UIImageStorage.add("HealthBarsToggle");
 	}
 
 	/**
@@ -359,6 +362,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+
+
 		Point tilePt = display.displayToTileCoordinates(e.getX(), e.getY());
 
 		display.setHighlightedTile(tilePt.x, tilePt.y);
@@ -366,11 +371,12 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	public void startAudio(Thread thread){
 //		thread.stop();//TODO THIS CAUSES NULL POINTER EXCEPTIONS
+		thread.interrupt();
 		new Thread(
 	            new Runnable() {
 	                public void run() {
 	                    try {
-	                    	new AudioPlayer("laugh.wav");
+	                    	new AudioPlayer("TempInGameSong.wav", false);
 	                        // PLAY AUDIO CODE
 	                    } catch (Exception e) {
 	                        e.printStackTrace();

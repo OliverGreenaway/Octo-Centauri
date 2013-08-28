@@ -2,9 +2,17 @@ package state;
 
 public class Crystal extends Resource{
 
-	private int amount = 500;
 	public Crystal(int x, int y, int width, int height,String image) {
 		super(x, y, width, height, image);
+		this.amount = 500;
+	}
+
+	public void harvest() {
+		if(amount <= 10){
+			depleted();
+			setImage("Assets/EnvironmentObjects/ResourcesDepleted.png");
+		}
+		amount = amount - 10;
 	}
 
 }
