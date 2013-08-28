@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
             new Runnable() {
                 public void run() {
                     try {
-                    	new AudioPlayer("timer1.wav");//TODO to be replaced with menuMusic.wav when it's written
+                    	new AudioPlayer("timer1.wav", true);//TODO to be replaced with menuMusic.wav when it's written
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -23,8 +23,6 @@ public class Resource extends Structure {
 		amount =  amount + amt;
 	}
 
-
-
 	public void harvest() {
 		if(amount <= 10){
 			depleted();
