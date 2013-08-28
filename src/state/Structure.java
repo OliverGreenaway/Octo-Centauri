@@ -54,8 +54,7 @@ public class Structure implements Serializable {
 	/**
 	 * Returns the height of the structure, in tiles.
 	 */
-	public int getHeight() {WestFaceDirtRamp 5 5 45 24 32 177 37 164 188 23 150 150
-		EastFaceDirtRamp 25 25 77 155
+	public int getHeight() {
 
 		return height;
 	}
