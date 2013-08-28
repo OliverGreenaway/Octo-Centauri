@@ -12,9 +12,9 @@ import logic.GameUpdate;
  */
 public class World {
 
-	private int woodResource = 0;
-	private int plantResource = 0;
-	private int crystalResource = 0;
+	private int woodResource = 200;
+	private int plantResource = 200;
+	private int crystalResource = 200;
 
 	private boolean showHealth = true;
 

@@ -30,7 +30,9 @@ public class Dude implements Serializable{
 	private int TILE_HEIGHT = 32;
 	private int TILE_WIDTH = 64;
 	private int NUM_SPRITES = 16; // Number of model sprites per  images
-
+	private int maxHealth;
+	private int currentHealth;
+	private int damage;
 
 	/**
 	 * Size of the structure, in tiles.
@@ -102,6 +104,8 @@ public class Dude implements Serializable{
 		this.oldY = y;
 		this.width = width;
 		this.height = height;
+		maxHealth = 100;
+		currentHealth = maxHealth;
 		//this.image = new ImageIcon(image).getImage();
 		this.world = world;
 		JPanel panel = new JPanel(); // Instantiated JPanel to use createImage method
@@ -112,10 +116,10 @@ public class Dude implements Serializable{
 		for (int i = 0; i<4; i++){ // Iterate through facings --> Load an image into each facing
 			// For animations this code will need to be extended to include an array of images per facing
 			// Idea: Make images double array?
-			for(int ß = 0; ß<4; ß++){
-				images[i][ß] = new ImageIcon(image).getImage();
-				CropImageFilter filter = new CropImageFilter((images[i][ß].getWidth(null)/NUM_SPRITES)*(i*4 + ß),0,(images[i][ß].getWidth(null)/NUM_SPRITES),images[i][ß].getHeight(null));
-				images[i][ß] = panel.createImage(new FilteredImageSource(images[i][ß].getSource(), filter));
+			for(int j = 0; j<4; j++){
+				images[i][j] = new ImageIcon(image).getImage();
+				CropImageFilter filter = new CropImageFilter((images[i][j].getWidth(null)/NUM_SPRITES)*(i*4 + j),0,(images[i][j].getWidth(null)/NUM_SPRITES),images[i][j].getHeight(null));
+				images[i][j] = panel.createImage(new FilteredImageSource(images[i][j].getSource(), filter));
 			}
 		}
 
@@ -289,5 +293,21 @@ public class Dude implements Serializable{
 		// Draw image at (i,j)
 		g.drawImage(i, pt.x - i.getWidth(null)/2, pt.y - i.getHeight(null), null);
 
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int health) {
+		this.maxHealth = health;
+	}
+
+	public int getCurrentHealth() {
+		return currentHealth;
+	}
+
+	public void setCurrentHealth(int currentHealth) {
+		this.currentHealth = currentHealth;
 	}
 }
