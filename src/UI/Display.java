@@ -88,7 +88,36 @@ public class Display extends JPanel{
 		}
 
 	private Tile getCameraRelativeTile(int x, int y) {
+		int temp;
+		switch(rotation) {
+		case 0: break;
+		case 1: temp = VIEW_WIDTH-x; x = y; y = temp; break;
+		case 2: x=VIEW_WIDTH-x; y=VIEW_HEIGHT-y; break;
+		case 3: temp = VIEW_HEIGHT-y; y = x; x = temp; break;
+		}
 		return world.getTile(x+camera.x, y+camera.y);
+	}
+
+	public Point tileToDisplayCoordinates(double x, double y) {
+		x -= camera.x; y -= camera.y;
+
+		double temp;
+		switch(rotation) {
+		case 0: break;
+		case 3: temp = VIEW_WIDTH-x; x = y; y = temp; break;
+		case 2: x=VIEW_WIDTH-x; y=VIEW_HEIGHT-y; break;
+		case 1: temp = VIEW_HEIGHT-y; y = x; x = temp; break;
+		}
+
+		return new Point(getPixelX(x, y), getPixelY(x, y));
+	}
+
+	private int getPixelX(double x, double y) {
+		return (int)((this.getWidth()/2) + (x-y) * (TILE_WIDTH/2));
+	}
+
+	private int getPixelY(double x, double y) {
+		return (int)((x+y) * (TILE_HEIGHT/ 2)-SCREEN_Y_DISPLACEMENT + TILE_HEIGHT);
 	}
 
 	/**Paints the "view" on-screen at any one time. The algorithm goes through,
@@ -119,15 +148,18 @@ public class Display extends JPanel{
 					int i = x - σ;
 					int	j = y - σ;
 					//displays each tile
-					g.drawImage(t.getImage(), (this.getWidth()/2)-(TILE_WIDTH/2) + (i-j) * (TILE_WIDTH/2), (i+j) * (TILE_HEIGHT/ 2)-SCREEN_Y_DISPLACEMENT, TILE_WIDTH, t.getImage().getHeight(null), null);
+					g.drawImage(t.getImage(), getPixelX(i, j)-(TILE_WIDTH/2), getPixelY(i, j)-TILE_HEIGHT, TILE_WIDTH, t.getImage().getHeight(null), null);
 				}
 
+				int bottomPixelX = getPixelX(x - t.getHeight(), y - t.getHeight());
+				int bottomPixelY = getPixelY(x - t.getHeight(), y - t.getHeight());
+
 				if(t.getStructure() != null){ // If there is a structure in the tile --> DRAW HE/SHE/IT!
-					t.getStructure().draw(g, this.getWidth(),SCREEN_Y_DISPLACEMENT,camera.x,camera.y);
+					t.getStructure().draw(g, bottomPixelX, bottomPixelY);
 				}
 
 				if(t.getDude() != null){ // If there is a dude in the tile --> DRAW THEM!
-					t.getDude().draw(g, this.getWidth(),SCREEN_Y_DISPLACEMENT,camera.x,camera.y);
+					t.getDude().draw(g, this, bottomPixelX, bottomPixelY);
 				}
 
 				}
@@ -138,5 +170,12 @@ public class Display extends JPanel{
 
 	public void rotate() {
 		rotation = (rotation + 1) % 4;
+	}
+
+	/**
+	 * Returns the number of steps clockwise the display is rotated, from 0 to 3.
+	 */
+	public int getRotation() {
+		return rotation;
 	}
 }

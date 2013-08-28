@@ -92,19 +92,11 @@ public class Structure implements Serializable {
 	/**
 	 * Draws the structure.
 	 * @param g The Graphics object to draw on.
-	 * @param width The width of the display.
-	 * @param camx The camera X.
-	 * @param camy The camera Y.
+	 * @param bottomPixelX The X coordinate of the bottom corner of the object
+	 * @param bottomPixelY The Y coordinate of the bottom corner of the object
 	 */
-	public void draw(Graphics g, int width, int height, int camx, int camy){
-		int tileHeight = world.getTile(x, y).getHeight();
-
-		int x = this.x - camx - tileHeight; //tile coords of structure
-		int y = this.y - camy - tileHeight; //tile coords of structure
-		int i = (width/2)-(image.getWidth(null)/2) + (x-y) * (TILE_WIDTH/2); //pixel coords of the structure
-		int j =  (x+y) * (TILE_HEIGHT/ 2) - height ;						 //pixel coords of the structure
-		//draws the structure at (i,j) using the images dimensions to find its final dimension
-		g.drawImage(image, i, j-image.getHeight(null), image.getWidth(null), image.getHeight(null), null);
+	public void draw(Graphics g, int bottomPixelX, int bottomPixelY){
+		g.drawImage(image, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
 	}
 
 	public void setWorld(World w) {
