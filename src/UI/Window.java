@@ -58,8 +58,10 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	public Network network;
 	public String fileMap= "resources/map";
 
-	public Window(Thread thread) {
-		startAudio(thread);
+	private AudioPlayer audioPlayer;
+
+	public Window() {
+	//	startAudio(thread);
 		initialize();
 	}
 
@@ -69,10 +71,10 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	 * @param network
 	 * @param fileMap
 	 */
-	public Window(long seed, Network network, String fileMap, Thread thread) {//TODO //mapfile tpye?
+	public Window(long seed, Network network, String fileMap, AudioPlayer audioPlayer) {//TODO //mapfile tpye?
 
+	//	audioPl
 
-		startAudio(thread);
 
 		this.seed = seed;
 		this.network = network;
@@ -192,7 +194,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	public static void main(String[] args) {
 		JFrame f = new JFrame("test");
-		f.getContentPane().add(new Window(null)) ;
+		f.getContentPane().add(new Window()) ;
 		//f.add(new Window());
 		f.setSize(1920, 1080);
 		f.pack();
@@ -370,7 +372,13 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	}
 
 	public void startAudio(Thread thread){
+		// TODO We need to implement this
+		AudioPlayer audioplayer = new AudioPlayer("TempInGameSong.wav", true);
+		audioplayer.start();
+
 
 	}
+
+
 
 }
