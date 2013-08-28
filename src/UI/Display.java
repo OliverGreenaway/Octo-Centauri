@@ -313,10 +313,13 @@ public class Display extends JPanel {
 			}
 
 		}
-		int toggleSize = 64;
+		int toggleSize = 74;
+		int toggleImageSize = 64;
+		int tpad = (75 - 64) / 2;
 
-		Rectangle toggleHealth = new Rectangle(this.getWidth() - miniMapWidth - toggleSize - padding, padding, toggleSize, toggleSize);
-
+		Rectangle toggleHealth = new Rectangle(this.getWidth() - miniMapWidth - toggleSize - padding + tpad, padding + tpad, toggleSize, toggleSize);
+		Rectangle newDudeToggle = new Rectangle(toggleHealth.x, toggleHealth.y + toggleSize - tpad, toggleSize, toggleSize);
+		Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x, newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
 
 		// draw the button panel
 		g2d.setColor(Color.black);
@@ -344,7 +347,10 @@ public class Display extends JPanel {
 						+ padding);
 		g2d.setStroke(orig);
 
-		g2d.drawImage(UIImageStorage.get("HealthBarsToggle"), this.getWidth() - padding - miniMapWidth - toggleSize, padding,  null);
+		g2d.drawImage(UIImageStorage.get("HealthBarsToggle"), toggleHealth.x, toggleHealth.y,  null);
+		g2d.drawImage(UIImageStorage.get("NewDudeToggle"), newDudeToggle.x, newDudeToggle.y,  null);
+		g2d.drawImage(UIImageStorage.get("SlugBalancingToggle"), slugBalancingToggle.x, slugBalancingToggle.y,  null);
+		g2d.drawImage(UIImageStorage.get("SlugBalancingToggle"), slugBalancingToggle.x, slugBalancingToggle.y + toggleSize - tpad,  null);
 	}
 
 	public void rotate() {

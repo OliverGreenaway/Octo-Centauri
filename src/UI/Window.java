@@ -132,6 +132,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 
         UIImageStorage.add("HealthBarsToggle");
+        UIImageStorage.add("NewDudeToggle");
+        UIImageStorage.add("SlugBalancingToggle");
 	}
 
 	/**
