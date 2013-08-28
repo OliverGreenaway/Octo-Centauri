@@ -1,6 +1,6 @@
 package state;
 
-public class Resource extends Structure {
+public abstract class Resource extends Structure {
 
 	private static final long serialVersionUID = -9044185320248377571L;
 	protected int amount;
@@ -23,8 +23,6 @@ public class Resource extends Structure {
 		amount =  amount + amt;
 	}
 
-
-
 	public void harvest() {
 		if(amount <= 10){
 			depleted();
@@ -32,5 +30,7 @@ public class Resource extends Structure {
 		}
 		amount =- 10;
 	}
+
+	public abstract ResourceType getResType();
 
 }

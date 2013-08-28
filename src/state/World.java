@@ -23,7 +23,7 @@ public class World {
 									// changes to
 
 	private Set<Dude> allDudes = new HashSet<Dude>();
-
+	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
 
 	/**
@@ -100,6 +100,7 @@ public class World {
 
 		if(s instanceof Resource)
 			resources.add((Resource)s);
+		structures.add(s);
 
 		// place the structure
 		for (int X = 0; X < w; X++)
@@ -127,7 +128,7 @@ public class World {
 
 		if(s instanceof Resource)
 			resources.remove(s);
-
+		structures.remove(s);
 	}
 
 	/**
@@ -211,13 +212,21 @@ public class World {
 		return allDudes;
 	}
 
-	public Resource getNearestResource(Tile tile) {
+	/**
+	 * Finds the nearest resource structure of the given type.
+	 * resType is the type to look for, or null if any type is ok.
+	 */
+	public Resource getNearestResource(Tile tile, ResourceType resType) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
 
 		for(Resource r : resources) {
+			if(resType != null && r.getResType() != resType)
+				continue;
+			if(r.getResType() == null)
+				continue;
 			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
 			if(squaredDistance < bestSquaredDistance) {
 				bestSquaredDistance = squaredDistance;
@@ -225,5 +234,25 @@ public class World {
 			}
 		}
 		return bestResource;
+	}
+
+
+
+	public Structure getNearestStructure(Class<?> class1, Tile tile) {
+		int x = tile.getX();
+		int y = tile.getY();
+		int bestSquaredDistance = Integer.MAX_VALUE;
+		Structure bestStructure = null;
+
+		for(Structure r : structures) {
+			if(!class1.isInstance(r))
+				continue;
+			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
+			if(squaredDistance < bestSquaredDistance) {
+				bestSquaredDistance = squaredDistance;
+				bestStructure = r;
+			}
+		}
+		return bestStructure;
 	}
 }

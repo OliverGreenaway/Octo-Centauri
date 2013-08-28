@@ -6,4 +6,9 @@ public class Tree extends Resource{
 		super(x, y, width, height, image);
 		this.amount = 200;
 	}
+
+	public ResourceType getResType() {
+		return ResourceType.WOOD;
+	}
+
 }

@@ -30,7 +30,7 @@ public abstract class AbstractMenuPanel extends JPanel {
 			.getImage();
 
 	private int y = 0;
-	
+
 
 	public void addButton(final MainFrame frame, ActionListener listener, String path) {
 
@@ -48,18 +48,7 @@ public abstract class AbstractMenuPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable() {
-					public void run() {
-						try {
-							new AudioPlayer("laugh.wav");// TODO to be replaced
-															// with
-															// menuMusic.wav
-															// when it's written
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}).start();
+
 			}
 		});
 	}

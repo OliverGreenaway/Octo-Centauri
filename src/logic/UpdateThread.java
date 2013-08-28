@@ -1,5 +1,7 @@
 package logic;
 
+import java.awt.EventQueue;
+
 import networking.common.Network;
 import UI.Display;
 
@@ -34,7 +36,12 @@ private GameUpdate gUpdate;
 	 */
 public void run(){
 	while(true){
-		world.update();
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				world.update();
+			}
+		});
 
 		//Network.sendUpdate(gUpdate);
 		//get the update back here

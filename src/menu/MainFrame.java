@@ -17,19 +17,15 @@ import javax.swing.JPanel;
  */
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
-	public final Thread musicThread = new Thread(
-            new Runnable() {
-                public void run() {
-                    try {
-                    	new AudioPlayer("timer1.wav");//TODO to be replaced with menuMusic.wav when it's written
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+
+	AudioPlayer audioPlayer; // This is a thread that plays audio
 
 	public MainFrame() {
-		musicThread.start();
+		// create and start audio thread
+		//audioPlayer = new AudioPlayer("timer1.wav", false); // true so it loops
+	//	audioPlayer.start();
+
+		// start other stuff
 		frameStack = new Stack<JPanel>();
 		frameStack.add(new MainMenuPanel(this));
 		this.add(frameStack.peek());
@@ -51,7 +47,9 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void windowClosed(WindowEvent e) {
-				musicThread.stop();
+				// stops the audio playing
+			//	audioPlayer.stopPlayer();
+
 				System.out.println("closinbg");
 
 			}

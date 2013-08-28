@@ -31,6 +31,7 @@ public class Dude implements Serializable{
 	private int TILE_WIDTH = 64;
 	private int NUM_SPRITES = 16; // Number of model sprites per  images
 
+
 	/**
 	 * Size of the structure, in tiles.
 	 */
@@ -193,6 +194,10 @@ public class Dude implements Serializable{
 	}
 
 	Resource harvesting;
+	Crate crate;
+
+	int storedResources = 0;
+	ResourceType storedResType = null;
 
 	/**
 	 * Called every tick. Does stuff.
@@ -205,33 +210,56 @@ public class Dude implements Serializable{
 			linkTiles(x, y);
 			oldX = x; oldY = y;
 
-			if(harvesting == null)
-				harvesting = world.getNearestResource(world.getTile(x, y));
+			if(storedResources > 3) {
+				if(crate == null)
+					crate = (Crate)world.getNearestStructure(Crate.class, world.getTile(x, y));
 
-			if(harvesting != null) {
-				boolean moved = false;
-				if(!moved && harvesting.getX() > x) {
-					moved = move(x+1, y);
+				if(crate != null) {
+					boolean moved = moveTowards(crate.getX(), crate.getY());
+					if(!moved) {
+						if(crate.getX() == x && crate.getY() == y) {
+							crate = null;
+							storedResType = null;
+							storedResources = 0;
+						}
+					}
 				}
-				if(!moved && harvesting.getX() < x) {
-					moved = move(x-1, y);
-				}
-				if(!moved && harvesting.getY() > y) {
-					moved = move(x, y+1);
-				}
-				if(!moved && harvesting.getY() < y) {
-					moved = move(x, y-1);
-				}
-				if(!moved) {
-					if(harvesting.getX() == x && harvesting.getY() == y) {
-						harvesting.harvest();
-						harvesting = null;
+
+			} else {
+				harvesting = world.getNearestResource(world.getTile(x, y), storedResType);
+
+				if(harvesting != null) {
+					boolean moved = moveTowards(harvesting.getX(), harvesting.getY());
+					if(!moved) {
+						if(harvesting.getX() == x && harvesting.getY() == y) {
+							harvesting.harvest();
+							storedResType = harvesting.getResType();
+							harvesting = null;
+							storedResources++;
+						}
 					}
 				}
 			}
 
 			count = 0;
 		}
+	}
+
+	private boolean moveTowards(int tx, int ty) {
+		boolean moved = false;
+		if(!moved && tx > x) {
+			moved = move(x+1, y);
+		}
+		if(!moved && tx < x) {
+			moved = move(x-1, y);
+		}
+		if(!moved && ty > y) {
+			moved = move(x, y+1);
+		}
+		if(!moved && ty < y) {
+			moved = move(x, y-1);
+		}
+		return moved;
 	}
 
 
@@ -256,7 +284,7 @@ public class Dude implements Serializable{
 		pt.y -= TILE_HEIGHT * world.getTile(this.x, this.y).getHeight();
 		pt.y -= TILE_HEIGHT/2;
 
-		Image i = images[(facing + d.getRotation()) % 4][count];
+		Image i = images[(facing + d.getRotation()) % 4][Math.min(count, 3)];
 
 		// Draw image at (i,j)
 		g.drawImage(i, pt.x - i.getWidth(null)/2, pt.y - i.getHeight(null), null);
