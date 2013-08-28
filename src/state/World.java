@@ -89,7 +89,7 @@ public class World {
 		// place the structure
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
-				worldTile[x-X][y-Y].setStructure(s);
+				worldTile[x-X][y-Y].setStructure(s, false);
 
 		return true;
 	}

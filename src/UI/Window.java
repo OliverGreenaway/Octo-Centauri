@@ -1,29 +1,20 @@
 package UI;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
+import java.awt.image.RescaleOp;
 import java.util.Random;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import javax.swing.SwingUtilities;
-
-import networking.common.Network;
-
-
 import logic.FileReader;
-
-import logic.Logic;
-
 import logic.UpdateThread;
-
+import networking.common.Network;
+import state.Structure;
 import state.Tile;
 import state.World;
 
@@ -43,6 +34,8 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	boolean down = false;
 	boolean left = false;
 	boolean right = false;
+
+	private boolean drawTransparent;
 
 	Random random = new Random();
 
@@ -237,6 +230,36 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mouseClicked(MouseEvent e) {
+			Point point = getTilePosition(e);
+
+			//set tile to be somthing
+			if(e.getButton()==3){
+				//Dude d = new Dude("")
+				Tile t = new Tile("DarkTree",0, (int)point.getX(), (int)point.getY());
+				display.getWorld().setTile((int)point.getX(), (int)point.getY(), t);
+			}else if (drawTransparent == true){
+				Structure s = new Structure((int)point.getX(), (int)point.getY(), 1, 1, "Assets/EnvironmentTiles/BarrenWall.png");
+				/* Copied from Java tutorial.
+				 * Create a rescale filter op that makes the image
+				 * 50% opaque.
+				 */
+				float[] scales = { 1f, 1f, 1f, 0.5f };
+				float[] offsets = new float[4];
+				RescaleOp rop = new RescaleOp(scales, offsets, null);
+				s.setFilter(rop);
+
+				display.getWorld().addStructure(s);
+			}
+			else{
+				Tile w = new Tile("BarrenWall", 0, (int)point.getX(), (int)point.getY());
+				display.getWorld().setTile((int)point.getX(), (int)point.getY(), w);
+			}
+
+		this.repaint();
+
+	}
+
+	public Point getTilePosition(MouseEvent e){
 		Point p = e.getPoint();
 		mouseX = p.x;
 		mouseY = p.y;
@@ -261,19 +284,7 @@ public class Window extends JPanel implements KeyListener, MouseListener {
 			//Adjusts for the camera's possible location and sets the x/y acordingly
 			x = x + cameraPoint[0];
 			y = y + cameraPoint[1];
-
-			//set tile to be somthing
-			if(e.getButton()==3){
-				//Dude d = new Dude("")
-				Tile t = new Tile("DarkTree",0, x,y);
-				display.getWorld().setTile(x, y, t);
-			}else{
-				Tile t = new Tile("BarrenWall",1, x,y);
-				display.getWorld().setTile(x, y, t);
-			}
-
-		this.repaint();
-
+			return new Point(x, y);
 	}
 
 	@Override

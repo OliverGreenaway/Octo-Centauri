@@ -1,9 +1,8 @@
 package state;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.RescaleOp;
 import java.io.File;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import javax.swing.ImageIcon;
@@ -20,6 +19,10 @@ public class Tile implements Serializable{
 	private int y;
 	private boolean visited;
 	private boolean occupied;
+
+	private boolean collidable;
+	private RescaleOp filter;
+
 	// height: 0 = flat plain 1 = the step above 2 = above that so on and so forth
 	//		   the height drawing is handled by the display class
 	//		   some kind of ramping theory needs to exist to make this less arbitrary
@@ -51,6 +54,7 @@ public class Tile implements Serializable{
 		height = ht;
 		this.x = x;
 		this.y = y;
+		collidable = false; //A normal tile is not collidable by default
 	}
 
 	/**
@@ -104,9 +108,11 @@ public class Tile implements Serializable{
 
 	/**
 	 * Sets the structure on this tile.
+	 * @param c - whether this structure is collidable or not
 	 */
-	public void setStructure(Structure s) {
+	public void setStructure(Structure s, boolean c) {
 		structure = s;
+		collidable = c;
 	}
 
 	/**
@@ -122,6 +128,12 @@ public class Tile implements Serializable{
 	public void setDude(Dude d) {
 		dude = d;
 	}
+
+	public void changeAlpha(RescaleOp rs){
+
+	}
+
+
 
 }
 
