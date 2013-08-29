@@ -33,7 +33,7 @@ public class Structure implements Serializable {
 	/**
 	 * The world the structure is in.
 	 */
-	private World world; //We don't want to serialise the whole world
+	private transient World world; //We don't want to serialise the whole world
 
 	/**
 	 * Size of the structure, in tiles.

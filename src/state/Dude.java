@@ -70,7 +70,7 @@ public class Dude implements Serializable {
 	 */
 	// private Image image;
 
-	protected World world;
+	protected transient World world;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the dude.
@@ -91,6 +91,14 @@ public class Dude implements Serializable {
 	 */
 	public int getWidth() {
 		return width;
+	}
+
+	/**
+	 * Sets the world on this dude.  Needed because the world is transient.
+	 * @param w
+	 */
+	public void setWorld(World w){
+		world = w;
 	}
 
 	/**
