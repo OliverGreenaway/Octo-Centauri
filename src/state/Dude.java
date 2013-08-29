@@ -295,7 +295,7 @@ public class Dude implements Serializable {
 
 	public void attack(Dude victim) {
 		victim.currentHealth -= 15;
-		if(victim.currentHealth < 15) {
+		if(victim.currentHealth < 0) {
 			world.removeDude(victim);
 		}
 	}
