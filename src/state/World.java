@@ -84,6 +84,24 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
+
+		Random r = new Random();
+		for(int k = 0; k < 50; k++) {
+			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+			addStructure(new Crystal(x, y));
+		}
+
+		for(int k = 0; k < 50; k++) {
+			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+			int rad = 10;
+			for(int i = 0; i < 30; i++) {
+				int x2 = x + r.nextInt(rad), y2 = y + r.nextInt(rad);
+				Tile t = getTile(x2, y2);
+				if(t != null && t.getImageName().equals("DarkSand"))
+					addStructure(new Tree(x2, y2));
+			}
+		}
+
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
@@ -166,36 +184,32 @@ public class World {
 	 * returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
-		if (crystalResource > 50) {
-			crystalResource = crystalResource - 50;//TODO Change amount if needed
-			int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
+		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
-			if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
-				return false;
+		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
+			return false;
 
-			// check for overlap
-			for (int X = 0; X < w; X++)
-				for (int Y = 0; Y < h; Y++)
-					if (worldTile[x - X][y - Y].getDude() != null)
-						return false; // can't have two structures on one tile
-										// <--The best comment! =)
+		// check for overlap
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++)
+				if (worldTile[x - X][y - Y].getDude() != null)
+					return false; // can't have two structures on one tile
+									// <--The best comment! =)
 
-			// place the structure
-			for (int X = 0; X < w; X++)
-				for (int Y = 0; Y < h; Y++)
-					worldTile[x - X][y - Y].setDude(s);
-			s.setWorld(this);
-			allDudes.add(s);
-			// plays the sound
+		// place the structure
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++)
+				worldTile[x - X][y - Y].setDude(s);
+		s.setWorld(this);
+		allDudes.add(s);
+		// plays the sound
 
-			if (mixingDesk != null) {
-				this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
-			}
-
-			gameUpdate.dudeAdded(s);
-			return true;
+		if (mixingDesk != null) {
+			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
 		}
-		return false;
+
+		gameUpdate.dudeAdded(s);
+		return true;
 	}
 
 	/**
