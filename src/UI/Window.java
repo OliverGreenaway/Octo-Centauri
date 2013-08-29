@@ -377,7 +377,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 							new Ramp(point.x, point.y, 1, 1, "PathRamp",
 									Direction.values()[display.getRotation()]));
 				}
-				display.getWorld().getLogic().mapChanged(t.getX(), t.getY());
+				display.getWorld().getLogic().mapChanged(point.x, point.y);
 
 			} else {
 				Tile t = display.getWorld().getTile(point.x, point.y);
