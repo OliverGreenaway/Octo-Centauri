@@ -423,7 +423,7 @@ public class Display extends JPanel {
 		g2d.setColor(new Color(212, 175, 55));
 		Stroke orig = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(3));
-		int r = 10;
+		int r = 5;
 		g2d.drawRoundRect(
 				this.getWidth() - miniMapWidth - toggleSize - padding, padding,
 				miniMapWidth + toggleSize, miniMapHeight, r, r);
