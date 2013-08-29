@@ -309,14 +309,16 @@ public class Dude implements Serializable {
 		}
 
 	public void attack(Dude victim) {
-		
-		world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
+		if(world.getAudioPlayer()!=null)
+			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
 
 		//new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
 		if(victim.currentHealth < 0) {
 			world.removeDude(victim);
-			world.getAudioPlayer().addAudioPlayer("DyingDude.wav", true);
+			if(world.getAudioPlayer()!=null){
+				world.getAudioPlayer().addAudioPlayer("DyingDude.wav", true);
+				}
 		}
 	}
 
