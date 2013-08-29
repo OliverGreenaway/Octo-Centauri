@@ -142,11 +142,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		update.start();
 
 		UIImageStorage.add("ButtonHealthOn");
-		//UIImageStorage.add("ButtonAddDude");
+		UIImageStorage.add("ButtonMuteOn");
+		UIImageStorage.add("ButtonAddDude");
 		//UIImageStorage.add("ButtonResourceBalanceOn");
 
 		UIImageStorage.add("ButtonHealthOff");
-		//UIImageStorage.add("ButtonAddDude");
+		UIImageStorage.add("ButtonMuteOff");
+		UIImageStorage.add("ButtonAddDudeHover");
 		//UIImageStorage.add("ButtonResourceBalanceOff");
 		// setup audio
 
