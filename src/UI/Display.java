@@ -3,20 +3,16 @@ package UI;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Stroke;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -25,7 +21,6 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import sound.AudioPlayer;
 import state.Dude;
 import state.Tile;
 import state.World;
@@ -95,6 +90,8 @@ public class Display extends JPanel {
 				+ toggleSize - tpad, toggleSize, toggleSize);
 		Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
 				newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
+		Rectangle toggleTrippy = new Rectangle(slugBalancingToggle.x, slugBalancingToggle.y
+				+ toggleSize - tpad, toggleSize, toggleSize);
 
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
@@ -199,10 +196,44 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonMute", listener);
 			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
+			
+			listener = new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					trippy = !trippy;
+					if (toggleButtonsImages.get("ButtonBG").equals("ButtonBGOff")) {
+						toggleButtonsImages.put("ButtonBG", "ButtonBGOn");
+					} else {
+						toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
+					}
+				}
+			};
+
+			toggleButtonsListener.put("ButtonBG", listener);
+			toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
+			
 		}
 		toggleButtons.put("ButtonAddDude", newDudeToggle);
 		toggleButtons.put("ButtonMute", slugBalancingToggle);
 		toggleButtons.put("ButtonHealth", toggleHealth);
+		toggleButtons.put("ButtonBG", toggleTrippy);
 
 		return toggleButtons;
 	}
