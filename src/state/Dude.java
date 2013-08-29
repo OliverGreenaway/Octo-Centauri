@@ -269,7 +269,6 @@ public class Dude implements Serializable {
 		if (count == 4) {
 //			if (buildTicks > 0) {
 //			buildTicks--;
-
 			unlinkTiles(oldX, oldY);
 			linkTiles(x, y);
 			oldX = x;
