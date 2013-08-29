@@ -176,7 +176,7 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonMute", listener);
 			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
-			
+
 			listener = new MouseListener() {
 
 				@Override
@@ -375,7 +375,6 @@ public class Display extends JPanel {
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
 	 */
 	private void paintMap(Graphics g) {
-
 
 		if (trippy) {
 			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 24)));
