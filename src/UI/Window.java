@@ -38,7 +38,8 @@ import util.UIImageStorage;
 //TODO Hovering over the screen will show a tempory bit on the screen
 
 @SuppressWarnings("serial")
-public class Window extends JPanel implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
+public class Window extends JPanel implements KeyListener, MouseListener,
+		MouseMotionListener, MouseWheelListener {
 
 	// mouse x y points on a click
 	private int mouseX = 0;
@@ -126,8 +127,6 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
 
-
-
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
@@ -143,7 +142,6 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		UIImageStorage.add("ButtonMuteOn");
 		UIImageStorage.add("ButtonAddDude");
 		UIImageStorage.add("ButtonBGOn");
-
 
 		UIImageStorage.add("ButtonHealthOff");
 		UIImageStorage.add("ButtonMuteOff");
@@ -162,7 +160,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			mixingDesk.stopAudio();
 			mixingDesk.addAudioPlayer("InGameMusic.wav", false);
 			world.setAudioPlayer(this.mixingDesk);
-		//	audioPlayer.start();
+			// audioPlayer.start();
 		}
 
 	}
@@ -343,79 +341,91 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
 				if (e.getButton() == 3) {
-					display.getWorld().getTile(point.x, point.y).setHeight(display.getWorld().getTile(point.x, point.y).getHeight() - 1);
+					// TODO make tile greyed out, ask man to dig it;
+					Task t = new Task(display.getWorld().getTile(point.x,
+							point.y), "dig");
+					display.getWorld().tasks.add(t);
 				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
 
-				// set tile to be somthing
-//				if (e.getButton() == 3) {
+					// set tile to be somthing
+					// if (e.getButton() == 3) {
 					// Dude d = new Dude("")
-//					Tile t = new Tile("Grass", 0, (int) point.getX(),
-//							(int) point.getY());
-//					display.getWorld().setTile((int) point.getX(),
-//							(int) point.getY(), t);
-//			} else if (drawTransparent == true) {
+					// Tile t = new Tile("Grass", 0, (int) point.getX(),
+					// (int) point.getY());
+					// display.getWorld().setTile((int) point.getX(),
+					// (int) point.getY(), t);
+				} else if (drawTransparent == true) {
 
-//					 System.out.println("drawing working");//TODO
+					// System.out.println("drawing working");//TODO
 					String currentBuild = display.getWorld().getCurrentBuild();
-					if (display.getWorld().hasResources(currentBuild)){
-					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
-												"build",currentBuild));// TODO
+					if (display.getWorld().hasResources(currentBuild)) {
+						display.getWorld().tasks.add(new Task(display
+								.getWorld().getTile((int) point.getX(),
+										(int) point.getY()), "build",
+								currentBuild));// TODO
 
-					Structure s = new Structure((int) point.getX(),
-							(int) point.getY(), 1, 1,
-							"Assets/EnvironmentTiles/"+currentBuild+".png");
+						Structure s = new Structure((int) point.getX(),
+								(int) point.getY(), 1, 1,
+								"Assets/EnvironmentTiles/" + currentBuild
+										+ ".png");
 
-					/*
-					 * Copied from Java tutorial. Create a rescale filter op
-					 * that makes the image 50% opaque.
-					 */
-					float[] scales = { 1f, 1f, 1f, 0.5f };
-					float[] offsets = new float[4];
-					RescaleOp rop = new RescaleOp(scales, offsets, null);
-					s.setFilter(rop);
+						/*
+						 * Copied from Java tutorial. Create a rescale filter op
+						 * that makes the image 50% opaque.
+						 */
+						float[] scales = { 1f, 1f, 1f, 0.5f };
+						float[] offsets = new float[4];
+						RescaleOp rop = new RescaleOp(scales, offsets, null);
+						s.setFilter(rop);
 
-					display.getWorld().addStructure(s);
+						display.getWorld().addStructure(s);
 
-				} else {
-					Structure s = display.getWorld().getTile(point.x, point.y).getStructure();
-					if(s instanceof Ramp) {
-						((Ramp) s).setDirection(Direction.values()[(((Ramp) s).getDirection().ordinal() + 1) % 4]);
 					} else {
-						display.getWorld().addStructure(
-							new Ramp(point.x, point.y, 1, 1, "PathRamp",
-									Direction.values()[display.getRotation()]));
+						Structure s = display.getWorld()
+								.getTile(point.x, point.y).getStructure();
+						if (s instanceof Ramp) {
+							((Ramp) s)
+									.setDirection(Direction.values()[(((Ramp) s)
+											.getDirection().ordinal() + 1) % 4]);
+						} else {
+							display.getWorld().addStructure(
+									new Ramp(point.x, point.y, 1, 1,
+											"PathRamp",
+											Direction.values()[display
+													.getRotation()]));
+						}
 					}
-				}
-				display.getWorld().getLogic().mapChanged(point.x, point.y);
+					display.getWorld().getLogic().mapChanged(point.x, point.y);
 
-			} else {
-				Tile t = display.getWorld().getTile(point.x, point.y);
-				if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
-					switch (e.getButton()) {
-					case 1:
-						t.setImage("BarrenGrass");
-						break;
-					case 2:
-						t.setImage("DarkSand");
-						break;
-					case 3:
-						t.setImage("BarrenWall");
-						break;
-					}
 				} else {
-					switch (e.getButton()) {
-					case 3:
-						t.setHeight(t.getHeight() - 1);
-						break;
-					case 1:
-						t.setHeight(t.getHeight() + 1);
-						break;
+					Tile t = display.getWorld().getTile(point.x, point.y);
+					if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
+						switch (e.getButton()) {
+						case 1:
+							t.setImage("BarrenGrass");
+							break;
+						case 2:
+							t.setImage("DarkSand");
+							break;
+						case 3:
+							t.setImage("BarrenWall");
+							break;
+						}
+					} else {
+						switch (e.getButton()) {
+						case 3:
+							t.setHeight(t.getHeight() - 1);
+							break;
+						case 1:
+							t.setHeight(t.getHeight() + 1);
+							break;
+						}
 					}
+					display.getWorld().getLogic()
+							.mapChanged(t.getX(), t.getY());
 				}
-				display.getWorld().getLogic().mapChanged(t.getX(), t.getY());
 			}
-			}
-		this.repaint();
+			this.repaint();
 		}
 	}
 
@@ -448,13 +458,11 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			display.getWorld().getLogic().mapChanged(point.x, point.y);
 		}
 		// plays audio
-		//System.out.println(mixingDesk);
-		if(mixingDesk!=null){
+		// System.out.println(mixingDesk);
+		if (mixingDesk != null) {
 			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
 		}
-		//new AudioPlayer("PlaceItem.wav", true);
-
-
+		// new AudioPlayer("PlaceItem.wav", true);
 
 	}
 

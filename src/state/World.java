@@ -431,4 +431,23 @@ public class World {
 	public void setCurrentBuild(String currentBuild) {
 		this.currentBuild = currentBuild;
 	}
+
+	public boolean dig(Tile t, Dude dude) {
+		if (dude.isAt(t.getX(), t.getY())) {
+			// finish building tile
+			if (t.getStructure() != null) {
+				removeStructure(t.getStructure());
+			}
+
+			t.setHeight(t.getHeight() - 1);
+
+			// set tile non transparent
+			// reassign dude to new task
+			return true;
+	} else {
+		// otherwise reassign dude and repush task
+		tasks.add(new Task(t, "dig"));
+		return true;
+	}
+	}
 }
