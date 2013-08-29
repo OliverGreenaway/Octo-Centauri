@@ -43,8 +43,15 @@ public class Octodude extends Dude implements Serializable{
 		double percentMoved = count * 0.25;
 
 		// Tile coordinates of The Dude (x,y)
-		double x = this.oldX + (this.x - this.oldX) * percentMoved;
-		double y = this.oldY + (this.y - this.oldY) * percentMoved;
+		double x, y;
+		if(attacking == null) {
+			x = this.oldX + (this.x - this.oldX) * percentMoved;
+			y = this.oldY + (this.y - this.oldY) * percentMoved;
+		} else {
+			double dist = (count % 2 == 1) ? 0.2 : 0.1;
+			x = this.x + (facing == LEFT ? -1 : facing == RIGHT ? 1 : 0) * dist;
+			y = this.y + (facing == UP ? -1 : facing == DOWN ? 1 : 0) * dist;
+		}
 
 		// Pixel coordinates (on screen) of the Dude (i,j)
 		Point pt = d.tileToDisplayCoordinates(x, y);
