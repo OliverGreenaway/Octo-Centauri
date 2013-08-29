@@ -20,7 +20,7 @@ import UI.Display;
 public class Octodude extends Dude implements Serializable{
 
 
-	private Image img[];
+	private transient Image img[];
 
 	public Octodude(World world, int x, int y, int width, int height,
 			String image) {
