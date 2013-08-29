@@ -156,13 +156,16 @@ public class Display extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					if (toggleButtonsImages.get("ButtonMute").equals("ButtonMuteOff")) {
 						// Mute here
-
-						world.getAudioPlayer().toggleMute();
+						if(world.getAudioPlayer()!=null){
+							world.getAudioPlayer().toggleMute();
+						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
-						world.getAudioPlayer().toggleMute();
 
+						if(world.getAudioPlayer()!=null){
+							world.getAudioPlayer().toggleMute();
+						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
 				}
