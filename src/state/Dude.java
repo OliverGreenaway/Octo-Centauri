@@ -216,46 +216,56 @@ public class Dude implements Serializable{
 			unlinkTiles(oldX, oldY);
 			linkTiles(x, y);
 			oldX = x; oldY = y;
+			Task task = world.tasks.poll();
+			if (task == null) {
+				getResources();
+			} else if (task.equals("build")) {
+				//TODO
+				Tile t = task.getTile();
+				followPath(t.getX(), t.getY());
+				world.build(t,task.getType());
 
-			if(storedResources > 9) {
-				if(crate == null) {
-					crate = (Crate)world.getNearestStructure(Crate.class, world.getTile(x, y));
-				}
+			}
+			count = 0;
+		}
+	}
+	public void getResources(){
+		if(storedResources > 9) {
+			if(crate == null) {
+				crate = (Crate)world.getNearestStructure(Crate.class, world.getTile(x, y));
+			}
 
-				if(crate != null) {
-					boolean moved = followPath(crate.getX(), crate.getY());
-					if(!moved) {
-						if(crate.getX() == x && crate.getY() == y) {
-							crate.dropoff(storedResources, storedResType);
-							crate = null;
-							storedResType = null;
-							storedResources = 0;
-						}
-					}
-				}
-
-			} else {
-				Resource nowHarvesting = world.getNearestResource(world.getTile(x, y), storedResType);
-				if(harvesting != nowHarvesting) {
-					harvesting = nowHarvesting;
-				}
-
-				if(harvesting != null) {
-					boolean moved = followPath(nowHarvesting.getX(), nowHarvesting.getY());
-					if(!moved) {
-						if(harvesting.getX() == x && harvesting.getY() == y) {
-							storedResources += harvesting.harvest();
-							storedResType = harvesting.getResType();
-							harvesting = null;
-						}
+			if(crate != null) {
+				boolean moved = followPath(crate.getX(), crate.getY());
+				if(!moved) {
+					if(crate.getX() == x && crate.getY() == y) {
+						crate.dropoff(storedResources, storedResType);
+						crate = null;
+						storedResType = null;
+						storedResources = 0;
 					}
 				}
 			}
 
-			count = 0;
-		}
-	}
+		} else {
+			Resource nowHarvesting = world.getNearestResource(world.getTile(x, y), storedResType);
+			if(harvesting != nowHarvesting) {
+				harvesting = nowHarvesting;
+			}
 
+			if(harvesting != null) {
+				boolean moved = followPath(nowHarvesting.getX(), nowHarvesting.getY());
+				if(!moved) {
+					if(harvesting.getX() == x && harvesting.getY() == y) {
+						storedResources += harvesting.harvest();
+						storedResType = harvesting.getResType();
+						harvesting = null;
+					}
+				}
+			}
+		}
+
+	}
 	int targetX = -1, targetY = -1;
 	Stack<Tile> path;
 	int failedMoveCount = 0;
@@ -301,7 +311,10 @@ public class Dude implements Serializable{
 		// Pixel coordinates (on screen) of the Dude (i,j)
 		Point pt = d.tileToDisplayCoordinates(x, y);
 
-		pt.y -= TILE_HEIGHT * world.getTile(this.x, this.y).getHeight();
+		int height = world.getTile(this.x, this.y).getHeight();
+		int oldHeight = world.getTile(oldX, oldY).getHeight();
+
+		pt.y -= TILE_HEIGHT * (oldHeight + (height - oldHeight) * percentMoved);
 		pt.y -= TILE_HEIGHT/2;
 
 		Image i = images[(facing + d.getRotation()) % 4][Math.min(count, 3)];

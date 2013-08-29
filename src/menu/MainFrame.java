@@ -22,8 +22,8 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		// create and start audio thread
-		//audioPlayer = new AudioPlayer("timer1.wav", false); // true so it loops
-	//	audioPlayer.start();
+		audioPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
+		audioPlayer.start();
 
 		// start other stuff
 		frameStack = new Stack<JPanel>();
@@ -124,4 +124,11 @@ public class MainFrame extends JFrame {
 		this.validate();
 		this.repaint();
 	}
+
+	public void stopAudio(){
+		if(audioPlayer!=null){
+			audioPlayer.stopPlayer();
+		}
+	}
+
 }

@@ -14,6 +14,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -29,6 +30,8 @@ import networking.common.Network;
 import logic.FileReader;
 import logic.Logic;
 import logic.UpdateThread;
+import state.Direction;
+import state.Ramp;
 import state.Structure;
 import state.Tile;
 import state.World;
@@ -71,7 +74,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	public Window() {
 		// startAudio(thread);
 		initialize();
-		logic = new Logic(display.getWorld());
+		//logic = new Logic(display.getWorld());
 	}
 
 	/**
@@ -82,7 +85,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	public Window(long seed, Network network, String fileMap,
 			AudioPlayer audioPlayer) {// TODO //mapfile tpye?
 
-		// audioPl
+		this.audioPlayer = audioPlayer;
+
 
 		this.seed = seed;
 		this.network = network;
@@ -140,6 +144,16 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		UIImageStorage.add("HealthBarsToggle");
 		UIImageStorage.add("NewDudeToggle");
 		UIImageStorage.add("SlugBalancingToggle");
+		// setup audio
+
+		if(audioPlayer!=null){
+			System.out.println("stop");
+			audioPlayer.stopPlayer();
+			audioPlayer = new AudioPlayer("testMusic.wav", true);
+			audioPlayer.start();
+		}
+
+
 	}
 
 	/**
@@ -150,20 +164,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	 */
 	public void paint(Graphics g) {
 		super.paint(g);
-
-		// g.setColor(Color.BLACK);
-		// // Bottom pane
-		// g.fillRect(0, getHeight() - (getHeight() / 4), getWidth(),
-		// getHeight() / 4);
-		// // left hand pane
-		// g.fillRect(0, 0, 25, getHeight() - (getHeight() / 4));
-		// // right hand pane
-		// g.fillRect(getWidth() - 25, 0, 50, getHeight() - (getHeight() / 4));
-		// g.fillRect(25, 0, getWidth(), 25);
-		// g.setColor(Color.red);
-		//
-		// g.fillOval(mouseX, mouseY, 20, 20);
-
 	}
 
 	private void panMap() {
@@ -315,7 +315,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	// mouse commands, awaiting some level of world to play with
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 		boolean onUI = false;
 		Set<Rectangle> UISpace = display.getUISpace();
 		Point p = e.getPoint();
@@ -356,10 +355,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 					display.getWorld().addStructure(s);
 				} else {
-					Tile w = new Tile("BarrenWall", 0, (int) point.getX(),
-							(int) point.getY());
-					display.getWorld().setTile((int) point.getX(),
-							(int) point.getY(), w);
+					display.getWorld().addStructure(new Ramp(point.x, point.y, 1, 1, "PathRamp", Direction.values()[display.getRotation()]));
+					display.getWorld().getTile(point.x, point.y);
 				}
 
 			} else {
@@ -417,7 +414,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				break;
 			}
 		}
-
 		if (onUI) {
 
 		} else {
@@ -429,8 +425,27 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		Point p = e.getPoint();
+		boolean onUI = false;
+		Set<Rectangle> UISpace = display.getUISpace();
+		for (Rectangle uiSquare : UISpace) {
+			if (uiSquare.contains(p)) {
+				onUI = true;
+				break;
+			}
+		}
 
+		if (onUI) {
+			Map<String, Rectangle> toggleMap = display.getToggleMap();
+			for (String key : toggleMap.keySet()) {
+				if (toggleMap.get(key).contains(p)) {
+					display.buttonClicked(key).mouseClicked(e);
+				}
+			}
+
+		} else {
+			// map clicked here
+		}
 	}
 
 	@Override
@@ -479,10 +494,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		}
 	}
 
-	public void startAudio(Thread thread) {
-		// TODO We need to implement this
-		AudioPlayer audioplayer = new AudioPlayer("TempInGameSong.wav", true);
-		audioplayer.start();
+
+	public void startAudio(){
+
+
 
 	}
 

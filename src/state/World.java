@@ -1,7 +1,10 @@
 package state;
 
 import java.io.FileReader;
+import java.util.ArrayDeque;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
@@ -17,6 +20,8 @@ public class World {
 	private int crystalResource = 200;
 
 	private boolean showHealth = true;
+
+	public Queue<Task> tasks = new ArrayDeque<Task>();
 
 	private Tile[][] worldTile;
 
@@ -282,5 +287,20 @@ public class World {
 
 	public void setWoodResource(int woodResource) {
 		this.woodResource = woodResource;
+	}
+
+
+
+
+
+
+
+
+
+	public void build(Tile t, String type) {
+		// TODO Auto-generated method stub
+
+
+
 	}
 }
