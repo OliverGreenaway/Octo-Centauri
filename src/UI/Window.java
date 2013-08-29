@@ -149,7 +149,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		if(audioPlayer!=null){
 			System.out.println("stop");
 			audioPlayer.stopPlayer();
-			audioPlayer = new AudioPlayer("testMusic.wav", true);
+			audioPlayer = new AudioPlayer("InGameMusic.wav", true);
 			audioPlayer.start();
 		}
 
