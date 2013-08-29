@@ -36,6 +36,8 @@ public class Dude implements Serializable{
 	private int maxHealth;
 	private int currentHealth;
 	private int damage;
+	private Random randomGen = new Random();
+	private int rand  = randomGen.nextInt(5);
 
 	/**
 	 * Size of the structure, in tiles.
@@ -197,6 +199,9 @@ public class Dude implements Serializable{
 			return false;
 		else if (from.getHeight()> to.getHeight() + 1)
 			return false;
+		else if(to.getDude()!=null){
+			return false;
+		}
 		return true;
 	}
 
@@ -271,11 +276,12 @@ public class Dude implements Serializable{
 	int failedMoveCount = 0;
 
 	private boolean followPath(int x, int y) {
-		if(x != targetX || y != targetY || path == null || path.size() == 0 || failedMoveCount > 10) {
+		if(x != targetX || y != targetY || path == null || path.size() == 0 || failedMoveCount > rand) {
 			targetX = x;
 			targetY = y;
 			path = new Logic(world).findRoute(world.getTile(this.x, this.y), world.getTile(targetX, targetY),this);
 			failedMoveCount = 0;
+			rand = randomGen.nextInt(5);
 		}
 
 		if(path.size() > 0) {
