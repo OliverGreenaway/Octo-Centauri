@@ -441,7 +441,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		}
 		// plays audio
 		//System.out.println(mixingDesk);
-		mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+		if(mixingDesk!=null){
+			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+		}
 		//new AudioPlayer("PlaceItem.wav", true);
 
 
