@@ -60,14 +60,23 @@ public class World {
 	/**
 	 * Creates a world from a tile array.
 	 */
-	public World(Tile[][] tiles) {
+	public World(Tile[][] tiles, GameUpdate initialUpdate) {
+		gameUpdate = initialUpdate;
 		worldTile = tiles;
 		resources = new HashSet<Resource>();
+		start();
+	}
+
+	/**
+	 * If we put this stuff in the constructor the game will break so put it here and it's called from inside
+	 * UpdateThread
+	 */
+	private void start(){
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-
 	}
+
 
 	/**
 	 * Adds a structure to the world and returns true. If the structure can't be
@@ -97,7 +106,7 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				worldTile[x - X][y - Y].setStructure(s, false);
-
+		gameUpdate.structureAdded(s); //Send change to the network class
 		return true;
 	}
 
@@ -120,6 +129,7 @@ public class World {
 		if(s instanceof Resource)
 			resources.remove(s);
 		structures.remove(s);
+		gameUpdate.structureRemoved(s); //Let the network know about the change
 	}
 
 	public void removeDude(Dude s) {
@@ -133,6 +143,7 @@ public class World {
 			}
 
 		allDudes.remove(s);
+		gameUpdate.dudeRemoved(s); //Let the network know about the change
 	}
 
 	/**
@@ -160,7 +171,7 @@ public class World {
 		allDudes.add(s);
 		// plays the sound
 		new AudioPlayer("NewDudeBorn.wav", true).start();
-
+		gameUpdate.dudeAdded(s);
 		return true;
 	}
 //	/**
