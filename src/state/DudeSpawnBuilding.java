@@ -8,7 +8,7 @@ public class DudeSpawnBuilding extends Structure {
 	@Override
 	public void update() {
 		Tile t = getWorld().getTile(getX(), getY());
-		if(t.getDude() == null)
+		if(getWorld().isDudeSpawningEnabled() && t.getDude() == null)
 			getWorld().addDude(new Dude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
 	}
 }
