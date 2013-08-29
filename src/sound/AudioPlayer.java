@@ -65,7 +65,7 @@ public class AudioPlayer extends Thread {
 			line.open(audioFormat);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
-			System.exit(1);
+			//System.exit(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);

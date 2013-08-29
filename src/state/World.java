@@ -38,6 +38,7 @@ public class World {
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
 	private boolean dudeSpawningEnabled = true;
+	private AudioPlayer audioPlayer;
 
 
 	/**
@@ -58,30 +59,6 @@ public class World {
 	}
 
 	/**
-	 * Creates a 100x100 world with random tiles.
-	 */
-	public World() {
-		worldTile = new Tile[100][100];
-		for (int x = 0; x < 100; x++)
-			for (int y = 0; y < 100; y++) {
-				if (random.nextInt(2) == 1)
-					worldTile[x][y] = new Tile(generateRandomTile(), 0, x, y);
-				else
-					worldTile[x][y] = new Tile(generateRandomTile(), 1, x, y);
-			}
-
-		for (int x = 3; x < 100; x += 1) {
-			for (int y = 3; y < 100; y += 1) {
-				if (random.nextInt(20) == 1)
-					addStructure(new Structure(x, y, 3, 3,
-							"Assets/EnvironmentObjects/DarkTree.png"));
-			}
-		}
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
-		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
-	}
-
-	/**
 	 * Creates a world from a tile array.
 	 */
 	public World(Tile[][] tiles) {
@@ -89,6 +66,7 @@ public class World {
 		resources = new HashSet<Resource>();
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 
 	}
 
@@ -326,10 +304,41 @@ public class World {
 
 
 
-	public void build(Tile t, String type) {
-		// TODO Auto-generated method stub
+	public boolean build(Tile t, String type, Dude dude) {
+		if(hasResources(type)){
+			if (dude.isAt(t.getX(), t.getY())) {
+				// finish building tile
+				if (t.getStructure() != null) {
+					removeStructure(t.getStructure());
+				}
 
+				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
+						"Assets/EnvironmentTiles/BarrenWall.png");
+				addStructure(s);
+				// set tile non trasnparent
 
+				// reassign dude to new task
+				return true;
+			}
+			return false;
+
+		} else {
+			//otherwise reassign dude and repush task
+			tasks.add(new Task(t, "build", type));
+			return true;
+		}
+
+	}
+
+	private boolean hasResources(String type) {
+		if (type.equals("BarrenWall")) {
+			return true;
+			// if(crystalResource > 10){
+			// crystalResource = crystalResource - 10;
+			// return true;
+			// }
+		}
+		return false;
 
 
 	}
@@ -340,5 +349,14 @@ public class World {
 
 	public void toggleDudeSpawning() {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
+	}
+
+	public void setAudioPlayer(AudioPlayer audioPlayer) {
+		this.audioPlayer = audioPlayer;
+	}
+
+	public AudioPlayer getAudioPlayer() {
+		return this.audioPlayer;
+
 	}
 }

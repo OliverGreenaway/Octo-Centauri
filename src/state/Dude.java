@@ -32,13 +32,19 @@ public class Dude implements Serializable {
 	/**
 	 * The coordinates of the tile under the bottom corner of the dude.
 	 */
-	private int x, y; // Tile coords of Dude
-	private int TILE_HEIGHT = 32;
-	private int TILE_WIDTH = 64;
+	protected int x; // Tile coords of Dude
+	protected int y;
+	protected int TILE_HEIGHT = 32;
+	protected int TILE_WIDTH = 64;
 	private int NUM_SPRITES = 16; // Number of model sprites per images
-	private int maxHealth;
-	private int currentHealth;
+	protected int maxHealth;
+	protected int currentHealth;
 	private int damage;
+
+	private Task task;
+
+	private int buildTicks;
+
 	private Random randomGen = new Random();
 	private int rand  = randomGen.nextInt(5);
 
@@ -52,9 +58,9 @@ public class Dude implements Serializable {
 																	// facing
 	// NOTE: Usable as images array indices
 
-	private int width, height; // ???
-	private int facing = DOWN; // Facing constant
-	private int oldX, oldY;
+	protected int width, height; // ???
+	protected int facing = DOWN; // Facing constant
+	protected int oldX, oldY;
 	private Image[][] images = new Image[4][4]; // A single image stored per
 												// facing
 
@@ -63,7 +69,7 @@ public class Dude implements Serializable {
 	 */
 	// private Image image;
 
-	private World world;
+	protected World world;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the dude.
@@ -111,7 +117,7 @@ public class Dude implements Serializable {
 	 *            The Y coordinate of the bottom corner of the dude.
 	 * @param width
 	 *            The width of the dude.
-	 * @param height
+	 * @param heightNUM_SPRITES
 	 *            The height of the dude.
 	 * @param image
 	 *            The path to the dude's image.
@@ -127,12 +133,14 @@ public class Dude implements Serializable {
 		currentHealth = maxHealth;
 		// this.image = new ImageIcon(image).getImage();
 		this.world = world;
+		loadImage(image);
+
+	}
+	protected void loadImage(String image) {
 		JPanel panel = new JPanel(); // Instantiated JPanel to use createImage
 										// method
 
 		// Load Images
-		int num_images = NUM_SPRITES; // NOTE: Currently skips out all but first
-										// image of each facing
 
 		for (int i = 0; i < 4; i++) { // Iterate through facings --> Load an
 										// image into each facing
@@ -256,9 +264,28 @@ public class Dude implements Serializable {
 	/**
 	 * Called every tick. Does stuff.
 	 */
+//<<<<<<< HEAD
+//	int count;
+//
+//	public void update() {
+//		count++;
+//		if (count == 4) {
+//
+////			} else {
+//				unlinkTiles(oldX, oldY);
+//				linkTiles(x, y);
+//				oldX = x;
+//				oldY = y;
+//				if (task == null) {
+//					task = world.tasks.poll();
+//				}
+//=======
 	public void update() {
 		count++;
 		if (count == 4) {
+//			if (buildTicks > 0) {
+//			buildTicks--;
+		}
 			unlinkTiles(oldX, oldY);
 			linkTiles(x, y);
 			oldX = x;
@@ -280,21 +307,31 @@ public class Dude implements Serializable {
 
 			} else if (task == null) {
 				getResources();
-			} else if (task.equals("build")) {
-				// TODO
-				Tile t = task.getTile();
-				followPath(t.getX(), t.getY());
-				world.build(t, task.getType());
-
-			}
-			count = 0;
+//			} else if (task.equals("build")) {
+//				// TODO
+//				Tile t = task.getTile();
+//				followPath(t.getX(), t.getY());
+//				world.build(t, task.getType());
+//>>>>>>> 269b3d06f91ec6aee8b58d2e5c2a18a6f0d18dab
+//
+//				if (task == null) {
+//					getResources();
+				} else if (task.getTask().equals("build")) {
+					Tile t = task.getTile();
+					followPath(t.getX(), t.getY());
+					rest(1000);
+					if (world.build(t, task.getType(), this)) {
+						task = null;
+					}
+				}
+				count = 0;
+//			}
 		}
-	}
 
 	public void attack(Dude victim) {
 		new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
-		if(victim.currentHealth < 15) {
+		if(victim.currentHealth < 0) {
 			world.removeDude(victim);
 			new AudioPlayer("DyingDude.wav", true).start();
 		}
@@ -310,7 +347,7 @@ public class Dude implements Serializable {
 					continue;
 
 				Dude d = t.getDude();
-				if(d != null && d != this)
+				if(d != null && this.getClass() != d.getClass())
 					return d;
 			}
 
@@ -354,6 +391,9 @@ public class Dude implements Serializable {
 					}
 				}
 			}
+			/**
+			 *
+			 */
 		}
 
 	}
@@ -395,6 +435,11 @@ public class Dude implements Serializable {
 		if(y > ty && move(x, y-1)) return true;
 		return false;
 	}
+
+	public void rest(int rest){
+		buildTicks = rest;//TODO
+	}
+
 
 	/**
 	 * Draws the dude.
@@ -472,6 +517,12 @@ public class Dude implements Serializable {
 		this.currentHealth = currentHealth;
 	}
 
+	public boolean isAt(int x2, int y2) {
+		if(x2 == x && y2 == y){
+			return true;
+		}
+		return false;
+	}
 	public int getOldX() {return oldX;}
 	public int getOldY() {return oldY;}
 }

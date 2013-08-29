@@ -33,6 +33,7 @@ import sound.AudioPlayer;
 import state.Direction;
 import state.Ramp;
 import state.Structure;
+import state.Task;
 import state.Tile;
 import state.World;
 import util.UIImageStorage;
@@ -55,7 +56,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	boolean right = false;
 	private Logic logic;
 
-	private boolean drawTransparent = false;
+	private boolean drawTransparent = true;
 
 	Random random = new Random();
 
@@ -74,7 +75,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	public Window() {
 		// startAudio(thread);
 		initialize();
-		//logic = new Logic(display.getWorld());
+		// logic = new Logic(display.getWorld());
 	}
 
 	/**
@@ -86,7 +87,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			AudioPlayer audioPlayer) {// TODO //mapfile tpye?
 
 		this.audioPlayer = audioPlayer;
-
 
 		this.seed = seed;
 		this.network = network;
@@ -130,6 +130,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
 
+		world.setAudioPlayer(this.audioPlayer);
+
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
@@ -144,21 +146,20 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		UIImageStorage.add("ButtonHealthOn");
 		UIImageStorage.add("ButtonMuteOn");
 		UIImageStorage.add("ButtonAddDude");
-		//UIImageStorage.add("ButtonResourceBalanceOn");
+		// UIImageStorage.add("ButtonResourceBalanceOn");
 
 		UIImageStorage.add("ButtonHealthOff");
 		UIImageStorage.add("ButtonMuteOff");
 		UIImageStorage.add("ButtonAddDudeHover");
-		//UIImageStorage.add("ButtonResourceBalanceOff");
+		// UIImageStorage.add("ButtonResourceBalanceOff");
 		// setup audio
 
-		if(audioPlayer!=null){
+		if (audioPlayer != null) {
 			System.out.println("stop");
 			audioPlayer.stopPlayer();
 			audioPlayer = new AudioPlayer("InGameMusic.wav", true);
 			audioPlayer.start();
 		}
-
 
 	}
 
@@ -238,7 +239,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("Minecraft Empires");
+		JFrame f = new JFrame("Octo Centauri");
 		f.getContentPane().add(new Window());
 		// f.add(new Window());
 		f.setSize(1920, 1080);
@@ -335,7 +336,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 		} else {
 
-
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
 
@@ -347,6 +347,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					display.getWorld().setTile((int) point.getX(),
 							(int) point.getY(), t);
 				} else if (drawTransparent == true) {
+
+					// System.out.println("drawing working");//TODO
+
+					display.getWorld().tasks.add(new Task(display.getWorld()
+							.getTile((int) point.getX(), (int) point.getY()),
+							"build", "BarrenWall"));// TODO
+
 					Structure s = new Structure((int) point.getX(),
 							(int) point.getY(), 1, 1,
 							"Assets/EnvironmentTiles/BarrenWall.png");
@@ -361,9 +368,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 					display.getWorld().addStructure(s);
 
-
 				} else {
-					display.getWorld().addStructure(new Ramp(point.x, point.y, 1, 1, "PathRamp", Direction.values()[display.getRotation()]));
+					display.getWorld().addStructure(
+							new Ramp(point.x, point.y, 1, 1, "PathRamp",
+									Direction.values()[display.getRotation()]));
 					display.getWorld().getTile(point.x, point.y);
 				}
 
@@ -397,18 +405,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	}
 
-	/*public void displayPath() {
-		System.out.println("HIII!");
-		if (selectedTile1 != null && selectedTile2 != null) {
-			Stack<Tile> route = new Logic(display.getWorld()).findRoute(
-					selectedTile1, selectedTile2);
-			while (!route.isEmpty()) {
-				Tile t = route.pop();
-				t.setImage("Path");
-			}
-		}
-	}*/
-
+	/*
+	 * public void displayPath() { System.out.println("HIII!"); if
+	 * (selectedTile1 != null && selectedTile2 != null) { Stack<Tile> route =
+	 * new Logic(display.getWorld()).findRoute( selectedTile1, selectedTile2);
+	 * while (!route.isEmpty()) { Tile t = route.pop(); t.setImage("Path"); } }
+	 * }
+	 */
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -506,10 +509,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		}
 	}
 
-
-	public void startAudio(){
-
-
+	public void startAudio() {
 
 	}
 
