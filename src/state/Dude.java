@@ -219,6 +219,7 @@ public class Dude implements Serializable {
 		if(to.getDude() != null && to.getDude() != this)
 			return false;
 
+
 		if(from.getHeight() != to.getHeight()) {
 			if(from.getHeight() - 1 == to.getHeight()) {
 				if(!(to.getStructure() instanceof Ramp))
@@ -357,6 +358,8 @@ public class Dude implements Serializable {
 	 */
 	public void draw(Graphics g, Display d, int bottomPixelX, int bottomPixelY,
 			boolean drawHealth) {
+
+		double percentMoved = count * 0.25;
 
 		double percentMoved = count * 0.25;
 

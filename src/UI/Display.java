@@ -245,6 +245,7 @@ public class Display extends JPanel {
 		return new Point(getPixelX(x, y), getPixelY(x, y));
 	}
 
+
 	public Point displayToTileCoordinates(int x, int y) {
 		/*
 		 * x -= camera.x; y -= camera.y;
