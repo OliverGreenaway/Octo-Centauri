@@ -317,6 +317,14 @@ public class Dude implements Serializable {
 				if (world.build(t, task.getType(), this)) {
 					task = null;
 				}
+			}else if(task.getTask().equals("dig")){
+				Tile t = task.getTile();
+				followPath(t.getX(), t.getY());
+				// rest(1000);//TODO
+
+				if (world.dig(t, this)) {
+					task = null;
+				}
 			}
 			count = 0;
 		}

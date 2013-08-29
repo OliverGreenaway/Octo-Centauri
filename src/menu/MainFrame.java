@@ -42,14 +42,17 @@ public class MainFrame extends JFrame {
 
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = ge.getScreenDevices();
-		for (int i = 0; i < 1; i++) {
-			if (devices[i].isFullScreenSupported()) {
+		for (int i = 0; i < devices.length; i++) {
+			/*if (devices[i].isFullScreenSupported()) {
 				this.setUndecorated(true);
 				devices[i].setFullScreenWindow(this);
 				//this.setSize(this.getToolkit().getScreenSize());
 				this.validate();
 				//this.setVisible(true);
-			}
+			} else {*/
+				this.setVisible(true);
+				this.setResizable(true);
+			//}
 		}
 
 

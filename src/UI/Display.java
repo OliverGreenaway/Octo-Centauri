@@ -652,20 +652,17 @@ public class Display extends JPanel {
 
 			resourceSelect = new HashMap<String, Rectangle>();
 
-
-
 			g2d.setColor(Color.gray);
 			g2d.fill(resourceSelectRect);
-
 
 			for (String key : structureMap.keySet()) {
 				Image image = structureMap.get(key).getImage();
 
 				Rectangle rect = new Rectangle(tpad + resourceSelectRect.x + x
 						* (TILE_WIDTH + tpad), tpad + resourceSelectRect.y + y
-						* (TILE_HEIGHT * 2 + tpad), image.getWidth(null),
-						image.getHeight(null));
-				g2d.drawImage(image, rect.x, rect.y, null);
+						* (TILE_HEIGHT * 2 + tpad), TILE_WIDTH,
+						TILE_HEIGHT * 2);
+				g2d.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
 
 				resourceSelect.put(key, rect);
 

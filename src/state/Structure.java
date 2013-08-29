@@ -193,6 +193,9 @@ public class Structure implements Serializable {
 
 
 	public boolean isAttackable(){
+		if(this instanceof Resource){
+			return false;
+		}
 		return true;
 	}
 }
