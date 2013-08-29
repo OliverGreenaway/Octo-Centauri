@@ -33,6 +33,7 @@ import logic.UpdateThread;
 import state.Direction;
 import state.Ramp;
 import state.Structure;
+import state.Task;
 import state.Tile;
 import state.World;
 import util.UIImageStorage;
@@ -55,7 +56,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	boolean right = false;
 	private Logic logic;
 
-	private boolean drawTransparent = false;
+	private boolean drawTransparent = true;
 
 	Random random = new Random();
 
@@ -232,7 +233,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("TENTACLES OF THE CARRIBEAN AT TENTACLES END");
+		JFrame f = new JFrame("TENTACLES OF THE CARRIBEAN AT TENTACLES END");//TODO
 		f.getContentPane().add(new Window());
 		// f.add(new Window());
 		f.setSize(1920, 1080);
@@ -341,9 +342,16 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					display.getWorld().setTile((int) point.getX(),
 							(int) point.getY(), t);
 				} else if (drawTransparent == true) {
-					Structure s = new Structure((int) point.getX(),
-							(int) point.getY(), 1, 1,
-							"Assets/EnvironmentTiles/BarrenWall.png");
+
+					//System.out.println("drawing working");//TODO
+
+
+					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(),(int) point.getY()), "build", "BarrenWall"));//TODO
+
+
+
+					Structure s = new Structure((int) point.getX(),(int) point.getY(), 1, 1,
+								"Assets/EnvironmentTiles/BarrenWall.png");
 					/*
 					 * Copied from Java tutorial. Create a rescale filter op
 					 * that makes the image 50% opaque.

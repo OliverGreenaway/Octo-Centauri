@@ -36,6 +36,9 @@ public class Dude implements Serializable{
 	private int maxHealth;
 	private int currentHealth;
 	private int damage;
+	private Task task;
+
+	private int buildTicks;
 
 	/**
 	 * Size of the structure, in tiles.
@@ -210,23 +213,33 @@ public class Dude implements Serializable{
 	 * Called every tick. Does stuff.
 	 */
 	int count;
+
 	public void update() {
 		count++;
-		if (count == 4){
-			unlinkTiles(oldX, oldY);
-			linkTiles(x, y);
-			oldX = x; oldY = y;
-			Task task = world.tasks.poll();
-			if (task == null) {
-				getResources();
-			} else if (task.equals("build")) {
-				//TODO
-				Tile t = task.getTile();
-				followPath(t.getX(), t.getY());
-				world.build(t,task.getType());
+		if (count == 4) {
+//			if (buildTicks > 0) {
+//				buildTicks--;
+//			} else {
+				unlinkTiles(oldX, oldY);
+				linkTiles(x, y);
+				oldX = x;
+				oldY = y;
+				if (task == null) {
+					task = world.tasks.poll();
+				}
 
-			}
-			count = 0;
+				if (task == null) {
+					getResources();
+				} else if (task.getTask().equals("build")) {
+					Tile t = task.getTile();
+					followPath(t.getX(), t.getY());
+					rest(1000);
+					if (world.build(t, task.getType(), this)) {
+						task = null;
+					}
+				}
+				count = 0;
+//			}
 		}
 	}
 	public void getResources(){
@@ -293,6 +306,11 @@ public class Dude implements Serializable{
 	}
 
 
+	public void rest(int rest){
+		buildTicks = rest;//TODO
+	}
+
+
 	/**
 	 * Draws the dude.
 	 * @param g The Graphics object to draw on.
@@ -338,5 +356,12 @@ public class Dude implements Serializable{
 
 	public void setCurrentHealth(int currentHealth) {
 		this.currentHealth = currentHealth;
+	}
+
+	public boolean isAt(int x2, int y2) {
+		if(x2 == x && y2 == y){
+			return true;
+		}
+		return false;
 	}
 }
