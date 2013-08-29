@@ -207,6 +207,8 @@ public class World {
 	public void update() {
 		for (Dude d : allDudes)
 			d.update();
+		for (Structure s : structures)
+			s.update();
 	}
 
 	public void setGameUpdate(GameUpdate g) {

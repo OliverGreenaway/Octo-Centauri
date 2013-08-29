@@ -97,6 +97,9 @@ public class Structure implements Serializable {
 		return image;
 	}
 
+	public void update() {
+	}
+
 	/**
 	 * Creates a structure.
 	 * @param x The X coordinate of the bottom corner of the structure.

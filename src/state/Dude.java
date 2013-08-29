@@ -37,6 +37,8 @@ public class Dude implements Serializable {
 	private int maxHealth;
 	private int currentHealth;
 	private int damage;
+	private Random randomGen = new Random();
+	private int rand  = randomGen.nextInt(5);
 
 	/**
 	 * Size of the structure, in tiles.
@@ -98,7 +100,7 @@ public class Dude implements Serializable {
 
 	/**
 	 * Creates a dude.
-	 * 
+	 *
 	 * @param world
 	 *            The world the dude is in.
 	 * @param x
@@ -151,7 +153,7 @@ public class Dude implements Serializable {
 
 	/**
 	 * Tries to move the dude.
-	 * 
+	 *
 	 * @param newX
 	 *            The new X position.
 	 * @param newY
@@ -164,12 +166,10 @@ public class Dude implements Serializable {
 			return false;
 
 		// check for overlap with other dudes, and invalid moves
-		for (int X = 0; X < width; X++)
-			for (int Y = 0; Y < height; Y++) {
-				Tile tile = world.getTile(newX - X, newY - Y);
-				if (tile.getDude() != null && tile.getDude() != this)
-					return false;
-				if (!canMove(world.getTile(x - X, y - Y), tile))
+		for(int X = 0; X < width; X++)
+			for(int Y = 0; Y < height; Y++) {
+				Tile tile = world.getTile(newX-X, newY-Y);
+				if(!canMove(world.getTile(x-X, y-Y), tile))
 					return false;
 			}
 
@@ -216,10 +216,27 @@ public class Dude implements Serializable {
 	}
 
 	public boolean canMove(Tile from, Tile to) {
-		if (from.getHeight() < to.getHeight() - 1)
+		if(to.getDude() != null && to.getDude() != this)
 			return false;
-		else if (from.getHeight() > to.getHeight() + 1)
-			return false;
+
+		if(from.getHeight() != to.getHeight()) {
+			if(from.getHeight() - 1 == to.getHeight()) {
+				if(!(to.getStructure() instanceof Ramp))
+					return false;
+				if(((Ramp)to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from))
+					return false;
+
+			} else if(from.getHeight() + 1 == to.getHeight()) {
+				if(!(from.getStructure() instanceof Ramp))
+					return false;
+				if(((Ramp)from.getStructure()).getDirection() != Direction.getDirectionBetween(from, to))
+					return false;
+
+			} else {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
@@ -301,13 +318,15 @@ public class Dude implements Serializable {
 	int failedMoveCount = 0;
 
 	private boolean followPath(int x, int y) {
-		if (x != targetX || y != targetY || path == null || path.size() == 0
-				|| failedMoveCount > 10) {
+
+		if(x != targetX || y != targetY || path == null || path.size() == 0 || failedMoveCount > rand) {
+
 			targetX = x;
 			targetY = y;
 			path = new Logic(world).findRoute(world.getTile(this.x, this.y),
 					world.getTile(targetX, targetY), this);
 			failedMoveCount = 0;
+			rand = randomGen.nextInt(5);
 		}
 
 		if (path.size() > 0) {
@@ -326,7 +345,7 @@ public class Dude implements Serializable {
 
 	/**
 	 * Draws the dude.
-	 * 
+	 *
 	 * @param g
 	 *            The Graphics object to draw on.
 	 * @param d
