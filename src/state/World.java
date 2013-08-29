@@ -166,38 +166,32 @@ public class World {
 	 * returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
-		if (crystalResource > 50) {
-			crystalResource = crystalResource - 50;//TODO Change amount if needed
-			int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
+		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
-			if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
-				return false;
+		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
+			return false;
 
-			// check for overlap
-			for (int X = 0; X < w; X++)
-				for (int Y = 0; Y < h; Y++)
-					if (worldTile[x - X][y - Y].getDude() != null)
-						return false; // can't have two structures on one tile
-										// <--The best comment! =)
+		// check for overlap
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++)
+				if (worldTile[x - X][y - Y].getDude() != null)
+					return false; // can't have two structures on one tile
+									// <--The best comment! =)
 
-			// place the structure
-			for (int X = 0; X < w; X++)
-				for (int Y = 0; Y < h; Y++)
-					worldTile[x - X][y - Y].setDude(s);
-			s.setWorld(this);
-			allDudes.add(s);
-			// plays the sound
+		// place the structure
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++)
+				worldTile[x - X][y - Y].setDude(s);
+		s.setWorld(this);
+		allDudes.add(s);
+		// plays the sound
 
-			if (mixingDesk != null) {
-				this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
-			}
-
-			gameUpdate.dudeAdded(s);
-			if(s instanceof Slugdude)
-				System.out.println("SLUG DUDE OMG!");
-			return true;
+		if (mixingDesk != null) {
+			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
 		}
-		return false;
+
+		gameUpdate.dudeAdded(s);
+		return true;
 	}
 
 	/**
@@ -256,14 +250,13 @@ public class World {
 		} else if(!dudeSpawningEnabled && counter == 150){
 
 
-			double rand = Math.random()*100;
+			double rand = Math.random();
 			// should be 50/50 spawning of each
-			System.out.println("Random " + rand);
-			if(rand > 0 && rand <= 50){
+			if(rand <= .5){
 			//	System.out.println("you spawned an octodude");
 				addDude(new Octodude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 			}
-			else if (rand > 50 && rand <= 100){
+			else if (rand > .5 ){
 				System.out.println("slugg");
 				//addDude(new Slugdude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 				addDude(new Slugdude(this, 5,5 , 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));

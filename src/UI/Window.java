@@ -60,7 +60,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	public long seed;
 	public Network network;
-	public String fileMap = "resources/map";
+	public String fileMap = "resources/map2";
 
 	private MixingDesk mixingDesk;
 
@@ -283,6 +283,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		case KeyEvent.VK_KP_DOWN:
 		case KeyEvent.VK_S:
 			down = true;
+			break;
+		case KeyEvent.VK_F:
+			display.toggleStruct();
 			break;
 		}
 		panMap();

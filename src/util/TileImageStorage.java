@@ -43,7 +43,7 @@ public class TileImageStorage {
 
 			}
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Image Not Found x02",
+			JOptionPane.showMessageDialog(null, "Image Not Found x02 "+key,
 					"Warning", JOptionPane.WARNING_MESSAGE);
 		}
 	}
@@ -51,7 +51,7 @@ public class TileImageStorage {
 	public BufferedImage get(String key) {
 		return images.get(key);
 	}
-	
+
 	public Map<String, BufferedImage> getMap() {
 		return images;
 	}
