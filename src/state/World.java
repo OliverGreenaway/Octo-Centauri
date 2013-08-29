@@ -75,15 +75,15 @@ public class World {
 	}
 
 	/**
-	 * If we put this stuff in the constructor the game will break so put it here and it's called from inside
-	 * UpdateThread
+	 * If we put this stuff in the constructor the game will break so put it
+	 * here and it's called from inside UpdateThread
 	 */
-	private void start(){
+	private void start() {
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
-		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+		addDude(new Octodude(this, 2, 2, 1, 1,
+				"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 	}
-
 
 	/**
 	 * Adds a structure to the world and returns true. If the structure can't be
@@ -113,7 +113,7 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				worldTile[x - X][y - Y].setStructure(s, false);
-		gameUpdate.structureAdded(s); //Send change to the network class
+		gameUpdate.structureAdded(s); // Send change to the network class
 		return true;
 	}
 
@@ -135,22 +135,22 @@ public class World {
 		if (s instanceof Resource)
 			resources.remove(s);
 		structures.remove(s);
-		gameUpdate.structureRemoved(s); //Let the network know about the change
+		gameUpdate.structureRemoved(s); // Let the network know about the change
 	}
 
 	public void removeDude(Dude s) {
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 		int ox = s.getOldX(), oy = s.getOldY();
 
-		for(int X = 0; X < w; X++)
-			for(int Y = 0; Y < h; Y++) {
-				worldTile[x-X][y-Y].setDude(null);
-				if(worldTile[ox-X][oy-Y].getDude() == s)
-					worldTile[ox-X][oy-Y].setDude(null);
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++) {
+				worldTile[x - X][y - Y].setDude(null);
+				if (worldTile[ox - X][oy - Y].getDude() == s)
+					worldTile[ox - X][oy - Y].setDude(null);
 			}
 
 		allDudes.remove(s);
-		gameUpdate.dudeRemoved(s); //Let the network know about the change
+		gameUpdate.dudeRemoved(s); // Let the network know about the change
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class World {
 		allDudes.add(s);
 		// plays the sound
 
-		if(mixingDesk!=null){
+		if (mixingDesk != null) {
 			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
 		}
 
@@ -220,8 +220,9 @@ public class World {
 		return worldTile[0].length;
 	}
 
-	//Update counter for below.
+	// Update counter for below.
 	int counter;
+
 	/**
 	 * Updates everything in the world.
 	 */
@@ -230,19 +231,31 @@ public class World {
 			d.update();
 		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
-		if(counter == 60 && dudeSpawningEnabled){
-			int rand = (int) Math.random()*100 + 1;
-			if(rand > 0 && rand < 66)
-				addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-			else if ( rand > 66 && rand < 100)
-				addDude(new Slugdude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		if (counter == 60 && dudeSpawningEnabled) {
+			int rand = (int) Math.random() * 100 + 1;
+			if (rand > 0 && rand < 66)
+				addDude(new Octodude(this,
+						((int) (Math.random() * getXSize()) + 1),
+						(int) ((Math.random() * getYSize()) + 1), 1, 1,
+						"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			else if (rand > 66 && rand < 100)
+				addDude(new Slugdude(this,
+						((int) (Math.random() * getXSize()) + 1),
+						(int) ((Math.random() * getYSize()) + 1), 1, 1,
+						"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 			counter = 0;
-		} else if(!dudeSpawningEnabled && counter == 150){
-			int rand = (int) Math.random()*100 + 1;
-			if(rand > 0 && rand < 66)
-				addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-			else if ( rand > 66 && rand < 100)
-				addDude(new Slugdude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		} else if (!dudeSpawningEnabled && counter == 150) {
+			int rand = (int) Math.random() * 100 + 1;
+			if (rand > 0 && rand < 66)
+				addDude(new Octodude(this,
+						((int) (Math.random() * getXSize()) + 1),
+						(int) ((Math.random() * getYSize()) + 1), 1, 1,
+						"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			else if (rand > 66 && rand < 100)
+				addDude(new Slugdude(this,
+						((int) (Math.random() * getXSize()) + 1),
+						(int) ((Math.random() * getYSize()) + 1), 1, 1,
+						"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 			counter = 0;
 		} else {
 			counter++;
@@ -262,8 +275,6 @@ public class World {
 		return allDudes;
 	}
 
-
-
 	public Resource getNearestResource(Tile tile, Dude dude) {
 
 		int x = tile.getX();
@@ -271,26 +282,25 @@ public class World {
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
 
-
-		for(Resource r : resources) {
-			if(!dude.canMine(r))
+		for (Resource r : resources) {
+			if (!dude.canMine(r))
 				continue;
 			Tile restile = getTile(r.getX(), r.getY());
-			if(restile.getDude() != null && restile.getDude() != dude)
+			if (restile.getDude() != null && restile.getDude() != dude)
 				continue;
 			int squaredDistance = (r.getX() - x) * (r.getX() - x)
 					+ (r.getY() - y) * (r.getY() - y);
 
 			if (squaredDistance < bestSquaredDistance) {
-				bestSquaredDistance = squaredDistance;
-				bestResource = r;
+				if (!getLogic().findRoute(tile, getTile(r.getX(), r.getY()),
+						dude).isEmpty() || getTile(dude.getX(), dude.getY()) == tile) {
+					bestSquaredDistance = squaredDistance;
+					bestResource = r;
+				}
 			}
 		}
 		return bestResource;
 	}
-
-
-
 
 	public Structure getNearestStructure(Class<?> class1, Tile tile, Dude dude) {
 		int x = tile.getX();
@@ -302,12 +312,16 @@ public class World {
 			if (!class1.isInstance(r))
 				continue;
 			Tile td = getTile(r.getX(), r.getY());
-			if(td.getDude() != null && td.getDude() != dude)
+			if (td.getDude() != null && td.getDude() != dude)
 				continue;
-			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
-			if(squaredDistance < bestSquaredDistance) {
-				bestSquaredDistance = squaredDistance;
-				bestStructure = r;
+			int squaredDistance = (r.getX() - x) * (r.getX() - x)
+					+ (r.getY() - y) * (r.getY() - y);
+			if (squaredDistance < bestSquaredDistance) {
+				if (!getLogic().findRoute(tile, getTile(r.getX(), r.getY()),
+						dude).isEmpty() || getTile(dude.getX(), dude.getY()) == tile) {
+					bestSquaredDistance = squaredDistance;
+					bestStructure = r;
+				}
 			}
 
 		}
@@ -338,9 +352,8 @@ public class World {
 		this.woodResource = woodResource;
 	}
 
-
 	public boolean build(Tile t, String type, Dude dude) {
-		if(hasResources(type)){
+		if (hasResources(type)) {
 			if (dude.isAt(t.getX(), t.getY())) {
 				// finish building tile
 				if (t.getStructure() != null) {
@@ -356,8 +369,8 @@ public class World {
 			return false;
 
 		} else {
-			//otherwise reassign dude and repush task
-			System.out.println("not enough resources");//TODO
+			// otherwise reassign dude and repush task
+			System.out.println("not enough resources");// TODO
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}
@@ -374,17 +387,15 @@ public class World {
 		}
 		return false;
 
-
 	}
 
 	public boolean isDudeSpawningEnabled() {
-		return dudeSpawningEnabled ;
+		return dudeSpawningEnabled;
 	}
 
 	public void toggleDudeSpawning() {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
-
 
 	public void setAudioPlayer(MixingDesk mixingDesk) {
 		this.mixingDesk = mixingDesk;
@@ -394,7 +405,7 @@ public class World {
 		return slugBalancingEnabled;
 	}
 
-	public void toggleSlugBalancing(){
+	public void toggleSlugBalancing() {
 		slugBalancingEnabled = !slugBalancingEnabled;
 	}
 
