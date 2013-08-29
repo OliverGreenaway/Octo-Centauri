@@ -13,21 +13,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import sound.AudioPlayer;
-import sound.MixingDesk;
 
 /**
  * The root frame of the game. Presents all the menus, and can show the game.
 
  *
  * @author muruphenr , antunomate , richarhayd
- *
+ * 
  */
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
 
 	AudioPlayer musicPlayer; // This is a thread that plays audio
 	AudioPlayer buttonSound;
-	MixingDesk mixingDesk;
 
 	public MainFrame() {
 
@@ -165,14 +163,12 @@ public class MainFrame extends JFrame {
 	 * initializes the Audio for the game
 	 */
 	private void setupAudio(){
-
-		mixingDesk = new MixingDesk();
-		mixingDesk.addAudioPlayer("MenuMusic.wav", false);
 		
-//		musicPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
-//		musicPlayer.start(); // starts audio thread
-//
-//		buttonSound = new AudioPlayer("MenuButtonClick.wav", true);
+		
+		musicPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
+		musicPlayer.start(); // starts audio thread
+
+		buttonSound = new AudioPlayer("MenuButtonClick.wav", true);
 
 	}
 }
