@@ -20,8 +20,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import com.sun.org.apache.bcel.internal.generic.Select;
-
 import sound.AudioPlayer;
 import state.Dude;
 
@@ -194,7 +192,7 @@ public class Display extends JPanel {
 
 				@Override
 				public void mouseExited(MouseEvent e) {
-					
+
 				}
 
 				@Override
@@ -642,7 +640,7 @@ public class Display extends JPanel {
 
 		int start = 64 * 3 + 5 * 3 + 10 + 10 + padding;
 
-	
+
 
 		if (buildStruct) {
 			Map<String, StructureType> structureMap = StructureType.getTypes();
@@ -653,16 +651,16 @@ public class Display extends JPanel {
 					* (tpad + TILE_HEIGHT * 2) + tpad);
 
 			resourceSelect = new HashMap<String, Rectangle>();
-			
-			
+
+
 
 			g2d.setColor(Color.gray);
 			g2d.fill(resourceSelectRect);
-			
+
 
 			for (String key : structureMap.keySet()) {
 				Image image = structureMap.get(key).getImage();
-				
+
 				Rectangle rect = new Rectangle(tpad + resourceSelectRect.x + x
 						* (TILE_WIDTH + tpad), tpad + resourceSelectRect.y + y
 						* (TILE_HEIGHT * 2 + tpad), image.getWidth(null),
@@ -685,7 +683,7 @@ public class Display extends JPanel {
 
 			g2d.setColor(Color.gray);
 			g2d.fill(resourceSelectRect);
-			
+
 			resourceSelect = new HashMap<String, Rectangle>();
 
 			for (String key : tileMap.keySet()) {
