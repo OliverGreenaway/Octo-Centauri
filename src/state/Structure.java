@@ -1,5 +1,6 @@
 package state;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -29,10 +30,13 @@ public class Structure implements Serializable {
 
 	public final int WALL_HEALTH = 300;
 
+	public int maxHealth = WALL_HEALTH; // !!!
 	public int currentHealth = WALL_HEALTH; // !!!
 
 	private transient BufferedImageOp filter;
 	private transient BufferedImage bufferedImage;
+
+	private boolean drawHealth = true;
 
 	/**
 	 * The world the structure is in.
@@ -162,6 +166,18 @@ public class Structure implements Serializable {
 			Image i = getImage(d.getRotation());
 			if(i != null)
 				g.drawImage(i, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
+
+		}
+		if (drawHealth && isAttackable()) {
+
+			int tall = 10;
+			int hHeight = 3;
+			int hWidth = 16;
+			int barWidth = 10;
+			g.setColor(Color.red);
+			g.fillRect(bottomPixelX - barWidth / 2, bottomPixelY - tall, hWidth + barWidth, hHeight);
+			g.setColor(Color.green);
+			g.fillRect(bottomPixelX - barWidth / 2, bottomPixelY - tall, (int)((hWidth + barWidth) * currentHealth / (float)maxHealth), hHeight);
 		}
 	}
 
@@ -176,4 +192,7 @@ public class Structure implements Serializable {
 	}
 
 
+	public boolean isAttackable(){
+		return true;
+	}
 }
