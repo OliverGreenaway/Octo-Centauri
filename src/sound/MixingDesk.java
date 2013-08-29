@@ -42,6 +42,10 @@ public class MixingDesk {
 		muted = !muted;
 	}
 
+	/**
+	 * 
+	 * 
+	 */
 	public void stopAudio(){
 		for(AudioPlayer a : players){
 			a.stopPlayer();

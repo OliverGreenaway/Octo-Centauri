@@ -22,6 +22,7 @@ public class Tile implements Serializable {
 	private transient Image img;
 	private int x;
 	private int y;
+	private World world;
 	private boolean visited;
 	private boolean occupied;
 
@@ -53,7 +54,7 @@ public class Tile implements Serializable {
 	 * @param y
 	 *            The Y coordinate.
 	 */
-	public Tile(String type, int ht, int x, int y) {
+	public Tile(String type, int ht, World world, int x, int y) {
 		this.imgName = type;
 		try {
 			imgName = type;
@@ -67,9 +68,14 @@ public class Tile implements Serializable {
 		height = ht;
 		this.x = x;
 		this.y = y;
+		this.world = world;
 		collidable = false; //A normal tile is not collidable by default
 	}
 
+	public static TileImageStorage getImagesCache() {
+		return imagesCache;
+	}
+	
 	/**
 	 * Returns the tile's icon.
 	 */
@@ -126,6 +132,7 @@ public class Tile implements Serializable {
 	public void setStructure(Structure s, boolean c) {
 		structure = s;
 		collidable = c;
+		world.getLogic().mapChanged(x, y);
 	}
 
 	/**
@@ -179,6 +186,12 @@ public class Tile implements Serializable {
 	public void setImage(String string) {
 		imagesCache.add(string);
 		imgName = string;
+		world.getLogic().mapChanged(x, y);
+	}
+
+	public void setWorld(World world) {
+		assert this.world == null || this.world == world;
+		this.world = world;
 	}
 
 }

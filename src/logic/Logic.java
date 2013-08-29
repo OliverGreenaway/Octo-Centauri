@@ -87,8 +87,7 @@ public class Logic {
 					|| access[x][y] == level) {
 				continue;
 			}
-			if ((world.getTile(prevX, prevY).getHeight() == world.getTile(x, y)
-					.getHeight())) {
+			if (Dude.areTilesConnected(world.getTile(prevX, prevY), world.getTile(x, y))) {
 				access[x][y] = access[prevX][prevY];
 				if (x < access.length - 1 && access[x + 1][y] != level) {
 					stack.push(new FourTupleInt(x + 1, y, x, y));
@@ -145,8 +144,7 @@ public class Logic {
 								|| y >= access[0].length || access[x][y] != 0) {
 							continue;
 						}
-						if ((world.getTile(prevX, prevY).getHeight() == world
-								.getTile(x, y).getHeight())) {
+						if (Dude.areTilesConnected(world.getTile(prevX, prevY), world.getTile(x, y))) {
 							access[x][y] = access[prevX][prevY];
 							if (x < access.length - 1 && access[x + 1][y] == 0) {
 								stack.push(new FourTupleInt(x + 1, y, x, y));
