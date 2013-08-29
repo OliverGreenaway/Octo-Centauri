@@ -174,7 +174,7 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				worldTile[x - X][y - Y].setDude(s);
-
+		s.setWorld(this);
 		allDudes.add(s);
 		// plays the sound
 
