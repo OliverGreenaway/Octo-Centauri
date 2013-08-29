@@ -187,6 +187,7 @@ public class Display extends JPanel {
 						// Mute here
 						if (world.getAudioPlayer() != null) {
 							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
@@ -194,6 +195,7 @@ public class Display extends JPanel {
 
 						if (world.getAudioPlayer() != null) {
 							world.getAudioPlayer().toggleMute();
+						//  world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
@@ -342,9 +344,9 @@ public class Display extends JPanel {
 	public Point displayToTileCoordinates(int x, int y) {
 		/*
 		 * x -= camera.x; y -= camera.y;
-		 * 
-		 * 
-		 * 
+		 *
+		 *
+		 *
 		 * return new Point(getPixelX(x, y), getPixelY(x, y));
 		 */
 
@@ -485,7 +487,7 @@ public class Display extends JPanel {
 
 	/**
 	 * Displays the HUD on the main game window
-	 * 
+	 *
 	 * @param g
 	 *            Display graphics object
 	 */
