@@ -354,7 +354,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 //							(int) point.getY());
 //					display.getWorld().setTile((int) point.getX(),
 //							(int) point.getY(), t);
-			} else if (drawTransparent == true) {
+//			} else if (drawTransparent == true) {
 
 //					 System.out.println("drawing working");//TODO
 					String currentBuild = display.getWorld().getCurrentBuild();

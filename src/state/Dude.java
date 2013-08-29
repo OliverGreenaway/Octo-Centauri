@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import sound.AudioPlayer;
+import util.ObjectImageStorage;
 
 import logic.Logic;
 
@@ -158,14 +159,22 @@ public class Dude implements Serializable {
 			// array of images per facing
 			// Idea: Make images double array?
 			for (int j = 0; j < 4; j++) {
-				images[i][j] = new ImageIcon(image).getImage();
-				CropImageFilter filter = new CropImageFilter(
-						(images[i][j].getWidth(null) / NUM_SPRITES)
-								* (i * 4 + j), 0,
-						(images[i][j].getWidth(null) / NUM_SPRITES),
-						images[i][j].getHeight(null));
-				images[i][j] = panel.createImage(new FilteredImageSource(
-						images[i][j].getSource(), filter));
+				String key = image + "_" + i + "_" + j;
+
+				Image loadedImage = ObjectImageStorage.get(key);
+
+				if(loadedImage == null) {
+					loadedImage = new ImageIcon(image).getImage();
+					CropImageFilter filter = new CropImageFilter(
+							(loadedImage.getWidth(null) / NUM_SPRITES) * (i * 4 + j), 0,
+							(loadedImage.getWidth(null) / NUM_SPRITES),
+							loadedImage.getHeight(null));
+					loadedImage = panel.createImage(new FilteredImageSource(loadedImage.getSource(), filter));
+
+					ObjectImageStorage.add(key, loadedImage);
+				}
+
+				images[i][j] = loadedImage;
 			}
 		}
 
