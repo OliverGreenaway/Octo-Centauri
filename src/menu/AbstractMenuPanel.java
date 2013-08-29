@@ -24,9 +24,9 @@ import javax.swing.JPanel;
 
 public abstract class AbstractMenuPanel extends JPanel {
 
-	private static Image background = new ImageIcon(
+	private static transient Image background = new ImageIcon(
 			"Assets/Menus/Background.png").getImage();;
-	private static Image planet = new ImageIcon("Assets/Menus/planet.png")
+	private static transient Image planet = new ImageIcon("Assets/Menus/planet.png")
 			.getImage();
 
 	private int y = 0;

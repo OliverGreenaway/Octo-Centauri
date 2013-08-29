@@ -36,6 +36,8 @@ public class Dude implements Serializable {
 	protected int currentHealth;
 	private int damage;
 
+	private static final int RES_CAPACITY = 20;
+
 	private Task task;
 
 	private int buildTicks;
@@ -264,7 +266,6 @@ public class Dude implements Serializable {
 		if (count == 1) {
 //			if (buildTicks > 0) {
 //			buildTicks--;
-
 			unlinkTiles(oldX, oldY);
 			linkTiles(x, y);
 			oldX = x;
@@ -285,6 +286,7 @@ public class Dude implements Serializable {
 				}
 			} else if (task == null) {
 				getResources();
+
 			} else if (task.getTask().equals("build")) {
 				Tile t = task.getTile();
 				followPath(t.getX(), t.getY());
@@ -299,6 +301,7 @@ public class Dude implements Serializable {
 	}
 
 	public void attack(Dude victim) {
+
 		new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
 		if(victim.currentHealth < 0) {
@@ -336,7 +339,7 @@ public class Dude implements Serializable {
 	}
 
 	public void getResources() {
-		if (storedResources > 9) {
+		if (storedResources >= RES_CAPACITY) {
 			if (crate == null) {
 				crate = (Crate) world.getNearestStructure(Crate.class,
 						world.getTile(x, y), this);
@@ -355,8 +358,12 @@ public class Dude implements Serializable {
 			}
 
 		} else {
+			//SlugBalancing check
+			if(this instanceof Octodude && !world.isSlugBalancingEnabled()){
+				return;
+			}
 			Resource nowHarvesting = world.getNearestResource(
-					world.getTile(x, y), storedResType, this);
+					world.getTile(x, y), this);
 			if (harvesting != nowHarvesting) {
 				harvesting = nowHarvesting;
 			}
@@ -366,17 +373,22 @@ public class Dude implements Serializable {
 						nowHarvesting.getY());
 				if (!moved) {
 					if (harvesting.getX() == x && harvesting.getY() == y) {
-						storedResources += harvesting.harvest();
-						storedResType = harvesting.getResType();
+						harvest(harvesting);
 						harvesting = null;
 					}
 				}
+			} else {
+				idle();
 			}
-			/**
-			 *
-			 */
 		}
 
+	}
+
+	protected void idle() {}
+
+	protected void harvest(Resource harvesting) {
+		storedResources += harvesting.harvest();
+		storedResType = harvesting.getResType();
 	}
 
 	int targetX = -1, targetY = -1;
@@ -505,4 +517,12 @@ public class Dude implements Serializable {
 	}
 	public int getOldX() {return oldX;}
 	public int getOldY() {return oldY;}
+
+	public boolean canMine(Resource r) {
+		if(storedResType != null && r.getResType() != storedResType)
+			return false;
+		if(r.getResType() == null)
+			return false;
+		return true;
+	}
 }

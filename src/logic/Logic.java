@@ -122,7 +122,10 @@ public class Logic {
 		if (target.getDude() != null && target.getDude() != dude) {
 
 			List<Tile> n = getNeighbours(target, dude);
-			target = n.get(new Random().nextInt(n.size()-1));
+			int r = new Random().nextInt(n.size()+1);
+			if((r >= n.size()))
+				r = n.size()-1;
+			target = n.get(r);
 		}
 
 		while (!fringe.isEmpty()) {
