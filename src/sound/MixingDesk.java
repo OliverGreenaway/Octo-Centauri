@@ -83,7 +83,6 @@ public class MixingDesk {
 
 
 		desk.toggleMute();
-
 	}
 
 }
