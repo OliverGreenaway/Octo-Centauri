@@ -150,6 +150,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		UIImageStorage.add("ButtonAddDudeHover");
 		UIImageStorage.add("ButtonBGOff");
 
+		UIImageStorage.add("IconCrystal");
+		UIImageStorage.add("IconPlants");
+		UIImageStorage.add("IconWood");
 		// setup audio
 
 		if (mixingDesk != null) {

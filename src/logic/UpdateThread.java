@@ -72,6 +72,7 @@ private final boolean multiplayer;
 		update.applyUpdates(world);
 		gUpdate = new GameUpdate();
 		world.setGameUpdate(gUpdate);
+		System.out.println("Successfully completed an update cycle.");
 	}
 
 	/**
