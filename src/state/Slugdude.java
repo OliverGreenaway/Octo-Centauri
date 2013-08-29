@@ -61,7 +61,7 @@ public class Slugdude extends Dude implements Serializable{
 		int oldHeight = world.getTile(oldX, oldY).getHeight();
 
 		pt.y -= TILE_HEIGHT * (oldHeight + (height - oldHeight) * percentMoved);
-		pt.y -= TILE_HEIGHT / 2;
+		//pt.y -= TILE_HEIGHT / 2;
 
 		Image i = img[(facing + d.getRotation()) % 4];
 
