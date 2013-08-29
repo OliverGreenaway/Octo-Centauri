@@ -27,7 +27,7 @@ public class Tile implements Serializable {
 
 
 	private boolean collidable;
-	private RescaleOp filter;
+	private transient RescaleOp filter;
 
 	// height: 0 = flat plain 1 = the step above 2 = above that so on and so forth
 	//		   the height drawing is handled by the display class

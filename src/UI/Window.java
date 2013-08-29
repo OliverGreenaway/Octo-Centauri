@@ -31,6 +31,7 @@ import logic.GameUpdate;
 import logic.Logic;
 import logic.UpdateThread;
 import sound.AudioPlayer;
+import sound.MixingDesk;
 import state.Direction;
 import state.Ramp;
 import state.Structure;
@@ -67,7 +68,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	public Network network;
 	public String fileMap = "resources/map";
 
-	private AudioPlayer audioPlayer;
+	private MixingDesk mixingDesk;
 
 	private Tile selectedTile1;
 	private Tile selectedTile2;
@@ -84,9 +85,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	 * @param fileMap
 	 */
 	public Window(long seed, Network network, String fileMap,
-			AudioPlayer audioPlayer) {// TODO //mapfile tpye?
+			MixingDesk mixingDesk) {// TODO //mapfile tpye?
 
-		this.audioPlayer = audioPlayer;
+		this.mixingDesk = mixingDesk;
 
 		this.seed = seed;
 		this.network = network;
@@ -157,12 +158,14 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 		// setup audio
 
-		if (audioPlayer != null) {
+		if (mixingDesk != null) {
+
 			System.out.println("stop");
-			audioPlayer.stopPlayer();
-			audioPlayer = new AudioPlayer("InGameMusic.wav", true);
-			world.setAudioPlayer(this.audioPlayer);
-			audioPlayer.start();
+
+			mixingDesk.stopAudio();
+			mixingDesk.addAudioPlayer("InGameMusic.wav", true);
+			world.setAudioPlayer(this.mixingDesk);
+		//	audioPlayer.start();
 		}
 
 	}
@@ -437,8 +440,10 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 		}
 		// plays audio
-		AudioPlayer blocks = new AudioPlayer("PlaceItem.wav", true);
-		blocks.start();
+		//System.out.println(mixingDesk);
+		mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+		//new AudioPlayer("PlaceItem.wav", true);
+
 
 	}
 

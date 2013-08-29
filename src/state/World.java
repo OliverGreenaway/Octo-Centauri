@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Set;
 
 import sound.AudioPlayer;
+import sound.MixingDesk;
 
 import logic.GameUpdate;
 
@@ -38,8 +39,10 @@ public class World {
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
 	private boolean dudeSpawningEnabled = true;
+	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
+	MixingDesk mixingDesk;
 
 	/**
 	 * Returns a random tile name.
@@ -172,8 +175,13 @@ public class World {
 
 		allDudes.add(s);
 		// plays the sound
-		new AudioPlayer("NewDudeBorn.wav", true).start();
+
+		if(mixingDesk!=null){
+			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
+		}
+
 		gameUpdate.dudeAdded(s);
+
 		return true;
 	}
 
@@ -220,7 +228,7 @@ public class World {
 			d.update();
 		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
-		if(counter == 30 && dudeSpawningEnabled){
+		if(counter == 60 && dudeSpawningEnabled){
 			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 			counter = 0;
 		} else if(!dudeSpawningEnabled && counter == 150){
@@ -367,12 +375,26 @@ public class World {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 
-	public void setAudioPlayer(AudioPlayer audioPlayer) {
-		this.audioPlayer = audioPlayer;
+
+	public void setAudioPlayer(MixingDesk mixingDesk) {
+		this.mixingDesk = mixingDesk;
 	}
 
-	public AudioPlayer getAudioPlayer() {
-		return this.audioPlayer;
+	public boolean isSlugBalancingEnabled() {
+		return slugBalancingEnabled;
+	}
+
+	public void toggleSlugBalancing(){
+		slugBalancingEnabled = !slugBalancingEnabled;
+	}
+
+	public void setAudioPlayer(AudioPlayer audioPlayer) {
+		this.audioPlayer = audioPlayer;
+
+	}
+
+	public MixingDesk getAudioPlayer() {
+		return this.mixingDesk;
 
 	}
 }
