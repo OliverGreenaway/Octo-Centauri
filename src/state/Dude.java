@@ -45,6 +45,10 @@ public class Dude implements Serializable {
 	private Random randomGen = new Random();
 	private int rand  = randomGen.nextInt(5);
 
+	private boolean isDeleted;
+	public boolean isDeleted() {return isDeleted;}
+	public void setDeleted() {isDeleted = true;}
+
 	/**
 	 * Size of the structure, in tiles.
 	 */
@@ -66,7 +70,7 @@ public class Dude implements Serializable {
 	 */
 	// private Image image;
 
-	protected World world;
+	protected transient World world;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the dude.
@@ -87,6 +91,14 @@ public class Dude implements Serializable {
 	 */
 	public int getWidth() {
 		return width;
+	}
+
+	/**
+	 * Sets the world on this dude.  Needed because the world is transient.
+	 * @param w
+	 */
+	public void setWorld(World w){
+		world = w;
 	}
 
 	/**
@@ -262,6 +274,8 @@ public class Dude implements Serializable {
 	 * Called every tick. Does stuff.
 	 */
 	public void update() {
+		if(isDeleted) return;
+
 		count++;
 		if (count == 4) {
 //			if (buildTicks > 0) {

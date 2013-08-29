@@ -150,7 +150,9 @@ public class World {
 			}
 
 		allDudes.remove(s);
-		gameUpdate.dudeRemoved(s); // Let the network know about the change
+
+		gameUpdate.dudeRemoved(s); //Let the network know about the change
+		s.setDeleted();
 	}
 
 	/**
@@ -174,7 +176,7 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				worldTile[x - X][y - Y].setDude(s);
-
+		s.setWorld(this);
 		allDudes.add(s);
 		// plays the sound
 
@@ -204,6 +206,7 @@ public class World {
 	public void setTile(int x, int y, Tile t) {
 		worldTile[x][y] = t;// TODO add bounds checking
 		gameUpdate.changedTileColour(t);
+		logic.mapChanged(x, y);
 	}
 
 	/**
