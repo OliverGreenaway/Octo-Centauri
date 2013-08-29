@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		// create and start audio thread
-		audioPlayer = new AudioPlayer("timer1.wav", false); // true so it loops
+		audioPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
 		audioPlayer.start();
 
 		// start other stuff

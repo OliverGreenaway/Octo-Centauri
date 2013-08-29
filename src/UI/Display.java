@@ -1,6 +1,5 @@
 package UI;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,7 +16,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.awt.Rectangle;
-
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -38,7 +38,7 @@ public class Display extends JPanel {
 	private final int SCREEN_BUFFER_ZONE = 20; // Arbitrary screen edge buffer
 
 	private World world;
-	
+
 	private boolean tileHighLighted = false;
 
 	// <UI
@@ -51,6 +51,7 @@ public class Display extends JPanel {
 	int tpad = (75 - 64) / 2;
 
 	Map<String, Rectangle> toggleButtons = null;
+	Map<String, MouseListener> toggleButtonsListener = null;
 	HashSet<Rectangle> UISpace = null;
 	// UI/>
 
@@ -72,13 +73,17 @@ public class Display extends JPanel {
 	public Set<java.awt.Rectangle> getUISpace() {
 		if (UISpace == null) {
 			UISpace = new HashSet<Rectangle>();
-			UISpace.add(new Rectangle(this.getWidth() - padding - miniMapWidth - toggleSize, padding, miniMapWidth + toggleSize, miniMapHeight));
+			UISpace.add(new Rectangle(this.getWidth() - padding - miniMapWidth
+					- toggleSize, padding, miniMapWidth + toggleSize,
+					miniMapHeight));
 		}
 		return UISpace;
 	}
+
 	public Map<String, Rectangle> getToggleMap() {
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
+			toggleButtonsListener = new HashMap<String, MouseListener>();
 
 			Rectangle toggleHealth = new Rectangle(this.getWidth()
 					- miniMapWidth - toggleSize - padding + tpad, padding
@@ -88,11 +93,66 @@ public class Display extends JPanel {
 			Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
 					newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
 
+			MouseListener listener = new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("HealthBarsToggle");
+				}
+			};
+
 			toggleButtons.put("HealthBarsToggle", toggleHealth);
+			toggleButtonsListener.put("HealthBarsToggle", listener);
+
+			listener = new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("NewDudeToggle");
+				}
+			};
+
 			toggleButtons.put("NewDudeToggle", newDudeToggle);
+			toggleButtonsListener.put("NewDudeToggle", listener);
+
+			listener = new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("SlugBalancingToggle");
+				}
+			};
+
 			toggleButtons.put("SlugBalancingToggle", slugBalancingToggle);
+			toggleButtonsListener.put("SlugBalancingToggle", listener);
 		}
 		return toggleButtons;
+	}
+
+	public MouseListener buttonClicked(String key) {
+		return toggleButtonsListener.get(key);
 	}
 
 	private static final long serialVersionUID = 8274011568777903027L;
@@ -284,7 +344,8 @@ public class Display extends JPanel {
 								- (TILE_WIDTH / 2), getPixelY(i, j)
 								- TILE_HEIGHT, TILE_WIDTH, t.getImage()
 								.getHeight(null), null);
-						if (tileHighLighted && t.getX() == hoverX && t.getY() == hoverY)
+						if (tileHighLighted && t.getX() == hoverX
+								&& t.getY() == hoverY)
 							g.drawImage(hoverImage, getPixelX(i, j)
 									- (TILE_WIDTH / 2), getPixelY(i, j)
 									- TILE_HEIGHT, TILE_WIDTH, 32, null);
