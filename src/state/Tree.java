@@ -2,8 +2,8 @@ package state;
 
 public class Tree extends Resource{
 
-	public Tree(int x, int y, int width, int height) {
-		super(x, y, width, height, "Assets/EnvironmentObjects/DarkTree.png");
+	public Tree(int x, int y) {
+		super(x, y, 1, 1, "Assets/EnvironmentObjects/DarkTree.png");
 		this.amount = 200;
 	}
 
