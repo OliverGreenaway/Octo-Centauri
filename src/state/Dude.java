@@ -350,9 +350,15 @@ public class Dude implements Serializable {
 					continue;
 
 				Dude d = t.getDude();
-				if(d != null && this.getClass() != d.getClass())
-					return d;
+				if(this instanceof Dude){
+					if(d != null && this.getClass() != d.getClass())
+						return d;
+				} else {
+					if(d != null && !(d instanceof Slugdude || d instanceof Octodude ))
+						return d;
+				}
 			}
+
 
 		return null;
 	}
