@@ -263,7 +263,7 @@ public class Dude implements Serializable {
 	 */
 	public void update() {
 		count++;
-		if (count == 1) {
+		if (count == 4) {
 //			if (buildTicks > 0) {
 //			buildTicks--;
 			unlinkTiles(oldX, oldY);
@@ -302,7 +302,8 @@ public class Dude implements Serializable {
 
 	public void attack(Dude victim) {
 
-		world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
+		if(world.getAudioPlayer()!=null)
+			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
 
 		//new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
@@ -312,7 +313,9 @@ public class Dude implements Serializable {
 				world.tasks.add(task);
 			}
 			world.removeDude(victim);
-			world.getAudioPlayer().addAudioPlayer("DyingDude.wav", true);
+			if(world.getAudioPlayer()!=null){
+				world.getAudioPlayer().addAudioPlayer("DyingDude.wav", true);
+				}
 		}
 	}
 

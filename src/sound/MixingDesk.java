@@ -18,7 +18,7 @@ public class MixingDesk {
 
 
 	/**
-	 * Plays a sound
+	 * Plays specified sound name 
 	 * @param sound
 	 * @param playOnce
 	 */
