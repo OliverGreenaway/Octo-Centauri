@@ -222,10 +222,18 @@ public class World {
 		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
 		if(counter == 60 && dudeSpawningEnabled){
-			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			int rand = (int) Math.random()*100 + 1;
+			if(rand > 0 && rand < 66)
+				addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			else if ( rand > 66 && rand < 100)
+				addDude(new Slugdude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 			counter = 0;
 		} else if(!dudeSpawningEnabled && counter == 150){
-			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			int rand = (int) Math.random()*100 + 1;
+			if(rand > 0 && rand < 66)
+				addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			else if ( rand > 66 && rand < 100)
+				addDude(new Slugdude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 			counter = 0;
 		} else {
 			counter++;
