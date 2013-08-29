@@ -419,7 +419,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		} else {
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			Tile t = display.getWorld().getTile(point.x, point.y);
-			t.setHeight(t.getHeight() + e.getWheelRotation());
+			t.setHeight(t.getHeight() - e.getWheelRotation());
 		}
 	}
 
