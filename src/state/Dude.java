@@ -30,15 +30,17 @@ public class Dude implements Serializable {
 	/**
 	 * The coordinates of the tile under the bottom corner of the dude.
 	 */
-	private int x, y; // Tile coords of Dude
-	private int TILE_HEIGHT = 32;
-	private int TILE_WIDTH = 64;
+	protected int x; // Tile coords of Dude
+	protected int y;
+	protected int TILE_HEIGHT = 32;
+	protected int TILE_WIDTH = 64;
 	private int NUM_SPRITES = 16; // Number of model sprites per images
-	private int maxHealth;
-	private int currentHealth;
+	protected int maxHealth;
+	protected int currentHealth;
 	private int damage;
 	private Random randomGen = new Random();
 	private int rand  = randomGen.nextInt(5);
+
 
 	/**
 	 * Size of the structure, in tiles.
@@ -50,9 +52,9 @@ public class Dude implements Serializable {
 																	// facing
 	// NOTE: Usable as images array indices
 
-	private int width, height; // ???
-	private int facing = DOWN; // Facing constant
-	private int oldX, oldY;
+	protected int width, height; // ???
+	protected int facing = DOWN; // Facing constant
+	protected int oldX, oldY;
 	private Image[][] images = new Image[4][4]; // A single image stored per
 												// facing
 
@@ -61,7 +63,7 @@ public class Dude implements Serializable {
 	 */
 	// private Image image;
 
-	private World world;
+	protected World world;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the dude.
@@ -109,7 +111,7 @@ public class Dude implements Serializable {
 	 *            The Y coordinate of the bottom corner of the dude.
 	 * @param width
 	 *            The width of the dude.
-	 * @param height
+	 * @param heightNUM_SPRITES
 	 *            The height of the dude.
 	 * @param image
 	 *            The path to the dude's image.
@@ -125,12 +127,14 @@ public class Dude implements Serializable {
 		currentHealth = maxHealth;
 		// this.image = new ImageIcon(image).getImage();
 		this.world = world;
+		loadImage(image);
+
+	}
+	protected void loadImage(String image) {
 		JPanel panel = new JPanel(); // Instantiated JPanel to use createImage
 										// method
 
 		// Load Images
-		int num_images = NUM_SPRITES; // NOTE: Currently skips out all but first
-										// image of each facing
 
 		for (int i = 0; i < 4; i++) { // Iterate through facings --> Load an
 										// image into each facing
@@ -173,7 +177,7 @@ public class Dude implements Serializable {
 					return false;
 			}
 
-		setFacing(newX, newY, x, y);
+		setFacing(newX, newY);
 		// unlink the tiles at the old location
 		// unlinkTiles(x, y);
 
@@ -199,7 +203,7 @@ public class Dude implements Serializable {
 				world.getTile(x - X, y - Y).setDude(this);
 	}
 
-	public void setFacing(int newX, int newY, int x, int y) {
+	public void setFacing(int newX, int newY) {
 		if ((x - newX) > 0) {
 			facing = LEFT;
 		}
@@ -247,11 +251,13 @@ public class Dude implements Serializable {
 	int storedResources = 0;
 	ResourceType storedResType = null;
 
+	Dude attacking;
+
+	int count; // update count, things change every 4 updates.
+
 	/**
 	 * Called every tick. Does stuff.
 	 */
-	int count;
-
 	public void update() {
 		count++;
 		if (count == 4) {
@@ -259,8 +265,22 @@ public class Dude implements Serializable {
 			linkTiles(x, y);
 			oldX = x;
 			oldY = y;
+
+			attacking = findAttackTarget();
+
 			Task task = world.tasks.poll();
-			if (task == null) {
+			if (attacking != null) {
+
+				if(Math.abs(x - attacking.getX()) + Math.abs(y - attacking.getY()) > 1) {
+					// too far, move closer
+					moveTowards(attacking.getX(), attacking.getY());
+					attacking = null;
+				} else {
+					setFacing(attacking.getX(), attacking.getY());
+					attack(attacking);
+				}
+
+			} else if (task == null) {
 				getResources();
 			} else if (task.equals("build")) {
 				// TODO
@@ -273,11 +293,35 @@ public class Dude implements Serializable {
 		}
 	}
 
+	public void attack(Dude victim) {
+		victim.currentHealth -= 15;
+		if(victim.currentHealth < 15) {
+			world.removeDude(victim);
+		}
+	}
+
+	public Dude findAttackTarget() {
+		final int RANGE = 2;
+
+		for(int dx = -RANGE; dx <= RANGE; dx++)
+			for(int dy = -RANGE; dy <= RANGE; dy++) {
+				Tile t = world.getTile(x+dx, y+dy);
+				if(t == null)
+					continue;
+
+				Dude d = t.getDude();
+				if(d != null && d != this)
+					return d;
+			}
+
+		return null;
+	}
+
 	public void getResources() {
 		if (storedResources > 9) {
 			if (crate == null) {
 				crate = (Crate) world.getNearestStructure(Crate.class,
-						world.getTile(x, y));
+						world.getTile(x, y), this);
 			}
 
 			if (crate != null) {
@@ -294,7 +338,7 @@ public class Dude implements Serializable {
 
 		} else {
 			Resource nowHarvesting = world.getNearestResource(
-					world.getTile(x, y), storedResType);
+					world.getTile(x, y), storedResType, this);
 			if (harvesting != nowHarvesting) {
 				harvesting = nowHarvesting;
 			}
@@ -310,6 +354,9 @@ public class Dude implements Serializable {
 					}
 				}
 			}
+			/**
+			 *
+			 */
 		}
 
 	}
@@ -327,7 +374,7 @@ public class Dude implements Serializable {
 			path = new Logic(world).findRoute(world.getTile(this.x, this.y),
 					world.getTile(targetX, targetY), this);
 			failedMoveCount = 0;
-			rand = randomGen.nextInt(5);
+			rand = randomGen.nextInt(3);
 		}
 
 		if (path.size() > 0) {
@@ -341,6 +388,14 @@ public class Dude implements Serializable {
 			return true;
 		}
 
+		return false;
+	}
+
+	private boolean moveTowards(int tx, int ty) {
+		if(x < tx && move(x+1, y)) return true;
+		if(x > tx && move(x-1, y)) return true;
+		if(y < ty && move(x, y+1)) return true;
+		if(y > ty && move(x, y-1)) return true;
 		return false;
 	}
 
@@ -363,8 +418,16 @@ public class Dude implements Serializable {
 
 
 		// Tile coordinates of The Dude (x,y)
-		double x = this.oldX + (this.x - this.oldX) * percentMoved;
-		double y = this.oldY + (this.y - this.oldY) * percentMoved;
+		double x, y;
+
+		if(attacking == null) {
+			x = this.oldX + (this.x - this.oldX) * percentMoved;
+			y = this.oldY + (this.y - this.oldY) * percentMoved;
+		} else {
+			double dist = (count % 2 == 1) ? 0.2 : 0.1;
+			x = this.x + (facing == LEFT ? -1 : facing == RIGHT ? 1 : 0) * dist;
+			y = this.y + (facing == UP ? -1 : facing == DOWN ? 1 : 0) * dist;
+		}
 
 		// Pixel coordinates (on screen) of the Dude (i,j)
 		Point pt = d.tileToDisplayCoordinates(x, y);
@@ -411,4 +474,7 @@ public class Dude implements Serializable {
 	public void setCurrentHealth(int currentHealth) {
 		this.currentHealth = currentHealth;
 	}
+
+	public int getOldX() {return oldX;}
+	public int getOldY() {return oldY;}
 }
