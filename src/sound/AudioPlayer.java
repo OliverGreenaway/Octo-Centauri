@@ -168,8 +168,10 @@ public class AudioPlayer extends Thread {
 		AudioPlayer a = new AudioPlayer("timer1.wav", false);
 		a.start();
 		Thread.sleep(1000);
-			a.togglePaused();
+		a.togglePaused();
+		
 		Thread.sleep(3000);
+		
 		a.togglePaused();
 		// a.stopPlayer();
 
