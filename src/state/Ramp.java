@@ -14,6 +14,11 @@ public class Ramp extends Structure {
 		return direction;
 	}
 
+	public void setDirection(Direction d) {
+		direction = d;
+		getWorld().getLogic().mapChanged(getX(), getY());
+	}
+
 	private transient Image leftImage, rightImage;
 
 	public Ramp(int x, int y, int width, int height, String type, Direction dir) {
@@ -25,8 +30,9 @@ public class Ramp extends Structure {
 
 	@Override
 	public Image getImage(int viewRotation) {
+		// magic
 		return new Image[] {
-			rightImage, null, null, leftImage
-		}[(viewRotation + 4 - direction.ordinal()) % 4];
+			leftImage, rightImage, null, null
+		}[(viewRotation + 7 - direction.ordinal()) % 4];
 	}
 }

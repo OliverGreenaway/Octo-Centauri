@@ -44,6 +44,8 @@ public class World {
 	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
+	private String currentBuild = "BarrenGrass";
+
 	MixingDesk mixingDesk;
 
 	/**
@@ -82,7 +84,7 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));//TODO
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
@@ -360,39 +362,36 @@ public class World {
 	}
 
 	public boolean build(Tile t, String type, Dude dude) {
-		if (hasResources(type)) {
 			if (dude.isAt(t.getX(), t.getY())) {
 				// finish building tile
 				if (t.getStructure() != null) {
 					removeStructure(t.getStructure());
 				}
-				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
-						"Assets/EnvironmentTiles/BarrenWall.png");
-				addStructure(s);
-				// set tile non trasnparent
+
+				t.setImage(currentBuild);
+				t.setHeight(t.getHeight() + 1);
+
+				// set tile non transparent
 				// reassign dude to new task
 				return true;
-			}
-			return false;
-
 		} else {
 			// otherwise reassign dude and repush task
-			System.out.println("not enough resources");// TODO
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}
 
 	}
 
-	private boolean hasResources(String type) {
-		if (type.equals("BarrenWall")) {
+	public boolean hasResources(String type) {
+		if( type.equals("BarrenWall"))
 			return true;
-			// if(crystalResource > 10){
-			// crystalResource = crystalResource - 10;
-			// return true;
-			// }
-		}
-		return false;
+		if(type.equals("BarrenGrass"))
+			return true;
+		if(type.equals("DarkSand"))
+			return true;
+		if(type.equals("grass"))
+			return true;
+		else {return false;}
 
 	}
 
@@ -432,5 +431,13 @@ public class World {
 
 	public Logic getLogic() {
 		return this.logic;
+	}
+
+	public String getCurrentBuild() {
+		return currentBuild;
+	}
+
+	public void setCurrentBuild(String currentBuild) {
+		this.currentBuild = currentBuild;
 	}
 }

@@ -4,7 +4,7 @@ public class Crate extends Structure {
 	private static final long serialVersionUID = 2931626387167L;
 
 	public Crate(int x, int y) {
-		super(x, y, 1, 1, "Assets/EnvironmentObjects/Stalagmite.png");
+		super(x, y, 1, 1, "Assets/EnvironmentObjects/Turret/TurretFrontLeft.png");
 	}
 
 	public void dropoff(int storedResources, ResourceType storedResType) {
