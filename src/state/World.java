@@ -38,6 +38,7 @@ public class World {
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
 	private boolean dudeSpawningEnabled = true;
+	private AudioPlayer audioPlayer;
 
 
 	/**
@@ -344,5 +345,14 @@ public class World {
 
 	public void toggleDudeSpawning() {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
+	}
+
+	public void setAudioPlayer(AudioPlayer audioPlayer) {
+		this.audioPlayer = audioPlayer;
+	}
+
+	public AudioPlayer getAudioPlayer() {
+		return this.audioPlayer;
+
 	}
 }

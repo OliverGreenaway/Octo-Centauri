@@ -82,18 +82,19 @@ public class Display extends JPanel {
 	}
 
 	public Map<String, Rectangle> getToggleMap() {
+		Rectangle toggleHealth = new Rectangle(this.getWidth()
+				- miniMapWidth - toggleSize - padding + tpad, padding
+				+ tpad, toggleSize, toggleSize);
+		Rectangle newDudeToggle = new Rectangle(toggleHealth.x,
+				toggleHealth.y + toggleSize - tpad, toggleSize, toggleSize);
+		Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
+				newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
+		
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
 			toggleButtonsListener = new HashMap<String, MouseListener>();
 			toggleButtonsImages = new HashMap<String, String>();
 
-			Rectangle toggleHealth = new Rectangle(this.getWidth()
-					- miniMapWidth - toggleSize - padding + tpad, padding
-					+ tpad, toggleSize, toggleSize);
-			Rectangle newDudeToggle = new Rectangle(toggleHealth.x,
-					toggleHealth.y + toggleSize - tpad, toggleSize, toggleSize);
-			Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
-					newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
 
 			MouseListener listener = new MouseListener() {
 				@Override
@@ -114,7 +115,7 @@ public class Display extends JPanel {
 				}
 			};
 
-			toggleButtons.put("ButtonHealth", toggleHealth);
+			
 			toggleButtonsListener.put("ButtonHealth", listener);
 			toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
 
@@ -136,11 +137,11 @@ public class Display extends JPanel {
 				}
 			};
 
-			toggleButtons.put("ButtonAddDude", newDudeToggle);
+			
 			toggleButtonsListener.put("ButtonAddDude", listener);
 			toggleButtonsImages.put("ButtonAddDude", "ButtonAddDudeHover");
 
-			/*listener = new MouseListener() {
+			listener = new MouseListener() {
 
 				@Override
 				public void mouseReleased(MouseEvent e) {}
@@ -152,13 +153,26 @@ public class Display extends JPanel {
 				public void mouseEntered(MouseEvent e) {}
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					System.out.println("SlugBalancingToggle");
+					if (toggleButtonsImages.get("ButtonMute").equals("ButtonMuteOff")) {
+						// Mute here
+						//world.getAudioPlayer().mute();
+						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
+					} else {
+						// Unmute here
+						//world.getAudioPlayer().unmute();
+						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
+					}
 				}
 			};
 
-			toggleButtons.put("SlugBalancingToggle", slugBalancingToggle);
-			toggleButtonsListener.put("SlugBalancingToggle", listener);*/
+			
+			toggleButtonsListener.put("ButtonMute", listener);
+			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 		}
+		toggleButtons.put("ButtonAddDude", newDudeToggle);
+		toggleButtons.put("ButtonMute", slugBalancingToggle);
+		toggleButtons.put("ButtonHealth", toggleHealth);
+		
 		return toggleButtons;
 	}
 
@@ -445,7 +459,7 @@ public class Display extends JPanel {
 		g2d.setStroke(orig);
 
 
-		if (toggleButtons == null) getToggleMap();
+		getToggleMap();
 		for (String key : toggleButtons.keySet()) {
 			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
 		}

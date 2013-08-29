@@ -130,6 +130,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
 
+		world.setAudioPlayer(this.audioPlayer);
+
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
