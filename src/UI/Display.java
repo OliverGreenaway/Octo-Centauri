@@ -49,6 +49,7 @@ public class Display extends JPanel {
 
 	Map<String, Rectangle> toggleButtons = null;
 	Map<String, MouseListener> toggleButtonsListener = null;
+	Map<String, String> toggleButtonsImages = null;
 	HashSet<Rectangle> UISpace = null;
 	// UI/>
 
@@ -81,6 +82,7 @@ public class Display extends JPanel {
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
 			toggleButtonsListener = new HashMap<String, MouseListener>();
+			toggleButtonsImages = new HashMap<String, String>();
 
 			Rectangle toggleHealth = new Rectangle(this.getWidth()
 					- miniMapWidth - toggleSize - padding + tpad, padding
@@ -101,12 +103,17 @@ public class Display extends JPanel {
 				public void mouseEntered(MouseEvent e) {}
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					System.out.println("HealthBarsToggle");
+					world.toggleShowHealth();
+					if (world.showHealth())
+						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
+					else
+						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOff");
 				}
 			};
 
-			toggleButtons.put("HealthBarsToggle", toggleHealth);
-			toggleButtonsListener.put("HealthBarsToggle", listener);
+			toggleButtons.put("ButtonHealth", toggleHealth);
+			toggleButtonsListener.put("ButtonHealth", listener);
+			toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
 
 			listener = new MouseListener() {
 				@Override
@@ -119,14 +126,18 @@ public class Display extends JPanel {
 				public void mouseEntered(MouseEvent e) {}
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					System.out.println("NewDudeToggle");
+					world.toggleDudeSpawning();
+					if (world.isDudeSpawningEnabled())
+						toggleButtonsImages.put("ButtonAddDude", "ButtonAddDudeHover");
+					else toggleButtonsImages.put("ButtonAddDude", "ButtonAddDude");
 				}
 			};
 
-			toggleButtons.put("NewDudeToggle", newDudeToggle);
-			toggleButtonsListener.put("NewDudeToggle", listener);
+			toggleButtons.put("ButtonAddDude", newDudeToggle);
+			toggleButtonsListener.put("ButtonAddDude", listener);
+			toggleButtonsImages.put("ButtonAddDude", "ButtonAddDudeHover");
 
-			listener = new MouseListener() {
+			/*listener = new MouseListener() {
 
 				@Override
 				public void mouseReleased(MouseEvent e) {}
@@ -143,7 +154,7 @@ public class Display extends JPanel {
 			};
 
 			toggleButtons.put("SlugBalancingToggle", slugBalancingToggle);
-			toggleButtonsListener.put("SlugBalancingToggle", listener);
+			toggleButtonsListener.put("SlugBalancingToggle", listener);*/
 		}
 		return toggleButtons;
 	}
@@ -241,6 +252,7 @@ public class Display extends JPanel {
 
 		return new Point(getPixelX(x, y), getPixelY(x, y));
 	}
+
 
 	public Point displayToTileCoordinates(int x, int y) {
 		/*
@@ -361,9 +373,10 @@ public class Display extends JPanel {
 
 					}
 
-					if (t.getDude() != null) { // If there is a dude in the tile
-												// --> DRAW THEM!
-						t.getDude().draw(g, this, bottomPixelX, bottomPixelY);
+					Dude dude = t.getDude();
+					if (dude != null) { // If there is a dude in the tile
+						dude.draw(g, this, bottomPixelX, bottomPixelY, world.showHealth());
+
 					}
 				}
 			}
@@ -419,7 +432,7 @@ public class Display extends JPanel {
 		g2d.setColor(new Color(212, 175, 55));
 		Stroke orig = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(3));
-		int r = 10;
+		int r = 5;
 		g2d.drawRoundRect(
 				this.getWidth() - miniMapWidth - toggleSize - padding, padding,
 				miniMapWidth + toggleSize, miniMapHeight, r, r);
@@ -428,11 +441,10 @@ public class Display extends JPanel {
 						+ padding);
 		g2d.setStroke(orig);
 
-		if (toggleButtons == null)
-			getToggleMap();
+
+		if (toggleButtons == null) getToggleMap();
 		for (String key : toggleButtons.keySet()) {
-			Rectangle rect = toggleButtons.get(key);
-			g2d.drawImage(UIImageStorage.get(key), rect.x, rect.y, null);
+			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
 		}
 	}
 
