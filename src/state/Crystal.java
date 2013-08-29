@@ -74,7 +74,7 @@ public class Crystal extends Resource{
 				List<Tile> list = new ArrayList<Tile>(neighbours);
 				Collections.shuffle(list);
 				Tile t = list.get(0);
-				if(t.getStructure() == null)
+				if(t.getStructure() == null && t.getHeight() == getWorld().getTile(getX(),getY()).getHeight())
 					getWorld().addStructure(new Crystal(t.getX(), t.getY()));
 			}
 

@@ -4,18 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.image.ColorModel;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageConsumer;
 import java.io.Serializable;
-import java.util.Hashtable;
 import java.util.Random;
 import java.util.Stack;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sound.AudioPlayer;
@@ -275,12 +270,12 @@ public class Dude implements Serializable {
 			linkTiles(x, y);
 			oldX = x;
 			oldY = y;
-
 			attacking = findAttackTarget();
+			if(task == null){
+				task = world.tasks.poll();
+			}
 
-			Task task = world.tasks.poll();
 			if (attacking != null) {
-
 				if(Math.abs(x - attacking.getX()) + Math.abs(y - attacking.getY()) > 1) {
 					// too far, move closer
 					moveTowards(attacking.getX(), attacking.getY());
@@ -289,33 +284,46 @@ public class Dude implements Serializable {
 					setFacing(attacking.getX(), attacking.getY());
 					attack(attacking);
 				}
-
 			} else if (task == null) {
 				getResources();
-//				if (task == null) {
-//					getResources();
-				} else if (task.getTask().equals("build")) {
-					System.out.println("building please");
-					Tile t = task.getTile();
-					followPath(t.getX(), t.getY());
-//					rest(1000);
 
-					if (world.build(t, task.getType(), this)) {
-						task = null;
-					}
+			} else if (task.getTask().equals("build")) {
+				Tile t = task.getTile();
+				followPath(t.getX(), t.getY());
+				// rest(1000);//TODO
+
+				if (world.build(t, task.getType(), this)) {
+					task = null;
 				}
-				count = 0;
 			}
+			count = 0;
 		}
+	}
 
 	public void attack(Dude victim) {
 
-		new AudioPlayer("SinglePunch.wav", true).start();
+		if(world.getAudioPlayer()!=null)
+			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
+
+		//new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
 		if(victim.currentHealth < 0) {
+			//dude killed needs his task readded to queue
+			if(victim.hasTask()){
+				world.tasks.add(task);
+			}
 			world.removeDude(victim);
-			new AudioPlayer("DyingDude.wav", true).start();
+			if(world.getAudioPlayer()!=null){
+				world.getAudioPlayer().addAudioPlayer("DyingDude.wav", true);
+				}
 		}
+	}
+
+	private boolean hasTask() {
+		if(task != null){
+			return true;
+		}
+		return false;
 	}
 
 	public Dude findAttackTarget() {
@@ -355,7 +363,12 @@ public class Dude implements Serializable {
 			}
 
 		} else {
-			Resource nowHarvesting = world.getNearestResource(world.getTile(x, y), this);
+			//SlugBalancing check
+			if(this instanceof Octodude && !world.isSlugBalancingEnabled()){
+				return;
+			}
+			Resource nowHarvesting = world.getNearestResource(
+					world.getTile(x, y), this);
 			if (harvesting != nowHarvesting) {
 				harvesting = nowHarvesting;
 			}
@@ -388,12 +401,11 @@ public class Dude implements Serializable {
 	int failedMoveCount = 0;
 
 	private boolean followPath(int x, int y) {
-
 		if(x != targetX || y != targetY || path == null || path.size() == 0 || failedMoveCount > rand) {
 
 			targetX = x;
 			targetY = y;
-			path = new Logic(world).findRoute(world.getTile(this.x, this.y),
+			path = world.getLogic().findRoute(world.getTile(this.x, this.y),
 					world.getTile(targetX, targetY), this);
 			failedMoveCount = 0;
 			rand = randomGen.nextInt(3);

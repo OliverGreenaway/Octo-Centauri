@@ -18,24 +18,23 @@ import UI.Display;
  * @author findlaconn
  *
  */
-public class Octodude extends Dude implements Serializable{
+public class Slugdude extends Dude implements Serializable{
 
 
 	private transient Image img[];
 
-	public Octodude(World world, int x, int y, int width, int height,
+	public Slugdude(World world, int x, int y, int width, int height,
 			String image) {
 		super(world, x, y, width, height, image);
-		this.maxHealth = 50;
 	}
 
 	@Override
 	protected void loadImage(String image) {
 		img = new Image[4];
-		img[RIGHT] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png").getImage();
-		img[DOWN] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeFrontLeft.png").getImage();
-		img[UP] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeBackRight.png").getImage();
-		img[LEFT] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeBackLeft.png").getImage();
+		img[RIGHT] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugFrontRight").getImage();
+		img[DOWN] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugFrontLeft.png").getImage();
+		img[UP] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugBackRight.png").getImage();
+		img[LEFT] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugBackLeft.png").getImage();
 	}
 
 	@Override
@@ -72,7 +71,6 @@ public class Octodude extends Dude implements Serializable{
 		int posY = pt.y - i.getHeight(null);
 
 		g.drawImage(i, posX, posY, null);
-
 		if (drawHealth) {
 			int tall = 10;
 			int hHeight = 4;
