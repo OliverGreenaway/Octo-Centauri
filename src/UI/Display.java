@@ -90,6 +90,8 @@ public class Display extends JPanel {
 				toggleHealth.y + toggleSize - tpad, toggleSize, toggleSize);
 		Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
 				newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
+		Rectangle tripToggle = new Rectangle(slugBalancingToggle.x,
+				slugBalancingToggle.y + toggleSize - tpad, toggleSize, toggleSize);
 
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
@@ -174,10 +176,36 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonMute", listener);
 			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
+			
+			listener = new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (toggleButtonsImages.get("ButtonBG").equals("ButtonBGOff")) {
+						trippy = true;
+						toggleButtonsImages.put("ButtonBG", "ButtonBGOn");
+					} else {
+						trippy = false;
+						toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
+					}
+				}
+			};
+
+			toggleButtonsListener.put("ButtonBG", listener);
+			toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
 		}
 		toggleButtons.put("ButtonAddDude", newDudeToggle);
 		toggleButtons.put("ButtonMute", slugBalancingToggle);
 		toggleButtons.put("ButtonHealth", toggleHealth);
+		toggleButtons.put("ButtonBG", tripToggle);
 
 		return toggleButtons;
 	}
@@ -411,7 +439,11 @@ public class Display extends JPanel {
 				}
 			}
 		}
-
+		if (trippy) {
+			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 32)), true);
+			g.setColor(trippingColor);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		}
 	}
 
 	/**
