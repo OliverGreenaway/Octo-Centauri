@@ -353,6 +353,7 @@ public class Dude implements Serializable {
 			}
 
 		} else {
+
 			Resource nowHarvesting = world.getNearestResource(
 					world.getTile(x, y), storedResType, this);
 			if (harvesting != nowHarvesting) {
