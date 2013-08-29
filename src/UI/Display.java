@@ -104,7 +104,7 @@ public class Display extends JPanel {
 				public void mouseEntered(MouseEvent e) {}
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					System.out.println("HealthBarsToggle");
+					world.toggleShowHealth();
 				}
 			};
 
@@ -366,8 +366,13 @@ public class Display extends JPanel {
 
 					Dude dude = t.getDude();
 					if (dude != null) { // If there is a dude in the tile
+<<<<<<< HEAD
 												// --> DRAW THEM!
 						dude.draw(g, this, bottomPixelX, bottomPixelY, true);
+=======
+												// --> DRAW THEM!						
+						dude.draw(g, this, bottomPixelX, bottomPixelY, world.showHealth());
+>>>>>>> 789ac8524764a1d4980ccf5d232c09b5afc24eba
 					}
 				}
 			}
@@ -423,7 +428,7 @@ public class Display extends JPanel {
 		g2d.setColor(new Color(212, 175, 55));
 		Stroke orig = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(3));
-		int r = 10;
+		int r = 5;
 		g2d.drawRoundRect(
 				this.getWidth() - miniMapWidth - toggleSize - padding, padding,
 				miniMapWidth + toggleSize, miniMapHeight, r, r);

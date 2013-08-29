@@ -17,6 +17,7 @@ import java.util.Scanner;
 
 import state.Crate;
 import state.Crystal;
+import state.DudeSpawnBuilding;
 import state.Resource;
 import state.Structure;
 import state.Tile;
@@ -132,6 +133,8 @@ public class FileReader {
 							temp = new Crystal(strucX, strucY, 1, 1, "Assets/EnvironmentObjects/"+fileName+".png");
 						else if(fileName.equals("Crate"))
 							temp = new Crate(strucX, strucY);
+						else if(fileName.equals("Spawner"))
+							temp = new DudeSpawnBuilding(strucX, strucY);
 						else
 							temp = new Structure(strucX, strucY, 1, 1, "Assets/EnvironmentTiles/" +fileName+ ".png");
 						structures.add(temp);;

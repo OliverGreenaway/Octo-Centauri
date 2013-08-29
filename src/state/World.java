@@ -34,6 +34,7 @@ public class World {
 	private Set<Dude> allDudes = new HashSet<Dude>();
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
+	
 
 	/**
 	 * Returns a random tile name.
@@ -206,6 +207,8 @@ public class World {
 	public void update() {
 		for (Dude d : allDudes)
 			d.update();
+		for (Structure s : structures)
+			s.update();
 	}
 
 	public void setGameUpdate(GameUpdate g) {
