@@ -32,7 +32,7 @@ public class MainMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new SinglePlayerMenuPanel(frame)) ;
+				frame.addMenu(new MultiplayerMenuPanel(frame)) ;
 			}
 		};
 		addButton(frame, listener, "MultiPlayerButton");

@@ -25,4 +25,16 @@ public class Crystal extends Resource{
 			return ResourceType.CRYSTAL;
 	}
 
+	int updateCount = 0;
+	@Override
+	public void update() {
+		if(++updateCount >= 30) {
+			updateCount = 0;
+			amount++;
+			if(amount >= 10) {
+				setImage("Assets/EnvironmentObjects/Resources.png");
+			}
+		}
+	}
+
 }

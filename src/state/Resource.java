@@ -22,8 +22,7 @@ public abstract class Resource extends Structure {
 
 	public int harvest() {
 		if(amount <= 10){
-			System.out.println("dude born");
-			new AudioPlayer("ResourceMining.wav", true).start();
+
 			getWorld().removeStructure(this);
 		}
 		amount =- 10;
