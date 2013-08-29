@@ -122,7 +122,7 @@ public class Display extends JPanel {
 				public void mouseEntered(MouseEvent e) {}
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					System.out.println("NewDudeToggle");
+					world.toggleDudeSpawning();
 				}
 			};
 
@@ -245,6 +245,7 @@ public class Display extends JPanel {
 		return new Point(getPixelX(x, y), getPixelY(x, y));
 	}
 
+
 	public Point displayToTileCoordinates(int x, int y) {
 		/*
 		 * x -= camera.x; y -= camera.y;
@@ -366,7 +367,6 @@ public class Display extends JPanel {
 
 					Dude dude = t.getDude();
 					if (dude != null) { // If there is a dude in the tile
-									// --> DRAW THEM!
 						dude.draw(g, this, bottomPixelX, bottomPixelY, world.showHealth());
 
 					}

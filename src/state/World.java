@@ -34,7 +34,8 @@ public class World {
 	private Set<Dude> allDudes = new HashSet<Dude>();
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
-	
+	private boolean dudeSpawningEnabled = true;
+
 
 	/**
 	 * Returns a random tile name.
@@ -208,6 +209,7 @@ public class World {
 		for (Dude d : allDudes)
 			d.update();
 		for (Structure s : structures)
+
 			s.update();
 	}
 
@@ -302,9 +304,17 @@ public class World {
 
 	public void build(Tile t, String type) {
 		// TODO Auto-generated method stub
-		
 
 
 
+
+	}
+
+	public boolean isDudeSpawningEnabled() {
+		return dudeSpawningEnabled ;
+	}
+
+	public void toggleDudeSpawning() {
+		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 }
