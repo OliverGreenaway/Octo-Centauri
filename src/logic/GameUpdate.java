@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import networking.common.Update;
+import sound.AudioPlayer;
 import state.Dude;
 import state.Structure;
 import state.Tile;
@@ -68,6 +69,7 @@ public class GameUpdate extends Update {
 	 */
 	public void dudeAdded(Dude d){
 		dudesAdded.add(d);
+
 	}
 
 	/**

@@ -8,6 +8,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
+import sound.AudioPlayer;
+
 import logic.GameUpdate;
 
 /**
@@ -165,6 +167,8 @@ public class World {
 				worldTile[x - X][y - Y].setDude(s);
 
 		allDudes.add(s);
+		// plays the sound
+		new AudioPlayer("NewDudeBorn.wav", true).start();
 
 		return true;
 	}
