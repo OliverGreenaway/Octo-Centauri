@@ -6,11 +6,13 @@ import java.util.HashSet;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 
 import sound.AudioPlayer;
 import sound.MixingDesk;
 
 import logic.GameUpdate;
+import logic.Logic;
 
 /**
  * Stores everything in the game.
@@ -36,6 +38,8 @@ public class World {
 	private Set<Dude> allDudes = new HashSet<Dude>();
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
+
+	private Logic logic;
 	private boolean dudeSpawningEnabled = true;
 	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
@@ -66,6 +70,7 @@ public class World {
 		gameUpdate = initialUpdate;
 		worldTile = tiles;
 		resources = new HashSet<Resource>();
+		logic = new Logic(this);
 		start();
 	}
 
@@ -101,8 +106,8 @@ public class World {
 
 		s.setWorld(this);
 
-		if(s instanceof Resource)
-			resources.add((Resource)s);
+		if (s instanceof Resource)
+			resources.add((Resource) s);
 		structures.add(s);
 
 		// place the structure
@@ -112,7 +117,6 @@ public class World {
 		gameUpdate.structureAdded(s); //Send change to the network class
 		return true;
 	}
-
 
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
@@ -125,11 +129,11 @@ public class World {
 	public void removeStructure(Structure s) {
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
-		for(int X = 0; X < w; X++)
-			for(int Y = 0; Y < h; Y++)
-				worldTile[x-X][y-Y].setStructure(null, false);
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++)
+				worldTile[x - X][y - Y].setStructure(null, false);
 
-		if(s instanceof Resource)
+		if (s instanceof Resource)
 			resources.remove(s);
 		structures.remove(s);
 		gameUpdate.structureRemoved(s); //Let the network know about the change
@@ -148,6 +152,7 @@ public class World {
 
 		allDudes.remove(s);
 		gameUpdate.dudeRemoved(s); //Let the network know about the change
+		s.setDeleted();
 	}
 
 	/**
@@ -171,7 +176,7 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				worldTile[x - X][y - Y].setDude(s);
-
+		s.setWorld(this);
 		allDudes.add(s);
 		// plays the sound
 
@@ -201,6 +206,7 @@ public class World {
 	public void setTile(int x, int y, Tile t) {
 		worldTile[x][y] = t;// TODO add bounds checking
 		gameUpdate.changedTileColour(t);
+		logic.mapChanged(x, y);
 	}
 
 	/**
@@ -259,11 +265,15 @@ public class World {
 		return allDudes;
 	}
 
+
+
 	public Resource getNearestResource(Tile tile, Dude dude) {
+
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
+
 
 		for(Resource r : resources) {
 			if(!dude.canMine(r))
@@ -271,8 +281,10 @@ public class World {
 			Tile restile = getTile(r.getX(), r.getY());
 			if(restile.getDude() != null && restile.getDude() != dude)
 				continue;
-			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
-			if(squaredDistance < bestSquaredDistance) {
+			int squaredDistance = (r.getX() - x) * (r.getX() - x)
+					+ (r.getY() - y) * (r.getY() - y);
+
+			if (squaredDistance < bestSquaredDistance) {
 				bestSquaredDistance = squaredDistance;
 				bestResource = r;
 			}
@@ -282,14 +294,15 @@ public class World {
 
 
 
+
 	public Structure getNearestStructure(Class<?> class1, Tile tile, Dude dude) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Structure bestStructure = null;
 
-		for(Structure r : structures) {
-			if(!class1.isInstance(r))
+		for (Structure r : structures) {
+			if (!class1.isInstance(r))
 				continue;
 			Tile td = getTile(r.getX(), r.getY());
 			if(td.getDude() != null && td.getDude() != dude)
@@ -299,6 +312,7 @@ public class World {
 				bestSquaredDistance = squaredDistance;
 				bestStructure = r;
 			}
+
 		}
 		return bestStructure;
 	}
@@ -326,6 +340,7 @@ public class World {
 	public void setWoodResource(int woodResource) {
 		this.woodResource = woodResource;
 	}
+
 
 	public boolean build(Tile t, String type, Dude dude) {
 		if(hasResources(type)){
@@ -395,6 +410,9 @@ public class World {
 
 		return this.mixingDesk;
 
+	}
 
+	public Logic getLogic() {
+		return this.logic;
 	}
 }

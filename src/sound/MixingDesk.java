@@ -23,7 +23,6 @@ public class MixingDesk {
 	 * @param playOnce
 	 */
 	public void addAudioPlayer(String sound, Boolean playOnce){
-
 		if(muted){
 			// do nothing
 			//a.togglePaused();

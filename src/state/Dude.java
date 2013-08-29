@@ -45,6 +45,10 @@ public class Dude implements Serializable {
 	private Random randomGen = new Random();
 	private int rand  = randomGen.nextInt(5);
 
+	private boolean isDeleted;
+	public boolean isDeleted() {return isDeleted;}
+	public void setDeleted() {isDeleted = true;}
+
 	/**
 	 * Size of the structure, in tiles.
 	 */
@@ -58,7 +62,7 @@ public class Dude implements Serializable {
 	protected int width, height; // ???
 	protected int facing = DOWN; // Facing constant
 	protected int oldX, oldY;
-	private Image[][] images = new Image[4][4]; // A single image stored per
+	private transient Image[][] images = new Image[4][4]; // A single image stored per
 												// facing
 
 	/**
@@ -66,7 +70,7 @@ public class Dude implements Serializable {
 	 */
 	// private Image image;
 
-	protected World world;
+	protected transient World world;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the dude.
@@ -87,6 +91,14 @@ public class Dude implements Serializable {
 	 */
 	public int getWidth() {
 		return width;
+	}
+
+	/**
+	 * Sets the world on this dude.  Needed because the world is transient.
+	 * @param w
+	 */
+	public void setWorld(World w){
+		world = w;
 	}
 
 	/**
@@ -262,6 +274,8 @@ public class Dude implements Serializable {
 	 * Called every tick. Does stuff.
 	 */
 	public void update() {
+		if(isDeleted) return;
+
 		count++;
 		if (count == 4) {
 //			if (buildTicks > 0) {
@@ -307,7 +321,7 @@ public class Dude implements Serializable {
 
 		//new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
-		if(victim.currentHealth < 0) {
+		if(victim.currentHealth <= 0) {
 			//dude killed needs his task readded to queue
 			if(victim.hasTask()){
 				world.tasks.add(task);
@@ -411,7 +425,7 @@ public class Dude implements Serializable {
 
 			targetX = x;
 			targetY = y;
-			path = new Logic(world).findRoute(world.getTile(this.x, this.y),
+			path = world.getLogic().findRoute(world.getTile(this.x, this.y),
 					world.getTile(targetX, targetY), this);
 			failedMoveCount = 0;
 			rand = randomGen.nextInt(3);

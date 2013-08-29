@@ -36,14 +36,14 @@ public class GameUpdate extends Update {
 	private List<Dude> dudesAdded;
 	private List<Dude> dudesRemoved;
 
-	private List<Dude> dudesMoved;
+	private transient List<Dude> dudesMoved;
 	//For now, I am going to assume that only one position change can take place
 	// for each character each timer tick.  If this is not the case, we need to make
 	//this a change-set of position changes
 	//(or discard intermediate moves and have them jump)
 
-	private List<Tile> colourChangedTiles;
-	private Map<Dude, Integer> dudeHealthChanges;
+	private transient List<Tile> colourChangedTiles; //We don't use the colour change method right now
+	private transient Map<Dude, Integer> dudeHealthChanges;
 
 
 	public GameUpdate() {

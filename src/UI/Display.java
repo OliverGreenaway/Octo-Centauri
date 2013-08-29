@@ -90,6 +90,8 @@ public class Display extends JPanel {
 				toggleHealth.y + toggleSize - tpad, toggleSize, toggleSize);
 		Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
 				newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
+		Rectangle tripToggle = new Rectangle(slugBalancingToggle.x,
+				slugBalancingToggle.y + toggleSize - tpad, toggleSize, toggleSize);
 
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
@@ -174,10 +176,36 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonMute", listener);
 			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
+
+			listener = new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (toggleButtonsImages.get("ButtonBG").equals("ButtonBGOff")) {
+						trippy = true;
+						toggleButtonsImages.put("ButtonBG", "ButtonBGOn");
+					} else {
+						trippy = false;
+						toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
+					}
+				}
+			};
+
+			toggleButtonsListener.put("ButtonBG", listener);
+			toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
 		}
 		toggleButtons.put("ButtonAddDude", newDudeToggle);
 		toggleButtons.put("ButtonMute", slugBalancingToggle);
 		toggleButtons.put("ButtonHealth", toggleHealth);
+		toggleButtons.put("ButtonBG", tripToggle);
 
 		return toggleButtons;
 	}
@@ -348,7 +376,6 @@ public class Display extends JPanel {
 	 */
 	private void paintMap(Graphics g) {
 
-
 		if (trippy) {
 			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 24)));
 			g.setColor(trippingColor);
@@ -411,7 +438,11 @@ public class Display extends JPanel {
 				}
 			}
 		}
-
+		if (trippy) {
+			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 32)), true);
+			g.setColor(trippingColor);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		}
 	}
 
 	/**
@@ -477,6 +508,27 @@ public class Display extends JPanel {
 		for (String key : toggleButtons.keySet()) {
 			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
 		}
+		
+		g2d.setColor(Color.black);
+		g2d.fillRect(0, 0, 150 ,64*3+5*3+10+10);
+		g2d.setColor(new Color(212, 175, 55));
+		g2d.drawRoundRect(
+				0, 0, 150, 64*3+5*3+10+10, r, r);
+		
+		
+		for (int i = 0; i < 3; i++) {
+
+			g2d.drawImage(UIImageStorage.get("IconCrystal"), 10, 10, null);
+			g2d.drawImage(UIImageStorage.get("IconPlants"), 10, 10 + 64 + 5, null);
+			g2d.drawImage(UIImageStorage.get("IconWood"), 10, 10 + 64 + 64 + 5 + 5, null);
+
+			g2d.drawString(""+world.getCrystalResource(), 64 + 10 + 5, 20);
+			g2d.drawString(""+world.getPlantResource(), 64 + 10 + 5, 20 + 64 + 5);
+			g2d.drawString(""+world.getWoodResource(), 64 + 10 + 5, 20 + 64 + 5 +64 +5);
+			
+			
+		}
+
 	}
 
 	public void rotate() {
