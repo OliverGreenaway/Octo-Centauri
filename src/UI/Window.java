@@ -1,7 +1,6 @@
 package UI;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -13,16 +12,11 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.Stack;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import javax.swing.SwingUtilities;
 
 import networking.common.Network;
 
@@ -31,6 +25,7 @@ import logic.GameUpdate;
 import logic.Logic;
 import logic.UpdateThread;
 import sound.AudioPlayer;
+import sound.MixingDesk;
 import state.Direction;
 import state.Ramp;
 import state.Structure;
@@ -67,7 +62,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	public Network network;
 	public String fileMap = "resources/map";
 
-	private AudioPlayer audioPlayer;
+	private MixingDesk mixingDesk;
 
 	private Tile selectedTile1;
 	private Tile selectedTile2;
@@ -84,9 +79,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	 * @param fileMap
 	 */
 	public Window(long seed, Network network, String fileMap,
-			AudioPlayer audioPlayer) {// TODO //mapfile tpye?
+			MixingDesk mixingDesk) {// TODO //mapfile tpye?
 
-		this.audioPlayer = audioPlayer;
+		this.mixingDesk = mixingDesk;
 
 		this.seed = seed;
 		this.network = network;
@@ -157,12 +152,14 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 		// setup audio
 
-		if (audioPlayer != null) {
+		if (mixingDesk != null) {
+
 			System.out.println("stop");
-			audioPlayer.stopPlayer();
-			audioPlayer = new AudioPlayer("InGameMusic.wav", true);
-			world.setAudioPlayer(this.audioPlayer);
-			audioPlayer.start();
+
+			mixingDesk.stopAudio();
+			mixingDesk.addAudioPlayer("InGameMusic.wav", true);
+			world.setAudioPlayer(this.mixingDesk);
+		//	audioPlayer.start();
 		}
 
 	}
@@ -352,7 +349,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 							(int) point.getY(), t);
 				} else if (drawTransparent == true) {
 
-					// System.out.println("drawing working");//TODO
+//					 System.out.println("drawing working");//TODO
 
 					display.getWorld().tasks.add(new Task(display.getWorld()
 							.getTile((int) point.getX(), (int) point.getY()),
@@ -437,8 +434,12 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 		}
 		// plays audio
-		AudioPlayer blocks = new AudioPlayer("PlaceItem.wav", true);
-		blocks.start();
+		//System.out.println(mixingDesk);
+		if(mixingDesk!=null){
+			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+		}
+		//new AudioPlayer("PlaceItem.wav", true);
+
 
 	}
 

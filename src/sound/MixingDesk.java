@@ -6,13 +6,26 @@ public class MixingDesk {
 	private ArrayList<AudioPlayer> players = new ArrayList<AudioPlayer>();
 	private Boolean muted = false;
 
+
+	/**
+	 * this is the central source and controls for all the sound in the game
+	 *
+	 */
 	public MixingDesk(){
 
 	}
 
+
+
+	/**
+	 * Plays specified sound name 
+	 * @param sound
+	 * @param playOnce
+	 */
 	public void addAudioPlayer(String sound, Boolean playOnce){
 
 		if(muted){
+			// do nothing
 			//a.togglePaused();
 		}else{
 			AudioPlayer a = new AudioPlayer(sound, playOnce);

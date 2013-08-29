@@ -1,15 +1,14 @@
 package state;
 
-import java.io.FileReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
 import sound.AudioPlayer;
+import sound.MixingDesk;
 
 import logic.GameUpdate;
 
@@ -41,6 +40,7 @@ public class World {
 	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
+	MixingDesk mixingDesk;
 
 	/**
 	 * Returns a random tile name.
@@ -173,8 +173,13 @@ public class World {
 
 		allDudes.add(s);
 		// plays the sound
-		new AudioPlayer("NewDudeBorn.wav", true).start();
+
+		if(mixingDesk!=null){
+			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
+		}
+
 		gameUpdate.dudeAdded(s);
+
 		return true;
 	}
 
@@ -321,14 +326,6 @@ public class World {
 		this.woodResource = woodResource;
 	}
 
-
-
-
-
-
-
-
-
 	public boolean build(Tile t, String type, Dude dude) {
 		if(hasResources(type)){
 			if (dude.isAt(t.getX(), t.getY())) {
@@ -336,12 +333,10 @@ public class World {
 				if (t.getStructure() != null) {
 					removeStructure(t.getStructure());
 				}
-
 				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
 						"Assets/EnvironmentTiles/BarrenWall.png");
 				addStructure(s);
 				// set tile non trasnparent
-
 				// reassign dude to new task
 				return true;
 			}
@@ -349,6 +344,7 @@ public class World {
 
 		} else {
 			//otherwise reassign dude and repush task
+			System.out.println("not enough resources");//TODO
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}
@@ -376,6 +372,11 @@ public class World {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 
+
+	public void setAudioPlayer(MixingDesk mixingDesk) {
+		this.mixingDesk = mixingDesk;
+	}
+
 	public boolean isSlugBalancingEnabled() {
 		return slugBalancingEnabled;
 	}
@@ -386,10 +387,13 @@ public class World {
 
 	public void setAudioPlayer(AudioPlayer audioPlayer) {
 		this.audioPlayer = audioPlayer;
+
 	}
 
-	public AudioPlayer getAudioPlayer() {
-		return this.audioPlayer;
+	public MixingDesk getAudioPlayer() {
+
+		return this.mixingDesk;
+
 
 	}
 }
