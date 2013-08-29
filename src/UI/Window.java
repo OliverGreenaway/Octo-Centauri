@@ -24,12 +24,12 @@ import javax.swing.JPanel;
 
 import javax.swing.SwingUtilities;
 
-import menu.AudioPlayer;
 import networking.common.Network;
 
 import logic.FileReader;
 import logic.Logic;
 import logic.UpdateThread;
+import sound.AudioPlayer;
 import state.Direction;
 import state.Ramp;
 import state.Structure;
@@ -141,9 +141,15 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		update = new UpdateThread(world, display);
 		update.start();
 
-		UIImageStorage.add("HealthBarsToggle");
-		UIImageStorage.add("NewDudeToggle");
-		UIImageStorage.add("SlugBalancingToggle");
+		UIImageStorage.add("ButtonHealthOn");
+		UIImageStorage.add("ButtonMuteOn");
+		UIImageStorage.add("ButtonAddDude");
+		//UIImageStorage.add("ButtonResourceBalanceOn");
+
+		UIImageStorage.add("ButtonHealthOff");
+		UIImageStorage.add("ButtonMuteOff");
+		UIImageStorage.add("ButtonAddDudeHover");
+		//UIImageStorage.add("ButtonResourceBalanceOff");
 		// setup audio
 
 		if(audioPlayer!=null){
@@ -232,7 +238,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("TENTACLES OF THE CARRIBEAN AT TENTACLES END");
+		JFrame f = new JFrame("Minecraft Empires");
 		f.getContentPane().add(new Window());
 		// f.add(new Window());
 		f.setSize(1920, 1080);
@@ -354,6 +360,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					s.setFilter(rop);
 
 					display.getWorld().addStructure(s);
+
+
 				} else {
 					display.getWorld().addStructure(new Ramp(point.x, point.y, 1, 1, "PathRamp", Direction.values()[display.getRotation()]));
 					display.getWorld().getTile(point.x, point.y);
@@ -419,8 +427,12 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		} else {
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			Tile t = display.getWorld().getTile(point.x, point.y);
-			t.setHeight(t.getHeight() + e.getWheelRotation());
+			t.setHeight(t.getHeight() - e.getWheelRotation());
 		}
+		// plays audio
+		AudioPlayer blocks = new AudioPlayer("PlaceItem.wav", true);
+		blocks.start();
+
 	}
 
 	@Override

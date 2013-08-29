@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import sound.AudioPlayer;
+
 public class MainMenuPanel extends AbstractMenuPanel {
 
 	AudioPlayer audioPlayer;
@@ -14,13 +16,14 @@ public class MainMenuPanel extends AbstractMenuPanel {
 
 	public MainMenuPanel(final MainFrame frame) {
 
-		this.audioPlayer = frame.audioPlayer;
+		this.audioPlayer = frame.musicPlayer;
 
 
 		ActionListener listener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				frame.playButtonSound();
 				frame.addMenu(new SinglePlayerMenuPanel(frame));
 			}
 		};
@@ -29,7 +32,7 @@ public class MainMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new MultiplayerMenuPanel(frame));
+				frame.addMenu(new SinglePlayerMenuPanel(frame)) ;
 			}
 		};
 		addButton(frame, listener, "MultiPlayerButton");
