@@ -410,6 +410,8 @@ public class Display extends JPanel {
 		}
 
 
+		//Color miniMap = new Color[][]
+		
 		for (int x = 0; x < VIEW_WIDTH; x++) {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {
 				Tile t = getCameraRelativeTile(x, y);
