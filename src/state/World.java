@@ -258,12 +258,13 @@ public class World {
 			// should be 50/50 spawning of each
 			System.out.println("Random " + rand);
 			if(rand > 0 && rand <= 50){
-				System.out.println("you spawned an octodude");
+			//	System.out.println("you spawned an octodude");
 				addDude(new Octodude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 			}
 			else if (rand > 50 && rand <= 100){
-				System.out.println("slugg");
-				addDude(new Slugdude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+				//System.out.println("slugg");
+				//addDude(new Slugdude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+				addDude(new Slugdude(this, 5,5 , 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 			}
 			counter = 0;
 		} else {

@@ -31,6 +31,7 @@ public class Slugdude extends Dude implements Serializable{
 	@Override
 	protected void loadImage(String image) {
 		img = new Image[4];
+		System.out.println("load slug");
 		img[RIGHT] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugFrontRight").getImage();
 		img[DOWN] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugFrontLeft.png").getImage();
 		img[UP] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugBackRight.png").getImage();
