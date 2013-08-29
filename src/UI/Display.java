@@ -265,8 +265,7 @@ public class Display extends JPanel {
 					if (resourceSelect != null) {
 						for (String key : resourceSelect.keySet()) {
 							if (resourceSelect.get(key).contains(p)) {
-								System.out.println(key);
-								return;
+								world.setCurrentBuild(key);
 							}
 						}
 					}
@@ -278,9 +277,7 @@ public class Display extends JPanel {
 		toggleButtons.put("ButtonMute", slugBalancingToggle);
 		toggleButtons.put("ButtonHealth", toggleHealth);
 		toggleButtons.put("ButtonBG", tripToggle);
-		
-		
-		
+
 		toggleButtons.put("selectTile", resourceSelectRect);
 
 		return toggleButtons;
@@ -591,9 +588,9 @@ public class Display extends JPanel {
 
 		g2d.setColor(Color.black);
 		g2d.setStroke(new BasicStroke(3));
-		g2d.fillRect(padding, padding, 150, 64 * 3 + 5 * 3 + 10 + 10);
+		g2d.fillRect(padding, padding, TILE_WIDTH * 2 + tpad * 3, 64 * 3 + 5 * 3 + 10 + 10);
 		g2d.setColor(new Color(212, 175, 55));
-		g2d.drawRoundRect(padding, padding, 150, 64 * 3 + 5 * 3 + 10 + 10, r, r);
+		g2d.drawRoundRect(padding, padding, TILE_WIDTH * 2 + tpad * 3, 64 * 3 + 5 * 3 + 10 + 10, r, r);
 
 		for (int i = 0; i < 3; i++) {
 
@@ -638,9 +635,6 @@ public class Display extends JPanel {
 			g2d.drawImage(image, rect.x, rect.y, null);
 
 			resourceSelect.put(key, rect);
-			
-			//g2d.setColor(Color.black);
-			//g2d.fill(rect);
 			
 			x++;
 			y += x / 2;

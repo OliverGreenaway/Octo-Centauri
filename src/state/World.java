@@ -262,7 +262,7 @@ public class World {
 				addDude(new Octodude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 			}
 			else if (rand > 50 && rand <= 100){
-				//System.out.println("slugg");
+				// System.out.println("slugg");
 				//addDude(new Slugdude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 				addDude(new Slugdude(this, 5,5 , 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 			}
@@ -380,7 +380,6 @@ public class World {
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}
-
 	}
 
 	public boolean hasResources(String type) {
@@ -390,10 +389,9 @@ public class World {
 			return true;
 		if(type.equals("DarkSand"))
 			return true;
-		if(type.equals("grass"))
+		if(type.equals("Grass"))
 			return true;
 		else {return false;}
-
 	}
 
 	public boolean isDudeSpawningEnabled() {

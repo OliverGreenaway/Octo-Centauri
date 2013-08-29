@@ -159,7 +159,6 @@ public class Dude implements Serializable {
 						images[i][j].getSource(), filter));
 			}
 		}
-
 	}
 
 	/**
