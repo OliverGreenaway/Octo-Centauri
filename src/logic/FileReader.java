@@ -129,11 +129,11 @@ public class FileReader {
 						int strucY = Integer.parseInt(lineScanner.next());
 						Structure temp;
 						if(fileName.equals("DarkTree"))
-							temp = new Tree(strucX, strucY, 1, 1);
+							temp = new Tree(strucX, strucY);
 						else if(fileName.equals("Resources"))
 							temp = new Crystal(strucX, strucY);
 						else if(fileName.equals("Plant"))
-							temp = new Plant(strucX, strucY, 1, 1);
+							temp = new Plant(strucX, strucY);
 						else if(fileName.equals("Crate"))
 							temp = new Crate(strucX, strucY);
 						else if(fileName.equals("Spawner"))

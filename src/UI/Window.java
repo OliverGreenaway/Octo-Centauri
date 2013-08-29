@@ -350,6 +350,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 					display.getWorld().getTile(point.x, point.y).setImage("Grass");
 
+				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
+
+
 				} else if (drawTransparent == true) {
 
 					display.getWorld().tasks.add(new Task(display.getWorld()
