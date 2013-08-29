@@ -58,7 +58,7 @@ public class Dude implements Serializable {
 	protected int width, height; // ???
 	protected int facing = DOWN; // Facing constant
 	protected int oldX, oldY;
-	private Image[][] images = new Image[4][4]; // A single image stored per
+	private transient Image[][] images = new Image[4][4]; // A single image stored per
 												// facing
 
 	/**
@@ -307,7 +307,7 @@ public class Dude implements Serializable {
 
 		//new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
-		if(victim.currentHealth < 0) {
+		if(victim.currentHealth <= 0) {
 			//dude killed needs his task readded to queue
 			if(victim.hasTask()){
 				world.tasks.add(task);
