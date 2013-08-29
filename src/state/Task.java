@@ -5,16 +5,13 @@ package state;
  *
  */
 public class Task {
-	//build tiles
-	//build items
-	//if empty haul
 	private Tile tile;
 	private String task;
 	private String type;
 
 	public Task(Tile t, String taskType, String blockType){
 		this.tile = t;
-		this.task = task;
+		this.task = taskType;
 		this.type = blockType;
 	}
 

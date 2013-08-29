@@ -1,5 +1,7 @@
 package state;
 
+import sound.AudioPlayer;
+
 public abstract class Resource extends Structure {
 
 	private static final long serialVersionUID = -9044185320248377571L;
@@ -20,6 +22,7 @@ public abstract class Resource extends Structure {
 
 	public int harvest() {
 		if(amount <= 10){
+
 			getWorld().removeStructure(this);
 		}
 		amount =- 10;

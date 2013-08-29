@@ -200,7 +200,9 @@ public class Logic {
 					target = n.get(temp);
 				}
 
+
 			}
+
 		}
 
 		while (!fringe.isEmpty()) {

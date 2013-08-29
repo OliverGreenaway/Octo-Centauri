@@ -1,16 +1,23 @@
 package menu;
 
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Stack;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import sound.AudioPlayer;
+import sound.MixingDesk;
+
 /**
  * The root frame of the game. Presents all the menus, and can show the game.
+
  *
  * @author muruphenr , antunomate , richarhayd
  *
@@ -18,12 +25,13 @@ import javax.swing.JPanel;
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
 
-	AudioPlayer audioPlayer; // This is a thread that plays audio
+	//AudioPlayer musicPlayer; // This is a thread that plays audio
+	MixingDesk mixingDesk = new MixingDesk();
 
 	public MainFrame() {
+
 		// create and start audio thread
-		audioPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
-		audioPlayer.start();
+		setupAudio();
 
 		// start other stuff
 		frameStack = new Stack<JPanel>();
@@ -31,6 +39,7 @@ public class MainFrame extends JFrame {
 		this.add(frameStack.peek());
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = ge.getScreenDevices();
 		for (int i = 0; i < 1; i++) {
@@ -42,6 +51,7 @@ public class MainFrame extends JFrame {
 				//this.setVisible(true);
 			}
 		}
+
 
 		this.addWindowListener(new WindowListener() {
 
@@ -92,6 +102,9 @@ public class MainFrame extends JFrame {
 		});
 	}
 
+
+
+
 	public static void main(String args[]) {
 		MainFrame f = new MainFrame();
 
@@ -125,10 +138,32 @@ public class MainFrame extends JFrame {
 		this.repaint();
 	}
 
+
+
+	/**
+	 * Stops the audio in the game
+	 */
 	public void stopAudio(){
-		if(audioPlayer!=null){
-			audioPlayer.stopPlayer();
+		if(mixingDesk!=null){
+			mixingDesk.stopAudio();
 		}
 	}
 
+
+	/**
+	 *
+	 */
+	public void playButtonSound(){
+
+	}
+
+
+	/**
+	 * initializes the Audio for the game
+	 */
+	private void setupAudio(){
+		mixingDesk = new MixingDesk();
+		mixingDesk.addAudioPlayer("MenuMusic.wav", false);
+
+	}
 }

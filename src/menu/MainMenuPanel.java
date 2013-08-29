@@ -7,20 +7,24 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import sound.AudioPlayer;
+import sound.MixingDesk;
+
 public class MainMenuPanel extends AbstractMenuPanel {
 
-	AudioPlayer audioPlayer;
+	MixingDesk mixingDesk;
 
 
 	public MainMenuPanel(final MainFrame frame) {
 
-		this.audioPlayer = frame.audioPlayer;
+		this.mixingDesk = frame.mixingDesk;
 
 
 		ActionListener listener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				frame.playButtonSound();
 				frame.addMenu(new SinglePlayerMenuPanel(frame));
 			}
 		};
@@ -29,7 +33,7 @@ public class MainMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new MultiplayerMenuPanel(frame));
+				frame.addMenu(new MultiplayerMenuPanel(frame)) ;
 			}
 		};
 		addButton(frame, listener, "MultiPlayerButton");
@@ -37,8 +41,8 @@ public class MainMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(audioPlayer!=null){
-					audioPlayer.stopPlayer();
+				if(mixingDesk!=null){
+					mixingDesk.stopAudio();
 				}
 				frame.dispose();
 			}

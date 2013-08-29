@@ -32,6 +32,7 @@ public class MultiplayerMenuPanel extends AbstractMenuPanel {
 		/*
 		 * join a game
 		 */
+
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -43,6 +44,7 @@ public class MultiplayerMenuPanel extends AbstractMenuPanel {
 		/*
 		 * back
 		 */
+
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

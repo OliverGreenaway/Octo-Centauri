@@ -1,13 +1,15 @@
 package state;
 
-import java.io.FileReader;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+
+import sound.AudioPlayer;
+import sound.MixingDesk;
 
 import logic.GameUpdate;
 import logic.Logic;
@@ -38,6 +40,11 @@ public class World {
 	private Set<Resource> resources;
 
 	private Logic logic;
+	private boolean dudeSpawningEnabled = true;
+	private boolean slugBalancingEnabled = true;
+	private AudioPlayer audioPlayer;
+
+	MixingDesk mixingDesk;
 
 	/**
 	 * Returns a random tile name.
@@ -57,40 +64,26 @@ public class World {
 	}
 
 	/**
-	 * Creates a 100x100 world with random tiles.
-	 */
-	public World() {
-		worldTile = new Tile[100][100];
-		for (int x = 0; x < 100; x++)
-			for (int y = 0; y < 100; y++) {
-				if (random.nextInt(2) == 1)
-					worldTile[x][y] = new Tile(generateRandomTile(), 0, x, y);
-				else
-					worldTile[x][y] = new Tile(generateRandomTile(), 1, x, y);
-			}
-
-		for (int x = 3; x < 100; x += 1) {
-			for (int y = 3; y < 100; y += 1) {
-				if (random.nextInt(20) == 1)
-					addStructure(new Structure(x, y, 3, 3,
-							"Assets/EnvironmentObjects/DarkTree.png"));
-			}
-		}
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
-		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
-	}
-
-	/**
 	 * Creates a world from a tile array.
 	 */
-	public World(Tile[][] tiles) {
+	public World(Tile[][] tiles, GameUpdate initialUpdate) {
+		gameUpdate = initialUpdate;
 		worldTile = tiles;
 		resources = new HashSet<Resource>();
 		logic = new Logic(this);
+		start();
+	}
+
+	/**
+	 * If we put this stuff in the constructor the game will break so put it here and it's called from inside
+	 * UpdateThread
+	 */
+	private void start(){
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
-
+		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 	}
+
 
 	/**
 	 * Adds a structure to the world and returns true. If the structure can't be
@@ -120,7 +113,7 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				worldTile[x - X][y - Y].setStructure(s, false);
-
+		gameUpdate.structureAdded(s); //Send change to the network class
 		return true;
 	}
 
@@ -142,6 +135,22 @@ public class World {
 		if (s instanceof Resource)
 			resources.remove(s);
 		structures.remove(s);
+		gameUpdate.structureRemoved(s); //Let the network know about the change
+	}
+
+	public void removeDude(Dude s) {
+		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
+		int ox = s.getOldX(), oy = s.getOldY();
+
+		for(int X = 0; X < w; X++)
+			for(int Y = 0; Y < h; Y++) {
+				worldTile[x-X][y-Y].setDude(null);
+				if(worldTile[ox-X][oy-Y].getDude() == s)
+					worldTile[ox-X][oy-Y].setDude(null);
+			}
+
+		allDudes.remove(s);
+		gameUpdate.dudeRemoved(s); //Let the network know about the change
 	}
 
 	/**
@@ -167,6 +176,13 @@ public class World {
 				worldTile[x - X][y - Y].setDude(s);
 
 		allDudes.add(s);
+		// plays the sound
+
+		if(mixingDesk!=null){
+			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
+		}
+
+		gameUpdate.dudeAdded(s);
 
 		return true;
 	}
@@ -204,14 +220,25 @@ public class World {
 		return worldTile[0].length;
 	}
 
+	//Update counter for below.
+	int counter;
 	/**
 	 * Updates everything in the world.
 	 */
 	public void update() {
-		for (Dude d : allDudes)
+		for (Dude d : new ArrayList<Dude>(allDudes))
 			d.update();
-		for (Structure s : structures)
+		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
+		if(counter == 60 && dudeSpawningEnabled){
+			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			counter = 0;
+		} else if(!dudeSpawningEnabled && counter == 150){
+			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			counter = 0;
+		} else {
+			counter++;
+		}
 	}
 
 	public void setGameUpdate(GameUpdate g) {
@@ -227,38 +254,37 @@ public class World {
 		return allDudes;
 	}
 
-	/**
-	 * Finds the nearest resource structure of the given type. resType is the
-	 * type to look for, or null if any type is ok.
-	 */
-	public Resource getNearestResource(Tile tile, ResourceType resType) {
+
+
+	public Resource getNearestResource(Tile tile, Dude dude) {
+
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
 
-		for (Resource r : resources) {
 
-			if (resType != null && r.getResType() != resType)
+		for(Resource r : resources) {
+			if(!dude.canMine(r))
 				continue;
-			if (r.getResType() == null)
+			Tile restile = getTile(r.getX(), r.getY());
+			if(restile.getDude() != null && restile.getDude() != dude)
 				continue;
 			int squaredDistance = (r.getX() - x) * (r.getX() - x)
 					+ (r.getY() - y) * (r.getY() - y);
 
 			if (squaredDistance < bestSquaredDistance) {
-				// Stack<Tile> q = logic.findRoute(tile,getTile(r.getX(),
-				// r.getY()), tile.getDude());
-				// if (!q.isEmpty()) {
 				bestSquaredDistance = squaredDistance;
 				bestResource = r;
-				// }
 			}
 		}
 		return bestResource;
 	}
 
-	public Structure getNearestStructure(Class<?> class1, Tile tile) {
+
+
+
+	public Structure getNearestStructure(Class<?> class1, Tile tile, Dude dude) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
@@ -267,26 +293,15 @@ public class World {
 		for (Structure r : structures) {
 			if (!class1.isInstance(r))
 				continue;
-			int squaredDistance = (r.getX() - x) * (r.getX() - x)
-					+ (r.getY() - y) * (r.getY() - y);
-
-			if (squaredDistance < bestSquaredDistance) {
-				// Stack<Tile> q = logic.findRoute(tile,getTile(r.getX(),
-				// r.getY()), tile.getDude());
-				// if (!q.isEmpty()) {
+			Tile td = getTile(r.getX(), r.getY());
+			if(td.getDude() != null && td.getDude() != dude)
+				continue;
+			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
+			if(squaredDistance < bestSquaredDistance) {
 				bestSquaredDistance = squaredDistance;
 				bestStructure = r;
-				// }
 			}
-//			if (squaredDistance < bestSquaredDistance) {
-//				Stack<Tile> q = logic.findRoute(tile,
-//						getTile(r.getX(), r.getY()), tile.getDude());
-//				if(q.isEmpty()) return null;
-//				if (!q.isEmpty()) {
-//					bestSquaredDistance = squaredDistance;
-//					bestStructure = r;
-//				}
-//			}
+
 		}
 		return bestStructure;
 	}
@@ -315,8 +330,74 @@ public class World {
 		this.woodResource = woodResource;
 	}
 
-	public void build(Tile t, String type) {
-		// TODO Auto-generated method stub
+
+	public boolean build(Tile t, String type, Dude dude) {
+		if(hasResources(type)){
+			if (dude.isAt(t.getX(), t.getY())) {
+				// finish building tile
+				if (t.getStructure() != null) {
+					removeStructure(t.getStructure());
+				}
+				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
+						"Assets/EnvironmentTiles/BarrenWall.png");
+				addStructure(s);
+				// set tile non trasnparent
+				// reassign dude to new task
+				return true;
+			}
+			return false;
+
+		} else {
+			//otherwise reassign dude and repush task
+			System.out.println("not enough resources");//TODO
+			tasks.add(new Task(t, "build", type));
+			return true;
+		}
+
+	}
+
+	private boolean hasResources(String type) {
+		if (type.equals("BarrenWall")) {
+			return true;
+			// if(crystalResource > 10){
+			// crystalResource = crystalResource - 10;
+			// return true;
+			// }
+		}
+		return false;
+
+
+	}
+
+	public boolean isDudeSpawningEnabled() {
+		return dudeSpawningEnabled ;
+	}
+
+	public void toggleDudeSpawning() {
+		dudeSpawningEnabled = !dudeSpawningEnabled;
+	}
+
+
+	public void setAudioPlayer(MixingDesk mixingDesk) {
+		this.mixingDesk = mixingDesk;
+	}
+
+	public boolean isSlugBalancingEnabled() {
+		return slugBalancingEnabled;
+	}
+
+	public void toggleSlugBalancing(){
+		slugBalancingEnabled = !slugBalancingEnabled;
+	}
+
+	public void setAudioPlayer(AudioPlayer audioPlayer) {
+		this.audioPlayer = audioPlayer;
+
+	}
+
+	public MixingDesk getAudioPlayer() {
+
+		return this.mixingDesk;
 
 	}
 
