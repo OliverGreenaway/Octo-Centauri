@@ -1,7 +1,6 @@
 package UI;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -13,16 +12,11 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.RescaleOp;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.Stack;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import javax.swing.SwingUtilities;
 
 import networking.common.Network;
 
@@ -355,7 +349,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 							(int) point.getY(), t);
 				} else if (drawTransparent == true) {
 
-					// System.out.println("drawing working");//TODO
+//					 System.out.println("drawing working");//TODO
 
 					display.getWorld().tasks.add(new Task(display.getWorld()
 							.getTile((int) point.getX(), (int) point.getY()),
