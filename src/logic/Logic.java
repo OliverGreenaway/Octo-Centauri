@@ -2,14 +2,12 @@ package logic;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
+import java.util.Random;
 import java.util.Stack;
-import java.util.TreeSet;
 
 import state.Dude;
 import state.Tile;
@@ -108,16 +106,24 @@ public class Logic {
 	 *            - the goal point of the path
 	 */
 
-	public Stack<Tile> findRoute(Tile start, Tile target, Dude dude) { // TODO Needs to be
-															// extended to
-															// account for
-															// obstacles
+	public Stack<Tile> findRoute(Tile start, Tile target, Dude dude) { // TODO
+																		// Needs
+																		// to be
+		// extended to
+		// account for
+		// obstacles
 		Stack<Tile> route = new Stack<Tile>();
 		HashSet<Tile> visited = new HashSet<Tile>();
 		PriorityQueue<SearchNode> fringe = new PriorityQueue<SearchNode>();
 
 		// Enqueue root
 		fringe.offer(new SearchNode(start, target, 0, null));
+
+		if (target.getDude() != null && target.getDude() != dude) {
+
+			List<Tile> n = getNeighbours(target, dude);
+			target = n.get(new Random().nextInt(n.size()-1));
+		}
 
 		while (!fringe.isEmpty()) {
 			SearchNode sNode = fringe.poll();
@@ -134,8 +140,7 @@ public class Logic {
 					}
 					return route;
 				}
-
-				List<Tile> neighbours = getNeighbours(tile,dude);
+				List<Tile> neighbours = getNeighbours(tile, dude);
 				for (Tile neighbour : neighbours) {
 					if (neighbour != null && !visited.contains(neighbour)) {
 						fringe.offer(new SearchNode(neighbour, target,
@@ -144,7 +149,7 @@ public class Logic {
 				}
 			}
 		}
-		return route;
+		return new Stack<Tile>();
 
 	}
 
