@@ -358,13 +358,14 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 //					 System.out.println("drawing working");//TODO
 					String currentBuild = display.getWorld().getCurrentBuild();
-
+					if (display.getWorld().hasResources(currentBuild)){
 					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 												"build",currentBuild));// TODO
 
 					Structure s = new Structure((int) point.getX(),
 							(int) point.getY(), 1, 1,
 							"Assets/EnvironmentTiles/"+currentBuild+".png");
+
 					/*
 					 * Copied from Java tutorial. Create a rescale filter op
 					 * that makes the image 50% opaque.
@@ -414,9 +415,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 				}
 				display.getWorld().getLogic().mapChanged(t.getX(), t.getY());
 			}
-		}
+			}
 		this.repaint();
-
+		}
 	}
 
 	/*
