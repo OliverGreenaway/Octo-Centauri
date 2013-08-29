@@ -182,6 +182,7 @@ public class Display extends JPanel {
 
 				@Override
 				public void mouseExited(MouseEvent e) {
+					
 				}
 
 				@Override
@@ -194,14 +195,16 @@ public class Display extends JPanel {
 							"ButtonMuteOff")) {
 						// Mute here
 						if (world.getAudioPlayer() != null) {
-							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMute();
+							world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
 
 						if (world.getAudioPlayer() != null) {
-							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMute();
+						  world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}

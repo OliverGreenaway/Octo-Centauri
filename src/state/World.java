@@ -88,6 +88,7 @@ public class World {
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		addDude(new Slugdude(this, 10, 10, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 	}
 
 	/**
@@ -192,7 +193,8 @@ public class World {
 			}
 
 			gameUpdate.dudeAdded(s);
-
+			if(s instanceof Slugdude)
+				System.out.println("SLUG DUDE OMG!");
 			return true;
 		}
 		return false;
@@ -252,12 +254,20 @@ public class World {
 				addDude(new Slugdude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 			counter = 0;
 		} else if(!dudeSpawningEnabled && counter == 150){
-			int rand = (int) Math.random()*100 + 1;
-			if(rand > 0 && rand <= 50)
-				addDude(new Octodude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-			else if (rand > 50 && rand <= 100)
-				addDude(new Slugdude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 
+
+			double rand = Math.random()*100;
+			// should be 50/50 spawning of each
+			System.out.println("Random " + rand);
+			if(rand > 0 && rand <= 50){
+			//	System.out.println("you spawned an octodude");
+				addDude(new Octodude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			}
+			else if (rand > 50 && rand <= 100){
+				System.out.println("slugg");
+				//addDude(new Slugdude(this, /*((int)(Math.random() * getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) + 1)*/2, 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+				addDude(new Slugdude(this, 5,5 , 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+			}
 			counter = 0;
 		} else {
 			counter++;
@@ -361,7 +371,7 @@ public class World {
 					removeStructure(t.getStructure());
 				}
 
-				t.setImage(currentBuild);
+				t.setImage(dude.getTask().getType());
 				t.setHeight(t.getHeight() + 1);
 
 				// set tile non transparent
