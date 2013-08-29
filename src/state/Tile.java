@@ -34,11 +34,9 @@ public class Tile implements Serializable {
 	//		   some kind of ramping theory needs to exist to make this less arbitrary
 
 	private int height;
-	private transient Image leftSideImg, rightSideImg;
 	private Structure structure;
 	private Dude dude;
 	private String imgName; // Used to save the image for de-serializing later
-	private Color storedColor;
 
 	// cache of all images loaded so far
 	private static TileImageStorage imagesCache = new TileImageStorage();
@@ -62,10 +60,6 @@ public class Tile implements Serializable {
 			File tileFile = new File("Assets/EnvironmentTiles/" + type + ".png");
 			assert (tileFile.exists());
 			imagesCache.add(type);
-			leftSideImg = new ImageIcon(
-					"Assets/EnvironmentTiles/WestFacingDirt.png").getImage();
-			rightSideImg = new ImageIcon(
-					"Assets/EnvironmentTiles/EastFacingDirt.png").getImage();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Image Not Found x01", "Warning",
 					JOptionPane.WARNING_MESSAGE);
@@ -150,7 +144,8 @@ public class Tile implements Serializable {
 
 
 	public Color getColor() {
-		BufferedImage img = getImage();
+		return imagesCache.getColor(imgName);
+		/*BufferedImage img = getImage();
 		if (img != null) {
 			if (storedColor != null) {
 				return storedColor;
@@ -176,7 +171,7 @@ public class Tile implements Serializable {
 			return storedColor;
 		} else {
 			return Color.BLACK;
-		}
+		}*/
 	}
 
 

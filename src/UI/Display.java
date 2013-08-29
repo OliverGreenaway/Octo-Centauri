@@ -1,13 +1,31 @@
 package UI;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Stroke;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import state.Dude;
 import state.Tile;
 import state.World;
+import util.UIImageStorage;
 
 public class Display extends JPanel {
 
@@ -20,6 +38,22 @@ public class Display extends JPanel {
 	private final int SCREEN_BUFFER_ZONE = 20; // Arbitrary screen edge buffer
 
 	private World world;
+
+	private boolean tileHighLighted = false;
+
+	// <UI
+	int miniMapWidth = 280;
+	int miniMapHeight = 280;
+	int padding = 10;
+
+	int toggleSize = 74;
+	int toggleImageSize = 64;
+	int tpad = (75 - 64) / 2;
+
+	Map<String, Rectangle> toggleButtons = null;
+	Map<String, MouseListener> toggleButtonsListener = null;
+	HashSet<Rectangle> UISpace = null;
+	// UI/>
 
 	// pixel size of each tile
 	private final int TILE_WIDTH = 64, TILE_HEIGHT = 32;
@@ -34,6 +68,91 @@ public class Display extends JPanel {
 		super();
 		setPreferredSize(DIMENSION); // Necessary?
 		this.world = world;
+	}
+
+	public Set<java.awt.Rectangle> getUISpace() {
+		if (UISpace == null) {
+			UISpace = new HashSet<Rectangle>();
+			UISpace.add(new Rectangle(this.getWidth() - padding - miniMapWidth
+					- toggleSize, padding, miniMapWidth + toggleSize,
+					miniMapHeight));
+		}
+		return UISpace;
+	}
+
+	public Map<String, Rectangle> getToggleMap() {
+		if (toggleButtons == null) {
+			toggleButtons = new HashMap<String, Rectangle>();
+			toggleButtonsListener = new HashMap<String, MouseListener>();
+
+			Rectangle toggleHealth = new Rectangle(this.getWidth()
+					- miniMapWidth - toggleSize - padding + tpad, padding
+					+ tpad, toggleSize, toggleSize);
+			Rectangle newDudeToggle = new Rectangle(toggleHealth.x,
+					toggleHealth.y + toggleSize - tpad, toggleSize, toggleSize);
+			Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
+					newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
+
+			MouseListener listener = new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					world.toggleShowHealth();
+				}
+			};
+
+			toggleButtons.put("HealthBarsToggle", toggleHealth);
+			toggleButtonsListener.put("HealthBarsToggle", listener);
+
+			listener = new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("NewDudeToggle");
+				}
+			};
+
+			toggleButtons.put("NewDudeToggle", newDudeToggle);
+			toggleButtonsListener.put("NewDudeToggle", listener);
+
+			listener = new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				@Override
+				public void mousePressed(MouseEvent e) {}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println("SlugBalancingToggle");
+				}
+			};
+
+			toggleButtons.put("SlugBalancingToggle", slugBalancingToggle);
+			toggleButtonsListener.put("SlugBalancingToggle", listener);
+		}
+		return toggleButtons;
+	}
+
+	public MouseListener buttonClicked(String key) {
+		return toggleButtonsListener.get(key);
 	}
 
 	private static final long serialVersionUID = 8274011568777903027L;
@@ -53,34 +172,18 @@ public class Display extends JPanel {
 	}
 
 	public void panLeft(int idx) {
-		if (camera.x - idx + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
-			return;
-		}
 		camera = new Coord(camera.x - idx, camera.y + idx);
 	}
 
 	public void panRight(int idx) {
-		if (camera.x + idx + SCREEN_BUFFER_ZONE >= world.getXSize()) {// Catch
-																		// if
-																		// out
-																		// of
-																		// bounds
-			return;
-		}
 		camera = new Coord(camera.x + idx, camera.y - idx);
 	}
 
 	public void panDown(int idy) {
-		if (camera.y + idy + SCREEN_BUFFER_ZONE >= world.getYSize()) {//map.length) Catch if out of bounds
-			return;
-		}
 		camera = new Coord(camera.x + idy, camera.y + idy);
 	}
 
 	public void panUp(int idy) {
-		if (camera.y - idy + SCREEN_BUFFER_ZONE < 0) {// Catch if out of bounds
-			return;
-		}
 		camera = new Coord(camera.x - idy, camera.y - idy);
 	}
 
@@ -242,7 +345,8 @@ public class Display extends JPanel {
 								- (TILE_WIDTH / 2), getPixelY(i, j)
 								- TILE_HEIGHT, TILE_WIDTH, t.getImage()
 								.getHeight(null), null);
-						if (t.getX() == hoverX && t.getY() == hoverY)
+						if (tileHighLighted && t.getX() == hoverX
+								&& t.getY() == hoverY)
 							g.drawImage(hoverImage, getPixelX(i, j)
 									- (TILE_WIDTH / 2), getPixelY(i, j)
 									- TILE_HEIGHT, TILE_WIDTH, 32, null);
@@ -257,13 +361,15 @@ public class Display extends JPanel {
 													// in the tile --> DRAW
 													// HE/SHE/IT!
 
-						t.getStructure().draw(g, bottomPixelX, bottomPixelY);
+						t.getStructure().draw(g, this, bottomPixelX, bottomPixelY);
 
 					}
 
-					if (t.getDude() != null) { // If there is a dude in the tile
-												// --> DRAW THEM!
-						t.getDude().draw(g, this, bottomPixelX, bottomPixelY);
+					Dude dude = t.getDude();
+					if (dude != null) { // If there is a dude in the tile
+									// --> DRAW THEM!
+						dude.draw(g, this, bottomPixelX, bottomPixelY, world.showHealth());
+
 					}
 				}
 			}
@@ -279,42 +385,61 @@ public class Display extends JPanel {
 	 */
 	private void drawHUD(Graphics g) {
 		// draw the Minimap
+
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.WHITE);
-		g2d.fillRect(this.getWidth() - 275, 0, 275, 280);
+		g2d.fillRect(this.getWidth() - miniMapWidth - padding, padding,
+				miniMapWidth, miniMapHeight);
 
 		for (int x = 0; x < VIEW_WIDTH * 2; x++) {
 			for (int y = 0; y < VIEW_HEIGHT * 2; y++) {
 				Tile t = world.getTile(x + camera.x / 2, y + camera.y / 2);
 				if (t != null) {
 					g2d.setColor(t.getColor());
-					g2d.fillRect(this.getWidth() - 275 + x * 2, y * 2, 2, 2);
-				}
-				for (Dude d : world.getDudes()) {
-					if (d.getX() == x + camera.x / 2
-							&& d.getY() == y + camera.y / 2) {
-						g2d.setColor(Color.YELLOW);
-						g2d.fillRect(this.getWidth() - 275 + x * 2, y * 2, 2, 2);
+					g2d.fillRect(this.getWidth() - miniMapWidth - padding + x
+							* 2, padding + y * 2, 2, 2);
+					Dude dude = t.getDude();
+					if (dude != null) {
+						g2d.setColor(Color.yellow);
+						g2d.fillRect(this.getWidth() - miniMapWidth - padding
+								+ x * 2, padding + y * 2, 2, 2);
 					}
 				}
+
 			}
+
 		}
 
 		// draw the button panel
 		g2d.setColor(Color.black);
-		g2d.fillRect(this.getWidth() - 340, 0, 65, 280);
-		/*int buttonx = this.getWidth() - 235;
-		g2d.setColor(Color.red);
-		g2d.fillRect(buttonx, 5, 55, 55);*///TODO upto here
-		// draw the object selecter
+		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
+				padding, toggleSize, miniMapHeight);
 
-		//border minimap and buttons
+		/*
+		 * int buttonx = this.getWidth() - 235; g2d.setColor(Color.red);
+		 * g2d.fillRect(buttonx, 5, 55, 55);
+		 */// TODO upto here
+			// draw the object selecter
+
+		// border minimap and buttons
 		g2d.setColor(new Color(212, 175, 55));
 		Stroke orig = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(3));
-		g2d.drawRoundRect(this.getWidth() - 340, 0, 340, 280, 10, 10);
-		g2d.drawLine(this.getWidth() - 275, 0, this.getWidth() - 275, 280);
+		int r = 5;
+		g2d.drawRoundRect(
+				this.getWidth() - miniMapWidth - toggleSize - padding, padding,
+				miniMapWidth + toggleSize, miniMapHeight, r, r);
+		g2d.drawLine(this.getWidth() - miniMapWidth - padding, padding,
+				this.getWidth() - miniMapWidth - padding, miniMapHeight
+						+ padding);
 		g2d.setStroke(orig);
+
+		if (toggleButtons == null)
+			getToggleMap();
+		for (String key : toggleButtons.keySet()) {
+			Rectangle rect = toggleButtons.get(key);
+			g2d.drawImage(UIImageStorage.get(key), rect.x, rect.y, null);
+		}
 	}
 
 	public void rotate() {
@@ -336,5 +461,10 @@ public class Display extends JPanel {
 	public void setHighlightedTile(int x, int y) {
 		hoverX = x;
 		hoverY = y;
+		tileHighLighted = true;
+	}
+
+	public void unHighlightTile() {
+		tileHighLighted = false;
 	}
 }

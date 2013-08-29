@@ -26,7 +26,9 @@ public class SinglePlayerMenuPanel extends AbstractMenuPanel {
 		ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new Window(System.currentTimeMillis(), null, null, frame.musicThread));
+				frame.stopAudio();
+				frame.playButtonSound();
+				frame.addMenu(new Window(System.currentTimeMillis(), null, null, frame.musicPlayer));
 			}
 		};
 
@@ -38,6 +40,7 @@ public class SinglePlayerMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				frame.playButtonSound();
 				frame.addMenu(new LoadGameMenuPanel(frame));
 			}
 		};
@@ -50,6 +53,7 @@ public class SinglePlayerMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				frame.playButtonSound();
 				frame.back();
 			}
 		};

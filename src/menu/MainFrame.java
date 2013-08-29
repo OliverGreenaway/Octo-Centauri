@@ -21,19 +21,16 @@ import javax.swing.JPanel;
  */
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
-	public final Thread musicThread = new Thread(
-            new Runnable() {
-                public void run() {
-                    try {
-                    	new AudioPlayer("timer1.wav");//TODO to be replaced with menuMusic.wav when it's written
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+
+	AudioPlayer musicPlayer; // This is a thread that plays audio
+	AudioPlayer buttonSound;
 
 	public MainFrame() {
-		musicThread.start();
+
+		// create and start audio thread
+		setupAudio();
+
+		// start other stuff
 		frameStack = new Stack<JPanel>();
 		frameStack.add(new MainMenuPanel(this));
 		this.add(frameStack.peek());
@@ -57,7 +54,9 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void windowClosed(WindowEvent e) {
-				musicThread.stop();
+				// stops the audio playing
+			//	audioPlayer.stopPlayer();
+
 				System.out.println("closinbg");
 
 			}
@@ -100,8 +99,12 @@ public class MainFrame extends JFrame {
 		});
 	}
 
+
+
+
 	public static void main(String args[]) {
 		MainFrame f = new MainFrame();
+
 	}
 
 	/**
@@ -132,20 +135,36 @@ public class MainFrame extends JFrame {
 		this.repaint();
 	}
 
-	public static void addButton(final MainFrame frame, final JPanel panel,
-			GridBagConstraints c, ActionListener listener, String path, int y) {
-		panel.setLayout(new GridBagLayout());
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		ImageIcon icon = new ImageIcon("Assets/Menus/" + path + ".png");
-		JButton button = new JButton(icon);
-		c.weightx = 0.5;
-		c.insets = new Insets(5, 0, 0, 0);
-		c.gridx = 1;
-		c.gridy = y;
-		panel.add(button, c);
-		button.setBorder(null);
-		button.setBackground(new Color(255, 255, 255, 0));
-		button.addActionListener(listener);
+
+	/**
+	 * Stops the audio in the game
+	 */
+	public void stopAudio(){
+		if(musicPlayer!=null){
+			musicPlayer.stopPlayer();
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public void playButtonSound(){
+		buttonSound = new AudioPlayer("MenuButtonClick.wav", true);
+		buttonSound.start();
+		//buttonSound.stopPlayer();
+	}
+
+
+	/**
+	 * initializes the Audio for the game
+	 */
+	private void setupAudio(){
+		musicPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
+		musicPlayer.start(); // starts audio thread
+
+		buttonSound = new AudioPlayer("MenuButtonClick.wav", true);
+
 	}
 }

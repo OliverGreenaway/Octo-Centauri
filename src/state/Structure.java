@@ -13,6 +13,8 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import UI.Display;
+
 /**
  * Stores information about a structure.
  */
@@ -53,6 +55,19 @@ public class Structure implements Serializable {
 		return x;
 	}
 
+	public void setImage(String image){
+		File imgFile = new File(image);
+		assert(imgFile.exists()) : image+" not found";
+		try {
+			imageIcon = new ImageIcon(image);
+			this.image = new ImageIcon(image).getImage();
+			bufferedImage = ImageIO.read(imgFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Unable to read buffered image of structure: "+e.getMessage());
+		}
+	}
+
 	/**
 	 * Returns the Y coordinate of the bottom corner of the structure.
 	 */
@@ -78,8 +93,11 @@ public class Structure implements Serializable {
 	/**
 	 * Returns the structure's image.
 	 */
-	public Image getImage() {
+	public Image getImage(int viewRotation) {
 		return image;
+	}
+
+	public void update() {
 	}
 
 	/**
@@ -105,7 +123,6 @@ public class Structure implements Serializable {
 			// TODO Auto-generated catch block
 			System.out.println("Unable to read buffered image of structure: "+e.getMessage());
 		}
-
 	}
 
 	/**	/**
@@ -129,20 +146,27 @@ public class Structure implements Serializable {
 
 	 /** Draws the structure.
 	 * @param g The Graphics object to draw on.
+	 * @param d The Display.
 	 * @param bottomPixelX The X coordinate of the bottom corner of the object
 	 * @param bottomPixelY The Y coordinate of the bottom corner of the object
 	 */
-	public void draw(Graphics g, int bottomPixelX, int bottomPixelY){
+	public void draw(Graphics g, Display d, int bottomPixelX, int bottomPixelY){
 		if(filter != null){
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.drawImage(bufferedImage, filter, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null));
+		} else {
+			Image i = getImage(d.getRotation());
+			if(i != null)
+				g.drawImage(i, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
 		}
-		else
-			g.drawImage(image, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
 	}
 
 	public void setWorld(World w) {
 		assert world == null || world == w;
 		world = w;
+	}
+
+	public World getWorld() {
+		return world;
 	}
 }

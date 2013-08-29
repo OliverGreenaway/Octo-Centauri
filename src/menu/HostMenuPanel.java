@@ -68,7 +68,7 @@ public class HostMenuPanel extends AbstractMenuPanel {
 				});
 				JoinGame jg;
 				try {
-					jg = new JoinGame(n, true, frame.musicThread);
+					jg = new JoinGame(n, true);
 				} catch (IOException e1) {
 					showError("Connection failed, please try again");
 					return;
