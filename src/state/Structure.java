@@ -33,7 +33,7 @@ public class Structure implements Serializable {
 	/**
 	 * The world the structure is in.
 	 */
-	private World world;
+	private World world; //We don't want to serialise the whole world
 
 	/**
 	 * Size of the structure, in tiles.
@@ -43,10 +43,10 @@ public class Structure implements Serializable {
 	/**
 	 * The structure's image.
 	 */
-	private Image image;
+	private transient Image image; //We don't want to serialize this either
 
 	//This is used to get the image from later
-	private ImageIcon imageIcon;
+	private transient ImageIcon imageIcon; //And also don't want to serialize this
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the structure.

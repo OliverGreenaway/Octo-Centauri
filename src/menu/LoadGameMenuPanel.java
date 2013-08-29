@@ -23,18 +23,18 @@ public class LoadGameMenuPanel extends AbstractMenuPanel {
 	public LoadGameMenuPanel(final MainFrame frame) {
 
 		final JLabel error = new JLabel();
-		
+
 		final JTextArea file = new JTextArea(1, 30);
-		this.addComponent(file);	
-		
+		this.addComponent(file);
+
 		/*
 		 * Brings up a file chooser and loads the game from file.
 		 */
 		ActionListener listener = new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {			
+			public void actionPerformed(ActionEvent e) {
 				//frame.addMenu(new Window(System.currentTimeMillis(), null, file.getText(), frame.musicThread));
-				
+
 				// TODO add try catch if file not found
 				error.setText("Loading not Implemented");
 			}
@@ -53,7 +53,7 @@ public class LoadGameMenuPanel extends AbstractMenuPanel {
 		};
 
 		addButton(frame, listener, "BackButton");
-		
+
 		this.addComponent(error);
 	}
 }

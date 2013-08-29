@@ -58,7 +58,7 @@ public class Dude implements Serializable {
 	protected int width, height; // ???
 	protected int facing = DOWN; // Facing constant
 	protected int oldX, oldY;
-	private Image[][] images = new Image[4][4]; // A single image stored per
+	private transient Image[][] images = new Image[4][4]; // A single image stored per
 												// facing
 
 	/**
