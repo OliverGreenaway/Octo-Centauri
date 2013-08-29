@@ -15,6 +15,13 @@ public class Task {
 		this.type = block;
 	}
 
+	//constructor for digging
+	public Task(Tile t, String taskType) {
+		this.tile = t;
+		this.type = taskType;
+		this.task = taskType;
+	}
+
 	public Tile getTile() {
 		return tile;
 	}
