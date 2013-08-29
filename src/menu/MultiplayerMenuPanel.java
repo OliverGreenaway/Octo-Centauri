@@ -17,7 +17,7 @@ import UI.Window;
  */
 public class MultiplayerMenuPanel extends AbstractMenuPanel {
 	public MultiplayerMenuPanel(final MainFrame frame) {
-		
+
 		/*
 		 * Launches a new game, randomly generated from a seed
 		 */
@@ -32,9 +32,7 @@ public class MultiplayerMenuPanel extends AbstractMenuPanel {
 		/*
 		 * join a game
 		 */
-		listener = new ActionListener() {
-		 * join a game
-		 */
+
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -46,8 +44,7 @@ public class MultiplayerMenuPanel extends AbstractMenuPanel {
 		/*
 		 * back
 		 */
-		listener = new ActionListener() {
-		 */
+
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
