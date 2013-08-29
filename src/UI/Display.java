@@ -263,8 +263,7 @@ public class Display extends JPanel {
 					if (resourceSelect != null) {
 						for (String key : resourceSelect.keySet()) {
 							if (resourceSelect.get(key).contains(p)) {
-								System.out.println(key);
-								return;
+								world.setCurrentBuild(key);
 							}
 						}
 					}
