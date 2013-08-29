@@ -155,11 +155,13 @@ public class Display extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					if (toggleButtonsImages.get("ButtonMute").equals("ButtonMuteOff")) {
 						// Mute here
-						world.getAudioPlayer().stopPlayer();
+
+						world.getAudioPlayer().toggleMute();
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
-						world.setAudioPlayer(new AudioPlayer("InGameMusic.wav", false));
+						world.getAudioPlayer().toggleMute();
+
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
 				}
@@ -341,6 +343,17 @@ public class Display extends JPanel {
 	 * drawing the tiles from the top down, and draws them on the graphics pane.
 	 */
 	private void paintMap(Graphics g) {
+
+
+		if (trippy) {
+			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 24)));
+			g.setColor(trippingColor);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		}
+
+
+		//Color miniMap = new Color[][]
+
 
 		for (int x = 0; x < VIEW_WIDTH; x++) {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {

@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Set;
 
 import sound.AudioPlayer;
+import sound.MixingDesk;
 
 import logic.GameUpdate;
 
@@ -39,6 +40,7 @@ public class World {
 	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
+	MixingDesk mixingDesk;
 
 	/**
 	 * Returns a random tile name.
@@ -171,8 +173,13 @@ public class World {
 
 		allDudes.add(s);
 		// plays the sound
-		new AudioPlayer("NewDudeBorn.wav", true).start();
+
+		if(mixingDesk!=null){
+			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
+		}
+
 		gameUpdate.dudeAdded(s);
+
 		return true;
 	}
 
@@ -357,6 +364,11 @@ public class World {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 
+
+	public void setAudioPlayer(MixingDesk mixingDesk) {
+		this.mixingDesk = mixingDesk;
+	}
+
 	public boolean isSlugBalancingEnabled() {
 		return slugBalancingEnabled;
 	}
@@ -367,10 +379,11 @@ public class World {
 
 	public void setAudioPlayer(AudioPlayer audioPlayer) {
 		this.audioPlayer = audioPlayer;
+
 	}
 
-	public AudioPlayer getAudioPlayer() {
-		return this.audioPlayer;
+	public MixingDesk getAudioPlayer() {
+		return this.mixingDesk;
 
 	}
 }

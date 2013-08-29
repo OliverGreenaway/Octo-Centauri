@@ -302,7 +302,9 @@ public class Dude implements Serializable {
 
 	public void attack(Dude victim) {
 
-		new AudioPlayer("SinglePunch.wav", true).start();
+		world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
+
+		//new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
 		if(victim.currentHealth < 0) {
 			//dude killed needs his task readded to queue
@@ -310,7 +312,7 @@ public class Dude implements Serializable {
 				world.tasks.add(task);
 			}
 			world.removeDude(victim);
-			new AudioPlayer("DyingDude.wav", true).start();
+			world.getAudioPlayer().addAudioPlayer("DyingDude.wav", true);
 		}
 	}
 

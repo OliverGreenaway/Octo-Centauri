@@ -27,7 +27,7 @@ public class MainFrame extends JFrame {
 
 	//AudioPlayer musicPlayer; // This is a thread that plays audio
 	AudioPlayer buttonSound;
-	MixingDesk mixingDesk;
+	public final MixingDesk mixingDesk = new MixingDesk();;
 
 	public MainFrame() {
 
@@ -166,7 +166,7 @@ public class MainFrame extends JFrame {
 	 */
 	private void setupAudio(){
 
-		mixingDesk = new MixingDesk();
+
 		mixingDesk.addAudioPlayer("MenuMusic.wav", false);
 
 //		musicPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
