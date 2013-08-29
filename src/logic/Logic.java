@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import state.Dude;
 import state.Tile;
 import state.World;
 
@@ -72,7 +73,7 @@ public class Logic {
 		// System.out.println("Was not a game object.");
 	}
 
-	private List<Tile> getNeighbours(Tile tile) {
+	private List<Tile> getNeighbours(Tile tile, Dude dude) {
 		int x = tile.getX();
 		int y = tile.getY();
 		List<Tile> neighbours = new ArrayList<Tile>();
@@ -83,8 +84,7 @@ public class Logic {
 		List<Tile> toAdd = new ArrayList<Tile>();
 		for (Tile n : neighbours) {
 			if (n != null) {
-				if (!(Math.abs(n.getHeight() - tile.getHeight()) > 1 || n
-						.getDude() != null /* || n.getStructure() != null */)) {
+				if (dude.canMove(tile, n)) {
 					toAdd.add(n);
 				}
 			}
@@ -108,7 +108,7 @@ public class Logic {
 	 *            - the goal point of the path
 	 */
 
-	public Stack<Tile> findRoute(Tile start, Tile target) { // TODO Needs to be
+	public Stack<Tile> findRoute(Tile start, Tile target, Dude dude) { // TODO Needs to be
 															// extended to
 															// account for
 															// obstacles
@@ -134,7 +134,7 @@ public class Logic {
 					}
 					return route;
 				}
-				List<Tile> neighbours = getNeighbours(tile);
+				List<Tile> neighbours = getNeighbours(tile,dude);
 				for (Tile neighbour : neighbours) {
 					if (neighbour != null && !visited.contains(neighbour)) {
 						fringe.offer(new SearchNode(neighbour, target,
@@ -143,7 +143,7 @@ public class Logic {
 				}
 			}
 		}
-		return null;
+		return route;
 
 	}
 

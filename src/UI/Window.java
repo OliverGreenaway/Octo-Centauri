@@ -389,7 +389,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	}
 
-	public void displayPath() {
+	/*public void displayPath() {
 		System.out.println("HIII!");
 		if (selectedTile1 != null && selectedTile2 != null) {
 			Stack<Tile> route = new Logic(display.getWorld()).findRoute(
@@ -399,7 +399,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				t.setImage("Path");
 			}
 		}
-	}
+	}*/
 
 
 	@Override
