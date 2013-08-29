@@ -376,7 +376,6 @@ public class Display extends JPanel {
 	 */
 	private void paintMap(Graphics g) {
 
-
 		if (trippy) {
 			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 24)));
 			g.setColor(trippingColor);
