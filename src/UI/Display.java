@@ -104,7 +104,7 @@ public class Display extends JPanel {
 				public void mouseEntered(MouseEvent e) {}
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					System.out.println("HealthBarsToggle");
+					world.toggleShowHealth();
 				}
 			};
 
@@ -367,7 +367,7 @@ public class Display extends JPanel {
 					Dude dude = t.getDude();
 					if (dude != null) { // If there is a dude in the tile
 												// --> DRAW THEM!						
-						dude.draw(g, this, bottomPixelX, bottomPixelY, true);
+						dude.draw(g, this, bottomPixelX, bottomPixelY, world.showHealth());
 					}
 				}
 			}

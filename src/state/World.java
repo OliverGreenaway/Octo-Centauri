@@ -34,6 +34,7 @@ public class World {
 	private Set<Dude> allDudes = new HashSet<Dude>();
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
+	
 
 	/**
 	 * Returns a random tile name.

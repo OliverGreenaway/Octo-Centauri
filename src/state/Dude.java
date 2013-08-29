@@ -360,17 +360,18 @@ public class Dude implements Serializable {
 
 		int posX = pt.x - i.getWidth(null) / 2;
 		int posY = pt.y - i.getHeight(null);
-
+		
 		g.drawImage(i, posX, posY, null);
 
 		if (drawHealth) {
 			int tall = 10;
-			int hHeight = 4;
+			int hHeight = 3;
 			int hWidth = 16;
+			int barWidth = 10;
 			g.setColor(Color.red);
-			g.fillRect(posX, posY - tall, hWidth, hHeight);
+			g.fillRect(posX - barWidth / 2, posY - tall, hWidth + barWidth, hHeight);
 			g.setColor(Color.green);
-			g.fillRect(posX, posY - tall, (int)(hWidth * currentHealth / (float)maxHealth), hHeight);
+			g.fillRect(posX - barWidth / 2, posY - tall, (int)((hWidth + barWidth) * currentHealth / (float)maxHealth), hHeight);
 		}
 	}
 
