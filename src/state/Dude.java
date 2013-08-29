@@ -30,12 +30,13 @@ public class Dude implements Serializable {
 	/**
 	 * The coordinates of the tile under the bottom corner of the dude.
 	 */
-	private int x, y; // Tile coords of Dude
-	private int TILE_HEIGHT = 32;
-	private int TILE_WIDTH = 64;
+	protected int x; // Tile coords of Dude
+	protected int y;
+	protected int TILE_HEIGHT = 32;
+	protected int TILE_WIDTH = 64;
 	private int NUM_SPRITES = 16; // Number of model sprites per images
-	private int maxHealth;
-	private int currentHealth;
+	protected int maxHealth;
+	protected int currentHealth;
 	private int damage;
 	private Random randomGen = new Random();
 	private int rand  = randomGen.nextInt(5);
