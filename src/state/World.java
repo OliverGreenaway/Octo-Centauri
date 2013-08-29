@@ -82,7 +82,7 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));//TODO
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 //		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
@@ -370,7 +370,6 @@ public class World {
 
 		} else {
 			// otherwise reassign dude and repush task
-			System.out.println("not enough resources");// TODO
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}

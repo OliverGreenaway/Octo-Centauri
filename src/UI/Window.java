@@ -343,11 +343,6 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
 				if (e.getButton() == 3) {
-//					Tile t = new Tile("Grass", 0, (int) point.getX(),
-//							(int) point.getY());
-//					display.getWorld().setTile((int) point.getX(),
-//							(int) point.getY(), t);
-
 					display.getWorld().getTile(point.x, point.y).setImage("Grass");
 
 				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
