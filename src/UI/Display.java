@@ -176,7 +176,7 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonMute", listener);
 			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
-			
+
 			listener = new MouseListener() {
 
 				@Override
@@ -509,6 +509,27 @@ public class Display extends JPanel {
 		for (String key : toggleButtons.keySet()) {
 			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
 		}
+		
+		g2d.setColor(Color.black);
+		g2d.fillRect(0, 0, 150 ,64*3+5*3+10+10);
+		g2d.setColor(new Color(212, 175, 55));
+		g2d.drawRoundRect(
+				0, 0, 150, 64*3+5*3+10+10, r, r);
+		
+		
+		for (int i = 0; i < 3; i++) {
+
+			g2d.drawImage(UIImageStorage.get("IconCrystal"), 10, 10, null);
+			g2d.drawImage(UIImageStorage.get("IconPlants"), 10, 10 + 64 + 5, null);
+			g2d.drawImage(UIImageStorage.get("IconWood"), 10, 10 + 64 + 64 + 5 + 5, null);
+
+			g2d.drawString(""+world.getCrystalResource(), 64 + 10 + 5, 20);
+			g2d.drawString(""+world.getPlantResource(), 64 + 10 + 5, 20 + 64 + 5);
+			g2d.drawString(""+world.getWoodResource(), 64 + 10 + 5, 20 + 64 + 5 +64 +5);
+			
+			
+		}
+
 	}
 
 	public void rotate() {
