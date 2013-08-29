@@ -134,6 +134,7 @@ public class Logic {
 					}
 					return route;
 				}
+
 				List<Tile> neighbours = getNeighbours(tile,dude);
 				for (Tile neighbour : neighbours) {
 					if (neighbour != null && !visited.contains(neighbour)) {
@@ -147,92 +148,11 @@ public class Logic {
 
 	}
 
-	/*
-	 * public Stack<Point> findRoute(Point routeStart, Point routeGoal) {
-	 * Stack<Point> route = new Stack<Point>(); //to return
-	 *
-	 * PriorityQueue<Tuple> fringe = new PriorityQueue<Tuple>();
-	 *
-	 * fringe.add(new Tuple(routeStart, null, routeGoal, calcHeuristic(
-	 * routeStart, routeGoal), 0)); // Repeat until fringe is empty: while
-	 * (!fringe.isEmpty()) { Tuple currentTuple = fringe.poll(); Tile
-	 * currentTile = tiles[(int) currentTuple.getPoint().getX()][(int)
-	 * currentTuple .getPoint().getY()]; if (!currentTile.occupied()) { // If
-	 * not tile.visited then if (!currentTile.visited()) {
-	 * currentTile.setVisited(true); // If tile = goal then exit if
-	 * (!currentTile.equals(routeGoal)) { // for each edge to neigh out of node
-	 *
-	 * for (Tile t : getNeighbours(currentTile)) { // if neighbour tile hasn't
-	 * been visited then if (!t.visited()) { fringe.offer(new Tuple(
-	 * t.getPoint(), currentTile.getPoint(), routeGoal,
-	 * calcHeuristic(t.getPoint(), routeGoal), currentTuple.getCostToHere() +
-	 * 1)); t.setPrevTile(tiles[(int) currentTuple.getPoint().getX()][(int)
-	 * currentTuple.getPoint().getY()]); } } } else { //found the goal so go
-	 * back through the tuples adding it and it's previous point to the route
-	 * Stack route.add(currentTile.getPoint()); Tile tile =
-	 * currentTile.getPrevTile(); while(tile != null){
-	 * route.add(tile.getPoint()); tile = currentTile.getPrevTile(); } } } } }
-	 * // for(every tile in tiles[][]){ // tile.setVisited(false); //
-	 * tile.setPrevTile(null); // } return route; }
-	 */
-
 	/**
 	 * Calculates straight line heuristic between two point start and goal
 	 */
 	private double calcHeuristic(Point routeStart, Point routeGoal) {
 		return routeStart.distance(routeGoal);
-	}
-
-	/**
-	 * Tuples of a point and it's previous point for A* path calculation.
-	 */
-	private class Tuple implements Comparable {
-		private double heuristic;
-		private Point point;
-		private Point prevPoint;
-		private Point goal;
-		private int costToHere;
-		private double estTotalCost;// cost to this point + heuristic to goal
-
-		public Tuple(Point point, Point prevPoint, Point goal,
-				double heuristic, int costToHere) {
-			this.heuristic = heuristic;
-			this.costToHere = costToHere;
-			this.point = point;
-			this.prevPoint = prevPoint;
-			this.estTotalCost = costToHere + heuristic;
-			this.prevPoint = prevPoint;
-		}
-
-		public Object getPrevPoint() {
-			return prevPoint;
-		}
-
-		public double getEstTotalCost() {
-			return estTotalCost;
-		}
-
-		public int getCostToHere() {
-			return costToHere;
-		}
-
-		public Point getPoint() {
-			return point;
-		}
-
-		@Override
-		public int compareTo(Object t) {
-			/*
-			 * if (t != null && this.getClass().equals(t.getClass())) { if
-			 * (estTotalCost - ((Tuple) t).getEstTotalCost() > 0) return 1;//
-			 * this is more costly if (estTotalCost - ((Tuple)
-			 * t).getEstTotalCost() < 0) return -1;// this is less costly if
-			 * (estTotalCost - ((Tuple) t).getEstTotalCost() == 0) return 0; }
-			 * throw new IllegalArgumentException("Need to compare same type");
-			 */
-			return 0;
-		}
-
 	}
 
 }
