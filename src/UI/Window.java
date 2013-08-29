@@ -157,7 +157,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			System.out.println("stop");
 
 			mixingDesk.stopAudio();
-			mixingDesk.addAudioPlayer("InGameMusic.wav", true);
+			mixingDesk.addAudioPlayer("InGameMusic.wav", false);
 			world.setAudioPlayer(this.mixingDesk);
 		//	audioPlayer.start();
 		}
