@@ -381,7 +381,7 @@ public class World {
 			return true;
 		if(type.equals("DarkSand"))
 			return true;
-		if(type.equals("grass"))
+		if(type.equals("Grass"))
 			return true;
 		else {return false;}
 	}
