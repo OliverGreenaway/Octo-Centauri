@@ -87,7 +87,7 @@ public class World {
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-//		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 	}
 
 	/**
@@ -355,7 +355,6 @@ public class World {
 	}
 
 	public boolean build(Tile t, String type, Dude dude) {
-		if (hasResources(type)) {
 			if (dude.isAt(t.getX(), t.getY())) {
 				// finish building tile
 				if (t.getStructure() != null) {
@@ -365,33 +364,26 @@ public class World {
 				t.setImage(currentBuild);
 				t.setHeight(t.getHeight() + 1);
 
-				// set tile non trasnparent
+				// set tile non transparent
 				// reassign dude to new task
 				return true;
-			}
-			return false;
-
 		} else {
 			// otherwise reassign dude and repush task
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}
-
 	}
 
-	private boolean hasResources(String type) {
-		if (type.equals("BarrenWall")) {
+	public boolean hasResources(String type) {
+		if( type.equals("BarrenWall"))
 			return true;
-			// if(crystalResource > 10){
-			// crystalResource = crystalResource - 10;
-			// return true;
-			// }
-		}
-		else if(type.equals("BarrenGrass")){
+		if(type.equals("BarrenGrass"))
 			return true;
-		}
-		return false;
-
+		if(type.equals("DarkSand"))
+			return true;
+		if(type.equals("grass"))
+			return true;
+		else {return false;}
 	}
 
 	public boolean isDudeSpawningEnabled() {
