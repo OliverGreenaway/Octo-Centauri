@@ -1,5 +1,6 @@
 package util;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -13,6 +14,8 @@ import javax.swing.JOptionPane;
 
 public class ObjectImageStorage {
 	private static transient Map<String, Image> images = new HashMap<String, Image>();
+
+
 
 	public static void add(String key, Image image) {
 		if (!images.containsKey(key)) {
