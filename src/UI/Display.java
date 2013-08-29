@@ -118,7 +118,7 @@ public class Display extends JPanel {
 			toggleButtonsListener.put("ButtonHealth", listener);
 			toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
 
-			/*listener = new MouseListener() {
+			listener = new MouseListener() {
 				@Override
 				public void mouseReleased(MouseEvent e) {}
 				@Override
@@ -130,13 +130,17 @@ public class Display extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					world.toggleDudeSpawning();
+					if (world.isDudeSpawningEnabled())
+						toggleButtonsImages.put("ButtonAddDude", "ButtonAddDudeHover");
+					else toggleButtonsImages.put("ButtonAddDude", "ButtonAddDude");
 				}
 			};
-/*
-			toggleButtons.put("Button", newDudeToggle);
-			toggleButtonsListener.put("NewDudeToggle", listener);
 
-			listener = new MouseListener() {
+			toggleButtons.put("ButtonAddDude", newDudeToggle);
+			toggleButtonsListener.put("ButtonAddDude", listener);
+			toggleButtonsImages.put("ButtonAddDude", "ButtonAddDudeHover");
+
+			/*listener = new MouseListener() {
 
 				@Override
 				public void mouseReleased(MouseEvent e) {}
@@ -421,13 +425,6 @@ public class Display extends JPanel {
 		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
 				padding, toggleSize, miniMapHeight);
 
-
-		if (toggleButtons == null) getToggleMap();
-		for (String key : toggleButtons.keySet()) {
-			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
-
-		}
-
 		/*
 		 * int buttonx = this.getWidth() - 235; g2d.setColor(Color.red);
 		 * g2d.fillRect(buttonx, 5, 55, 55);
@@ -447,11 +444,10 @@ public class Display extends JPanel {
 						+ padding);
 		g2d.setStroke(orig);
 
-		if (toggleButtons == null)
-			getToggleMap();
+
+		if (toggleButtons == null) getToggleMap();
 		for (String key : toggleButtons.keySet()) {
-			Rectangle rect = toggleButtons.get(key);
-			g2d.drawImage(UIImageStorage.get(key), rect.x, rect.y, null);
+			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
 		}
 	}
 
