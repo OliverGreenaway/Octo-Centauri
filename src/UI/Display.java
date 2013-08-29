@@ -661,7 +661,7 @@ public class Display extends JPanel {
 				Rectangle rect = new Rectangle(tpad + resourceSelectRect.x + x
 						* (TILE_WIDTH + tpad), tpad + resourceSelectRect.y + y
 						* (TILE_HEIGHT * 2 + tpad), TILE_WIDTH,
-						TILE_HEIGHT);
+						TILE_HEIGHT * 2);
 				g2d.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
 
 				resourceSelect.put(key, rect);
