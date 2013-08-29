@@ -26,7 +26,7 @@ public class Octodude extends Dude implements Serializable{
 	public Octodude(World world, int x, int y, int width, int height,
 			String image) {
 		super(world, x, y, width, height, image);
-		this.maxHealth = 50;
+		maxHealth = 50;
 	}
 
 	@Override
