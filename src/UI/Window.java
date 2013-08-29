@@ -358,6 +358,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					s.setFilter(rop);
 
 					display.getWorld().addStructure(s);
+
+
 				} else {
 					display.getWorld().addStructure(new Ramp(point.x, point.y, 1, 1, "PathRamp", Direction.values()[display.getRotation()]));
 					display.getWorld().getTile(point.x, point.y);
@@ -425,6 +427,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			Tile t = display.getWorld().getTile(point.x, point.y);
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 		}
+		// plays audio
+		AudioPlayer blocks = new AudioPlayer("PlaceItem.wav", true);
+		blocks.start();
+
 	}
 
 	@Override
