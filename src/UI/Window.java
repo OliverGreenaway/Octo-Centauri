@@ -342,17 +342,12 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
-
-				// set tile to be somthing
 				if (e.getButton() == 3) {
-					// Dude d = new Dude("")
 					Tile t = new Tile("Grass", 0, (int) point.getX(),
 							(int) point.getY());
 					display.getWorld().setTile((int) point.getX(),
 							(int) point.getY(), t);
 				} else if (drawTransparent == true) {
-
-//					 System.out.println("drawing working");//TODO
 
 					display.getWorld().tasks.add(new Task(display.getWorld()
 							.getTile((int) point.getX(), (int) point.getY()),
