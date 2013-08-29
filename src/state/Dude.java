@@ -194,7 +194,7 @@ public class Dude implements Serializable {
 
 		// link the tiles at the new location
 		linkTiles(x, y);
-u
+
 		return true;
 	}
 
@@ -528,6 +528,10 @@ u
 			return true;
 		}
 		return false;
+	}
+
+	public void setWorld(World w){
+		this.world = w;
 	}
 	public int getOldX() {return oldX;}
 	public int getOldY() {return oldY;}
