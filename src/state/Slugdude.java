@@ -34,7 +34,7 @@ public class Slugdude extends Dude implements Serializable{
 	protected void loadImage(String image) {
 		img = new Image[4];
 
-		img[RIGHT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugFrontRight");
+		img[RIGHT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png");
 		img[DOWN] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugFrontLeft.png");
 		img[UP] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugBackRight.png");
 		img[LEFT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugBackLeft.png");

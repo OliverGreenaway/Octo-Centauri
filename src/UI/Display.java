@@ -56,7 +56,7 @@ public class Display extends JPanel {
 	Map<String, String> toggleButtonsImages = null;
 	HashSet<Rectangle> UISpace = null;
 	Map<String, Rectangle> resourceSelect = null;
-	
+
 	Rectangle resourceSelectRect = null;
 	// UI/>
 
@@ -180,6 +180,7 @@ public class Display extends JPanel {
 
 				@Override
 				public void mouseExited(MouseEvent e) {
+					
 				}
 
 				@Override
@@ -192,16 +193,16 @@ public class Display extends JPanel {
 							"ButtonMuteOff")) {
 						// Mute here
 						if (world.getAudioPlayer() != null) {
-							world.getAudioPlayer().toggleMute();
-						//	world.getAudioPlayer().toggleMusic();
+						//	world.getAudioPlayer().toggleMute();
+							world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
 
 						if (world.getAudioPlayer() != null) {
-							world.getAudioPlayer().toggleMute();
-						//  world.getAudioPlayer().toggleMusic();
+						//	world.getAudioPlayer().toggleMute();
+						  world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
@@ -244,21 +245,21 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonBG", listener);
 			toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
-			
+
 			listener = new MouseListener() {
-				
+
 				@Override
 				public void mouseReleased(MouseEvent e) {}
-				
+
 				@Override
 				public void mousePressed(MouseEvent e) {}
-				
+
 				@Override
 				public void mouseExited(MouseEvent e) {}
-				
+
 				@Override
 				public void mouseEntered(MouseEvent e) {}
-				
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					Point p = e.getPoint();
@@ -283,7 +284,7 @@ public class Display extends JPanel {
 		return toggleButtons;
 	}
 
-	public MouseListener buttonClicked(String key) {		
+	public MouseListener buttonClicked(String key) {
 		return toggleButtonsListener.get(key);
 	}
 
@@ -626,16 +627,16 @@ public class Display extends JPanel {
 		g2d.fill(resourceSelectRect);
 
 		resourceSelect = new HashMap<String, Rectangle>();
-		
+
 		for (String key : tileMap.keySet()) {
 			BufferedImage image = tileMap.get(key);
 			Rectangle rect = new Rectangle(tpad + resourceSelectRect.x + x * (TILE_WIDTH + tpad),
 					tpad + resourceSelectRect.y + y * (TILE_HEIGHT * 2 + tpad), image.getWidth(), image.getHeight());
-			
+
 			g2d.drawImage(image, rect.x, rect.y, null);
 
 			resourceSelect.put(key, rect);
-			
+
 			x++;
 			y += x / 2;
 			x %= 2;
@@ -643,8 +644,8 @@ public class Display extends JPanel {
 		g2d.setColor(new Color(212, 175, 55));
 		g2d.setStroke(new BasicStroke(3));
 		g2d.drawRoundRect(resourceSelectRect.x, resourceSelectRect.y, resourceSelectRect.width, resourceSelectRect.height, r, r);
-		
-		
+
+
 	}
 
 	public void rotate() {
