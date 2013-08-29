@@ -539,6 +539,10 @@ public class Dude implements Serializable {
 	public int getOldX() {return oldX;}
 	public int getOldY() {return oldY;}
 
+	public Task getTask(){
+		return task;
+	}
+
 	public boolean canMine(Resource r) {
 		if(storedResType != null && r.getResType() != storedResType)
 			return false;
