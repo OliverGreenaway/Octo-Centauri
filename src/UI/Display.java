@@ -22,6 +22,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import sound.AudioPlayer;
 import state.Dude;
 import state.Tile;
 import state.World;
@@ -157,11 +158,11 @@ public class Display extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					if (toggleButtonsImages.get("ButtonMute").equals("ButtonMuteOff")) {
 						// Mute here
-						//world.getAudioPlayer().mute();
+						world.getAudioPlayer().stopPlayer();
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
-						//world.getAudioPlayer().unmute();
+						world.setAudioPlayer(new AudioPlayer("InGameMusic.wav", false));
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
 				}
