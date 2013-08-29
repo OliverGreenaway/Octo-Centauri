@@ -24,7 +24,12 @@ import com.sun.org.apache.bcel.internal.generic.Select;
 
 import sound.AudioPlayer;
 import state.Dude;
+
 import state.StructureType;
+
+import state.Resource;
+import state.Structure;
+
 import state.Tile;
 import state.World;
 import util.UIImageStorage;
@@ -64,6 +69,7 @@ public class Display extends JPanel {
 	HashSet<Rectangle> UISpace = null;
 	Map<String, Rectangle> resourceSelect = null;
 	Map<String, Rectangle> structureSelect = null;
+
 
 	Rectangle resourceSelectRect = null;
 	// UI/>
@@ -188,6 +194,7 @@ public class Display extends JPanel {
 
 				@Override
 				public void mouseExited(MouseEvent e) {
+					
 				}
 
 				@Override
@@ -200,14 +207,16 @@ public class Display extends JPanel {
 							"ButtonMuteOff")) {
 						// Mute here
 						if (world.getAudioPlayer() != null) {
-							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMute();
+							world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
 
 						if (world.getAudioPlayer() != null) {
-							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMute();
+						  world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
@@ -254,20 +263,17 @@ public class Display extends JPanel {
 			listener = new MouseListener() {
 
 				@Override
-				public void mouseReleased(MouseEvent e) {
-				}
+
+				public void mouseReleased(MouseEvent e) {}
 
 				@Override
-				public void mousePressed(MouseEvent e) {
-				}
+				public void mousePressed(MouseEvent e) {}
 
 				@Override
-				public void mouseExited(MouseEvent e) {
-				}
+				public void mouseExited(MouseEvent e) {}
 
 				@Override
-				public void mouseEntered(MouseEvent e) {
-				}
+				public void mouseEntered(MouseEvent e) {}
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -556,12 +562,16 @@ public class Display extends JPanel {
 			for (int y = 0; y < miniMapHeight; y++) {
 				Tile t = world.getTile(x + camera.x, y + camera.y);
 				if (t != null) {
-					g2d.setColor(t.getColor());
 					miniMap.setRGB(x, y, t.getColor().getRGB());
+
+					Structure struc = t.getStructure();
+					if (struc != null) {
+						miniMap.setRGB(x, y, (struc instanceof Resource ? Color.blue : Color.cyan).getRGB());
+					}
+
 					Dude dude = t.getDude();
 					if (dude != null) {
 						miniMap.setRGB(x, y, Color.yellow.getRGB());
-						g2d.setColor(Color.yellow);
 					}
 				}
 			}
@@ -631,8 +641,6 @@ public class Display extends JPanel {
 		int y = 0;
 
 		int start = 64 * 3 + 5 * 3 + 10 + 10 + padding;
-
-
 
 	
 

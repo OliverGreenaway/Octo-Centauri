@@ -42,7 +42,10 @@ public class AudioPlayer extends Thread {
 		// sound we are playing
 		soundFile = new File("Assets/sounds/" + soundFileName);
 		audioInputStream = null;
+	}
 
+	public boolean getRunOnce(){
+		return this.runOnce;
 	}
 
 	public void run() {
@@ -169,9 +172,9 @@ public class AudioPlayer extends Thread {
 		a.start();
 		Thread.sleep(1000);
 		a.togglePaused();
-		
+
 		Thread.sleep(3000);
-		
+
 		a.togglePaused();
 		// a.stopPlayer();
 
