@@ -52,6 +52,7 @@ public class Display extends JPanel {
 
 	Map<String, Rectangle> toggleButtons = null;
 	Map<String, MouseListener> toggleButtonsListener = null;
+	Map<String, String> toggleButtonsImages = null;
 	HashSet<Rectangle> UISpace = null;
 	// UI/>
 
@@ -84,6 +85,7 @@ public class Display extends JPanel {
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
 			toggleButtonsListener = new HashMap<String, MouseListener>();
+			toggleButtonsImages = new HashMap<String, String>();
 
 			Rectangle toggleHealth = new Rectangle(this.getWidth()
 					- miniMapWidth - toggleSize - padding + tpad, padding
@@ -105,13 +107,18 @@ public class Display extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					world.toggleShowHealth();
+					if (world.showHealth())
+						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
+					else
+						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOff");
 				}
 			};
 
-			toggleButtons.put("HealthBarsToggle", toggleHealth);
-			toggleButtonsListener.put("HealthBarsToggle", listener);
+			toggleButtons.put("ButtonHealth", toggleHealth);
+			toggleButtonsListener.put("ButtonHealth", listener);
+			toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
 
-			listener = new MouseListener() {
+			/*listener = new MouseListener() {
 				@Override
 				public void mouseReleased(MouseEvent e) {}
 				@Override
@@ -125,8 +132,8 @@ public class Display extends JPanel {
 					world.toggleDudeSpawning();
 				}
 			};
-
-			toggleButtons.put("NewDudeToggle", newDudeToggle);
+/*
+			toggleButtons.put("Button", newDudeToggle);
 			toggleButtonsListener.put("NewDudeToggle", listener);
 
 			listener = new MouseListener() {
@@ -146,7 +153,7 @@ public class Display extends JPanel {
 			};
 
 			toggleButtons.put("SlugBalancingToggle", slugBalancingToggle);
-			toggleButtonsListener.put("SlugBalancingToggle", listener);
+			toggleButtonsListener.put("SlugBalancingToggle", listener);*/
 		}
 		return toggleButtons;
 	}
@@ -413,6 +420,12 @@ public class Display extends JPanel {
 		g2d.setColor(Color.black);
 		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
 				padding, toggleSize, miniMapHeight);
+
+
+		for (String key : toggleButtons.keySet()) {
+			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
+
+		}
 
 		/*
 		 * int buttonx = this.getWidth() - 235; g2d.setColor(Color.red);
