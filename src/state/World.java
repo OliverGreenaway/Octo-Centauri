@@ -197,6 +197,8 @@ public class World {
 		return worldTile[0].length;
 	}
 
+	//Update counter for below.
+	int counter;
 	/**
 	 * Updates everything in the world.
 	 */
@@ -204,8 +206,16 @@ public class World {
 		for (Dude d : new ArrayList<Dude>(allDudes))
 			d.update();
 		for (Structure s : structures)
-
 			s.update();
+		if(counter == 30 && dudeSpawningEnabled){
+			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			counter = 0;
+		} else if(!dudeSpawningEnabled && counter == 150){
+			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+			counter = 0;
+		} else {
+			counter++;
+		}
 	}
 
 	public void setGameUpdate(GameUpdate g) {
