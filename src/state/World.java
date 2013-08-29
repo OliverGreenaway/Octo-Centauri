@@ -390,6 +390,10 @@ public class World {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 
+	/**
+	 * sets game music player to 
+	 * @param mixingDesk
+	 */
 	public void setAudioPlayer(MixingDesk mixingDesk) {
 		this.mixingDesk = mixingDesk;
 	}
@@ -402,15 +406,14 @@ public class World {
 		slugBalancingEnabled = !slugBalancingEnabled;
 	}
 
-	public void setAudioPlayer(AudioPlayer audioPlayer) {
-		this.audioPlayer = audioPlayer;
 
-	}
-
+	/**
+	 * Returns the current audio system for playing sounds
+	 * returns null if nothing assigned yet.
+	 * @return
+	 */
 	public MixingDesk getAudioPlayer() {
-
 		return this.mixingDesk;
-
 	}
 
 	public Logic getLogic() {
