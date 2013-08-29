@@ -342,6 +342,10 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
+				if (e.getButton() == 3) {
+					display.getWorld().getTile(point.x, point.y).setImage("Grass");
+
+				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
 
 				// set tile to be somthing
 				if (e.getButton() == 3) {
@@ -354,7 +358,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 //					 System.out.println("drawing working");//TODO
 					String currentBuild = display.getWorld().getCurrentBuild();
-					
+
 					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 												"build",currentBuild));// TODO
 

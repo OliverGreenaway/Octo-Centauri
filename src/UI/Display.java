@@ -55,6 +55,8 @@ public class Display extends JPanel {
 	Map<String, MouseListener> toggleButtonsListener = null;
 	Map<String, String> toggleButtonsImages = null;
 	HashSet<Rectangle> UISpace = null;
+
+	Rectangle resourceSelectRect = null;
 	// UI/>
 
 	// pixel size of each tile
@@ -78,6 +80,9 @@ public class Display extends JPanel {
 				- toggleSize, padding, miniMapWidth + toggleSize, miniMapHeight));
 		UISpace.add(new Rectangle(padding, padding, 150, 64 * 3 + 5 * 3 + 10
 				+ 10));
+		if (resourceSelectRect != null) {
+			UISpace.add(resourceSelectRect);
+		}
 		return UISpace;
 	}
 
@@ -571,6 +576,33 @@ public class Display extends JPanel {
 
 		}
 
+		Map<String, BufferedImage> tileMap = Tile.getImagesCache().getMap();
+
+		int x = 0;
+		int y = 0;
+
+		int start = 64 * 3 + 5 * 3 + 10 + 10 + padding;
+
+		int selectHeight = (tileMap.size() + 1) / 2;
+		resourceSelectRect = new Rectangle(padding, padding + start,
+				2 * (tpad + TILE_WIDTH) + tpad, selectHeight
+						* (tpad + TILE_HEIGHT * 2) + tpad);
+
+		g2d.setColor(Color.gray);
+		g2d.fill(resourceSelectRect);
+
+		for (String key : tileMap.keySet()) {
+			g2d.drawImage(tileMap.get(key), tpad + resourceSelectRect.x + x * (TILE_WIDTH + tpad),
+					tpad + resourceSelectRect.y + y * (TILE_HEIGHT * 2 + tpad), null);
+
+			x++;
+			y += x / 2;
+			x %= 2;
+		}
+		g2d.setColor(new Color(212, 175, 55));
+		g2d.setStroke(new BasicStroke(3));
+		g2d.drawRoundRect(resourceSelectRect.x, resourceSelectRect.y, resourceSelectRect.width, resourceSelectRect.height, r, r);
+		
 	}
 
 	public void rotate() {
