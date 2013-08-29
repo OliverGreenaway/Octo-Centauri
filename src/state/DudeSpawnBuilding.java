@@ -15,6 +15,9 @@ public class DudeSpawnBuilding extends Structure {
 			if(delay <= 0) {
 				if(new Random().nextBoolean())
 					getWorld().addDude(new Dude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
+				if (getWorld().getCrystalResource() > 50) {
+					getWorld().setCrystalResource(getWorld().getCrystalResource()- 50);//TODO Change amount if needed
+				}
 				delay = 15;
 			} else {
 				delay--;
