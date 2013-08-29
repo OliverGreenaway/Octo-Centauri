@@ -184,11 +184,12 @@ public class Display extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					if (toggleButtonsImages.get("ButtonMute").equals("ButtonMuteOff")) {
 						// Mute here
-						world.getAudioPlayer().togglePaused();
+
+						world.getAudioPlayer().toggleMute();
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
-						world.getAudioPlayer().togglePaused();
+						world.getAudioPlayer().toggleMute();
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
 				}
@@ -411,7 +412,7 @@ public class Display extends JPanel {
 
 
 		//Color miniMap = new Color[][]
-		
+
 		for (int x = 0; x < VIEW_WIDTH; x++) {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {
 				Tile t = getCameraRelativeTile(x, y);
