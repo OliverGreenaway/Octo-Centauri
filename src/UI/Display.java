@@ -196,7 +196,7 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonMute", listener);
 			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
-			
+
 			listener = new MouseListener() {
 
 				@Override
@@ -228,7 +228,7 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonBG", listener);
 			toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
-			
+
 		}
 		toggleButtons.put("ButtonAddDude", newDudeToggle);
 		toggleButtons.put("ButtonMute", slugBalancingToggle);
@@ -404,11 +404,12 @@ public class Display extends JPanel {
 	private void paintMap(Graphics g) {
 
 		if (trippy) {
-			//Color trippingColor = new Color(rgb)
-			
+			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 24)));
+			g.setColor(trippingColor);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		}
-		
-		
+
+
 		for (int x = 0; x < VIEW_WIDTH; x++) {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {
 				Tile t = getCameraRelativeTile(x, y);
@@ -466,6 +467,11 @@ public class Display extends JPanel {
 					}
 				}
 			}
+		}
+		if (trippy) {
+			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 32)), true);
+			g.setColor(trippingColor);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		}
 
 	}
