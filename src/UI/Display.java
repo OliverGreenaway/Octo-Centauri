@@ -422,6 +422,7 @@ public class Display extends JPanel {
 				padding, toggleSize, miniMapHeight);
 
 
+		if (toggleButtons == null) getToggleMap();
 		for (String key : toggleButtons.keySet()) {
 			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
 

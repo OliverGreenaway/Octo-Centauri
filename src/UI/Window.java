@@ -141,9 +141,15 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		update = new UpdateThread(world, display);
 		update.start();
 
-		UIImageStorage.add("HealthBarsToggle");
-		UIImageStorage.add("NewDudeToggle");
-		UIImageStorage.add("SlugBalancingToggle");
+		UIImageStorage.add("ButtonHealthOn");
+		UIImageStorage.add("ButtonMuteOn");
+		UIImageStorage.add("ButtonAddDude");
+		//UIImageStorage.add("ButtonResourceBalanceOn");
+
+		UIImageStorage.add("ButtonHealthOff");
+		UIImageStorage.add("ButtonMuteOff");
+		UIImageStorage.add("ButtonAddDudeHover");
+		//UIImageStorage.add("ButtonResourceBalanceOff");
 		// setup audio
 
 		if(audioPlayer!=null){
@@ -232,7 +238,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("TENTACLES OF THE CARRIBEAN AT TENTACLES END");
+		JFrame f = new JFrame("Minecraft Empires");
 		f.getContentPane().add(new Window());
 		// f.add(new Window());
 		f.setSize(1920, 1080);

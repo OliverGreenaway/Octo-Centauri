@@ -2,6 +2,7 @@ package state;
 
 import java.io.FileReader;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Queue;
@@ -144,6 +145,19 @@ public class World {
 		structures.remove(s);
 	}
 
+	public void removeDude(Dude s) {
+		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
+		int ox = s.getOldX(), oy = s.getOldY();
+
+		for(int X = 0; X < w; X++)
+			for(int Y = 0; Y < h; Y++) {
+				worldTile[x-X][y-Y].setDude(null);
+				worldTile[ox-X][oy-Y].setDude(null);
+			}
+
+		allDudes.remove(s);
+	}
+
 	/**
 	 * Adds a dude to the world and returns true. If the dude can't be placed,
 	 * returns false without changing anything.
@@ -210,7 +224,7 @@ public class World {
 	 * Updates everything in the world.
 	 */
 	public void update() {
-		for (Dude d : allDudes)
+		for (Dude d : new ArrayList<Dude>(allDudes))
 			d.update();
 		for (Structure s : structures)
 
@@ -234,7 +248,7 @@ public class World {
 	 * Finds the nearest resource structure of the given type.
 	 * resType is the type to look for, or null if any type is ok.
 	 */
-	public Resource getNearestResource(Tile tile, ResourceType resType) {
+	public Resource getNearestResource(Tile tile, ResourceType resType, Dude dude) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
@@ -244,6 +258,9 @@ public class World {
 			if(resType != null && r.getResType() != resType)
 				continue;
 			if(r.getResType() == null)
+				continue;
+			Tile restile = getTile(r.getX(), r.getY());
+			if(restile.getDude() != null && restile.getDude() != dude)
 				continue;
 			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
 			if(squaredDistance < bestSquaredDistance) {
@@ -256,7 +273,7 @@ public class World {
 
 
 
-	public Structure getNearestStructure(Class<?> class1, Tile tile) {
+	public Structure getNearestStructure(Class<?> class1, Tile tile, Dude dude) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
@@ -264,6 +281,9 @@ public class World {
 
 		for(Structure r : structures) {
 			if(!class1.isInstance(r))
+				continue;
+			Tile td = getTile(r.getX(), r.getY());
+			if(td.getDude() != null && td.getDude() != dude)
 				continue;
 			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
 			if(squaredDistance < bestSquaredDistance) {
