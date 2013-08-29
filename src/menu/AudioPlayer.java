@@ -21,8 +21,9 @@ public class AudioPlayer extends Thread {
 
 
 	/**
-	 * creates a new Audio Player Thread with specified soundFileName. If runonce flag is false it will continueing looping forever
-	 * until you call stopPlayer() method on audioplayer
+	 * creates a new Audio Player Thread with specified soundFileName. If runonce flag is false it will continue
+	 *  looping forever until you call stopPlayer() method on audioplayer
+	 *
 	 *
 	 * @param soundFileName
 	 * @param runOnce
@@ -31,12 +32,8 @@ public class AudioPlayer extends Thread {
 		this.runOnce = runOnce;
 
 
-		// TODO probably need to deleted these methods later
-		System.out.println("New Audio Player");
-		//JFileChooser fc = new JFileChooser();
-		//fc.setDialogTitle("select wav file");
-		// fc.showOpenDialog(null);
-		// File soundFile = fc.getSelectedFile();
+		// TODO probably need to deleted these lines later
+		//	System.out.println("New Audio Player");
 
 		// sound we are playing
 		soundFile = new File("Assets/sounds/" + soundFileName);

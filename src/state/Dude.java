@@ -220,6 +220,10 @@ public class Dude implements Serializable{
 			if (task == null) {
 				getResources();
 			} else if (task.equals("build")) {
+				//TODO
+				Tile t = task.getTile();
+				followPath(t.getX(), t.getY());
+				world.build(t,task.getType());
 
 			}
 			count = 0;

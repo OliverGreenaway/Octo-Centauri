@@ -22,7 +22,7 @@ public class World {
 	private boolean showHealth = true;
 
 	public Queue<Task> tasks = new ArrayDeque<Task>();
-	
+
 	private Tile[][] worldTile;
 
 	long seed = System.currentTimeMillis();
@@ -287,5 +287,18 @@ public class World {
 
 	public void setWoodResource(int woodResource) {
 		this.woodResource = woodResource;
+	}
+
+
+
+
+
+
+
+
+
+	public void build(Tile t, String type) {
+		// TODO Auto-generated method stub
+
 	}
 }
