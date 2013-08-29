@@ -283,7 +283,6 @@ public class Dude implements Serializable {
 		if (count == 4) {
 //			if (buildTicks > 0) {
 //			buildTicks--;
-		}
 			unlinkTiles(oldX, oldY);
 			linkTiles(x, y);
 			oldX = x;
@@ -323,7 +322,7 @@ public class Dude implements Serializable {
 					}
 				}
 				count = 0;
-//			}
+			}
 		}
 
 	public void attack(Dude victim) {
