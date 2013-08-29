@@ -70,6 +70,10 @@ public class Tile implements Serializable {
 		collidable = false; //A normal tile is not collidable by default
 	}
 
+	public static TileImageStorage getImagesCache() {
+		return imagesCache;
+	}
+	
 	/**
 	 * Returns the tile's icon.
 	 */
