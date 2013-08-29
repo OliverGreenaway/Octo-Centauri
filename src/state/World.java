@@ -85,7 +85,7 @@ public class World {
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-//		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 	}
 
 	/**
@@ -373,16 +373,15 @@ public class World {
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}
-
 	}
 
 	private boolean hasResources(String type) {
 		if (type.equals("BarrenWall")) {
-			return true;
-			// if(crystalResource > 10){
-			// crystalResource = crystalResource - 10;
-			// return true;
-			// }
+			if (crystalResource > 10 && plantResource > 10) {//TODO change amount maybe?
+				crystalResource = crystalResource - 10;
+				plantResource -= 10;
+				return true;
+			}
 		}
 		return false;
 
@@ -397,7 +396,7 @@ public class World {
 	}
 
 	/**
-	 * sets game music player to 
+	 * sets game music player to
 	 * @param mixingDesk
 	 */
 	public void setAudioPlayer(MixingDesk mixingDesk) {
