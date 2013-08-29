@@ -51,31 +51,7 @@ public class World {
 		else
 			return "Grass";
 	}
-
-	/**
-	 * Creates a 100x100 world with random tiles.
-	 */
-	public World() {
-		worldTile = new Tile[100][100];
-		for (int x = 0; x < 100; x++)
-			for (int y = 0; y < 100; y++) {
-				if (random.nextInt(2) == 1)
-					worldTile[x][y] = new Tile(generateRandomTile(), 0, x, y);
-				else
-					worldTile[x][y] = new Tile(generateRandomTile(), 1, x, y);
-			}
-
-		for (int x = 3; x < 100; x += 1) {
-			for (int y = 3; y < 100; y += 1) {
-				if (random.nextInt(20) == 1)
-					addStructure(new Structure(x, y, 3, 3,
-							"Assets/EnvironmentObjects/DarkTree.png"));
-			}
-		}
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
-		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
-	}
-
+	
 	/**
 	 * Creates a world from a tile array.
 	 */
@@ -84,6 +60,7 @@ public class World {
 		resources = new HashSet<Resource>();
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 
 	}
 
@@ -166,6 +143,32 @@ public class World {
 
 		return true;
 	}
+//	/**
+//	 * Adds a dude to the world and returns true. If the dude can't be placed,
+//	 * returns false without changing anything.
+//	 */
+//	public boolean addOctodude(Octodude octodude) {
+//		int x = octodude.getX(), y = octodude.getY(), w = octodude.getWidth(), h = octodude.getHeight();
+//
+//		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
+//			return false;
+//
+//		// check for overlap
+//		for (int X = 0; X < w; X++)
+//			for (int Y = 0; Y < h; Y++)
+//				if (worldTile[x - X][y - Y].getDude() != null)
+//					return false; // can't have two structures on one tile
+//									// <--The best comment! =)
+//
+//		// place the structure
+//		for (int X = 0; X < w; X++)
+//			for (int Y = 0; Y < h; Y++)
+//				worldTile[x - X][y - Y].setDude(octodude);
+//
+//		allDudes.add(octodude);
+//
+//		return true;
+//	}
 
 	/**
 	 * Returns a tile at given coordinates. Throws an exception if coordinates
@@ -299,7 +302,7 @@ public class World {
 
 	public void build(Tile t, String type) {
 		// TODO Auto-generated method stub
-		
+
 
 
 

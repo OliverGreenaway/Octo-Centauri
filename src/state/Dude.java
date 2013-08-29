@@ -30,13 +30,14 @@ public class Dude implements Serializable {
 	/**
 	 * The coordinates of the tile under the bottom corner of the dude.
 	 */
-	private int x, y; // Tile coords of Dude
-	private int TILE_HEIGHT = 32;
-	private int TILE_WIDTH = 64;
-	private int NUM_SPRITES = 16; // Number of model sprites per images
-	private int maxHealth;
-	private int currentHealth;
-	private int damage;
+	protected int x; // Tile coords of Dude
+	protected int y;
+	protected int TILE_HEIGHT = 32;
+	protected int TILE_WIDTH = 64;
+	protected int NUM_SPRITES = 16; // Number of model sprites per images
+	protected  int maxHealth;
+	protected  int currentHealth;
+	protected  int damage;
 
 	/**
 	 * Size of the structure, in tiles.
@@ -48,9 +49,9 @@ public class Dude implements Serializable {
 																	// facing
 	// NOTE: Usable as images array indices
 
-	private int width, height; // ???
-	private int facing = DOWN; // Facing constant
-	private int oldX, oldY;
+	protected int width, height; // ???
+	protected int facing = DOWN; // Facing constant
+	protected int oldX, oldY;
 	private Image[][] images = new Image[4][4]; // A single image stored per
 												// facing
 
@@ -59,7 +60,7 @@ public class Dude implements Serializable {
 	 */
 	// private Image image;
 
-	private World world;
+	protected World world;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the dude.
@@ -98,7 +99,7 @@ public class Dude implements Serializable {
 
 	/**
 	 * Creates a dude.
-	 * 
+	 *
 	 * @param world
 	 *            The world the dude is in.
 	 * @param x
@@ -107,7 +108,7 @@ public class Dude implements Serializable {
 	 *            The Y coordinate of the bottom corner of the dude.
 	 * @param width
 	 *            The width of the dude.
-	 * @param height
+	 * @param heightNUM_SPRITES
 	 *            The height of the dude.
 	 * @param image
 	 *            The path to the dude's image.
@@ -123,12 +124,14 @@ public class Dude implements Serializable {
 		currentHealth = maxHealth;
 		// this.image = new ImageIcon(image).getImage();
 		this.world = world;
+		loadImage(image);
+
+	}
+	protected void loadImage(String image) {
 		JPanel panel = new JPanel(); // Instantiated JPanel to use createImage
 										// method
 
 		// Load Images
-		int num_images = NUM_SPRITES; // NOTE: Currently skips out all but first
-										// image of each facing
 
 		for (int i = 0; i < 4; i++) { // Iterate through facings --> Load an
 										// image into each facing
@@ -151,7 +154,7 @@ public class Dude implements Serializable {
 
 	/**
 	 * Tries to move the dude.
-	 * 
+	 *
 	 * @param newX
 	 *            The new X position.
 	 * @param newY
@@ -292,6 +295,9 @@ public class Dude implements Serializable {
 					}
 				}
 			}
+			/**
+			 *
+			 */
 		}
 
 	}
@@ -326,7 +332,7 @@ public class Dude implements Serializable {
 
 	/**
 	 * Draws the dude.
-	 * 
+	 *
 	 * @param g
 	 *            The Graphics object to draw on.
 	 * @param d
