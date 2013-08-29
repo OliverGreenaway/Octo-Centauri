@@ -237,8 +237,10 @@ public class Dude implements Serializable {
 	public boolean canMove(Tile from, Tile to) {
 		if(to.getDude() != null && to.getDude() != this)
 			return false;
+		return areTilesConnected(from, to);
+	}
 
-
+	public static boolean areTilesConnected(Tile from, Tile to) {
 		if(from.getHeight() != to.getHeight()) {
 			if(from.getHeight() - 1 == to.getHeight()) {
 				if(!(to.getStructure() instanceof Ramp))

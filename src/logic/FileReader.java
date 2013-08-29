@@ -110,7 +110,7 @@ public class FileReader {
 						char c = (char)charInt;
 						String symb = Character.toString(c);
 						assert(symbols.get(symb) != null);
-						tiles[row][col] = new Tile(symbols.get(symb),0, row, col);
+						tiles[row][col] = new Tile(symbols.get(symb),0, null, row, col);
 					}
 				}
 

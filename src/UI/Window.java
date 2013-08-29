@@ -51,7 +51,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	boolean right = false;
 	private Logic logic;
 
-	private boolean drawTransparent = true;
+	private boolean drawTransparent = false;
 
 	Random random = new Random();
 
@@ -345,11 +345,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 				// set tile to be somthing
 				if (e.getButton() == 3) {
-					// Dude d = new Dude("")
-					Tile t = new Tile("Grass", 0, (int) point.getX(),
-							(int) point.getY());
-					display.getWorld().setTile((int) point.getX(),
-							(int) point.getY(), t);
+					display.getWorld().getTile(point.x, point.y).setImage("Grass");
 				} else if (drawTransparent == true) {
 
 //					 System.out.println("drawing working");//TODO
