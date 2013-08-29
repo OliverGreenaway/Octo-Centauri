@@ -45,7 +45,6 @@ public class AudioPlayer extends Thread {
 		finished = false;
 
 		try {
-
 			audioInputStream = AudioSystem.getAudioInputStream(soundFile);
 		} catch (Exception e) {
 

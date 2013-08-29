@@ -232,7 +232,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("test");
+		JFrame f = new JFrame("TENTACLES OF THE CARRIBEAN AT TENTACLES END");
 		f.getContentPane().add(new Window());
 		// f.add(new Window());
 		f.setSize(1920, 1080);
