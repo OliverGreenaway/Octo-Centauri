@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class UIImageStorage {
-	private static Map<String, BufferedImage> images = new HashMap<String, BufferedImage>();
+	private static transient Map<String, BufferedImage> images = new HashMap<String, BufferedImage>();
 
 	public static void add(String key) {
 		try{
