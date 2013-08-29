@@ -403,6 +403,12 @@ public class Display extends JPanel {
 	 */
 	private void paintMap(Graphics g) {
 
+		if (trippy) {
+			//Color trippingColor = new Color(rgb)
+			
+		}
+		
+		
 		for (int x = 0; x < VIEW_WIDTH; x++) {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {
 				Tile t = getCameraRelativeTile(x, y);
