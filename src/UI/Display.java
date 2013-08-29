@@ -510,21 +510,22 @@ public class Display extends JPanel {
 		}
 		
 		g2d.setColor(Color.black);
-		g2d.fillRect(0, 0, 150 ,64*3+5*3+10+10);
+		g2d.setStroke(new BasicStroke(3));
+		g2d.fillRect(padding, padding, 150 ,64*3+5*3+10+10);
 		g2d.setColor(new Color(212, 175, 55));
 		g2d.drawRoundRect(
-				0, 0, 150, 64*3+5*3+10+10, r, r);
+				padding, padding, 150, 64*3+5*3+10+10, r, r);
 		
 		
 		for (int i = 0; i < 3; i++) {
 
-			g2d.drawImage(UIImageStorage.get("IconCrystal"), 10, 10, null);
-			g2d.drawImage(UIImageStorage.get("IconPlants"), 10, 10 + 64 + 5, null);
-			g2d.drawImage(UIImageStorage.get("IconWood"), 10, 10 + 64 + 64 + 5 + 5, null);
+			g2d.drawImage(UIImageStorage.get("IconCrystal"), padding + 10, padding + 10, null);
+			g2d.drawImage(UIImageStorage.get("IconPlants"), padding + 10, padding + 10 + 64 + 5, null);
+			g2d.drawImage(UIImageStorage.get("IconWood"), padding + 10, padding + 10 + 64 + 64 + 5 + 5, null);
 
-			g2d.drawString(""+world.getCrystalResource(), 64 + 10 + 5, 20);
-			g2d.drawString(""+world.getPlantResource(), 64 + 10 + 5, 20 + 64 + 5);
-			g2d.drawString(""+world.getWoodResource(), 64 + 10 + 5, 20 + 64 + 5 +64 +5);
+			g2d.drawString(""+world.getCrystalResource(), padding + 64 + 10 + 5, padding + 20);
+			g2d.drawString(""+world.getPlantResource(), padding + 64 + 10 + 5, padding + 20 + 64 + 5);
+			g2d.drawString(""+world.getWoodResource(), padding + 64 + 10 + 5, padding + 20 + 64 + 5 +64 +5);
 			
 			
 		}
