@@ -168,7 +168,7 @@ public class MainFrame extends JFrame {
 
 		mixingDesk = new MixingDesk();
 		mixingDesk.addAudioPlayer("MenuMusic.wav", false);
-		
+
 //		musicPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
 //		musicPlayer.start(); // starts audio thread
 //
