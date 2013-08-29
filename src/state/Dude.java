@@ -361,7 +361,6 @@ public class Dude implements Serializable {
 
 		double percentMoved = count * 0.25;
 
-		double percentMoved = count * 0.25;
 
 		// Tile coordinates of The Dude (x,y)
 		double x = this.oldX + (this.x - this.oldX) * percentMoved;
@@ -382,7 +381,7 @@ public class Dude implements Serializable {
 
 		int posX = pt.x - i.getWidth(null) / 2;
 		int posY = pt.y - i.getHeight(null);
-		
+
 		g.drawImage(i, posX, posY, null);
 
 		if (drawHealth) {
