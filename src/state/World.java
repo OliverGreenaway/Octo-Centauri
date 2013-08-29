@@ -355,7 +355,6 @@ public class World {
 	}
 
 	public boolean build(Tile t, String type, Dude dude) {
-		if (hasResources(type)) {
 			if (dude.isAt(t.getX(), t.getY())) {
 				// finish building tile
 				if (t.getStructure() != null) {
@@ -365,12 +364,9 @@ public class World {
 				t.setImage(currentBuild);
 				t.setHeight(t.getHeight() + 1);
 
-				// set tile non trasnparent
+				// set tile non transparent
 				// reassign dude to new task
 				return true;
-			}
-			return false;
-
 		} else {
 			// otherwise reassign dude and repush task
 			tasks.add(new Task(t, "build", type));
@@ -379,17 +375,16 @@ public class World {
 
 	}
 
-	private boolean hasResources(String type) {
-		switch(type){
-		case "BarrenWall":
+	public boolean hasResources(String type) {
+		if( type.equals("BarrenWall"))
 			return true;
-		case "BarrenGrass":
+		if(type.equals("BarrenGrass"))
 			return true;
-		case "DarkSand":
+		if(type.equals("DarkSand"))
 			return true;
-		case "grass":
+		if(type.equals("grass"))
 			return true;
-		return false;
+		else {return false;}
 
 	}
 
