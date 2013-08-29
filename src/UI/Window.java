@@ -129,7 +129,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
 
-		
+
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -145,12 +145,14 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		UIImageStorage.add("ButtonHealthOn");
 		UIImageStorage.add("ButtonMuteOn");
 		UIImageStorage.add("ButtonAddDude");
-		// UIImageStorage.add("ButtonResourceBalanceOn");
+		UIImageStorage.add("ButtonBGOn");
+
 
 		UIImageStorage.add("ButtonHealthOff");
 		UIImageStorage.add("ButtonMuteOff");
 		UIImageStorage.add("ButtonAddDudeHover");
-		// UIImageStorage.add("ButtonResourceBalanceOff");
+		UIImageStorage.add("ButtonBGOff");
+
 		// setup audio
 
 		if (audioPlayer != null) {
