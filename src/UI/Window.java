@@ -60,7 +60,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 	public long seed;
 	public Network network;
-	public String fileMap = "resources/map";
+	public String fileMap = "resources/map2";
 
 	private MixingDesk mixingDesk;
 

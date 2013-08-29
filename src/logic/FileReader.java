@@ -128,7 +128,7 @@ public class FileReader {
 						int strucY = Integer.parseInt(lineScanner.next());
 						Structure temp;
 						if(fileName.equals("DarkTree"))
-							temp = new Tree(strucX, strucY, 1, 1, "Assets/EnvironmentObjects/"+fileName+".png");
+							temp = new Tree(strucX, strucY, 1, 1);
 						else if(fileName.equals("Resources"))
 							temp = new Crystal(strucX, strucY);
 						else if(fileName.equals("Crate"))
@@ -136,16 +136,17 @@ public class FileReader {
 						else if(fileName.equals("Spawner"))
 							temp = new DudeSpawnBuilding(strucX, strucY);
 						else
-							temp = new Structure(strucX, strucY, 1, 1, "Assets/EnvironmentTiles/" +fileName+ ".png");
+							temp = new Structure(strucX, strucY, 1, 1, "Assets/EnvironmentTiles/Grass.png");
 						structures.add(temp);;
 					}
 					numLines--;
 					line = buffer.readLine();
+					lineScanner.close();
 				}
-				lineScanner.close();
-			//read height
+				//read height
 				System.out.println(line);
-				numLines = Integer.parseInt(line);
+				if(line != null){ numLines = Integer.parseInt(line); }
+				else{ numLines = 0; }
 				line = buffer.readLine();
 				lineScanner = null;
 				while(numLines > 0){
@@ -159,8 +160,9 @@ public class FileReader {
 					}
 					numLines--;
 					line = buffer.readLine();
+					lineScanner.close();
 				}
-			lineScanner.close();
+			
 
 			buffer.close();
 			fileReader.close();
