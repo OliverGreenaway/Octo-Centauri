@@ -15,10 +15,8 @@ import UI.Window;
  * @author muruphenr
  *
  */
-public class MultiplayerMenuPanel extends JPanel {
+public class MultiplayerMenuPanel extends AbstractMenuPanel {
 	public MultiplayerMenuPanel(final MainFrame frame) {
-
-		GridBagConstraints c = new GridBagConstraints();
 		
 		/*
 		 * Launches a new game, randomly generated from a seed
@@ -29,10 +27,12 @@ public class MultiplayerMenuPanel extends JPanel {
 				frame.addMenu(new HostMenuPanel(frame)) ;
 			}
 		};
-
-		MainFrame.addButton(frame, this, c, listener, "HostButton", 0);
+		addButton(frame, listener, "HostButton");
 
 		/*
+		 * join a game
+		 */
+		listener = new ActionListener() {
 		 * join a game
 		 */
 		listener = new ActionListener() {
@@ -41,11 +41,12 @@ public class MultiplayerMenuPanel extends JPanel {
 				frame.addMenu(new JoinMenuPanel(frame));
 			}
 		};
-
-		MainFrame.addButton(frame, this, c, listener, "JoinButton", 1);
+		addButton(frame, listener, "JoinButton");
 
 		/*
 		 * back
+		 */
+		listener = new ActionListener() {
 		 */
 		listener = new ActionListener() {
 			@Override
@@ -54,6 +55,6 @@ public class MultiplayerMenuPanel extends JPanel {
 			}
 		};
 
-		MainFrame.addButton(frame, this, c, listener, "BackButton", 2);
+		addButton(frame, listener, "BackButton");
 	}
 }

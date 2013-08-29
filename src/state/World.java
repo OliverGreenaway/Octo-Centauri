@@ -1,5 +1,6 @@
 package state;
 
+import java.io.FileReader;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -18,6 +19,8 @@ public class World {
 	private GameUpdate gameUpdate; //the current game update object to send changes to
 
 	private Set<Dude> allDudes = new HashSet<Dude>();
+
+	private Set<Resource> resources;
 
 	/**
 	 * Returns a random tile name.
@@ -58,6 +61,7 @@ public class World {
 				}
 			}
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -65,7 +69,9 @@ public class World {
 	 */
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
+		resources = new HashSet<Resource>();
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 8, 8,1 , 1,"Assets/Characters/Man.png"));
 	}
 
 	/**
@@ -86,10 +92,15 @@ public class World {
 					return false; // can't have two structures on one tile
 				}
 
+		s.setWorld(this);
+
+		if(s instanceof Resource)
+			resources.add((Resource)s);
+
 		// place the structure
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++)
-				worldTile[x-X][y-Y].setStructure(s);
+				worldTile[x-X][y-Y].setStructure(s, false);
 
 		return true;
 	}
@@ -136,7 +147,7 @@ public class World {
 	 * Throws an exception if coordinates are invalid.
 	 */
 	public void setTile(int x, int y, Tile t) {
-		worldTile[x][y] = t;
+		worldTile[x][y] = t;//TODO add bounds checking
 		gameUpdate.changedTileColour(t);
 	}
 
@@ -164,5 +175,13 @@ public class World {
 
 	public void setGameUpdate(GameUpdate g){
 		gameUpdate = g;
+	}
+
+	/**
+	 * Returns all stored Dudes
+	 * @return
+	 */
+	public Set<Dude> getDudes(){
+		return allDudes;
 	}
 }

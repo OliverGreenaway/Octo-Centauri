@@ -29,7 +29,7 @@ public class JoinGame {
  * @throws IOException
  * @throws ClassNotFoundException
  */
-	public JoinGame(Network n, boolean isServer) throws IOException, ClassNotFoundException {
+	public JoinGame(Network n, boolean isServer, Thread musicThread) throws IOException, ClassNotFoundException {
 		long seed = System.currentTimeMillis();
 		String file = "resources/map";
 
@@ -41,7 +41,7 @@ public class JoinGame {
 
 
 
-		window = new Window();
+		window = new Window(seed, n, file, musicThread);
 
 	}
 

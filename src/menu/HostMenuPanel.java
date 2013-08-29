@@ -1,13 +1,10 @@
 package menu;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import networking.common.JoinGame;
@@ -15,21 +12,21 @@ import networking.common.Network;
 import networking.common.ServerNotFoundException;
 import networking.common.SocketBusyException;
 
-public class HostMenuPanel extends JPanel {
+public class HostMenuPanel extends AbstractMenuPanel {
 
 	public HostMenuPanel(final MainFrame frame) {
 
 		final JLabel error = new JLabel();;
 
-		JLabel label = new JLabel("Port:");
-		this.add(label);
+
+		this.addLabel(frame, "PortLabel");
+
+
 
 		final JTextArea port = new JTextArea(1, 30);
-		this.add(port);
+		this.addComponent(port);
 
-		JButton join = new JButton("Create") ;
-		this.add(join) ;
-		join.addActionListener( new ActionListener() {
+		ActionListener listener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -66,12 +63,12 @@ public class HostMenuPanel extends JPanel {
 				showError("game joined");
 				frame.addWindowListener(new java.awt.event.WindowAdapter() {
 				    public void windowClosing(java.awt.event.WindowEvent evt) {
-				         
+
 				    }
 				});
 				JoinGame jg;
 				try {
-					jg = new JoinGame(n, true);
+					jg = new JoinGame(n, true, frame.musicThread);
 				} catch (IOException e1) {
 					showError("Connection failed, please try again");
 					return;
@@ -83,24 +80,20 @@ public class HostMenuPanel extends JPanel {
 			}
 
 			private void showError(String string) {
-				//error.getGraphics().setColor(Color.RED) ;
-				//error.getGraphics().set
-				//Font f = error.getFont();
-				//f.
 				error.setText(string);
 			}
 
-		}) ;
+		};
+		this.addButton(frame, listener, "CreateButton");
 
-		JButton back = new JButton("Back") ;
-		this.add(back) ;
-		back.addActionListener( new ActionListener() {
+		listener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.back() ;
 			}
-		}) ;
+		};
+		this.addButton(frame, listener, "BackButton");
 
 		this.add(error);
 	}

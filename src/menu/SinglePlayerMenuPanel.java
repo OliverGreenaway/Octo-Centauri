@@ -16,23 +16,21 @@ import UI.Window;
  * @author muruphenr , antunomate , richarhayd
  *
  */
-public class SinglePlayerMenuPanel extends JPanel {
+public class SinglePlayerMenuPanel extends AbstractMenuPanel {
 
 	public SinglePlayerMenuPanel(final MainFrame frame) {
-		
-		GridBagConstraints c = new GridBagConstraints();
-		
+
 		/*
 		 * Launches a new game, randomly generated from a seed
 		 */
 		ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new Window());
+				frame.addMenu(new Window(System.currentTimeMillis(), null, null, frame.musicThread));
 			}
 		};
 
-		MainFrame.addButton(frame, this, c, listener, "NewGameButton", 0);
+		addButton(frame, listener, "NewGameButton");
 
 		/*
 		 * Brings up a file chooser and loads the game from file.
@@ -40,11 +38,11 @@ public class SinglePlayerMenuPanel extends JPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.addMenu(new Window());
+				frame.addMenu(new LoadGameMenuPanel(frame));
 			}
 		};
 
-		MainFrame.addButton(frame, this, c, listener, "LoadGameButton", 1);
+		addButton(frame, listener, "LoadGameButton");
 
 		/*
 		 * back
@@ -56,6 +54,6 @@ public class SinglePlayerMenuPanel extends JPanel {
 			}
 		};
 
-		MainFrame.addButton(frame, this, c, listener, "BackButton", 2);
+		addButton(frame, listener, "BackButton");
 	}
 }
