@@ -3,8 +3,10 @@ package state;
 public class Crate extends Structure {
 	private static final long serialVersionUID = 2931626387167L;
 
+	public static final String IMAGE = "Assets/EnvironmentObjects/Turret/TurretFrontLeft.png";
+
 	public Crate(int x, int y) {
-		super(x, y, 1, 1, "Assets/EnvironmentObjects/Turret/TurretFrontLeft.png");
+		super(x, y, 1, 1, IMAGE);
 	}
 
 	public void dropoff(int storedResources, ResourceType storedResType) {
