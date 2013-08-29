@@ -284,6 +284,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		case KeyEvent.VK_S:
 			down = true;
 			break;
+		case KeyEvent.VK_F:
+			display.toggleStruct();
+			break;
 		}
 		panMap();
 		repaint();
