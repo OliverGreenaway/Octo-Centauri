@@ -25,7 +25,7 @@ import sound.MixingDesk;
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
 
-	AudioPlayer musicPlayer; // This is a thread that plays audio
+	//AudioPlayer musicPlayer; // This is a thread that plays audio
 	AudioPlayer buttonSound;
 	MixingDesk mixingDesk;
 
@@ -145,8 +145,8 @@ public class MainFrame extends JFrame {
 	 * Stops the audio in the game
 	 */
 	public void stopAudio(){
-		if(musicPlayer!=null){
-			musicPlayer.stopPlayer();
+		if(mixingDesk!=null){
+			mixingDesk.stopAudio();
 		}
 	}
 

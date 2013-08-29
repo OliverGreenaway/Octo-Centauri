@@ -8,15 +8,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import sound.AudioPlayer;
+import sound.MixingDesk;
 
 public class MainMenuPanel extends AbstractMenuPanel {
 
-	AudioPlayer audioPlayer;
+	MixingDesk mixingDesk;
 
 
 	public MainMenuPanel(final MainFrame frame) {
 
-		this.audioPlayer = frame.musicPlayer;
+		this.mixingDesk = frame.mixingDesk;
 
 
 		ActionListener listener = new ActionListener() {
@@ -40,8 +41,8 @@ public class MainMenuPanel extends AbstractMenuPanel {
 		listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(audioPlayer!=null){
-					audioPlayer.stopPlayer();
+				if(mixingDesk!=null){
+					mixingDesk.stopAudio();
 				}
 				frame.dispose();
 			}
