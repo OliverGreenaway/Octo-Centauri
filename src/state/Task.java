@@ -9,10 +9,10 @@ public class Task {
 	private String task;
 	private String type;
 
-	public Task(Tile t, String taskType, String blockType){
+	public Task(Tile t, String taskType, String block){
 		this.tile = t;
 		this.task = taskType;
-		this.type = blockType;
+		this.type = block;
 	}
 
 	public Tile getTile() {

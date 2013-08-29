@@ -353,14 +353,14 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 				} else if (drawTransparent == true) {
 
 //					 System.out.println("drawing working");//TODO
-
-					display.getWorld().tasks.add(new Task(display.getWorld()
-							.getTile((int) point.getX(), (int) point.getY()),
-							"build", "BarrenWall"));// TODO
+					String currentBuild = display.getWorld().getCurrentBuild();
+					
+					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+												"build",currentBuild));// TODO
 
 					Structure s = new Structure((int) point.getX(),
 							(int) point.getY(), 1, 1,
-							"Assets/EnvironmentTiles/BarrenWall.png");
+							"Assets/EnvironmentTiles/"+currentBuild+".png");
 					/*
 					 * Copied from Java tutorial. Create a rescale filter op
 					 * that makes the image 50% opaque.
