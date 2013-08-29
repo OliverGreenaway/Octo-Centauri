@@ -289,7 +289,7 @@ public class Dude implements Serializable{
 		if(x != targetX || y != targetY || path == null || path.size() == 0 || failedMoveCount > 10) {
 			targetX = x;
 			targetY = y;
-			path = new Logic(world).findRoute(world.getTile(this.x, this.y), world.getTile(targetX, targetY));
+			path = new Logic(world).findRoute(world.getTile(this.x, this.y), world.getTile(targetX, targetY),this);
 			failedMoveCount = 0;
 		}
 
