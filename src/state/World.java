@@ -379,16 +379,15 @@ public class World {
 	}
 
 	private boolean hasResources(String type) {
-		if (type.equals("BarrenWall")) {
+		switch(type){
+		case "BarrenWall":
 			return true;
-			// if(crystalResource > 10){
-			// crystalResource = crystalResource - 10;
-			// return true;
-			// }
-		}
-		else if(type.equals("BarrenGrass")){
+		case "BarrenGrass":
 			return true;
-		}
+		case "DarkSand":
+			return true;
+		case "grass":
+			return true;
 		return false;
 
 	}
@@ -402,7 +401,7 @@ public class World {
 	}
 
 	/**
-	 * sets game music player to 
+	 * sets game music player to
 	 * @param mixingDesk
 	 */
 	public void setAudioPlayer(MixingDesk mixingDesk) {
