@@ -15,6 +15,7 @@ import java.util.Set;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -351,10 +352,6 @@ public class Display extends JPanel {
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		}
 
-
-		//Color miniMap = new Color[][]
-
-
 		for (int x = 0; x < VIEW_WIDTH; x++) {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {
 				Tile t = getCameraRelativeTile(x, y);
@@ -428,24 +425,25 @@ public class Display extends JPanel {
 		g2d.fillRect(this.getWidth() - miniMapWidth - padding, padding,
 				miniMapWidth, miniMapHeight);
 
-		for (int x = 0; x < VIEW_WIDTH * 2; x++) {
-			for (int y = 0; y < VIEW_HEIGHT * 2; y++) {
-				Tile t = world.getTile(x + camera.x / 2, y + camera.y / 2);
+
+		BufferedImage miniMap = new BufferedImage(miniMapWidth, miniMapHeight, BufferedImage.TYPE_INT_RGB);
+
+		for (int x = 0; x < miniMapWidth; x++) {
+			for (int y = 0; y < miniMapHeight; y++) {
+				Tile t = world.getTile(x + camera.x, y + camera.y);
 				if (t != null) {
 					g2d.setColor(t.getColor());
-					g2d.fillRect(this.getWidth() - miniMapWidth - padding + x
-							* 2, padding + y * 2, 2, 2);
+					miniMap.setRGB(x, y, t.getColor().getRGB());
 					Dude dude = t.getDude();
 					if (dude != null) {
+						miniMap.setRGB(x, y, Color.yellow.getRGB());
 						g2d.setColor(Color.yellow);
-						g2d.fillRect(this.getWidth() - miniMapWidth - padding
-								+ x * 2, padding + y * 2, 2, 2);
 					}
 				}
-
 			}
-
 		}
+		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding, padding, null);
+
 
 		// draw the button panel
 		g2d.setColor(Color.black);
