@@ -75,15 +75,16 @@ public class Logic {
 		stack.push(new FourTupleInt(i, j - 1, i, j));
 		stack.push(new FourTupleInt(i - 1, j, i, j));
 
+
 		while (!stack.isEmpty()) {
 			FourTupleInt current = stack.pop();
-
 			int x = current.getCur().x;
 			int y = current.getCur().y;
 			int prevX = current.getPrev().x;
 			int prevY = current.getPrev().y;
+
 			if (x < 0 || x >= access.length || y < 0 || y >= access[0].length
-					|| access[x][y] != 0) {
+					|| access[x][y] == level) {
 				continue;
 			}
 			if ((world.getTile(prevX, prevY).getHeight() == world.getTile(x, y)
