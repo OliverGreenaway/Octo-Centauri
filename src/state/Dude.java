@@ -327,7 +327,7 @@ public class Dude implements Serializable {
 		if(victim.currentHealth <= 0) {
 			//dude killed needs his task readded to queue
 			if(victim.hasTask()){
-				world.tasks.add(task);
+				world.tasks.add(victim.task);
 			}
 			world.removeDude(victim);
 			if(world.getAudioPlayer()!=null){
