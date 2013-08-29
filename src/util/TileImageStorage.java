@@ -51,7 +51,7 @@ public class TileImageStorage {
 	public BufferedImage get(String key) {
 		return images.get(key);
 	}
-	
+
 	public Map<String, BufferedImage> getMap() {
 		return images;
 	}
