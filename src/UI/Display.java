@@ -8,9 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Stroke;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -37,6 +40,8 @@ public class Display extends JPanel {
 	private World world;
 
 	private boolean tileHighLighted = false;
+	
+	private boolean trippy = false;
 
 	// <UI
 	int miniMapWidth = 280;
