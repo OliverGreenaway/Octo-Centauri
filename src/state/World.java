@@ -38,6 +38,7 @@ public class World {
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
 	private boolean dudeSpawningEnabled = true;
+	private AudioPlayer audioPlayer;
 
 
 	/**
@@ -313,11 +314,41 @@ public class World {
 
 
 
-	public void build(Tile t, String type) {
-		// TODO Auto-generated method stub
+	public boolean build(Tile t, String type, Dude dude) {
+		if(hasResources(type)){
+			if (dude.isAt(t.getX(), t.getY())) {
+				// finish building tile
+				if (t.getStructure() != null) {
+					removeStructure(t.getStructure());
+				}
 
+				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
+						"Assets/EnvironmentTiles/BarrenWall.png");
+				addStructure(s);
+				// set tile non trasnparent
 
+				// reassign dude to new task
+				return true;
+			}
+			return false;
 
+		} else {
+			//otherwise reassign dude and repush task
+			tasks.add(new Task(t, "build", type));
+			return true;
+		}
+
+	}
+
+	private boolean hasResources(String type) {
+		if (type.equals("BarrenWall")) {
+			return true;
+			// if(crystalResource > 10){
+			// crystalResource = crystalResource - 10;
+			// return true;
+			// }
+		}
+		return false;
 
 
 	}
@@ -328,5 +359,14 @@ public class World {
 
 	public void toggleDudeSpawning() {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
+	}
+
+	public void setAudioPlayer(AudioPlayer audioPlayer) {
+		this.audioPlayer = audioPlayer;
+	}
+
+	public AudioPlayer getAudioPlayer() {
+		return this.audioPlayer;
+
 	}
 }

@@ -14,7 +14,7 @@ public class Task {
 
 	public Task(Tile t, String taskType, String blockType){
 		this.tile = t;
-		this.task = task;
+		this.task = taskType;
 		this.type = blockType;
 	}
 
