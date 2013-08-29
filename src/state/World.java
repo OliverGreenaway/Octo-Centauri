@@ -73,6 +73,9 @@ public class World {
 		worldTile = tiles;
 		resources = new HashSet<Resource>();
 		logic = new Logic(this);
+		for(Tile[] row : tiles)
+			for(Tile t : row)
+				t.setWorld(this);
 		start();
 	}
 
@@ -81,10 +84,10 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));//TODO
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+//		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 	}
 
 	/**
@@ -162,33 +165,37 @@ public class World {
 	 * returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
-		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
+		if (crystalResource > 50) {
+			crystalResource = crystalResource - 50;//TODO Change amount if needed
+			int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
-		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
-			return false;
+			if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
+				return false;
 
-		// check for overlap
-		for (int X = 0; X < w; X++)
-			for (int Y = 0; Y < h; Y++)
-				if (worldTile[x - X][y - Y].getDude() != null)
-					return false; // can't have two structures on one tile
-									// <--The best comment! =)
+			// check for overlap
+			for (int X = 0; X < w; X++)
+				for (int Y = 0; Y < h; Y++)
+					if (worldTile[x - X][y - Y].getDude() != null)
+						return false; // can't have two structures on one tile
+										// <--The best comment! =)
 
-		// place the structure
-		for (int X = 0; X < w; X++)
-			for (int Y = 0; Y < h; Y++)
-				worldTile[x - X][y - Y].setDude(s);
-		s.setWorld(this);
-		allDudes.add(s);
-		// plays the sound
+			// place the structure
+			for (int X = 0; X < w; X++)
+				for (int Y = 0; Y < h; Y++)
+					worldTile[x - X][y - Y].setDude(s);
+			s.setWorld(this);
+			allDudes.add(s);
+			// plays the sound
 
-		if (mixingDesk != null) {
-			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
+			if (mixingDesk != null) {
+				this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
+			}
+
+			gameUpdate.dudeAdded(s);
+
+			return true;
 		}
-
-		gameUpdate.dudeAdded(s);
-
-		return true;
+		return false;
 	}
 
 	/**
@@ -395,6 +402,10 @@ public class World {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 
+	/**
+	 * sets game music player to 
+	 * @param mixingDesk
+	 */
 	public void setAudioPlayer(MixingDesk mixingDesk) {
 		this.mixingDesk = mixingDesk;
 	}
@@ -407,15 +418,14 @@ public class World {
 		slugBalancingEnabled = !slugBalancingEnabled;
 	}
 
-	public void setAudioPlayer(AudioPlayer audioPlayer) {
-		this.audioPlayer = audioPlayer;
 
-	}
-
+	/**
+	 * Returns the current audio system for playing sounds
+	 * returns null if nothing assigned yet.
+	 * @return
+	 */
 	public MixingDesk getAudioPlayer() {
-
 		return this.mixingDesk;
-
 	}
 
 	public Logic getLogic() {

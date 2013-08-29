@@ -2,8 +2,8 @@ package state;
 
 public class Plant extends Resource{
 
-	public Plant(int x, int y, int width, int height, String image) {
-		super(x, y, width, height, image);
+	public Plant(int x, int y) {
+		super(x, y, 1, 1, "Assets/EnvironmentObjects/Plants.png");
 		this.amount = 100;
 	}
 
