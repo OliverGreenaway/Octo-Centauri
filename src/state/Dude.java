@@ -18,6 +18,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import sound.AudioPlayer;
+
 import logic.Logic;
 
 import UI.Display;
@@ -290,9 +292,11 @@ public class Dude implements Serializable {
 	}
 
 	public void attack(Dude victim) {
+		new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
 		if(victim.currentHealth < 15) {
 			world.removeDude(victim);
+			new AudioPlayer("DyingDude.wav", true).start();
 		}
 	}
 
