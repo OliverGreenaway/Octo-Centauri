@@ -14,13 +14,14 @@ public class MainMenuPanel extends AbstractMenuPanel {
 
 	public MainMenuPanel(final MainFrame frame) {
 
-		this.audioPlayer = frame.audioPlayer;
+		this.audioPlayer = frame.musicPlayer;
 
 
 		ActionListener listener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				frame.playButtonSound();
 				frame.addMenu(new SinglePlayerMenuPanel(frame));
 			}
 		};
