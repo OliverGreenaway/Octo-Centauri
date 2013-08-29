@@ -348,13 +348,13 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
 
 				// set tile to be somthing
-				if (e.getButton() == 3) {
+//				if (e.getButton() == 3) {
 					// Dude d = new Dude("")
-					Tile t = new Tile("Grass", 0, (int) point.getX(),
-							(int) point.getY());
-					display.getWorld().setTile((int) point.getX(),
-							(int) point.getY(), t);
-				} else if (drawTransparent == true) {
+//					Tile t = new Tile("Grass", 0, (int) point.getX(),
+//							(int) point.getY());
+//					display.getWorld().setTile((int) point.getX(),
+//							(int) point.getY(), t);
+			} else if (drawTransparent == true) {
 
 //					 System.out.println("drawing working");//TODO
 					String currentBuild = display.getWorld().getCurrentBuild();
