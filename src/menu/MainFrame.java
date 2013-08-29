@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import sound.AudioPlayer;
+
 /**
  * The root frame of the game. Presents all the menus, and can show the game.
 

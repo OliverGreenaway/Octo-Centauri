@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import sound.AudioPlayer;
+
 public class MainMenuPanel extends AbstractMenuPanel {
 
 	AudioPlayer audioPlayer;

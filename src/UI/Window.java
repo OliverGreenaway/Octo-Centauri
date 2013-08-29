@@ -24,12 +24,12 @@ import javax.swing.JPanel;
 
 import javax.swing.SwingUtilities;
 
-import menu.AudioPlayer;
 import networking.common.Network;
 
 import logic.FileReader;
 import logic.Logic;
 import logic.UpdateThread;
+import sound.AudioPlayer;
 import state.Direction;
 import state.Ramp;
 import state.Structure;
