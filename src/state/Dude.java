@@ -607,6 +607,10 @@ public class Dude implements Serializable {
 		return isAlien;
 	}
 
+	public Task getTask(){
+		return task;
+	}
+
 	public boolean canMine(Resource r) {
 		if (storedResType != null && r.getResType() != storedResType)
 			return false;

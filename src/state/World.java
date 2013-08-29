@@ -361,7 +361,7 @@ public class World {
 					removeStructure(t.getStructure());
 				}
 
-				t.setImage(currentBuild);
+				t.setImage(dude.getTask().getType());
 				t.setHeight(t.getHeight() + 1);
 
 				// set tile non transparent
