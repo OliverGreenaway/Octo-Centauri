@@ -369,9 +369,14 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 					display.getWorld().addStructure(s);
 
 				} else {
-					display.getWorld().addStructure(
+					Structure s = display.getWorld().getTile(point.x, point.y).getStructure();
+					if(s instanceof Ramp) {
+						((Ramp) s).setDirection(Direction.values()[(((Ramp) s).getDirection().ordinal() + 1) % 4]);
+					} else {
+						display.getWorld().addStructure(
 							new Ramp(point.x, point.y, 1, 1, "PathRamp",
 									Direction.values()[display.getRotation()]));
+					}
 				}
 				display.getWorld().getLogic().mapChanged(point.x, point.y);
 

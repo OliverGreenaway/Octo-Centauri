@@ -237,8 +237,10 @@ public class Dude implements Serializable {
 			if(from.getHeight() - 1 == to.getHeight()) {
 				if(!(to.getStructure() instanceof Ramp))
 					return false;
-				if(((Ramp)to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from))
+				if(((Ramp)to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from)) {
+					System.out.println("need "+Direction.getDirectionBetween(to, from)+", have "+((Ramp)to.getStructure()).getDirection()+", ramp on "+to.getX()+"/"+to.getY());
 					return false;
+				}
 
 			} else if(from.getHeight() + 1 == to.getHeight()) {
 				if(!(from.getStructure() instanceof Ramp))

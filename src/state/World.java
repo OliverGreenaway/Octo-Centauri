@@ -355,9 +355,10 @@ public class World {
 				if (t.getStructure() != null) {
 					removeStructure(t.getStructure());
 				}
-				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
-						"Assets/EnvironmentTiles/BarrenWall.png");
-				addStructure(s);
+
+				t.setImage("BarrenWall");
+				t.setHeight(t.getHeight() + 1);
+
 				// set tile non trasnparent
 				// reassign dude to new task
 				return true;
