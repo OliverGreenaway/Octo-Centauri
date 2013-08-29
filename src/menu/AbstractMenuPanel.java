@@ -24,10 +24,9 @@ import javax.swing.JPanel;
 
 public abstract class AbstractMenuPanel extends JPanel {
 
-	private static transient Image background = new ImageIcon(
-			"Assets/Menus/Background.png").getImage();;
-	private static transient Image planet = new ImageIcon("Assets/Menus/planet.png")
-			.getImage();
+	private static transient Image background = new ImageIcon("Assets/Menus/Background.png").getImage();
+	private static transient Image planet = new ImageIcon("Assets/Menus/planet.png").getImage();
+	private static transient Image logo = new ImageIcon("Assets/Menus/GameLogo.png").getImage();
 
 	private int y = 0;
 
@@ -74,5 +73,12 @@ public abstract class AbstractMenuPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		g.drawImage(background, 0, 0, null);
 		g.drawImage(planet, 0, 0, null);
+		float zoom = 0.6f;
+		g.drawImage(logo,
+				(int)((this.getWidth() - logo.getWidth(null) * zoom) / 2),
+				(int)((this.getHeight() - logo.getHeight(null)) / 2),
+				(int)(logo.getWidth(null) * zoom),
+				(int)(logo.getHeight(null) * zoom),
+				null);
 	}
 }
