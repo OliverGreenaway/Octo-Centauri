@@ -166,36 +166,32 @@ public class World {
 	 * returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
-		if (crystalResource > 50) {
-			crystalResource = crystalResource - 50;//TODO Change amount if needed
-			int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
+		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
-			if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
-				return false;
+		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
+			return false;
 
-			// check for overlap
-			for (int X = 0; X < w; X++)
-				for (int Y = 0; Y < h; Y++)
-					if (worldTile[x - X][y - Y].getDude() != null)
-						return false; // can't have two structures on one tile
-										// <--The best comment! =)
+		// check for overlap
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++)
+				if (worldTile[x - X][y - Y].getDude() != null)
+					return false; // can't have two structures on one tile
+									// <--The best comment! =)
 
-			// place the structure
-			for (int X = 0; X < w; X++)
-				for (int Y = 0; Y < h; Y++)
-					worldTile[x - X][y - Y].setDude(s);
-			s.setWorld(this);
-			allDudes.add(s);
-			// plays the sound
+		// place the structure
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++)
+				worldTile[x - X][y - Y].setDude(s);
+		s.setWorld(this);
+		allDudes.add(s);
+		// plays the sound
 
-			if (mixingDesk != null) {
-				this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
-			}
-
-			gameUpdate.dudeAdded(s);
-			return true;
+		if (mixingDesk != null) {
+			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
 		}
-		return false;
+
+		gameUpdate.dudeAdded(s);
+		return true;
 	}
 
 	/**
