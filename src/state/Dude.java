@@ -323,7 +323,7 @@ public class Dude implements Serializable {
 
 			targetX = x;
 			targetY = y;
-			path = new Logic(world).findRoute(world.getTile(this.x, this.y),
+			path = world.getLogic().findRoute(world.getTile(this.x, this.y),
 					world.getTile(targetX, targetY), this);
 			failedMoveCount = 0;
 			rand = randomGen.nextInt(5);
@@ -379,7 +379,7 @@ public class Dude implements Serializable {
 
 		int posX = pt.x - i.getWidth(null) / 2;
 		int posY = pt.y - i.getHeight(null);
-		
+
 		g.drawImage(i, posX, posY, null);
 
 		if (drawHealth) {

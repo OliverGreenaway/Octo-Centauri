@@ -7,8 +7,10 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 
 import logic.GameUpdate;
+import logic.Logic;
 
 /**
  * Stores everything in the game.
@@ -34,7 +36,8 @@ public class World {
 	private Set<Dude> allDudes = new HashSet<Dude>();
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
-	
+
+	private Logic logic;
 
 	/**
 	 * Returns a random tile name.
@@ -83,6 +86,7 @@ public class World {
 	public World(Tile[][] tiles) {
 		worldTile = tiles;
 		resources = new HashSet<Resource>();
+		logic = new Logic(this);
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 
@@ -108,8 +112,8 @@ public class World {
 
 		s.setWorld(this);
 
-		if(s instanceof Resource)
-			resources.add((Resource)s);
+		if (s instanceof Resource)
+			resources.add((Resource) s);
 		structures.add(s);
 
 		// place the structure
@@ -119,7 +123,6 @@ public class World {
 
 		return true;
 	}
-
 
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
@@ -132,11 +135,11 @@ public class World {
 	public void removeStructure(Structure s) {
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
-		for(int X = 0; X < w; X++)
-			for(int Y = 0; Y < h; Y++)
-				worldTile[x-X][y-Y].setStructure(null, false);
+		for (int X = 0; X < w; X++)
+			for (int Y = 0; Y < h; Y++)
+				worldTile[x - X][y - Y].setStructure(null, false);
 
-		if(s instanceof Resource)
+		if (s instanceof Resource)
 			resources.remove(s);
 		structures.remove(s);
 	}
@@ -225,8 +228,8 @@ public class World {
 	}
 
 	/**
-	 * Finds the nearest resource structure of the given type.
-	 * resType is the type to look for, or null if any type is ok.
+	 * Finds the nearest resource structure of the given type. resType is the
+	 * type to look for, or null if any type is ok.
 	 */
 	public Resource getNearestResource(Tile tile, ResourceType resType) {
 		int x = tile.getX();
@@ -234,21 +237,26 @@ public class World {
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
 
-		for(Resource r : resources) {
-			if(resType != null && r.getResType() != resType)
+		for (Resource r : resources) {
+
+			if (resType != null && r.getResType() != resType)
 				continue;
-			if(r.getResType() == null)
+			if (r.getResType() == null)
 				continue;
-			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
-			if(squaredDistance < bestSquaredDistance) {
+			int squaredDistance = (r.getX() - x) * (r.getX() - x)
+					+ (r.getY() - y) * (r.getY() - y);
+
+			if (squaredDistance < bestSquaredDistance) {
+				// Stack<Tile> q = logic.findRoute(tile,getTile(r.getX(),
+				// r.getY()), tile.getDude());
+				// if (!q.isEmpty()) {
 				bestSquaredDistance = squaredDistance;
 				bestResource = r;
+				// }
 			}
 		}
 		return bestResource;
 	}
-
-
 
 	public Structure getNearestStructure(Class<?> class1, Tile tile) {
 		int x = tile.getX();
@@ -256,14 +264,29 @@ public class World {
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Structure bestStructure = null;
 
-		for(Structure r : structures) {
-			if(!class1.isInstance(r))
+		for (Structure r : structures) {
+			if (!class1.isInstance(r))
 				continue;
-			int squaredDistance = (r.getX()-x)*(r.getX()-x) + (r.getY()-y)*(r.getY()-y);
-			if(squaredDistance < bestSquaredDistance) {
+			int squaredDistance = (r.getX() - x) * (r.getX() - x)
+					+ (r.getY() - y) * (r.getY() - y);
+
+			if (squaredDistance < bestSquaredDistance) {
+				// Stack<Tile> q = logic.findRoute(tile,getTile(r.getX(),
+				// r.getY()), tile.getDude());
+				// if (!q.isEmpty()) {
 				bestSquaredDistance = squaredDistance;
 				bestStructure = r;
+				// }
 			}
+//			if (squaredDistance < bestSquaredDistance) {
+//				Stack<Tile> q = logic.findRoute(tile,
+//						getTile(r.getX(), r.getY()), tile.getDude());
+//				if(q.isEmpty()) return null;
+//				if (!q.isEmpty()) {
+//					bestSquaredDistance = squaredDistance;
+//					bestStructure = r;
+//				}
+//			}
 		}
 		return bestStructure;
 	}
@@ -292,19 +315,12 @@ public class World {
 		this.woodResource = woodResource;
 	}
 
-
-
-
-
-
-
-
-
 	public void build(Tile t, String type) {
 		// TODO Auto-generated method stub
-		
 
+	}
 
-
+	public Logic getLogic() {
+		return this.logic;
 	}
 }

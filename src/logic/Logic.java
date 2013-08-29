@@ -17,13 +17,15 @@ public class Logic {
 
 	private Map<String, List<String>> menus;
 	private World world;
+	private int level;
 
-	// private Tile[][] tiles = new Tile[20][20];
-	// private Tile[][] tiles = World.getTiles();
+	private int[][] access;
 
 	public Logic(World world) {
 		this.world = world;
-		// menus = FileReader.readMenus("menu_mappings.tab");
+		level = 1;
+		access = new int[world.getXSize()][world.getYSize()];
+		mapCreated();
 	}
 
 	/**
@@ -34,20 +36,6 @@ public class Logic {
 	 * @return - stuff to go in the context menu
 	 */
 	public Menu rightClick(Object object) {
-		// if(object instanceof GroundTile){
-		// return new Menu(menus.get("GroundTile"));
-		// }
-		// else if (object instanceof Building){
-		// if(object instanceof Barracks){
-		//
-		// }
-		// if(object instanceof Mill){
-
-		// }
-		// }
-		// else{
-		// System.out.println("Was not a game object.");
-		// }
 		return null;
 	}
 
@@ -55,20 +43,7 @@ public class Logic {
 	 * Left-clicking selects an object or character.
 	 */
 	public void leftClick(Object object) {
-		// if(object instanceof GroundTile){
-		//
-		// }
-		// else if (object instanceof Building){
-		// if(object instanceof Barracks){
-		//
-		// }
-		// if(object instanceof Mill){
-		//
-		// }
-		// }
-		// }
-		// else{
-		// System.out.println("Was not a game object.");
+
 	}
 
 	private List<Tile> getNeighbours(Tile tile, Dude dude) {
@@ -87,11 +62,110 @@ public class Logic {
 				}
 			}
 		}
-		// neighbours.add(tiles[x-1][y-1]);
-		// neighbours.add(tiles[x+1][y+1]);
-		// neighbours.add(tiles[x-1][y+1]);
-		// neighbours.add(tiles[x+1][y-1]);
 		return toAdd;
+	}
+
+	public void mapChanged(int i, int j) {
+		Stack<FourTupleInt> stack = new Stack<FourTupleInt>();
+
+		access[i][j] = level;
+
+		stack.push(new FourTupleInt(i + 1, j, i, j));
+		stack.push(new FourTupleInt(i, j + 1, i, j));
+		stack.push(new FourTupleInt(i, j - 1, i, j));
+		stack.push(new FourTupleInt(i - 1, j, i, j));
+
+		while (!stack.isEmpty()) {
+			FourTupleInt current = stack.pop();
+
+			int x = current.getCur().x;
+			int y = current.getCur().y;
+			int prevX = current.getPrev().x;
+			int prevY = current.getPrev().y;
+			if (x < 0 || x >= access.length || y < 0 || y >= access[0].length
+					|| access[x][y] != 0) {
+				continue;
+			}
+			if ((world.getTile(prevX, prevY).getHeight() == world.getTile(x, y)
+					.getHeight())) {
+				access[x][y] = access[prevX][prevY];
+				if (x < access.length - 1 && access[x + 1][y] != level) {
+					stack.push(new FourTupleInt(x + 1, y, x, y));
+				}
+				if (y < access[x].length - 1 && access[x][y + 1] != level) {
+					stack.push(new FourTupleInt(x, y + 1, x, y));
+				}
+				if (y > 0 && access[x][y - 1] != level) {
+					stack.push(new FourTupleInt(x, y - 1, x, y));
+				}
+				if (x > 0 && access[x - 1][y] != level) {
+					stack.push(new FourTupleInt(x - 1, y, x, y));
+				}
+			}
+		}
+		level++;
+	}
+
+	public void mapCreated() {
+		access = new int[world.getXSize()][world.getYSize()];
+		for (int i = 0; i < access.length; i++) {
+			for (int j = 0; j < access.length; j++) {
+				access[i][j] = 0;
+			}
+		}
+
+		Stack<FourTupleInt> stack = new Stack<FourTupleInt>();
+		for (int i = 0; i < access.length; i++) {
+			for (int j = 0; j < access[i].length; j++) {
+				if (access[i][j] == 0) {
+					access[i][j] = level;
+
+					if (i < access.length - 1 && access[i + 1][j] == 0) {
+						stack.push(new FourTupleInt(i + 1, j, i, j));
+					}
+					if (j < access[i].length - 1 && access[i][j + 1] == 0) {
+						stack.push(new FourTupleInt(i, j + 1, i, j));
+					}
+					if (j > 0 && access[i][j - 1] == 0) {
+						stack.push(new FourTupleInt(i, j - 1, i, j));
+					}
+					if (i > 0 && access[i - 1][j] == 0) {
+						stack.push(new FourTupleInt(i - 1, j, i, j));
+					}
+
+					while (!stack.isEmpty()) {
+						FourTupleInt current = stack.pop();
+
+						int x = current.getCur().x;
+						int y = current.getCur().y;
+						int prevX = current.getPrev().x;
+						int prevY = current.getPrev().y;
+						if (x < 0 || x >= access.length || y < 0
+								|| y >= access[0].length || access[x][y] != 0) {
+							continue;
+						}
+						if ((world.getTile(prevX, prevY).getHeight() == world
+								.getTile(x, y).getHeight())) {
+							access[x][y] = access[prevX][prevY];
+							if (x < access.length - 1 && access[x + 1][y] == 0) {
+								stack.push(new FourTupleInt(x + 1, y, x, y));
+							}
+							if (y < access[x].length - 1
+									&& access[x][y + 1] == 0) {
+								stack.push(new FourTupleInt(x, y + 1, x, y));
+							}
+							if (y > 0 && access[x][y - 1] == 0) {
+								stack.push(new FourTupleInt(x, y - 1, x, y));
+							}
+							if (x > 0 && access[x - 1][y] == 0) {
+								stack.push(new FourTupleInt(x - 1, y, x, y));
+							}
+						}
+					}
+					level++;
+				}
+			}
+		}
 	}
 
 	/**
@@ -105,24 +179,28 @@ public class Logic {
 	 * @param routeGoal
 	 *            - the goal point of the path
 	 */
-
-	public Stack<Tile> findRoute(Tile start, Tile target, Dude dude) { // TODO
-																		// Needs
-																		// to be
-		// extended to
-		// account for
-		// obstacles
+	public Stack<Tile> findRoute(Tile start, Tile target, Dude dude) {
 		Stack<Tile> route = new Stack<Tile>();
 		HashSet<Tile> visited = new HashSet<Tile>();
 		PriorityQueue<SearchNode> fringe = new PriorityQueue<SearchNode>();
+
+		if (access[start.getX()][start.getY()] != access[target.getX()][target
+				.getY()]) {
+			return new Stack<Tile>();
+		}
 
 		// Enqueue root
 		fringe.offer(new SearchNode(start, target, 0, null));
 
 		if (target.getDude() != null && target.getDude() != dude) {
+			for (int i = 0; i < new Random().nextInt(10); i++) {
+				List<Tile> n = getNeighbours(target, dude);
+				int temp = new Random().nextInt(n.size() + 1);
+				if (!(temp < 0 || temp >= n.size())) {
+					target = n.get(temp);
+				}
 
-			List<Tile> n = getNeighbours(target, dude);
-			target = n.get(new Random().nextInt(n.size()-1));
+			}
 		}
 
 		while (!fringe.isEmpty()) {
@@ -158,6 +236,24 @@ public class Logic {
 	 */
 	private double calcHeuristic(Point routeStart, Point routeGoal) {
 		return routeStart.distance(routeGoal);
+	}
+
+	private class FourTupleInt {
+
+		private Point cur, prev;
+
+		public FourTupleInt(int x, int y, int prevX, int prevY) {
+			this.cur = new Point(x, y);
+			this.prev = new Point(prevX, prevY);
+		}
+
+		public Point getCur() {
+			return cur;
+		}
+
+		public Point getPrev() {
+			return prev;
+		}
 	}
 
 }
