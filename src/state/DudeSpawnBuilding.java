@@ -16,7 +16,7 @@ public class DudeSpawnBuilding extends Structure {
 				if(new Random().nextBoolean())
 					getWorld().addDude(new Dude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
 				else
-					getWorld().addDude(new Octodude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
+					getWorld().addDude(new Octodude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 				delay = 15;
 			} else {
 				delay--;

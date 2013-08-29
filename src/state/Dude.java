@@ -343,7 +343,7 @@ public class Dude implements Serializable {
 					continue;
 
 				Dude d = t.getDude();
-				if(d != null && d != this)
+				if(d != null && this.getClass() != d.getClass())
 					return d;
 			}
 
