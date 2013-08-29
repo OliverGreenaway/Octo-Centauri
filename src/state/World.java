@@ -44,6 +44,8 @@ public class World {
 	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
+	private String currentBuild = "BarrenGrass";
+
 	MixingDesk mixingDesk;
 
 	/**
@@ -359,9 +361,10 @@ public class World {
 				if (t.getStructure() != null) {
 					removeStructure(t.getStructure());
 				}
-				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
-						"Assets/EnvironmentTiles/BarrenWall.png");
-				addStructure(s);
+
+				t.setImage(currentBuild);
+				t.setHeight(t.getHeight() + 1);
+
 				// set tile non trasnparent
 				// reassign dude to new task
 				return true;
@@ -377,13 +380,15 @@ public class World {
 	}
 
 	private boolean hasResources(String type) {
-		if (type.equals("BarrenWall")) {
+		switch(type){
+		case "BarrenWall":
 			return true;
-			// if(crystalResource > 10){
-			// crystalResource = crystalResource - 10;
-			// return true;
-			// }
-		}
+		case "BarrenGrass":
+			return true;
+		case "DarkSand":
+			return true;
+		case "grass":
+			return true;
 		return false;
 
 	}
@@ -397,7 +402,7 @@ public class World {
 	}
 
 	/**
-	 * sets game music player to 
+	 * sets game music player to
 	 * @param mixingDesk
 	 */
 	public void setAudioPlayer(MixingDesk mixingDesk) {
@@ -424,5 +429,13 @@ public class World {
 
 	public Logic getLogic() {
 		return this.logic;
+	}
+
+	public String getCurrentBuild() {
+		return currentBuild;
+	}
+
+	public void setCurrentBuild(String currentBuild) {
+		this.currentBuild = currentBuild;
 	}
 }
