@@ -20,6 +20,8 @@ import UI.Display;
  */
 public class Octodude extends Dude implements Serializable{
 
+	private boolean isAlien;
+
 
 	private transient Image img[];
 
@@ -27,6 +29,7 @@ public class Octodude extends Dude implements Serializable{
 			String image) {
 		super(world, x, y, width, height, image);
 		maxHealth = 50;
+		isAlien = true;
 	}
 
 	@Override
