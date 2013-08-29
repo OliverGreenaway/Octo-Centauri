@@ -130,7 +130,8 @@ public class World {
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++) {
 				worldTile[x-X][y-Y].setDude(null);
-				worldTile[ox-X][oy-Y].setDude(null);
+				if(worldTile[ox-X][oy-Y].getDude() == s)
+					worldTile[ox-X][oy-Y].setDude(null);
 			}
 
 		allDudes.remove(s);
@@ -206,7 +207,7 @@ public class World {
 	public void update() {
 		for (Dude d : new ArrayList<Dude>(allDudes))
 			d.update();
-		for (Structure s : structures)
+		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
 		if(counter == 30 && dudeSpawningEnabled){
 			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
@@ -232,20 +233,14 @@ public class World {
 		return allDudes;
 	}
 
-	/**
-	 * Finds the nearest resource structure of the given type.
-	 * resType is the type to look for, or null if any type is ok.
-	 */
-	public Resource getNearestResource(Tile tile, ResourceType resType, Dude dude) {
+	public Resource getNearestResource(Tile tile, Dude dude) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
 
 		for(Resource r : resources) {
-			if(resType != null && r.getResType() != resType)
-				continue;
-			if(r.getResType() == null)
+			if(!dude.canMine(r))
 				continue;
 			Tile restile = getTile(r.getX(), r.getY());
 			if(restile.getDude() != null && restile.getDude() != dude)
