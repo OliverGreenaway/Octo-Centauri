@@ -42,8 +42,7 @@ import util.UIImageStorage;
 //TODO Hovering over the screen will show a tempory bit on the screen
 
 @SuppressWarnings("serial")
-public class Window extends JPanel implements KeyListener, MouseListener,
-		MouseMotionListener, MouseWheelListener {
+public class Window extends JPanel implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
 	// mouse x y points on a click
 	private int mouseX = 0;
@@ -130,7 +129,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
 
-		world.setAudioPlayer(this.audioPlayer);
+		
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -158,6 +157,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			System.out.println("stop");
 			audioPlayer.stopPlayer();
 			audioPlayer = new AudioPlayer("InGameMusic.wav", true);
+			world.setAudioPlayer(this.audioPlayer);
 			audioPlayer.start();
 		}
 
