@@ -73,73 +73,91 @@ public class Display extends JPanel {
 	}
 
 	public Set<java.awt.Rectangle> getUISpace() {
-		if (UISpace == null) {
-			UISpace = new HashSet<Rectangle>();
-			UISpace.add(new Rectangle(this.getWidth() - padding - miniMapWidth
-					- toggleSize, padding, miniMapWidth + toggleSize,
-					miniMapHeight));
-		}
+		UISpace = new HashSet<Rectangle>();
+		UISpace.add(new Rectangle(this.getWidth() - padding - miniMapWidth
+				- toggleSize, padding, miniMapWidth + toggleSize, miniMapHeight));
+		UISpace.add(new Rectangle(padding, padding, 150, 64 * 3 + 5 * 3 + 10
+				+ 10));
 		return UISpace;
 	}
 
 	public Map<String, Rectangle> getToggleMap() {
-		Rectangle toggleHealth = new Rectangle(this.getWidth()
-				- miniMapWidth - toggleSize - padding + tpad, padding
-				+ tpad, toggleSize, toggleSize);
-		Rectangle newDudeToggle = new Rectangle(toggleHealth.x,
-				toggleHealth.y + toggleSize - tpad, toggleSize, toggleSize);
+		Rectangle toggleHealth = new Rectangle(this.getWidth() - miniMapWidth
+				- toggleSize - padding + tpad, padding + tpad, toggleSize,
+				toggleSize);
+		Rectangle newDudeToggle = new Rectangle(toggleHealth.x, toggleHealth.y
+				+ toggleSize - tpad, toggleSize, toggleSize);
 		Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
 				newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
 		Rectangle tripToggle = new Rectangle(slugBalancingToggle.x,
-				slugBalancingToggle.y + toggleSize - tpad, toggleSize, toggleSize);
+				slugBalancingToggle.y + toggleSize - tpad, toggleSize,
+				toggleSize);
 
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
 			toggleButtonsListener = new HashMap<String, MouseListener>();
 			toggleButtonsImages = new HashMap<String, String>();
 
-
 			MouseListener listener = new MouseListener() {
 				@Override
-				public void mouseReleased(MouseEvent e) {}
+				public void mouseReleased(MouseEvent e) {
+				}
+
 				@Override
-				public void mousePressed(MouseEvent e) {}
+				public void mousePressed(MouseEvent e) {
+				}
+
 				@Override
-				public void mouseExited(MouseEvent e) {}
+				public void mouseExited(MouseEvent e) {
+				}
+
 				@Override
-				public void mouseEntered(MouseEvent e) {}
+				public void mouseEntered(MouseEvent e) {
+				}
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					world.toggleShowHealth();
 					if (world.showHealth())
-						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
+						toggleButtonsImages.put("ButtonHealth",
+								"ButtonHealthOn");
 					else
-						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOff");
+						toggleButtonsImages.put("ButtonHealth",
+								"ButtonHealthOff");
 				}
 			};
-
 
 			toggleButtonsListener.put("ButtonHealth", listener);
 			toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
 
 			listener = new MouseListener() {
 				@Override
-				public void mouseReleased(MouseEvent e) {}
+				public void mouseReleased(MouseEvent e) {
+				}
+
 				@Override
-				public void mousePressed(MouseEvent e) {}
+				public void mousePressed(MouseEvent e) {
+				}
+
 				@Override
-				public void mouseExited(MouseEvent e) {}
+				public void mouseExited(MouseEvent e) {
+				}
+
 				@Override
-				public void mouseEntered(MouseEvent e) {}
+				public void mouseEntered(MouseEvent e) {
+				}
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					world.toggleDudeSpawning();
 					if (world.isDudeSpawningEnabled())
-						toggleButtonsImages.put("ButtonAddDude", "ButtonAddDudeHover");
-					else toggleButtonsImages.put("ButtonAddDude", "ButtonAddDude");
+						toggleButtonsImages.put("ButtonAddDude",
+								"ButtonAddDudeHover");
+					else
+						toggleButtonsImages.put("ButtonAddDude",
+								"ButtonAddDude");
 				}
 			};
-
 
 			toggleButtonsListener.put("ButtonAddDude", listener);
 			toggleButtonsImages.put("ButtonAddDude", "ButtonAddDudeHover");
@@ -147,25 +165,34 @@ public class Display extends JPanel {
 			listener = new MouseListener() {
 
 				@Override
-				public void mouseReleased(MouseEvent e) {}
+				public void mouseReleased(MouseEvent e) {
+				}
+
 				@Override
-				public void mousePressed(MouseEvent e) {}
+				public void mousePressed(MouseEvent e) {
+				}
+
 				@Override
-				public void mouseExited(MouseEvent e) {}
+				public void mouseExited(MouseEvent e) {
+				}
+
 				@Override
-				public void mouseEntered(MouseEvent e) {}
+				public void mouseEntered(MouseEvent e) {
+				}
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					if (toggleButtonsImages.get("ButtonMute").equals("ButtonMuteOff")) {
+					if (toggleButtonsImages.get("ButtonMute").equals(
+							"ButtonMuteOff")) {
 						// Mute here
-						if(world.getAudioPlayer()!=null){
+						if (world.getAudioPlayer() != null) {
 							world.getAudioPlayer().toggleMute();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
 
-						if(world.getAudioPlayer()!=null){
+						if (world.getAudioPlayer() != null) {
 							world.getAudioPlayer().toggleMute();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
@@ -173,23 +200,31 @@ public class Display extends JPanel {
 				}
 			};
 
-
 			toggleButtonsListener.put("ButtonMute", listener);
 			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 
 			listener = new MouseListener() {
 
 				@Override
-				public void mouseReleased(MouseEvent e) {}
+				public void mouseReleased(MouseEvent e) {
+				}
+
 				@Override
-				public void mousePressed(MouseEvent e) {}
+				public void mousePressed(MouseEvent e) {
+				}
+
 				@Override
-				public void mouseExited(MouseEvent e) {}
+				public void mouseExited(MouseEvent e) {
+				}
+
 				@Override
-				public void mouseEntered(MouseEvent e) {}
+				public void mouseEntered(MouseEvent e) {
+				}
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					if (toggleButtonsImages.get("ButtonBG").equals("ButtonBGOff")) {
+					if (toggleButtonsImages.get("ButtonBG").equals(
+							"ButtonBGOff")) {
 						trippy = true;
 						toggleButtonsImages.put("ButtonBG", "ButtonBGOn");
 					} else {
@@ -304,13 +339,12 @@ public class Display extends JPanel {
 		return new Point(getPixelX(x, y), getPixelY(x, y));
 	}
 
-
 	public Point displayToTileCoordinates(int x, int y) {
 		/*
 		 * x -= camera.x; y -= camera.y;
-		 *
-		 *
-		 *
+		 * 
+		 * 
+		 * 
 		 * return new Point(getPixelX(x, y), getPixelY(x, y));
 		 */
 
@@ -377,7 +411,8 @@ public class Display extends JPanel {
 	private void paintMap(Graphics g) {
 
 		if (trippy) {
-			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 24)));
+			Color trippingColor = new Color((int) (Math.random() * Math.pow(2,
+					24)));
 			g.setColor(trippingColor);
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		}
@@ -426,20 +461,23 @@ public class Display extends JPanel {
 													// in the tile --> DRAW
 													// HE/SHE/IT!
 
-						t.getStructure().draw(g, this, bottomPixelX, bottomPixelY);
+						t.getStructure().draw(g, this, bottomPixelX,
+								bottomPixelY);
 
 					}
 
 					Dude dude = t.getDude();
 					if (dude != null) { // If there is a dude in the tile
-						dude.draw(g, this, bottomPixelX, bottomPixelY, world.showHealth());
+						dude.draw(g, this, bottomPixelX, bottomPixelY,
+								world.showHealth());
 
 					}
 				}
 			}
 		}
 		if (trippy) {
-			Color trippingColor = new Color((int)(Math.random() * Math.pow(2, 32)), true);
+			Color trippingColor = new Color((int) (Math.random() * Math.pow(2,
+					32)), true);
 			g.setColor(trippingColor);
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		}
@@ -447,7 +485,7 @@ public class Display extends JPanel {
 
 	/**
 	 * Displays the HUD on the main game window
-	 *
+	 * 
 	 * @param g
 	 *            Display graphics object
 	 */
@@ -459,8 +497,8 @@ public class Display extends JPanel {
 		g2d.fillRect(this.getWidth() - miniMapWidth - padding, padding,
 				miniMapWidth, miniMapHeight);
 
-
-		BufferedImage miniMap = new BufferedImage(miniMapWidth, miniMapHeight, BufferedImage.TYPE_INT_RGB);
+		BufferedImage miniMap = new BufferedImage(miniMapWidth, miniMapHeight,
+				BufferedImage.TYPE_INT_RGB);
 
 		for (int x = 0; x < miniMapWidth; x++) {
 			for (int y = 0; y < miniMapHeight; y++) {
@@ -476,8 +514,8 @@ public class Display extends JPanel {
 				}
 			}
 		}
-		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding, padding, null);
-
+		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding,
+				padding, null);
 
 		// draw the button panel
 		g2d.setColor(Color.black);
@@ -503,31 +541,34 @@ public class Display extends JPanel {
 						+ padding);
 		g2d.setStroke(orig);
 
-
 		getToggleMap();
 		for (String key : toggleButtons.keySet()) {
-			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)), toggleButtons.get(key).x , toggleButtons.get(key).y, null);
+			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)),
+					toggleButtons.get(key).x, toggleButtons.get(key).y, null);
 		}
-		
+
 		g2d.setColor(Color.black);
 		g2d.setStroke(new BasicStroke(3));
-		g2d.fillRect(padding, padding, 150 ,64*3+5*3+10+10);
+		g2d.fillRect(padding, padding, 150, 64 * 3 + 5 * 3 + 10 + 10);
 		g2d.setColor(new Color(212, 175, 55));
-		g2d.drawRoundRect(
-				padding, padding, 150, 64*3+5*3+10+10, r, r);
-		
-		
+		g2d.drawRoundRect(padding, padding, 150, 64 * 3 + 5 * 3 + 10 + 10, r, r);
+
 		for (int i = 0; i < 3; i++) {
 
-			g2d.drawImage(UIImageStorage.get("IconCrystal"), padding + 10, padding + 10, null);
-			g2d.drawImage(UIImageStorage.get("IconPlants"), padding + 10, padding + 10 + 64 + 5, null);
-			g2d.drawImage(UIImageStorage.get("IconWood"), padding + 10, padding + 10 + 64 + 64 + 5 + 5, null);
+			g2d.drawImage(UIImageStorage.get("IconCrystal"), padding + 10,
+					padding + 10, null);
+			g2d.drawImage(UIImageStorage.get("IconPlants"), padding + 10,
+					padding + 10 + 64 + 5, null);
+			g2d.drawImage(UIImageStorage.get("IconWood"), padding + 10, padding
+					+ 10 + 64 + 64 + 5 + 5, null);
 
-			g2d.drawString(""+world.getCrystalResource(), padding + 64 + 10 + 5, padding + 20);
-			g2d.drawString(""+world.getPlantResource(), padding + 64 + 10 + 5, padding + 20 + 64 + 5);
-			g2d.drawString(""+world.getWoodResource(), padding + 64 + 10 + 5, padding + 20 + 64 + 5 +64 +5);
-			
-			
+			g2d.drawString("" + world.getCrystalResource(),
+					padding + 64 + 10 + 5, padding + 20);
+			g2d.drawString("" + world.getPlantResource(),
+					padding + 64 + 10 + 5, padding + 20 + 64 + 5);
+			g2d.drawString("" + world.getWoodResource(), padding + 64 + 10 + 5,
+					padding + 20 + 64 + 5 + 64 + 5);
+
 		}
 
 	}
