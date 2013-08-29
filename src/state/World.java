@@ -38,6 +38,7 @@ public class World {
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
 	private boolean dudeSpawningEnabled = true;
+	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
 
@@ -66,7 +67,6 @@ public class World {
 		resources = new HashSet<Resource>();
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
-		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 
 	}
 
@@ -208,7 +208,7 @@ public class World {
 			d.update();
 		for (Structure s : structures)
 			s.update();
-		if(counter == 30 && dudeSpawningEnabled){
+		if(counter == 60 && dudeSpawningEnabled){
 			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 			counter = 0;
 		} else if(!dudeSpawningEnabled && counter == 150){
@@ -359,6 +359,14 @@ public class World {
 
 	public void toggleDudeSpawning() {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
+	}
+
+	public boolean isSlugBalancingEnabled() {
+		return slugBalancingEnabled;
+	}
+
+	public void toggleSlugBalancing(){
+		slugBalancingEnabled = !slugBalancingEnabled;
 	}
 
 	public void setAudioPlayer(AudioPlayer audioPlayer) {

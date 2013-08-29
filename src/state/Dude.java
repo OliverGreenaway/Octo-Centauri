@@ -293,7 +293,7 @@ public class Dude implements Serializable {
 //				if (task == null) {
 //					getResources();
 				} else if (task.getTask().equals("build")) {
-					System.out.println("building please");
+//					System.out.println("building please");
 					Tile t = task.getTile();
 					followPath(t.getX(), t.getY());
 //					rest(1000);
@@ -352,7 +352,10 @@ public class Dude implements Serializable {
 			}
 
 		} else {
-
+			//SlugBalancing check
+			if(this instanceof Octodude && !world.isSlugBalancingEnabled()){
+				return;
+			}
 			Resource nowHarvesting = world.getNearestResource(
 					world.getTile(x, y), storedResType, this);
 			if (harvesting != nowHarvesting) {
