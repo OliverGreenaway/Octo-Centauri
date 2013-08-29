@@ -14,7 +14,7 @@ public class Ramp extends Structure {
 		return direction;
 	}
 
-	private Image leftImage, rightImage;
+	private transient Image leftImage, rightImage;
 
 	public Ramp(int x, int y, int width, int height, String type, Direction dir) {
 		super(x, y, width, height, "Assets/EnvironmentTiles/EastFace"+type+".png");

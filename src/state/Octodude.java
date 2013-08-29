@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
@@ -20,7 +21,7 @@ import UI.Display;
 public class Octodude extends Dude implements Serializable{
 
 
-	private Image img[];
+	private transient Image img[];
 
 	public Octodude(World world, int x, int y, int width, int height,
 			String image) {
@@ -83,5 +84,29 @@ public class Octodude extends Dude implements Serializable{
 
 	}
 	private static final long serialVersionUID = -5458456094734079547L;
+
+	@Override
+	protected void idle() {
+		boolean moved=false;
+		switch(facing) {
+		case UP: moved=move(x, y-1); break;
+		case DOWN: moved=move(x, y+1); break;
+		case LEFT: moved=move(x-1, y); break;
+		case RIGHT: moved=move(x+1, y); break;
+		}
+		Random r = new Random();
+		if(!moved || r.nextInt(8) == 0)
+			facing = r.nextInt(4);
+	}
+
+	@Override
+	public boolean canMine(Resource r) {
+		return r instanceof Crystal && ((Crystal)r).shouldOctoMine();
+	}
+
+	@Override
+	protected void harvest(Resource harvesting) {
+		harvesting.harvest(); // don't store
+	}
 
 }

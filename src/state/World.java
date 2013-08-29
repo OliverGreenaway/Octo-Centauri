@@ -39,6 +39,7 @@ public class World {
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
 	private boolean dudeSpawningEnabled = true;
+	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
 	MixingDesk mixingDesk;
@@ -63,14 +64,23 @@ public class World {
 	/**
 	 * Creates a world from a tile array.
 	 */
-	public World(Tile[][] tiles) {
+	public World(Tile[][] tiles, GameUpdate initialUpdate) {
+		gameUpdate = initialUpdate;
 		worldTile = tiles;
 		resources = new HashSet<Resource>();
+		start();
+	}
+
+	/**
+	 * If we put this stuff in the constructor the game will break so put it here and it's called from inside
+	 * UpdateThread
+	 */
+	private void start(){
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-
 	}
+
 
 	/**
 	 * Adds a structure to the world and returns true. If the structure can't be
@@ -100,7 +110,7 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				worldTile[x - X][y - Y].setStructure(s, false);
-
+		gameUpdate.structureAdded(s); //Send change to the network class
 		return true;
 	}
 
@@ -123,6 +133,7 @@ public class World {
 		if(s instanceof Resource)
 			resources.remove(s);
 		structures.remove(s);
+		gameUpdate.structureRemoved(s); //Let the network know about the change
 	}
 
 	public void removeDude(Dude s) {
@@ -132,10 +143,12 @@ public class World {
 		for(int X = 0; X < w; X++)
 			for(int Y = 0; Y < h; Y++) {
 				worldTile[x-X][y-Y].setDude(null);
-				worldTile[ox-X][oy-Y].setDude(null);
+				if(worldTile[ox-X][oy-Y].getDude() == s)
+					worldTile[ox-X][oy-Y].setDude(null);
 			}
 
 		allDudes.remove(s);
+		gameUpdate.dudeRemoved(s); //Let the network know about the change
 	}
 
 	/**
@@ -162,9 +175,13 @@ public class World {
 
 		allDudes.add(s);
 		// plays the sound
+
 		if(mixingDesk!=null){
 			this.mixingDesk.addAudioPlayer("NewDudeBorn.wav", true);
 		}
+
+		gameUpdate.dudeAdded(s);
+
 		return true;
 	}
 
@@ -209,9 +226,9 @@ public class World {
 	public void update() {
 		for (Dude d : new ArrayList<Dude>(allDudes))
 			d.update();
-		for (Structure s : structures)
+		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
-		if(counter == 30 && dudeSpawningEnabled){
+		if(counter == 60 && dudeSpawningEnabled){
 			addDude(new Octodude(this, ((int)(Math.random() * getXSize()) + 1),(int) ((Math.random() * getYSize()) + 1), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
 			counter = 0;
 		} else if(!dudeSpawningEnabled && counter == 150){
@@ -235,20 +252,14 @@ public class World {
 		return allDudes;
 	}
 
-	/**
-	 * Finds the nearest resource structure of the given type.
-	 * resType is the type to look for, or null if any type is ok.
-	 */
-	public Resource getNearestResource(Tile tile, ResourceType resType, Dude dude) {
+	public Resource getNearestResource(Tile tile, Dude dude) {
 		int x = tile.getX();
 		int y = tile.getY();
 		int bestSquaredDistance = Integer.MAX_VALUE;
 		Resource bestResource = null;
 
 		for(Resource r : resources) {
-			if(resType != null && r.getResType() != resType)
-				continue;
-			if(r.getResType() == null)
+			if(!dude.canMine(r))
 				continue;
 			Tile restile = getTile(r.getX(), r.getY());
 			if(restile.getDude() != null && restile.getDude() != dude)
@@ -364,8 +375,22 @@ public class World {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 
+
 	public void setAudioPlayer(MixingDesk mixingDesk) {
 		this.mixingDesk = mixingDesk;
+	}
+
+	public boolean isSlugBalancingEnabled() {
+		return slugBalancingEnabled;
+	}
+
+	public void toggleSlugBalancing(){
+		slugBalancingEnabled = !slugBalancingEnabled;
+	}
+
+	public void setAudioPlayer(AudioPlayer audioPlayer) {
+		this.audioPlayer = audioPlayer;
+
 	}
 
 	public MixingDesk getAudioPlayer() {
