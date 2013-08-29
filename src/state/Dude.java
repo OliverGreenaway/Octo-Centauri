@@ -45,6 +45,10 @@ public class Dude implements Serializable {
 	private Random randomGen = new Random();
 	private int rand  = randomGen.nextInt(5);
 
+	private boolean isDeleted;
+	public boolean isDeleted() {return isDeleted;}
+	public void setDeleted() {isDeleted = true;}
+
 	/**
 	 * Size of the structure, in tiles.
 	 */
@@ -262,6 +266,8 @@ public class Dude implements Serializable {
 	 * Called every tick. Does stuff.
 	 */
 	public void update() {
+		if(isDeleted) return;
+
 		count++;
 		if (count == 4) {
 //			if (buildTicks > 0) {
