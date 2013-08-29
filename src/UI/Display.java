@@ -637,9 +637,6 @@ public class Display extends JPanel {
 
 			resourceSelect.put(key, rect);
 			
-			//g2d.setColor(Color.black);
-			//g2d.fill(rect);
-			
 			x++;
 			y += x / 2;
 			x %= 2;
