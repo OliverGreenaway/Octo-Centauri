@@ -185,11 +185,12 @@ public class Display extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					if (toggleButtonsImages.get("ButtonMute").equals("ButtonMuteOff")) {
 						// Mute here
-						world.getAudioPlayer().togglePaused();
+
+						world.getAudioPlayer().toggleMute();
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
-						world.getAudioPlayer().togglePaused();
+						world.getAudioPlayer().toggleMute();
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
 				}
@@ -409,7 +410,7 @@ public class Display extends JPanel {
 			g.setColor(trippingColor);
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		}
-		
+
 		for (int x = 0; x < VIEW_WIDTH; x++) {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {
 				Tile t = getCameraRelativeTile(x, y);
@@ -490,9 +491,9 @@ public class Display extends JPanel {
 		g2d.fillRect(this.getWidth() - miniMapWidth - padding, padding,
 				miniMapWidth, miniMapHeight);
 
-		
+
 		BufferedImage miniMap = new BufferedImage(miniMapWidth, miniMapHeight, BufferedImage.TYPE_INT_RGB);
-		
+
 		for (int x = 0; x < miniMapWidth; x++) {
 			for (int y = 0; y < miniMapHeight; y++) {
 				Tile t = world.getTile(x + camera.x, y + camera.y);
@@ -508,7 +509,7 @@ public class Display extends JPanel {
 			}
 		}
 		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding, padding, null);
-		
+
 
 		// draw the button panel
 		g2d.setColor(Color.black);

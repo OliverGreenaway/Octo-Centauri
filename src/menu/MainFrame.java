@@ -154,9 +154,7 @@ public class MainFrame extends JFrame {
 	 *
 	 */
 	public void playButtonSound(){
-		buttonSound = new AudioPlayer("MenuButtonClick.wav", true);
-		buttonSound.start();
-		//buttonSound.stopPlayer();
+
 	}
 
 

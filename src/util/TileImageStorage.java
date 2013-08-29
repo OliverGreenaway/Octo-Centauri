@@ -11,8 +11,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class TileImageStorage {
-	private Map<String, BufferedImage> images = new HashMap<String, BufferedImage>();
-	private Map<String, Color> colors = new HashMap<String, Color>();
+	private transient Map<String, BufferedImage> images = new HashMap<String, BufferedImage>();
+	private transient Map<String, Color> colors = new HashMap<String, Color>();
 
 	public void add(String key) {
 		try {
