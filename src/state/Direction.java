@@ -1,7 +1,7 @@
 package state;
 
 public enum Direction {
-	DOWN, LEFT, RIGHT, UP;
+	DOWN, RIGHT, UP, LEFT;
 
 	public static Direction getDirectionBetween(Tile from, Tile to) {
 		if(to.getX() == from.getX() + 1 && to.getY() == from.getY())
