@@ -41,7 +41,7 @@ public class Display extends JPanel {
 	private World world;
 
 	private boolean tileHighLighted = false;
-	
+
 	private boolean trippy = false;
 
 	// <UI
@@ -92,7 +92,7 @@ public class Display extends JPanel {
 				toggleHealth.y + toggleSize - tpad, toggleSize, toggleSize);
 		Rectangle slugBalancingToggle = new Rectangle(newDudeToggle.x,
 				newDudeToggle.y + toggleSize - tpad, toggleSize, toggleSize);
-		
+
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
 			toggleButtonsListener = new HashMap<String, MouseListener>();
@@ -118,7 +118,7 @@ public class Display extends JPanel {
 				}
 			};
 
-			
+
 			toggleButtonsListener.put("ButtonHealth", listener);
 			toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
 
@@ -140,7 +140,7 @@ public class Display extends JPanel {
 				}
 			};
 
-			
+
 			toggleButtonsListener.put("ButtonAddDude", listener);
 			toggleButtonsImages.put("ButtonAddDude", "ButtonAddDudeHover");
 
@@ -168,14 +168,14 @@ public class Display extends JPanel {
 				}
 			};
 
-			
+
 			toggleButtonsListener.put("ButtonMute", listener);
 			toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 		}
 		toggleButtons.put("ButtonAddDude", newDudeToggle);
 		toggleButtons.put("ButtonMute", slugBalancingToggle);
 		toggleButtons.put("ButtonHealth", toggleHealth);
-		
+
 		return toggleButtons;
 	}
 

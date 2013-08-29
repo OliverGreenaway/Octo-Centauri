@@ -5,9 +5,6 @@ package state;
  *
  */
 public class Task {
-	//build tiles
-	//build items
-	//if empty haul
 	private Tile tile;
 	private String task;
 	private String type;

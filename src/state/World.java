@@ -1,10 +1,8 @@
 package state;
 
-import java.io.FileReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -296,14 +294,6 @@ public class World {
 		this.woodResource = woodResource;
 	}
 
-
-
-
-
-
-
-
-
 	public boolean build(Tile t, String type, Dude dude) {
 		if(hasResources(type)){
 			if (dude.isAt(t.getX(), t.getY())) {
@@ -311,12 +301,10 @@ public class World {
 				if (t.getStructure() != null) {
 					removeStructure(t.getStructure());
 				}
-
 				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
 						"Assets/EnvironmentTiles/BarrenWall.png");
 				addStructure(s);
 				// set tile non trasnparent
-
 				// reassign dude to new task
 				return true;
 			}
@@ -324,6 +312,7 @@ public class World {
 
 		} else {
 			//otherwise reassign dude and repush task
+			System.out.println("not enough resources");//TODO
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}
