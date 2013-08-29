@@ -246,9 +246,10 @@ public class Dude implements Serializable {
 			if (from.getHeight() - 1 == to.getHeight()) {
 				if (!(to.getStructure() instanceof Ramp))
 					return false;
-				if (((Ramp) to.getStructure()).getDirection() != Direction
-						.getDirectionBetween(to, from))
+				if (((Ramp) to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from))
+
 					return false;
+
 
 			} else if (from.getHeight() + 1 == to.getHeight()) {
 				if (!(from.getStructure() instanceof Ramp))
@@ -292,8 +293,10 @@ public class Dude implements Serializable {
 			oldY = y;
 			attacking = findAttackTarget();
 
-			// TODO Squids cant build so fix that instanceof dude
-			if (task == null && this instanceof Dude) {
+
+			//TODO Squids cant build so fix that instanceof dude
+			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude)){
+
 				task = world.tasks.poll();
 			}
 

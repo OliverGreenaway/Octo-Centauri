@@ -51,7 +51,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 	boolean right = false;
 	private Logic logic;
 
-	private boolean drawTransparent = false;
+	private boolean drawTransparent = true;
 
 	Random random = new Random();
 
@@ -342,21 +342,30 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
-
-				// set tile to be somthing
 				if (e.getButton() == 3) {
 					display.getWorld().getTile(point.x, point.y).setImage("Grass");
-				} else if (drawTransparent == true) {
+
+				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
+
+				// set tile to be somthing
+//				if (e.getButton() == 3) {
+					// Dude d = new Dude("")
+//					Tile t = new Tile("Grass", 0, (int) point.getX(),
+//							(int) point.getY());
+//					display.getWorld().setTile((int) point.getX(),
+//							(int) point.getY(), t);
+			} else if (drawTransparent == true) {
 
 //					 System.out.println("drawing working");//TODO
-
-					display.getWorld().tasks.add(new Task(display.getWorld()
-							.getTile((int) point.getX(), (int) point.getY()),
-							"build", "BarrenWall"));// TODO
+					String currentBuild = display.getWorld().getCurrentBuild();
+					if (display.getWorld().hasResources(currentBuild)){
+					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+												"build",currentBuild));// TODO
 
 					Structure s = new Structure((int) point.getX(),
 							(int) point.getY(), 1, 1,
-							"Assets/EnvironmentTiles/BarrenWall.png");
+							"Assets/EnvironmentTiles/"+currentBuild+".png");
+
 					/*
 					 * Copied from Java tutorial. Create a rescale filter op
 					 * that makes the image 50% opaque.
@@ -369,9 +378,14 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 					display.getWorld().addStructure(s);
 
 				} else {
-					display.getWorld().addStructure(
+					Structure s = display.getWorld().getTile(point.x, point.y).getStructure();
+					if(s instanceof Ramp) {
+						((Ramp) s).setDirection(Direction.values()[(((Ramp) s).getDirection().ordinal() + 1) % 4]);
+					} else {
+						display.getWorld().addStructure(
 							new Ramp(point.x, point.y, 1, 1, "PathRamp",
 									Direction.values()[display.getRotation()]));
+					}
 				}
 				display.getWorld().getLogic().mapChanged(point.x, point.y);
 
@@ -401,9 +415,9 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 				}
 				display.getWorld().getLogic().mapChanged(t.getX(), t.getY());
 			}
-		}
+			}
 		this.repaint();
-
+		}
 	}
 
 	/*
