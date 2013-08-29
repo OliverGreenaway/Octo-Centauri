@@ -30,7 +30,8 @@ public class Dude implements Serializable {
 	/**
 	 * The coordinates of the tile under the bottom corner of the dude.
 	 */
-	protected int x, y; // Tile coords of Dude
+	protected int x; // Tile coords of Dude
+	protected int y;
 	protected int TILE_HEIGHT = 32;
 	protected int TILE_WIDTH = 64;
 	private int NUM_SPRITES = 16; // Number of model sprites per images
