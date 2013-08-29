@@ -277,7 +277,10 @@ public class Dude implements Serializable {
 			oldX = x;
 			oldY = y;
 			attacking = findAttackTarget();
-			if(task == null){
+
+
+			//TODO Squids cant build so fix that instanceof dude
+			if(task == null && this instanceof Dude){
 				task = world.tasks.poll();
 			}
 
