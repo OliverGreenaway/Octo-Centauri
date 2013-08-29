@@ -27,6 +27,10 @@ public class Structure implements Serializable {
 	private int TILE_HEIGHT = 32;
 	private int TILE_WIDTH = 64;
 
+	public final int WALL_HEALTH = 300;
+
+	public int currentHealth = WALL_HEALTH; // !!!
+
 	private transient BufferedImageOp filter;
 	private transient BufferedImage bufferedImage;
 
@@ -168,5 +172,8 @@ public class Structure implements Serializable {
 
 	public World getWorld() {
 		return world;
+
 	}
+
+
 }
