@@ -144,8 +144,6 @@ public class Dude implements Serializable{
 		for(int X = 0; X < width; X++)
 			for(int Y = 0; Y < height; Y++) {
 				Tile tile = world.getTile(newX-X, newY-Y);
-				if(tile.getDude() != null && tile.getDude() != this)
-					return false;
 				if(!canMove(world.getTile(x-X, y-Y), tile))
 					return false;
 			}
@@ -193,10 +191,27 @@ public class Dude implements Serializable{
 
 	}
 	public boolean canMove(Tile from, Tile to) {
-		if(from.getHeight() < to.getHeight() - 1)
+		if(to.getDude() != null && to.getDude() != this)
 			return false;
-		else if (from.getHeight()> to.getHeight() + 1)
-			return false;
+
+		if(from.getHeight() != to.getHeight()) {
+			if(from.getHeight() - 1 == to.getHeight()) {
+				if(!(to.getStructure() instanceof Ramp))
+					return false;
+				if(((Ramp)to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from))
+					return false;
+
+			} else if(from.getHeight() + 1 == to.getHeight()) {
+				if(!(from.getStructure() instanceof Ramp))
+					return false;
+				if(((Ramp)from.getStructure()).getDirection() != Direction.getDirectionBetween(from, to))
+					return false;
+
+			} else {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
