@@ -150,7 +150,7 @@ public class Structure implements Serializable {
 	 * @param bottomPixelX The X coordinate of the bottom corner of the object
 	 * @param bottomPixelY The Y coordinate of the bottom corner of the object
 	 */
-	public void draw(Graphics g, Display d, int bottomPixelX, int bottomPixelY){
+	public void draw(Graphics g, Display d, int bottomPixelX, int bottomPixelY) {
 		if(filter != null){
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.drawImage(bufferedImage, filter, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null));
