@@ -27,8 +27,8 @@ public class Structure implements Serializable {
 	private int TILE_HEIGHT = 32;
 	private int TILE_WIDTH = 64;
 
-	private BufferedImageOp filter;
-	private BufferedImage bufferedImage;
+	private transient BufferedImageOp filter;
+	private transient BufferedImage bufferedImage;
 
 	/**
 	 * The world the structure is in.

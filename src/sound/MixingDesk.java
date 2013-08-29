@@ -30,6 +30,13 @@ public class MixingDesk {
 		muted = !muted;
 	}
 
+	public void stopAudio(){
+		for(AudioPlayer a : players){
+			a.stopPlayer();
+		}
+	}
+
+
 	public static void main(String[] args) throws InterruptedException {
 
 		MixingDesk desk = new MixingDesk();

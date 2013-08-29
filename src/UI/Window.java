@@ -27,6 +27,7 @@ import javax.swing.SwingUtilities;
 import networking.common.Network;
 
 import logic.FileReader;
+import logic.GameUpdate;
 import logic.Logic;
 import logic.UpdateThread;
 import sound.AudioPlayer;
@@ -124,7 +125,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 		// set up menu
 
 		// Create a new world with the map read from the file.
-		World world = new World(FileReader.readMap(fileMap));// resources/map
+		GameUpdate initialUpdate = new GameUpdate();
+		World world = new World(FileReader.readMap(fileMap), initialUpdate);// resources/map
 		display = new Display(world); // was just new World()
 		FileReader.setStructures(world); // Set up the structures that the file
 											// reader now knows about
@@ -139,7 +141,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 
 		this.setLayout(new BorderLayout());
 		this.add(display, BorderLayout.CENTER);
-		update = new UpdateThread(world, display);
+		update = new UpdateThread(world, display, network, initialUpdate);
 		update.start();
 
 		UIImageStorage.add("ButtonHealthOn");
