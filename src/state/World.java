@@ -71,6 +71,9 @@ public class World {
 		worldTile = tiles;
 		resources = new HashSet<Resource>();
 		logic = new Logic(this);
+		for(Tile[] row : tiles)
+			for(Tile t : row)
+				t.setWorld(this);
 		start();
 	}
 
