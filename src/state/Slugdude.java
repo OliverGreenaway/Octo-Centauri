@@ -112,4 +112,9 @@ public class Slugdude extends Dude implements Serializable{
 		harvesting.harvest(); // don't store
 	}
 
+	@Override
+	public boolean isAlien(){
+		return true;
+	}
+
 }

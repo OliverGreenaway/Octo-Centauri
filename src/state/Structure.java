@@ -175,9 +175,9 @@ public class Structure implements Serializable {
 			int hWidth = 16;
 			int barWidth = 10;
 			g.setColor(Color.red);
-			g.fillRect(bottomPixelX - barWidth / 2, bottomPixelY - tall, hWidth + barWidth, hHeight);
+			g.fillRect(bottomPixelX - barWidth , bottomPixelY - tall - TILE_HEIGHT, hWidth + barWidth, hHeight);
 			g.setColor(Color.green);
-			g.fillRect(bottomPixelX - barWidth / 2, bottomPixelY - tall, (int)((hWidth + barWidth) * currentHealth / (float)maxHealth), hHeight);
+			g.fillRect(bottomPixelX - barWidth , bottomPixelY - tall - TILE_HEIGHT, (int)((hWidth + barWidth) * currentHealth / (float)maxHealth), hHeight);
 		}
 	}
 
