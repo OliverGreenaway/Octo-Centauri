@@ -151,6 +151,7 @@ public class World {
 
 		allDudes.remove(s);
 		gameUpdate.dudeRemoved(s); //Let the network know about the change
+		s.setDeleted();
 	}
 
 	/**
@@ -204,6 +205,7 @@ public class World {
 	public void setTile(int x, int y, Tile t) {
 		worldTile[x][y] = t;// TODO add bounds checking
 		gameUpdate.changedTileColour(t);
+		logic.mapChanged(x, y);
 	}
 
 	/**

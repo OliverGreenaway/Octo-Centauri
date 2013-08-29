@@ -376,8 +376,8 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 					display.getWorld().addStructure(
 							new Ramp(point.x, point.y, 1, 1, "PathRamp",
 									Direction.values()[display.getRotation()]));
-					display.getWorld().getTile(point.x, point.y);
 				}
+				display.getWorld().getLogic().mapChanged(point.x, point.y);
 
 			} else {
 				Tile t = display.getWorld().getTile(point.x, point.y);
@@ -403,6 +403,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 						break;
 					}
 				}
+				display.getWorld().getLogic().mapChanged(t.getX(), t.getY());
 			}
 		}
 		this.repaint();
@@ -435,6 +436,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			Tile t = display.getWorld().getTile(point.x, point.y);
 			t.setHeight(t.getHeight() - e.getWheelRotation());
+			display.getWorld().getLogic().mapChanged(point.x, point.y);
 		}
 		// plays audio
 		//System.out.println(mixingDesk);
@@ -442,6 +444,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
 		}
 		//new AudioPlayer("PlaceItem.wav", true);
+
 
 
 	}
