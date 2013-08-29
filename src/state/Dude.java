@@ -219,6 +219,7 @@ public class Dude implements Serializable {
 		if(to.getDude() != null && to.getDude() != this)
 			return false;
 
+
 		if(from.getHeight() != to.getHeight()) {
 			if(from.getHeight() - 1 == to.getHeight()) {
 				if(!(to.getStructure() instanceof Ramp))
@@ -408,6 +409,7 @@ public class Dude implements Serializable {
 
 		double percentMoved = count * 0.25;
 
+
 		// Tile coordinates of The Dude (x,y)
 		double x, y;
 
@@ -440,12 +442,13 @@ public class Dude implements Serializable {
 
 		if (drawHealth) {
 			int tall = 10;
-			int hHeight = 4;
+			int hHeight = 3;
 			int hWidth = 16;
+			int barWidth = 10;
 			g.setColor(Color.red);
-			g.fillRect(posX, posY - tall, hWidth, hHeight);
+			g.fillRect(posX - barWidth / 2, posY - tall, hWidth + barWidth, hHeight);
 			g.setColor(Color.green);
-			g.fillRect(posX, posY - tall, (int)(hWidth * currentHealth / (float)maxHealth), hHeight);
+			g.fillRect(posX - barWidth / 2, posY - tall, (int)((hWidth + barWidth) * currentHealth / (float)maxHealth), hHeight);
 		}
 	}
 

@@ -9,6 +9,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
+import sound.AudioPlayer;
+
 import logic.GameUpdate;
 
 /**
@@ -35,6 +37,8 @@ public class World {
 	private Set<Dude> allDudes = new HashSet<Dude>();
 	private Set<Structure> structures = new HashSet<Structure>();
 	private Set<Resource> resources;
+	private boolean dudeSpawningEnabled = true;
+
 
 	/**
 	 * Returns a random tile name.
@@ -177,6 +181,8 @@ public class World {
 				worldTile[x - X][y - Y].setDude(s);
 
 		allDudes.add(s);
+		// plays the sound
+		new AudioPlayer("NewDudeBorn.wav", true).start();
 
 		return true;
 	}
@@ -221,6 +227,7 @@ public class World {
 		for (Dude d : new ArrayList<Dude>(allDudes))
 			d.update();
 		for (Structure s : structures)
+
 			s.update();
 	}
 
@@ -325,5 +332,13 @@ public class World {
 
 
 
+	}
+
+	public boolean isDudeSpawningEnabled() {
+		return dudeSpawningEnabled ;
+	}
+
+	public void toggleDudeSpawning() {
+		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 }
