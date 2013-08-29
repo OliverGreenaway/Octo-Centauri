@@ -346,7 +346,7 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 				// set tile to be somthing
 				if (e.getButton() == 3) {
 					display.getWorld().getTile(point.x, point.y).setImage("Grass");
-				} else if (drawTransparent == true) {
+				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
 
 //					 System.out.println("drawing working");//TODO
 
