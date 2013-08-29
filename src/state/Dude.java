@@ -18,6 +18,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import sound.AudioPlayer;
+
 import logic.Logic;
 
 import UI.Display;
@@ -262,22 +264,6 @@ public class Dude implements Serializable {
 	/**
 	 * Called every tick. Does stuff.
 	 */
-//<<<<<<< HEAD
-//	int count;
-//
-//	public void update() {
-//		count++;
-//		if (count == 4) {
-//
-////			} else {
-//				unlinkTiles(oldX, oldY);
-//				linkTiles(x, y);
-//				oldX = x;
-//				oldY = y;
-//				if (task == null) {
-//					task = world.tasks.poll();
-//				}
-//=======
 	public void update() {
 		count++;
 		if (count == 4) {
@@ -304,19 +290,14 @@ public class Dude implements Serializable {
 
 			} else if (task == null) {
 				getResources();
-//			} else if (task.equals("build")) {
-//				// TODO
-//				Tile t = task.getTile();
-//				followPath(t.getX(), t.getY());
-//				world.build(t, task.getType());
-//>>>>>>> 269b3d06f91ec6aee8b58d2e5c2a18a6f0d18dab
-//
 //				if (task == null) {
 //					getResources();
 				} else if (task.getTask().equals("build")) {
+					System.out.println("building please");
 					Tile t = task.getTile();
 					followPath(t.getX(), t.getY());
-					rest(1000);
+//					rest(1000);
+
 					if (world.build(t, task.getType(), this)) {
 						task = null;
 					}
@@ -326,9 +307,11 @@ public class Dude implements Serializable {
 		}
 
 	public void attack(Dude victim) {
+		new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
 		if(victim.currentHealth < 0) {
 			world.removeDude(victim);
+			new AudioPlayer("DyingDude.wav", true).start();
 		}
 	}
 
