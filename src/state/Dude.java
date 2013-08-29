@@ -307,7 +307,7 @@ public class Dude implements Serializable {
 
 		//new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
-		if(victim.currentHealth < 0) {
+		if(victim.currentHealth <= 0) {
 			//dude killed needs his task readded to queue
 			if(victim.hasTask()){
 				world.tasks.add(task);
