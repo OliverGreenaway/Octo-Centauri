@@ -22,16 +22,12 @@ import UI.Display;
  */
 public class Octodude extends Dude implements Serializable{
 
-	private boolean isAlien;
-
-
 	private transient Image img[];
 
 	public Octodude(World world, int x, int y, int width, int height,
 			String image) {
 		super(world, x, y, width, height, image);
 		maxHealth = 50;
-		isAlien = true;
 	}
 
 	@Override
@@ -103,6 +99,11 @@ public class Octodude extends Dude implements Serializable{
 		Random r = new Random();
 		if(!moved || r.nextInt(8) == 0)
 			facing = r.nextInt(4);
+	}
+
+	@Override
+	public boolean isAlien(){
+		return true;
 	}
 
 	@Override

@@ -261,7 +261,7 @@ public class Dude implements Serializable {
 	int storedResources = 0;
 	ResourceType storedResType = null;
 
-	Dude attacking;
+	Tile attacking;
 
 	int count; // update count, things change every 4 updates.
 
@@ -291,10 +291,20 @@ public class Dude implements Serializable {
 				if(Math.abs(x - attacking.getX()) + Math.abs(y - attacking.getY()) > 1) {
 					// too far, move closer
 					moveTowards(attacking.getX(), attacking.getY());
+					System.out.println("Charge!");
 					attacking = null;
 				} else {
 					setFacing(attacking.getX(), attacking.getY());
-					attack(attacking);
+
+					Dude dude = attacking.getDude();
+					if(dude!=null){
+						attack(dude);
+					}
+
+					Structure struct = attacking.getStructure();
+					if(struct!=null){
+						attack(struct);
+					}
 				}
 			} else if (task == null) {
 				getResources();
@@ -307,13 +317,21 @@ public class Dude implements Serializable {
 				if (world.build(t, task.getType(), this)) {
 					task = null;
 				}
+			}else if(task.getTask().equals("dig")){
+				Tile t = task.getTile();
+				followPath(t.getX(), t.getY());
+				// rest(1000);//TODO
+
+				if (world.dig(t, this)) {
+					task = null;
+				}
 			}
 			count = 0;
 		}
 	}
 
 	public void attack(Dude victim) {
-
+		System.out.println("Attack Dude");
 		if(world.getAudioPlayer()!=null)
 			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
 
@@ -331,6 +349,21 @@ public class Dude implements Serializable {
 		}
 	}
 
+	public void attack(Structure victim) {
+		System.out.println("Attack Struct");
+		if(world.getAudioPlayer()!=null)
+			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
+
+		//new AudioPlayer("SinglePunch.wav", true).start();
+		victim.currentHealth -= 15;
+		if(victim.currentHealth <= 0) {
+			world.removeStructure(victim);
+			if(world.getAudioPlayer()!=null){
+				world.getAudioPlayer().addAudioPlayer("ResourceMining.wav", true);
+				}
+		}
+	}
+
 	private boolean hasTask() {
 		if(task != null){
 			return true;
@@ -338,7 +371,7 @@ public class Dude implements Serializable {
 		return false;
 	}
 
-	public Dude findAttackTarget() {
+	public Tile findAttackTarget() {
 		final int RANGE = 2;
 
 		for(int dx = -RANGE; dx <= RANGE; dx++)
@@ -349,7 +382,15 @@ public class Dude implements Serializable {
 
 				Dude d = t.getDude();
 				if(d != null && this.getClass() != d.getClass())
-					return d;
+					return t;
+
+				Structure s = t.getStructure();
+				if(s != null && this.isAlien() && !(s instanceof Resource)){
+					if(s.isAttackable()){
+						System.out.println("Structure Targetted!");
+						return t;
+					}
+				}
 			}
 
 		return null;
@@ -541,6 +582,10 @@ public class Dude implements Serializable {
 
 	public Task getTask(){
 		return task;
+	}
+
+	public boolean isAlien(){
+		return false;
 	}
 
 	public boolean canMine(Resource r) {
