@@ -6,7 +6,9 @@ import java.io.IOException;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -111,6 +113,31 @@ public class AudioPlayer extends Thread {
 		// PLayer to terminate.
 	}
 
+	public void changeVolume(int volume ){
+		Clip clip;
+		try {
+			clip = AudioSystem.getClip();
+
+			clip.open(audioInputStream);
+
+			FloatControl gainControl =
+				    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-80.0f);
+
+
+
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+	}
+
+
 	/**
 	 * for testing
 	 *
@@ -120,12 +147,19 @@ public class AudioPlayer extends Thread {
 		AudioPlayer a = new AudioPlayer("timer1.wav", false);
 		a.start();
 		Thread.sleep(1000);
-		a.stopPlayer();
-		a.join();
+		a.changeVolume(10);
+
+		Thread.sleep(1000);
+
+		//a.stopPlayer();
+
+	//	a.join();
 		System.out.println("stopped");
 
 		a = new AudioPlayer("laugh.wav", true);
 		a.start();
+		a.stopPlayer();
+
 
 	}
 
