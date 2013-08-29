@@ -70,7 +70,7 @@ public class Dude implements Serializable {
 	 */
 	// private Image image;
 
-	protected transient World world;
+	protected World world;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the dude.
@@ -91,14 +91,6 @@ public class Dude implements Serializable {
 	 */
 	public int getWidth() {
 		return width;
-	}
-
-	/**
-	 * Sets the world on this dude.  Needed because the world is transient.
-	 * @param w
-	 */
-	public void setWorld(World w){
-		world = w;
 	}
 
 	/**
@@ -202,7 +194,7 @@ public class Dude implements Serializable {
 
 		// link the tiles at the new location
 		linkTiles(x, y);
-
+u
 		return true;
 	}
 
@@ -353,15 +345,9 @@ public class Dude implements Serializable {
 					continue;
 
 				Dude d = t.getDude();
-				if(this instanceof Dude){
-					if(d != null && this.getClass() != d.getClass())
-						return d;
-				} else {
-					if(d != null && !(d instanceof Slugdude || d instanceof Octodude ))
-						return d;
-				}
+				if(d != null && this.getClass() != d.getClass())
+					return d;
 			}
-
 
 		return null;
 	}
