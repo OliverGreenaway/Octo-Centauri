@@ -377,7 +377,7 @@ public class Dude implements Serializable {
 					return t;
 
 				Structure s = t.getStructure();
-				if(s != null && this.isAlien()){
+				if(s != null && this.isAlien() && !(s instanceof Resource)){
 					if(s.isAttackable()){
 						System.out.println("Structure Targetted!");
 						return t;
