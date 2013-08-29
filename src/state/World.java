@@ -163,32 +163,6 @@ public class World {
 
 		return true;
 	}
-//	/**
-//	 * Adds a dude to the world and returns true. If the dude can't be placed,
-//	 * returns false without changing anything.
-//	 */
-//	public boolean addOctodude(Octodude octodude) {
-//		int x = octodude.getX(), y = octodude.getY(), w = octodude.getWidth(), h = octodude.getHeight();
-//
-//		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
-//			return false;
-//
-//		// check for overlap
-//		for (int X = 0; X < w; X++)
-//			for (int Y = 0; Y < h; Y++)
-//				if (worldTile[x - X][y - Y].getDude() != null)
-//					return false; // can't have two structures on one tile
-//									// <--The best comment! =)
-//
-//		// place the structure
-//		for (int X = 0; X < w; X++)
-//			for (int Y = 0; Y < h; Y++)
-//				worldTile[x - X][y - Y].setDude(octodude);
-//
-//		allDudes.add(octodude);
-//
-//		return true;
-//	}
 
 	/**
 	 * Returns a tile at given coordinates. Throws an exception if coordinates
