@@ -141,9 +141,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		update = new UpdateThread(world, display);
 		update.start();
 
-		UIImageStorage.add("HealthBarsToggle");
-		UIImageStorage.add("NewDudeToggle");
-		UIImageStorage.add("SlugBalancingToggle");
+		UIImageStorage.add("ButtonHealthOn");
+		//UIImageStorage.add("ButtonAddDude");
+		//UIImageStorage.add("ButtonResourceBalanceOn");
+
+		UIImageStorage.add("ButtonHealthOff");
+		//UIImageStorage.add("ButtonAddDude");
+		//UIImageStorage.add("ButtonResourceBalanceOff");
 		// setup audio
 
 		if(audioPlayer!=null){
