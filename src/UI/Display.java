@@ -52,7 +52,7 @@ public class Display extends JPanel {
 
 	Map<String, Rectangle> toggleButtons = null;
 	Map<String, MouseListener> toggleButtonsListener = null;
-	Map<String, String> toggleButtonsImages = new Map<String, String>();
+	Map<String, String> toggleButtonsImages = null;
 	HashSet<Rectangle> UISpace = null;
 	// UI/>
 
@@ -85,7 +85,7 @@ public class Display extends JPanel {
 		if (toggleButtons == null) {
 			toggleButtons = new HashMap<String, Rectangle>();
 			toggleButtonsListener = new HashMap<String, MouseListener>();
-			toggleButtonsImages = new HashMap<String, Image>();
+			toggleButtonsImages = new HashMap<String, String>();
 
 			Rectangle toggleHealth = new Rectangle(this.getWidth()
 					- miniMapWidth - toggleSize - padding + tpad, padding
@@ -110,7 +110,7 @@ public class Display extends JPanel {
 					if (world.showHealth())
 						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOn");
 					else
-						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOff")
+						toggleButtonsImages.put("ButtonHealth", "ButtonHealthOff");
 				}
 			};
 
