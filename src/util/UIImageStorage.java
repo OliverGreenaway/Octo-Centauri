@@ -16,7 +16,7 @@ public class UIImageStorage {
 		try{
 		if (!images.containsKey(key)) {
 			BufferedImage img = ImageIO.read(new FileInputStream(
-					"Assets/UI/" + key + ".png"));
+					"Assets/UI/Toggles" + key + ".png"));
 			images.put(key, img);
 		}
 		}catch(IOException e){
