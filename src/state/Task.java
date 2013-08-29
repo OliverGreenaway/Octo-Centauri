@@ -9,10 +9,17 @@ public class Task {
 	private String task;
 	private String type;
 
-	public Task(Tile t, String taskType, String blockType){
+	public Task(Tile t, String taskType, String block){
 		this.tile = t;
 		this.task = taskType;
-		this.type = blockType;
+		this.type = block;
+	}
+
+	//constructor for digging
+	public Task(Tile t, String taskType) {
+		this.tile = t;
+		this.type = taskType;
+		this.task = taskType;
 	}
 
 	public Tile getTile() {

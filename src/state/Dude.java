@@ -70,7 +70,7 @@ public class Dude implements Serializable {
 	 */
 	// private Image image;
 
-	protected transient World world;
+	protected World world;
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the dude.
@@ -91,14 +91,6 @@ public class Dude implements Serializable {
 	 */
 	public int getWidth() {
 		return width;
-	}
-
-	/**
-	 * Sets the world on this dude.  Needed because the world is transient.
-	 * @param w
-	 */
-	public void setWorld(World w){
-		world = w;
 	}
 
 	/**
@@ -167,7 +159,6 @@ public class Dude implements Serializable {
 						images[i][j].getSource(), filter));
 			}
 		}
-
 	}
 
 	/**
@@ -237,14 +228,18 @@ public class Dude implements Serializable {
 	public boolean canMove(Tile from, Tile to) {
 		if(to.getDude() != null && to.getDude() != this)
 			return false;
+		return areTilesConnected(from, to);
+	}
 
-
+	public static boolean areTilesConnected(Tile from, Tile to) {
 		if(from.getHeight() != to.getHeight()) {
 			if(from.getHeight() - 1 == to.getHeight()) {
 				if(!(to.getStructure() instanceof Ramp))
 					return false;
-				if(((Ramp)to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from))
+				if(((Ramp)to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from)) {
+					System.out.println("need "+Direction.getDirectionBetween(to, from)+", have "+((Ramp)to.getStructure()).getDirection()+", ramp on "+to.getX()+"/"+to.getY());
 					return false;
+				}
 
 			} else if(from.getHeight() + 1 == to.getHeight()) {
 				if(!(from.getStructure() instanceof Ramp))
@@ -266,7 +261,7 @@ public class Dude implements Serializable {
 	int storedResources = 0;
 	ResourceType storedResType = null;
 
-	Dude attacking;
+	Tile attacking;
 
 	int count; // update count, things change every 4 updates.
 
@@ -288,7 +283,8 @@ public class Dude implements Serializable {
 
 
 			//TODO Squids cant build so fix that instanceof dude
-			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude) ){
+
+			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude)){
 				task = world.tasks.poll();
 			}
 
@@ -296,10 +292,20 @@ public class Dude implements Serializable {
 				if(Math.abs(x - attacking.getX()) + Math.abs(y - attacking.getY()) > 1) {
 					// too far, move closer
 					moveTowards(attacking.getX(), attacking.getY());
+					System.out.println("Charge!");
 					attacking = null;
 				} else {
 					setFacing(attacking.getX(), attacking.getY());
-					attack(attacking);
+
+					Dude dude = attacking.getDude();
+					if(dude!=null){
+						attack(dude);
+					}
+
+					Structure struct = attacking.getStructure();
+					if(struct!=null){
+						attack(struct);
+					}
 				}
 			} else if (task == null) {
 				getResources();
@@ -312,13 +318,21 @@ public class Dude implements Serializable {
 				if (world.build(t, task.getType(), this)) {
 					task = null;
 				}
+			}else if(task.getTask().equals("dig")){
+				Tile t = task.getTile();
+				followPath(t.getX(), t.getY());
+				// rest(1000);//TODO
+
+				if (world.dig(t, this)) {
+					task = null;
+				}
 			}
 			count = 0;
 		}
 	}
 
 	public void attack(Dude victim) {
-
+		System.out.println("Attack Dude");
 		if(world.getAudioPlayer()!=null)
 			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
 
@@ -336,6 +350,21 @@ public class Dude implements Serializable {
 		}
 	}
 
+	public void attack(Structure victim) {
+		System.out.println("Attack Struct");
+		if(world.getAudioPlayer()!=null)
+			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
+
+		//new AudioPlayer("SinglePunch.wav", true).start();
+		victim.currentHealth -= 15;
+		if(victim.currentHealth <= 0) {
+			world.removeStructure(victim);
+			if(world.getAudioPlayer()!=null){
+				world.getAudioPlayer().addAudioPlayer("ResourceMining.wav", true);
+				}
+		}
+	}
+
 	private boolean hasTask() {
 		if(task != null){
 			return true;
@@ -343,7 +372,7 @@ public class Dude implements Serializable {
 		return false;
 	}
 
-	public Dude findAttackTarget() {
+	public Tile findAttackTarget() {
 		final int RANGE = 2;
 
 		for(int dx = -RANGE; dx <= RANGE; dx++)
@@ -353,15 +382,17 @@ public class Dude implements Serializable {
 					continue;
 
 				Dude d = t.getDude();
-				if(this instanceof Dude){
-					if(d != null && this.getClass() != d.getClass())
-						return d;
-				} else {
-					if(d != null && !(d instanceof Slugdude || d instanceof Octodude ))
-						return d;
+				if(d != null && this.getClass() != d.getClass())
+					return t;
+
+				Structure s = t.getStructure();
+				if(s != null && this.isAlien() && !(s instanceof Resource)){
+					if(s.isAttackable()){
+						System.out.println("Structure Targetted!");
+						return t;
+					}
 				}
 			}
-
 
 		return null;
 	}
@@ -543,8 +574,20 @@ public class Dude implements Serializable {
 		}
 		return false;
 	}
+
+	public void setWorld(World w){
+		this.world = w;
+	}
 	public int getOldX() {return oldX;}
 	public int getOldY() {return oldY;}
+
+	public Task getTask(){
+		return task;
+	}
+
+	public boolean isAlien(){
+		return false;
+	}
 
 	public boolean canMine(Resource r) {
 		if(storedResType != null && r.getResType() != storedResType)

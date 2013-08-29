@@ -12,6 +12,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import util.ObjectImageStorage;
+
 import UI.Display;
 
 /**
@@ -31,10 +33,12 @@ public class Slugdude extends Dude implements Serializable{
 	@Override
 	protected void loadImage(String image) {
 		img = new Image[4];
-		img[RIGHT] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugFrontRight").getImage();
-		img[DOWN] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugFrontLeft.png").getImage();
-		img[UP] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugBackRight.png").getImage();
-		img[LEFT] = new ImageIcon("Assets/Characters/Enemies/AlienSlug/SlugBackLeft.png").getImage();
+
+		img[RIGHT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png");
+		img[DOWN] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugFrontLeft.png");
+		img[UP] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugBackRight.png");
+		img[LEFT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienSlug/SlugBackLeft.png");
+
 	}
 
 	@Override
@@ -61,7 +65,7 @@ public class Slugdude extends Dude implements Serializable{
 		int oldHeight = world.getTile(oldX, oldY).getHeight();
 
 		pt.y -= TILE_HEIGHT * (oldHeight + (height - oldHeight) * percentMoved);
-		pt.y -= TILE_HEIGHT / 2;
+		//pt.y -= TILE_HEIGHT / 2;
 
 		Image i = img[(facing + d.getRotation()) % 4];
 
@@ -106,6 +110,11 @@ public class Slugdude extends Dude implements Serializable{
 	@Override
 	protected void harvest(Resource harvesting) {
 		harvesting.harvest(); // don't store
+	}
+
+	@Override
+	public boolean isAlien(){
+		return true;
 	}
 
 }

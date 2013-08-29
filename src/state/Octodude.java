@@ -12,6 +12,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import util.ObjectImageStorage;
+
 import UI.Display;
 
 /**
@@ -19,7 +21,6 @@ import UI.Display;
  *
  */
 public class Octodude extends Dude implements Serializable{
-
 
 	private transient Image img[];
 
@@ -32,10 +33,10 @@ public class Octodude extends Dude implements Serializable{
 	@Override
 	protected void loadImage(String image) {
 		img = new Image[4];
-		img[RIGHT] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png").getImage();
-		img[DOWN] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeFrontLeft.png").getImage();
-		img[UP] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeBackRight.png").getImage();
-		img[LEFT] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeBackLeft.png").getImage();
+		img[RIGHT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png");
+		img[DOWN] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienOctopus/EyeFrontLeft.png");
+		img[UP] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienOctopus/EyeBackRight.png");
+		img[LEFT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienOctopus/EyeBackLeft.png");
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class Octodude extends Dude implements Serializable{
 		int oldHeight = world.getTile(oldX, oldY).getHeight();
 
 		pt.y -= TILE_HEIGHT * (oldHeight + (height - oldHeight) * percentMoved);
-		pt.y -= TILE_HEIGHT / 2;
+		//pt.y -= TILE_HEIGHT / 2;
 
 		Image i = img[(facing + d.getRotation()) % 4];
 
@@ -98,6 +99,11 @@ public class Octodude extends Dude implements Serializable{
 		Random r = new Random();
 		if(!moved || r.nextInt(8) == 0)
 			facing = r.nextInt(4);
+	}
+
+	@Override
+	public boolean isAlien(){
+		return true;
 	}
 
 	@Override

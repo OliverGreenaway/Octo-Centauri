@@ -43,6 +43,8 @@ public class World {
 	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
+	private String currentBuild = "BarrenGrass";
+
 	MixingDesk mixingDesk;
 
 	/**
@@ -70,6 +72,9 @@ public class World {
 		worldTile = tiles;
 		resources = new HashSet<Resource>();
 		logic = new Logic(this);
+		for (Tile[] row : tiles)
+			for (Tile t : row)
+				t.setWorld(this);
 		start();
 	}
 
@@ -78,10 +83,32 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
+
+		Random r = new Random();
+		for(int k = 0; k < 50; k++) {
+			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+			addStructure(new Crystal(x, y));
+		}
+
+		for(int k = 0; k < 50; k++) {
+			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+			int rad = 10;
+			for(int i = 0; i < 30; i++) {
+				int x2 = x + r.nextInt(rad), y2 = y + r.nextInt(rad);
+				Tile t = getTile(x2, y2);
+				if(t != null && t.getImageName().equals("DarkSand"))
+					addStructure(new Tree(x2, y2));
+			}
+		}
+
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
-		addDude(new Octodude(this, 2, 2, 1, 1,"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-		addDude(new Slugdude(this, 3, 3, 1, 1,"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		addDude(new Octodude(this, 2, 2, 1, 1,
+				"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+		addDude(new Slugdude(this, 3, 3, 1, 1,
+				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		addDude(new Slugdude(this, 10, 10, 1, 1,
+				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 	}
 
 	/**
@@ -150,7 +177,7 @@ public class World {
 
 		allDudes.remove(s);
 
-		gameUpdate.dudeRemoved(s); //Let the network know about the change
+		gameUpdate.dudeRemoved(s); // Let the network know about the change
 		s.setDeleted();
 	}
 
@@ -184,7 +211,6 @@ public class World {
 		}
 
 		gameUpdate.dudeAdded(s);
-
 		return true;
 	}
 
@@ -233,6 +259,7 @@ public class World {
 			d.update();
 		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
+
 
 		List<Resource> spawnResources = getEatableResources();
 		Resource toSpawnNear = null;
@@ -307,7 +334,8 @@ public class World {
 
 			if (squaredDistance < bestSquaredDistance) {
 				if (!getLogic().findRoute(tile, getTile(r.getX(), r.getY()),
-						dude).isEmpty() || getTile(dude.getX(), dude.getY()) == tile) {
+						dude).isEmpty()
+						|| getTile(dude.getX(), dude.getY()) == tile) {
 					bestSquaredDistance = squaredDistance;
 					bestResource = r;
 				}
@@ -332,7 +360,8 @@ public class World {
 					+ (r.getY() - y) * (r.getY() - y);
 			if (squaredDistance < bestSquaredDistance) {
 				if (!getLogic().findRoute(tile, getTile(r.getX(), r.getY()),
-						dude).isEmpty() || getTile(dude.getX(), dude.getY()) == tile) {
+						dude).isEmpty()
+						|| getTile(dude.getX(), dude.getY()) == tile) {
 					bestSquaredDistance = squaredDistance;
 					bestStructure = r;
 				}
@@ -377,40 +406,40 @@ public class World {
 	}
 
 	public boolean build(Tile t, String type, Dude dude) {
-		if (hasResources(type)) {
-			if (dude.isAt(t.getX(), t.getY())) {
-				// finish building tile
-				if (t.getStructure() != null) {
-					removeStructure(t.getStructure());
-				}
-				Structure s = new Structure(t.getX(), t.getY(), 1, 1,
-						"Assets/EnvironmentTiles/BarrenWall.png");
-				addStructure(s);
-				// set tile non trasnparent
-				// reassign dude to new task
-				return true;
+		if (dude.isAt(t.getX() - 1, t.getY())
+				|| dude.isAt(t.getX() + 1, t.getY())
+				|| dude.isAt(t.getX(), t.getY() + 1)
+				|| dude.isAt(t.getX() + 1, t.getY() - 1)) {
+			// finish building tile
+			if (t.getStructure() != null) {
+				removeStructure(t.getStructure());
 			}
-			return false;
 
+			t.setImage(dude.getTask().getType());
+			t.setHeight(t.getHeight() + 1);
+
+			// set tile non transparent
+			// reassign dude to new task
+			return true;
 		} else {
 			// otherwise reassign dude and repush task
-			System.out.println("not enough resources");// TODO
 			tasks.add(new Task(t, "build", type));
 			return true;
 		}
-
 	}
 
-	private boolean hasResources(String type) {
-		if (type.equals("BarrenWall")) {
+	public boolean hasResources(String type) {
+		if (type.equals("BarrenWall"))
 			return true;
-			// if(crystalResource > 10){
-			// crystalResource = crystalResource - 10;
-			// return true;
-			// }
+		if (type.equals("BarrenGrass"))
+			return true;
+		if (type.equals("DarkSand"))
+			return true;
+		if (type.equals("Grass"))
+			return true;
+		else {
+			return false;
 		}
-		return false;
-
 	}
 
 	public boolean isDudeSpawningEnabled() {
@@ -421,6 +450,11 @@ public class World {
 		dudeSpawningEnabled = !dudeSpawningEnabled;
 	}
 
+	/**
+	 * sets game music player to
+	 *
+	 * @param mixingDesk
+	 */
 	public void setAudioPlayer(MixingDesk mixingDesk) {
 		this.mixingDesk = mixingDesk;
 	}
@@ -433,18 +467,47 @@ public class World {
 		slugBalancingEnabled = !slugBalancingEnabled;
 	}
 
-	public void setAudioPlayer(AudioPlayer audioPlayer) {
-		this.audioPlayer = audioPlayer;
-
-	}
-
+	/**
+	 * Returns the current audio system for playing sounds returns null if
+	 * nothing assigned yet.
+	 *
+	 * @return
+	 */
 	public MixingDesk getAudioPlayer() {
-
 		return this.mixingDesk;
-
 	}
 
 	public Logic getLogic() {
 		return this.logic;
+	}
+
+	public String getCurrentBuild() {
+		return currentBuild;
+	}
+
+	public void setCurrentBuild(String currentBuild) {
+		this.currentBuild = currentBuild;
+	}
+
+	public boolean dig(Tile t, Dude dude) {
+		if (dude.isAt(t.getX() - 1, t.getY())
+				|| dude.isAt(t.getX() + 1, t.getY())
+				|| dude.isAt(t.getX(), t.getY() + 1)
+				|| dude.isAt(t.getX() + 1, t.getY() - 1)) {
+			// finish building tile
+			if (t.getStructure() != null) {
+				removeStructure(t.getStructure());
+			}
+
+			t.setHeight(t.getHeight() - 1);
+
+			// set tile non transparent
+			// reassign dude to new task
+			return true;
+		} else {
+			// otherwise reassign dude and repush task
+			tasks.add(new Task(t, "dig"));
+			return true;
+		}
 	}
 }

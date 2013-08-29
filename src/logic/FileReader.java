@@ -18,6 +18,7 @@ import java.util.Scanner;
 import state.Crate;
 import state.Crystal;
 import state.DudeSpawnBuilding;
+import state.Plant;
 import state.Resource;
 import state.Structure;
 import state.Tile;
@@ -110,7 +111,7 @@ public class FileReader {
 						char c = (char)charInt;
 						String symb = Character.toString(c);
 						assert(symbols.get(symb) != null);
-						tiles[row][col] = new Tile(symbols.get(symb),0, row, col);
+						tiles[row][col] = new Tile(symbols.get(symb),0, null, row, col);
 					}
 				}
 
@@ -128,24 +129,27 @@ public class FileReader {
 						int strucY = Integer.parseInt(lineScanner.next());
 						Structure temp;
 						if(fileName.equals("DarkTree"))
-							temp = new Tree(strucX, strucY, 1, 1, "Assets/EnvironmentObjects/"+fileName+".png");
+							temp = new Tree(strucX, strucY);
 						else if(fileName.equals("Resources"))
 							temp = new Crystal(strucX, strucY);
+						else if(fileName.equals("Plant"))
+							temp = new Plant(strucX, strucY);
 						else if(fileName.equals("Crate"))
 							temp = new Crate(strucX, strucY);
 						else if(fileName.equals("Spawner"))
 							temp = new DudeSpawnBuilding(strucX, strucY);
 						else
-							temp = new Structure(strucX, strucY, 1, 1, "Assets/EnvironmentTiles/" +fileName+ ".png");
+							temp = new Structure(strucX, strucY, 1, 1, "Assets/EnvironmentTiles/Grass.png");
 						structures.add(temp);;
 					}
 					numLines--;
 					line = buffer.readLine();
+					lineScanner.close();
 				}
-				lineScanner.close();
-			//read height
+				//read height
 				System.out.println(line);
-				numLines = Integer.parseInt(line);
+				if(line != null){ numLines = Integer.parseInt(line); }
+				else{ numLines = 0; }
 				line = buffer.readLine();
 				lineScanner = null;
 				while(numLines > 0){
@@ -159,8 +163,9 @@ public class FileReader {
 					}
 					numLines--;
 					line = buffer.readLine();
+					lineScanner.close();
 				}
-			lineScanner.close();
+			
 
 			buffer.close();
 			fileReader.close();
