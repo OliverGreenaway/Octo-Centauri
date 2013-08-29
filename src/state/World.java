@@ -361,7 +361,7 @@ public class World {
 					removeStructure(t.getStructure());
 				}
 
-				t.setImage(currentBuild);
+				t.setImage(dude.getTask().getType());
 				t.setHeight(t.getHeight() + 1);
 
 				// set tile non transparent
@@ -381,7 +381,7 @@ public class World {
 			return true;
 		if(type.equals("DarkSand"))
 			return true;
-		if(type.equals("grass"))
+		if(type.equals("Grass"))
 			return true;
 		else {return false;}
 	}

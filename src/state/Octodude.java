@@ -12,6 +12,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import util.ObjectImageStorage;
+
 import UI.Display;
 
 /**
@@ -20,6 +22,8 @@ import UI.Display;
  */
 public class Octodude extends Dude implements Serializable{
 
+	private boolean isAlien;
+
 
 	private transient Image img[];
 
@@ -27,15 +31,16 @@ public class Octodude extends Dude implements Serializable{
 			String image) {
 		super(world, x, y, width, height, image);
 		maxHealth = 50;
+		isAlien = true;
 	}
 
 	@Override
 	protected void loadImage(String image) {
 		img = new Image[4];
-		img[RIGHT] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png").getImage();
-		img[DOWN] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeFrontLeft.png").getImage();
-		img[UP] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeBackRight.png").getImage();
-		img[LEFT] = new ImageIcon("Assets/Characters/Enemies/AlienOctopus/EyeBackLeft.png").getImage();
+		img[RIGHT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png");
+		img[DOWN] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienOctopus/EyeFrontLeft.png");
+		img[UP] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienOctopus/EyeBackRight.png");
+		img[LEFT] = ObjectImageStorage.getOrAdd("Assets/Characters/Enemies/AlienOctopus/EyeBackLeft.png");
 	}
 
 	@Override
