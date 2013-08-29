@@ -18,12 +18,13 @@ import javax.swing.JPanel;
 public class MainFrame extends JFrame {
 	Stack<JPanel> frameStack;
 
-	AudioPlayer audioPlayer; // This is a thread that plays audio
+	AudioPlayer musicPlayer; // This is a thread that plays audio
+	AudioPlayer buttonSound;
 
 	public MainFrame() {
+
 		// create and start audio thread
-		audioPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
-		audioPlayer.start();
+		setupAudio();
 
 		// start other stuff
 		frameStack = new Stack<JPanel>();
@@ -92,6 +93,9 @@ public class MainFrame extends JFrame {
 		});
 	}
 
+
+
+
 	public static void main(String args[]) {
 		MainFrame f = new MainFrame();
 
@@ -125,10 +129,35 @@ public class MainFrame extends JFrame {
 		this.repaint();
 	}
 
+
+	/**
+	 * Stops the audio in the game
+	 */
 	public void stopAudio(){
-		if(audioPlayer!=null){
-			audioPlayer.stopPlayer();
+		if(musicPlayer!=null){
+			musicPlayer.stopPlayer();
 		}
 	}
 
+
+	/**
+	 *
+	 */
+	public void playButtonSound(){
+		buttonSound = new AudioPlayer("MenuButtonClick.wav", true);
+		buttonSound.start();
+		//buttonSound.stopPlayer();
+	}
+
+
+	/**
+	 * initializes the Audio for the game
+	 */
+	private void setupAudio(){
+		musicPlayer = new AudioPlayer("MenuMusic.wav", false); // true so it loops
+		musicPlayer.start(); // starts audio thread
+
+		buttonSound = new AudioPlayer("MenuButtonClick.wav", true);
+
+	}
 }

@@ -366,7 +366,7 @@ public class Display extends JPanel {
 
 					Dude dude = t.getDude();
 					if (dude != null) { // If there is a dude in the tile
-												// --> DRAW THEM!						
+												// --> DRAW THEM!
 						dude.draw(g, this, bottomPixelX, bottomPixelY, true);
 					}
 				}
