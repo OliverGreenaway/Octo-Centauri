@@ -19,12 +19,14 @@ public class AudioPlayer extends Thread {
 	File soundFile;
 	AudioInputStream audioInputStream;
 	private volatile boolean finished;
+	private volatile boolean paused;
+
 	private boolean runOnce;
 
-
 	/**
-	 * creates a new Audio Player Thread with specified soundFileName. If runonce flag is false it will continue
-	 *  looping forever until you call stopPlayer() method on audioplayer
+	 * creates a new Audio Player Thread with specified soundFileName. If
+	 * runonce flag is false it will continue looping forever until you call
+	 * stopPlayer() method on audioplayer
 	 *
 	 *
 	 * @param soundFileName
@@ -32,10 +34,10 @@ public class AudioPlayer extends Thread {
 	 */
 	public AudioPlayer(String soundFileName, boolean runOnce) {
 		this.runOnce = runOnce;
-
+		this.paused = false;
 
 		// TODO probably need to deleted these lines later
-		//	System.out.println("New Audio Player");
+		// System.out.println("New Audio Player");
 
 		// sound we are playing
 		soundFile = new File("Assets/sounds/" + soundFileName);
@@ -65,7 +67,7 @@ public class AudioPlayer extends Thread {
 			line.open(audioFormat);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
-			//System.exit(1);
+			// System.exit(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -77,7 +79,9 @@ public class AudioPlayer extends Thread {
 			int nBytesRead = 0;
 			byte[] abData = new byte[EXTERNAL_BUFFER_SIZE];
 			while (nBytesRead != -1 && !finished) {
+
 				try {
+
 					nBytesRead = audioInputStream
 							.read(abData, 0, abData.length);
 				} catch (IOException e) {
@@ -86,6 +90,18 @@ public class AudioPlayer extends Thread {
 				if (nBytesRead >= 0) {
 					int nBytesWritten = line.write(abData, 0, nBytesRead);
 				}
+
+				if (paused) {
+					try {
+						synchronized (this) {
+							wait();
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
 			}
 			line.drain();
 			try {
@@ -96,7 +112,7 @@ public class AudioPlayer extends Thread {
 			} catch (UnsupportedAudioFileException e) {
 				e.printStackTrace();
 			}
-			if(runOnce){
+			if (runOnce) {
 				break;
 			}
 		}
@@ -113,18 +129,25 @@ public class AudioPlayer extends Thread {
 		// PLayer to terminate.
 	}
 
-	public void changeVolume(int volume ){
+	public void togglePaused() {
+		paused = !paused;
+		if(!paused){
+			synchronized(this){
+				notifyAll();
+			}
+		}
+	}
+
+	public void changeVolume(int volume) {
 		Clip clip;
 		try {
 			clip = AudioSystem.getClip();
 
 			clip.open(audioInputStream);
 
-			FloatControl gainControl =
-				    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			FloatControl gainControl = (FloatControl) clip
+					.getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(-80.0f);
-
-
 
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
@@ -134,9 +157,7 @@ public class AudioPlayer extends Thread {
 			e.printStackTrace();
 		}
 
-
 	}
-
 
 	/**
 	 * for testing
@@ -147,19 +168,17 @@ public class AudioPlayer extends Thread {
 		AudioPlayer a = new AudioPlayer("timer1.wav", false);
 		a.start();
 		Thread.sleep(1000);
-		a.changeVolume(10);
+			a.togglePaused();
+		Thread.sleep(3000);
+		a.togglePaused();
+		// a.stopPlayer();
 
-		Thread.sleep(1000);
-
-		//a.stopPlayer();
-
-	//	a.join();
+		// a.join();
 		System.out.println("stopped");
 
 		a = new AudioPlayer("laugh.wav", true);
 		a.start();
 		a.stopPlayer();
-
 
 	}
 
