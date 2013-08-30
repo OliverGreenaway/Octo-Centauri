@@ -19,7 +19,7 @@ import util.TileImageStorage;
  */
 public class World {
 
-	private int woodResource = 100;
+	private int woodResource = 200;
 	private int plantResource = 200;
 	private int crystalResource = 200;
 
@@ -149,6 +149,13 @@ public class World {
 		addDude(new Dude(this, 34, 31, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 31, 35, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 33, 33, 1, 1, "Assets/Characters/Man.png"));
+
+		// PLACE OCTO SPAWN POINTS
+		placeOctoSpawnBuilding(150,150);
+		placeOctoSpawnBuilding(150,50);
+		placeOctoSpawnBuilding(50,150);
+		placeOctoSpawnBuilding(100,100);
+
 	}
 
 	/**
@@ -181,8 +188,6 @@ public class World {
 		gameUpdate.structureAdded(s); // Send change to the network class
 		return true;
 	}
-
-
 
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
@@ -499,7 +504,12 @@ public class World {
 				{
 					removeStructure(t.getStructure());
 				}
-				this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
+				if (type.equals("Tree")){
+					System.out.println("Tree");
+					this.addStructure(new Structure(t.getX(),t.getY(),1,1,"Assets/EnvironmentObjects/DarkTree.png"));
+				}
+				else
+					this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
 
 				System.out.println("build at "+t.getX()+","+t.getY());
 
@@ -666,5 +676,10 @@ public class World {
 		} else {
 			d.setTask(t);
 		}
+	}
+
+	public void placeOctoSpawnBuilding(int x,int y){
+		OctoSpawnBuilding osb = new OctoSpawnBuilding(x, y);
+		addStructure(osb);
 	}
 }
