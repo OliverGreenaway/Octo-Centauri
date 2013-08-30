@@ -45,7 +45,7 @@ public class World {
 	private boolean slugBalancingEnabled = true;
 	private AudioPlayer audioPlayer;
 
-	private String currentBuild = "DarkTree";
+	private String currentBuild = "BarrenGrass";
 
 	MixingDesk mixingDesk;
 
@@ -438,16 +438,19 @@ public class World {
 				this.addStructure(new Structure(t.getX(), t.getY(), 1, 1,
 						"Assets/EnvironmentObjects/"+type+".png"));
 
-				// set tile non transparent
-				// reassign dude to new task
-				return true;
+			// plays audio
+			if (mixingDesk != null) {
+				mixingDesk.addAudioPlayer("PlaceItem.wav", true);
 			}
-		}
-		 else
-		 {
-				// otherwise reassign dude and repush task
-				tasks.add(new Task(t, "build", type));
-				return true;
+			// set tile non transparent
+			// reassign dude to new task
+			return true;
+			}
+		} else
+		{
+			// otherwise reassign dude and repush task
+			tasks.add(new Task(t, "build", type));
+			return true;
 		}
 		return false;
 	}
@@ -535,6 +538,11 @@ public class World {
 			}
 
 			t.setHeight(t.getHeight() - 1);
+
+			// plays audio
+			if (mixingDesk != null) {
+				mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+			}
 
 			// set tile non transparent
 			// reassign dude to new task

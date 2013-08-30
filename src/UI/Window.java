@@ -522,12 +522,12 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 			display.getWorld().getLogic().mapChanged(point.x, point.y);
 		}
-		// plays audio
-		// System.out.println(mixingDesk);
-		if (mixingDesk != null) {
-			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
-		}
-		// new AudioPlayer("PlaceItem.wav", true);
+//		// plays audio
+//		// System.out.println(mixingDesk);
+//		if (mixingDesk != null) {
+//			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+//		}
+//		// new AudioPlayer("PlaceItem.wav", true);
 
 	}
 

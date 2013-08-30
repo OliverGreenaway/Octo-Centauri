@@ -48,14 +48,11 @@ public class MainFrame extends JFrame {
 			this.setUndecorated(true);
 			devices[0].setFullScreenWindow(this);
 			this.validate();
-
 		} else {*/
 			this.setVisible(true);
 			this.setResizable(true);
 			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//}
-
-		
 
 		this.addWindowListener(new WindowListener() {
 
