@@ -104,14 +104,20 @@ public class World {
 			}
 		}
 
-		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
-		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
-		addDude(new Octodude(this, 2, 2, 1, 1,
-				"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-		addDude(new Slugdude(this, 3, 3, 1, 1,
-				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
-		addDude(new Slugdude(this, 10, 10, 1, 1,
-				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		addDude(new Dude(this, 30, 30, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 32, 34, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 34, 31, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 31, 35, 1, 1, "Assets/Characters/Man.png"));
+		addDude(new Dude(this, 33, 33, 1, 1, "Assets/Characters/Man.png"));
+
+
+
+//		addDude(new Octodude(this, 2, 2, 1, 1,
+//				"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+//		addDude(new Slugdude(this, 3, 3, 1, 1,
+//				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+//		addDude(new Slugdude(this, 10, 10, 1, 1,
+//				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 	}
 
 	/**
@@ -451,7 +457,7 @@ public class World {
 		} else
 		{
 			// otherwise reassign dude and repush task
-			tasks.add(new Task(t, "build", type));
+//			tasks.add(new Task(t, "build", type));
 			return true;
 		}
 		return false;
@@ -551,8 +557,8 @@ public class World {
 			return true;
 		} else {
 			// otherwise reassign dude and repush task
-			tasks.add(new Task(t, "dig"));
-			return true;
+//			tasks.add(new Task(t, "dig"));
+			return false;
 		}
 	}
 
