@@ -307,16 +307,6 @@ public class Display extends JPanel {
 
 	private static final long serialVersionUID = 8274011568777903027L;
 
-	// WHAT DOES THIS EVEN DO??
-
-	public int[] getCameraCoordinates() {
-		return new int[] { camera.x, camera.y };
-	}
-
-	// public void setCameraCoordinates(int[] coord){
-	// camera = new Coord(coord[0],coord[1]);
-	// }
-
 	public World getWorld() {
 		return world;
 	}
