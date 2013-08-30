@@ -9,7 +9,7 @@ public class DudeSpawnBuilding extends Structure {
 	private final int SPAWN_DELAY = 50;
 
 	public DudeSpawnBuilding(int x, int y) {
-		super(x, y, 1, 1, "Assets/EnvironmentObjects/Stalagmite.png");
+		super(x, y, 1, 1, "Assets/EnvironmentTiles/SpawnPoints/SpawnMan1.png");
 	}
 
 	int delay;

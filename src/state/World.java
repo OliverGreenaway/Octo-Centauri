@@ -93,18 +93,39 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
+		//WHAT STARTS WHERE
+		addStructure(new Crate(34, 34));
+		addStructure(new DudeSpawnBuilding(30,30));
 
 		Random r = new Random();
 		for(int k = 0; k < 50; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+
+			while(getTile(x,y) != null && getTile(x,y).getImageName().equals("Water")){
+				x = r.nextInt(getXSize());
+				y = r.nextInt(getYSize());
+			}
+
 			addStructure(new Crystal(x, y));
 		}
 
 		for(int k = 0; k < 50; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+
+			while(getTile(x,y) != null && getTile(x,y).getImageName().equals("Water")){
+				x = r.nextInt(getXSize());
+				y = r.nextInt(getYSize());
+			}
+
 			int rad = 10;
 			for(int i = 0; i < 30; i++) {
 				int x2 = x + r.nextInt(rad), y2 = y + r.nextInt(rad);
+
+				while(getTile(x2,y2) != null && getTile(x2,y2).getImageName().equals("Water")){
+					x2 = r.nextInt(getXSize());
+					y2 = r.nextInt(getYSize());
+				}
+
 				Tile t = getTile(x2, y2);
 				if(t != null && t.getImageName().equals("DarkSand"))
 					addStructure(new Tree(x2, y2));
