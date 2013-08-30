@@ -229,15 +229,16 @@ public class Dude implements Serializable {
 		if(!to.isTraversible()){
 			return false;
 		}
-		if(to.getImageName().equals("Water")){
-			return false;
-		}
 		if(to.getDude() != null && to.getDude() != this)
 			return false;
 		return areTilesConnected(from, to);
 	}
 
 	public static boolean areTilesConnected(Tile from, Tile to) {
+		if(to.getImageName().equals("Water") || from.getImageName().equals("Water")){
+			return false;
+		}
+
 		if(from.getHeight() != to.getHeight()) {
 			if(from.getHeight() - 1 == to.getHeight()) {
 				if(!(to.getStructure() instanceof Ramp))

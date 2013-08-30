@@ -34,7 +34,7 @@ public abstract class StructureType {
 				return new Crate(x, y);
 			}
 		});
-		types.put("Tree", new StructureType(Tree.IMAGE, 1, 1) {
+		types.put("Tree", new StructureType("Assets/EnvironmentObjects/DarkTree.png", 1, 1) {
 			@Override
 			public Structure create(int x, int y) {
 				return new Tree(x, y);
