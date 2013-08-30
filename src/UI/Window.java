@@ -384,7 +384,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						{
 							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildTile",currentBuild));// TODO
-							System.out.println("Building");
+
 							Structure s = new Structure((int) point.getX(),
 									(int) point.getY(), 1, 1,
 									"Assets/EnvironmentTiles/"+currentBuild+".png");
