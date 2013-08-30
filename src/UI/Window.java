@@ -452,8 +452,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentStruct = display.getWorld().getCurrentStruct();
 						if(display.getWorld().hasResources(currentStruct))
 						{
+<<<<<<< HEAD
 
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()), "buildStructure",currentStruct));// TODO
+=======
+							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+														"buildStructure",currentStruct));// TODO
+>>>>>>> 566a4ab3535382ce454fa20c71a03c4fdefed02c
 
 							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
 
