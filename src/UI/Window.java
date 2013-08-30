@@ -16,8 +16,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import menu.MainFrame;
 import networking.common.Network;
 
 import logic.FileReader;
@@ -40,6 +42,9 @@ import util.UIImageStorage;
 @SuppressWarnings("serial")
 public class Window extends JPanel implements KeyListener, MouseListener,
 		MouseMotionListener, MouseWheelListener {
+
+	MainFrame frame = null;
+	public void setFrame(MainFrame frame) { this.frame = frame; }
 
 	// mouse x y points on a click
 	private int mouseX = 0;
@@ -155,7 +160,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 		if (mixingDesk != null) {
 
-			System.out.println("stop");
 
 			mixingDesk.stopAudio();
 			mixingDesk.addAudioPlayer("InGameMusic.wav", false);
@@ -321,8 +325,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		case KeyEvent.VK_R:
 			display.rotate();
 			break;
+		case KeyEvent.VK_ESCAPE:
+			if (JOptionPane.showConfirmDialog(null,  "Do you really want to quit?") == 0)
+				frame.close();
+			break;
 		}
 	}
+
 
 	// mouse commands, awaiting some level of world to play with
 	@Override

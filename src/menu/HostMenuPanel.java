@@ -47,7 +47,7 @@ public class HostMenuPanel extends AbstractMenuPanel {
 					showError("Port number must precede " + maxPort);
 					return;
 				}
-				Network n;
+				final Network n;
 				try {
 					n = new Network(null , portNumber );
 				} catch (ServerNotFoundException e1) {
@@ -63,12 +63,17 @@ public class HostMenuPanel extends AbstractMenuPanel {
 				showError("game joined");
 				frame.addWindowListener(new java.awt.event.WindowAdapter() {
 				    public void windowClosing(java.awt.event.WindowEvent evt) {
-
+				    	try {
+							n.close();
+						} catch (IOException e) {
+							showError("Connection failed, please try again");
+							return;
+						}
 				    }
 				});
 				JoinGame jg;
 				try {
-					jg = new JoinGame(n, true);
+					jg = new JoinGame(n, true, frame);
 				} catch (IOException e1) {
 					showError("Connection failed, please try again");
 					return;
@@ -82,7 +87,6 @@ public class HostMenuPanel extends AbstractMenuPanel {
 			private void showError(String string) {
 				error.setText(string);
 			}
-
 		};
 		this.addButton(frame, listener, "CreateButton");
 

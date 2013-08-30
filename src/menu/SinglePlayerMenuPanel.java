@@ -28,7 +28,9 @@ public class SinglePlayerMenuPanel extends AbstractMenuPanel {
 			public void actionPerformed(ActionEvent e) {
 				frame.stopAudio();
 				frame.playButtonSound();
-				frame.addMenu(new Window(System.currentTimeMillis(), null, null, frame.mixingDesk));
+				Window w = new Window(System.currentTimeMillis(), null, null, frame.mixingDesk);
+				frame.addMenu(w);
+				w.setFrame(frame);
 			}
 		};
 
