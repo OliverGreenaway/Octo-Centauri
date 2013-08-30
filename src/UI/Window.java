@@ -31,6 +31,7 @@ import sound.MixingDesk;
 import state.Direction;
 import state.Ramp;
 import state.Structure;
+import state.StructureType;
 import state.Task;
 import state.Tile;
 import state.World;
@@ -352,7 +353,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
-				if (e.getButton() == 3) {
+				if (e.getButton() == 3)
+				{
 					Tile tile = display.getWorld().getTile(point.x,point.y);
 
 					Structure s = new Structure((int) point.getX(),
@@ -375,50 +377,59 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				}
 				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK))
 				{
-					String currentBuild = display.getWorld().getCurrentBuild();
-					if (display.getWorld().hasResources(currentBuild) && !display.getWorld().getBuildType())
+					if (!display.getWorld().getBuildType())
 					{
-						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
-													"buildTile",currentBuild));// TODO
+						String currentBuild = display.getWorld().getCurrentBuild();
+						if(display.getWorld().hasResources(currentBuild))
+						{
+							System.out.println(currentBuild);
+							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+														"buildTile",currentBuild));// TODO
+							System.out.println("Building");
+							Structure s = new Structure((int) point.getX(),
+									(int) point.getY(), 1, 1,
+									"Assets/EnvironmentTiles/"+currentBuild+".png");
 
-						Structure s = new Structure((int) point.getX(),
-								(int) point.getY(), 1, 1,
-								"Assets/EnvironmentTiles/"+currentBuild+".png");
-						/*
-						 * Copied from Java tutorial. Create a rescale filter op
-						 * that makes the image 50% opaque.
-						 */
-						float[] scales = { 1f, 1f, 1f, 0.5f };
-						float[] offsets = new float[4];
-						RescaleOp rop = new RescaleOp(scales, offsets, null);
-						s.setFilter(rop);
+							/*
+							 * Copied from Java tutorial. Create a rescale filter op
+							 * that makes the image 50% opaque.
+							 */
+							float[] scales = { 1f, 1f, 1f, 0.5f };
+							float[] offsets = new float[4];
+							RescaleOp rop = new RescaleOp(scales, offsets, null);
+							s.setFilter(rop);
 
-						display.getWorld().addStructure(s);
+							display.getWorld().addStructure(s);
+						}
 					}
-				else if (display.getWorld().hasResources(currentBuild) && display.getWorld().getBuildType())
-				{
-					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
-												"buildStructure",currentBuild));// TODO
+					else if (display.getWorld().getBuildType())
+					{
+						String currentStruct = display.getWorld().getCurrentStruct();
+						if(display.getWorld().hasResources(currentStruct))
+						{
+							System.out.println("In struct");
+							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+														"buildStructure",currentStruct));// TODO
 
-					Structure s = new Structure((int) point.getX(),
-							(int) point.getY(), 1, 1,
-							"Assets/EnvironmentObjects/"+currentBuild+".png");
+							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
 
+							/*
+							 * Copied from Java tutorial. Create a rescale filter op
+							 * that makes the image 50% opaque.
+							 */
+							float[] scales = { 1f, 1f, 1f, 0.5f };
+							float[] offsets = new float[4];
+							RescaleOp rop = new RescaleOp(scales, offsets, null);
+							s.setFilter(rop);
 
-					/*
-					 * Copied from Java tutorial. Create a rescale filter op
-					 * that makes the image 50% opaque.
-					 */
-					float[] scales = { 1f, 1f, 1f, 0.5f };
-					float[] offsets = new float[4];
-					RescaleOp rop = new RescaleOp(scales, offsets, null);
-					s.setFilter(rop);
+							display.getWorld().addStructure(s);
 
-					display.getWorld().addStructure(s);
+							// TODO make tile greyed out, ask man to dig it;
+						}
+
 				}
-					// TODO make tile greyed out, ask man to dig it;
-
-				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
+			}
+				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
 
 					// set tile to be somthing
 					// if (e.getButton() == 3) {
@@ -427,80 +438,28 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					// (int) point.getY());
 					// display.getWorld().setTile((int) point.getX(),
 					// (int) point.getY(), t);
-				} else if (drawTransparent == true) {
-
-					// System.out.println("drawing working");//TODO
-					String currentBuild = display.getWorld().getCurrentBuild();
-					if (display.getWorld().hasResources(currentBuild)) {
-						display.getWorld().tasks.add(new Task(display
-								.getWorld().getTile((int) point.getX(),
-										(int) point.getY()), "build",
-								currentBuild));// TODO
-
-						Structure s = new Structure((int) point.getX(),
-								(int) point.getY(), 1, 1,
-								"Assets/EnvironmentTiles/" + currentBuild
-										+ ".png");
-
-						/*
-						 * Copied from Java tutorial. Create a rescale filter op
-						 * that makes the image 50% opaque.
-						 */
-						float[] scales = { 1f, 1f, 1f, 0.5f };
-						float[] offsets = new float[4];
-						RescaleOp rop = new RescaleOp(scales, offsets, null);
-						s.setFilter(rop);
-
-						display.getWorld().addStructure(s);
-
+				} else {
+					Structure s = display.getWorld()
+							.getTile(point.x, point.y).getStructure();
+					if (s instanceof Ramp) {
+						((Ramp) s)
+								.setDirection(Direction.values()[(((Ramp) s)
+										.getDirection().ordinal() + 1) % 4]);
 					} else {
-						Structure s = display.getWorld()
-								.getTile(point.x, point.y).getStructure();
-						if (s instanceof Ramp) {
-							((Ramp) s)
-									.setDirection(Direction.values()[(((Ramp) s)
-											.getDirection().ordinal() + 1) % 4]);
-						} else {
-							display.getWorld().addStructure(
-									new Ramp(point.x, point.y, 1, 1,
-											"PathRamp",
-											Direction.values()[display
-													.getRotation()]));
-						}
+						display.getWorld().addStructure(
+								new Ramp(point.x, point.y, 1, 1,
+										"PathRamp",
+										Direction.values()[(display
+												.getRotation() + 2) % 4]));
 					}
 					display.getWorld().getLogic().mapChanged(point.x, point.y);
-
-				} else {
-					Tile t = display.getWorld().getTile(point.x, point.y);
-					if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
-						switch (e.getButton()) {
-						case 1:
-							t.setImage("BarrenGrass");
-							break;
-						case 2:
-							t.setImage("DarkSand");
-							break;
-						case 3:
-							t.setImage("BarrenWall");
-							break;
-						}
-					} else {
-						switch (e.getButton()) {
-						case 3:
-							t.setHeight(t.getHeight() - 1);
-							break;
-						case 1:
-							t.setHeight(t.getHeight() + 1);
-							break;
-						}
-					}
-					display.getWorld().getLogic()
-							.mapChanged(t.getX(), t.getY());
 				}
 			}
-			this.repaint();
 		}
+
+	this.repaint();
 	}
+
 
 	/*
 	 * public void displayPath() { System.out.println("HIII!"); if
