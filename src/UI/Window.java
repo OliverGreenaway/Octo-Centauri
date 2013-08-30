@@ -409,7 +409,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentBuild = display.getWorld().getCurrentBuild();
 						if(display.getWorld().hasResources(currentBuild))
 						{
-							System.out.println(currentBuild);
 							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildTile",currentBuild));// TODO
 
@@ -434,7 +433,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentStruct = display.getWorld().getCurrentStruct();
 						if(display.getWorld().hasResources(currentStruct))
 						{
-							System.out.println("In struct");
 							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildStructure",currentStruct));// TODO
 
@@ -462,15 +460,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	this.repaint();
 	}
 
-
-	/*
-	 * public void displayPath() { System.out.println("HIII!"); if
-	 * (selectedTile1 != null && selectedTile2 != null) { Stack<Tile> route =
-	 * new Logic(display.getWorld()).findRoute( selectedTile1, selectedTile2);
-	 * while (!route.isEmpty()) { Tile t = route.pop(); t.setImage("Path"); } }
-	 * }
-	 */
-
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 
@@ -491,13 +480,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 			display.getWorld().getLogic().mapChanged(point.x, point.y);
 		}
-//		// plays audio
-//		// System.out.println(mixingDesk);
-//		if (mixingDesk != null) {
-//			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
-//		}
-//		// new AudioPlayer("PlaceItem.wav", true);
-
 	}
 
 	@Override

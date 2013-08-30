@@ -53,7 +53,9 @@ private final boolean multiplayer;
 
 		try{
 		network.sendUpdate(gUpdate);
-		}catch(IOException e){System.out.println("Error sending network update: "+e.getMessage());}
+		}catch(IOException e){
+			System.out.println("Error sending network update: "+e.getMessage());
+		}
 		//get the update back here
 		Update incomingChanges = null;
 		try {
@@ -71,7 +73,6 @@ private final boolean multiplayer;
 		update.applyUpdates(world);
 		gUpdate = new GameUpdate();
 		world.setGameUpdate(gUpdate);
-		System.out.println("Successfully completed an update cycle.");
 	}
 
 	/**
