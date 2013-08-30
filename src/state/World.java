@@ -102,7 +102,7 @@ public class World {
 					addStructure(new Tree(x2, y2));
 			}
 		}
-
+		addStructure(new Crate(10, 10));
 		addDude(new Dude(this, 7, 7, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 8, 8, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Octodude(this, 2, 2, 1, 1,
@@ -435,8 +435,7 @@ public class World {
 				{
 					removeStructure(t.getStructure());
 				}
-				this.addStructure(new Structure(t.getX(), t.getY(), 1, 1,
-						"Assets/EnvironmentObjects/"+type+".png"));
+				this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
 
 			// plays audio
 			if (mixingDesk != null) {
@@ -516,6 +515,7 @@ public class World {
 
 	public void setCurrentBuild(String currentBuild) {
 		this.currentBuild = currentBuild;
+		buildingStructures = false;
 	}
 
 
@@ -558,7 +558,8 @@ public class World {
 		return currentStruct;
 	}
 
-	public void setCurrentStruct(String currentStruct) {
-		this.currentStruct = currentStruct;
+	public void setCurrentStruct(String struct) {
+		currentStruct = struct;
+		buildingStructures = true;
 	}
 }

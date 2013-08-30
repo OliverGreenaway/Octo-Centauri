@@ -292,7 +292,7 @@ public class Dude implements Serializable {
 				if(Math.abs(x - attacking.getX()) + Math.abs(y - attacking.getY()) > 1) {
 					// too far, move closer
 					moveTowards(attacking.getX(), attacking.getY());
-					System.out.println("Charge!");
+					//System.out.println("Charge!");
 					attacking = null;
 				} else {
 					setFacing(attacking.getX(), attacking.getY());
@@ -315,7 +315,6 @@ public class Dude implements Serializable {
 				Tile t = task.getTile();
 				followPath(t.getX(), t.getY());
 				// rest(1000);//TODO
-
 				if (world.build(t, task.getType(), this)) {
 					task = null;
 				}
@@ -333,7 +332,7 @@ public class Dude implements Serializable {
 	}
 
 	public void attack(Dude victim) {
-		System.out.println("Attack Dude");
+		//System.out.println("Attack Dude");
 		if(world.getAudioPlayer()!=null)
 			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
 
