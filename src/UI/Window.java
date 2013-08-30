@@ -50,19 +50,11 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		this.frame = frame;
 	}
 
-	// mouse x y points on a click
-	private int mouseX = 0;
-	private int mouseY = 0;
-
 	// used for buttons being pushed (direction keys)
 	boolean up = false;
 	boolean down = false;
 	boolean left = false;
 	boolean right = false;
-	private Logic logic;
-
-	private boolean drawTransparent = true;
-
 	Random random = new Random();
 
 	Display display;
@@ -73,9 +65,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	public String fileMap = "resources/map2";
 
 	private MixingDesk mixingDesk;
-
-	private Tile selectedTile1;
-	private Tile selectedTile2;
 
 	public Window() {
 		// startAudio(thread);
@@ -262,15 +251,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		int code = e.getKeyCode();
-		// switch (code) {
-		// case KeyEvent.VK_T:
-		// display.toggleResRegen(toggleRes);
-		// toggleRes = !toggleRes;
-		// break;
-		// default:
-		// break;
-		// }
+		e.getKeyCode();
 	}
 
 	// gets key events for panning possibly add shortcuts
@@ -302,9 +283,9 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		case KeyEvent.VK_F:
 			display.toggleStruct();
 			break;
-		//case KeyEvent.VK_T:
-			//display.toggleResRegen(toggleRes);
-			//break;
+		case KeyEvent.VK_T:
+			display.toggleResRegen(toggleRes);
+			break;
 		default:
 			break;
 		}
@@ -421,12 +402,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
 
 					// set tile to be somthing
-					// if (e.getButton() == 3) {
-					// Dude d = new Dude("")
-					// Tile t = new Tile("Grass", 0, (int) point.getX(),
-					// (int) point.getY());
-					// display.getWorld().setTile((int) point.getX(),
-					// (int) point.getY(), t);
+
 				} else {
 
 

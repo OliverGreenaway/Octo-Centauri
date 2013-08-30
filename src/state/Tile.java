@@ -5,10 +5,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
-import java.io.File;
 import java.io.Serializable;
 
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import util.TileImageStorage;

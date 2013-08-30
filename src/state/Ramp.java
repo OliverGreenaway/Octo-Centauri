@@ -4,8 +4,6 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import util.TileImageStorage;
-
 public class Ramp extends Structure {
 	/** The direction the "up" side of the ramp is in. */
 	private Direction direction;
