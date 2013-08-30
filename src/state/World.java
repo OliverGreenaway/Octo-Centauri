@@ -79,12 +79,6 @@ public class World {
 			for (Tile t : row)
 				t.setWorld(this);
 
-
-		// HARD CODED SPAWN BUILDING AND CRATE AT CENTER !!!!
-		placeDudeSpawnBuilding(20, 20);
-		placeCrate(25, 25);
-
-
 		start();
 	}
 
