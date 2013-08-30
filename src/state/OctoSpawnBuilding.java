@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class OctoSpawnBuilding extends Structure {
 
-	private final int SPAWN_DELAY = 50;
+	private final int SPAWN_DELAY = 100;
 	private Random random = new Random();
 
 	public OctoSpawnBuilding(int x, int y) {
