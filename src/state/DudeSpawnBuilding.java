@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class DudeSpawnBuilding extends Structure {
 
-	private final int SPAWN_DELAY = 50;
+	private final int SPAWN_DELAY = 80;
 
 	public DudeSpawnBuilding(int x, int y) {
 		super(x, y, 1, 1, "Assets/EnvironmentTiles/SpawnPoints/SpawnMan1.png");
@@ -20,8 +20,8 @@ public class DudeSpawnBuilding extends Structure {
 			if(delay <= 0) {
 //				if(new Random().nextBoolean())
 //					getWorld().addDude(new Dude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
-				if (getWorld().getCrystalResource() > 50) {
-					getWorld().setCrystalResource(getWorld().getCrystalResource()- 50);//TODO Change amount if needed
+				if (getWorld().getPlantResource() >= 50) {
+					getWorld().setPlantResource(getWorld().getPlantResource()- 50);//TODO Change amount if needed
 				}
 				delay = SPAWN_DELAY;
 			} else {
