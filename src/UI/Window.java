@@ -256,9 +256,18 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	boolean toggleRes = false;
 	@Override
 	public void keyTyped(KeyEvent e) {
-
+		int code = e.getKeyCode();
+//		switch (code) {
+//		case KeyEvent.VK_T:
+//			display.toggleResRegen(toggleRes);
+//			toggleRes = !toggleRes;
+//			break;
+//		default:
+//			break;
+//		}
 	}
 
 	// gets key events for panning possibly add shortcuts
@@ -290,6 +299,11 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		case KeyEvent.VK_F:
 			display.toggleStruct();
 			break;
+		case KeyEvent.VK_T:
+			display.toggleResRegen(toggleRes);
+			break;
+		default:
+				break;
 		}
 		panMap();
 		repaint();
@@ -373,7 +387,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 					display.getWorld().addStructure(s);
 					Task t = new Task(tile, "dig");
-					display.getWorld().tasks.add(t);
+					display.getWorld().addTask(t);
 				}
 				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK))
 				{
@@ -384,6 +398,11 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 								.setDirection(Direction.values()[(((Ramp) s)
 										.getDirection().ordinal() + 1) % 4]);
 					} else {
+						//TODO
+
+//						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+//								"buildTile","PathRamp"));
+
 						display.getWorld().addStructure(
 								new Ramp(point.x, point.y, 1, 1,
 										"PathRamp",
@@ -410,7 +429,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						if(display.getWorld().hasResources(currentBuild))
 						{
 							System.out.println(currentBuild);
-							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildTile",currentBuild));// TODO
 
 							Structure s = new Structure((int) point.getX(),
@@ -434,8 +454,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentStruct = display.getWorld().getCurrentStruct();
 						if(display.getWorld().hasResources(currentStruct))
 						{
-							System.out.println("In struct");
-							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildStructure",currentStruct));// TODO
 
 							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
