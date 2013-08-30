@@ -36,9 +36,6 @@ public class AudioPlayer extends Thread {
 		this.runOnce = runOnce;
 		this.paused = false;
 
-		// TODO probably need to deleted these lines later
-		// System.out.println("New Audio Player");
-
 		// sound we are playing
 		soundFile = new File("Assets/sounds/" + soundFileName);
 		audioInputStream = null;
@@ -70,7 +67,6 @@ public class AudioPlayer extends Thread {
 			line.open(audioFormat);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
-			// System.exit(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -86,7 +82,7 @@ public class AudioPlayer extends Thread {
 				try {
 
 					nBytesRead = audioInputStream
-							.read(abData, 0, abData.length);
+						.read(abData, 0, abData.length);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -149,7 +145,7 @@ public class AudioPlayer extends Thread {
 			clip.open(audioInputStream);
 
 			FloatControl gainControl = (FloatControl) clip
-					.getControl(FloatControl.Type.MASTER_GAIN);
+				.getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(-80.0f);
 
 		} catch (LineUnavailableException e) {
@@ -176,11 +172,6 @@ public class AudioPlayer extends Thread {
 		Thread.sleep(3000);
 
 		a.togglePaused();
-		// a.stopPlayer();
-
-		// a.join();
-		System.out.println("stopped");
-
 		a = new AudioPlayer("laugh.wav", true);
 		a.start();
 		a.stopPlayer();
