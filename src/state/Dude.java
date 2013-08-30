@@ -226,6 +226,9 @@ public class Dude implements Serializable {
 	}
 
 	public boolean canMove(Tile from, Tile to) {
+		if(to.getImageName().equals("Water")){
+			return false;
+		}
 		if(to.getDude() != null && to.getDude() != this)
 			return false;
 		return areTilesConnected(from, to);
