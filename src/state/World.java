@@ -132,11 +132,13 @@ public class World {
 			if(r.nextBoolean()) {
 				for(int i = 0; i < length; i++) {
 					x++;
+					if(getTile(x,y) == null || getTile(x, y).getImageName().equals("Water")){ continue; }
 					addStructure(new Plant(x, y));
 				}
 			} else {
 				for(int i = 0; i < length; i++) {
 					y++;
+					if(getTile(x,y) == null || getTile(x, y).getImageName().equals("Water")){ continue; }
 					addStructure(new Plant(x, y));
 				}
 			}
