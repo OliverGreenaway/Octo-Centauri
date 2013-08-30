@@ -37,7 +37,7 @@ public class Structure implements Serializable {
 
 	private transient BufferedImageOp filter;
 
-	private boolean drawHealth = true;
+	private boolean drawHealth = false;
 
 	/**
 	 * The world the structure is in.
@@ -107,6 +107,7 @@ public class Structure implements Serializable {
 	 * @param image The path to the structure's image.
 	 */
 	public Structure(int x, int y, int width, int height, String image) {
+		System.out.println("building");
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -145,11 +146,13 @@ public class Structure implements Serializable {
 			g2d.drawImage(image, filter, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null));
 		} else {
 			Image i = getImage(d.getRotation());
-			if(i != null)
+			if(i != null){
 				g.drawImage(i, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
+			}
 
 		}
-		if (world.showHealth() && isAttackable()) { // Attackable Structures have health bars
+		if (world.showHealth() && isAttackable() && drawHealth) { // Attackable Structures have health bars
+
 			int tall = 10;
 			int hHeight = 3;
 			int hWidth = 16;
@@ -160,6 +163,11 @@ public class Structure implements Serializable {
 			g.fillRect(bottomPixelX - barWidth , bottomPixelY - tall - TILE_HEIGHT, (int)((hWidth + barWidth) * currentHealth / (float)maxHealth), hHeight);
 		}
 	}
+
+	public void setBuilt(){
+		drawHealth=true;
+	}
+
 
 	public void setWorld(World w) {
 		assert world == null || world == w;

@@ -320,6 +320,7 @@ public class Dude implements Serializable {
 				// rest(1000);//TODO
 
 				if (world.build(t, task.getType(), this)) {
+					t.getStructure().setBuilt();
 					task = null;
 				}
 			}else if(task.getTask().equals("dig")){
