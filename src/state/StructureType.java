@@ -21,26 +21,31 @@ public abstract class StructureType {
 
 	public abstract Structure create(int x, int y);
 
-	public StructureType(Image image, int w, int h) {
-		this.image = image;
+	public StructureType(String image, int w, int h) {
+		this.image = ObjectImageStorage.getOrAdd(image);
 		this.width = w;
 		this.height = h;
 	}
 
 	static {
-
-		types.put("Stockpile", new StructureType(ObjectImageStorage.getOrAdd(Crate.IMAGE), 1, 1) {
+		types.put("Stockpile", new StructureType(Crate.IMAGE, 1, 1) {
 			@Override
 			public Structure create(int x, int y) {
 				return new Crate(x, y);
 			}
 		});
-		types.put("Tree", new StructureType(ObjectImageStorage.getOrAdd("Assets/EnvironmentObjects/DarkTree.png"), 1, 1) {
+		types.put("Tree", new StructureType(Tree.IMAGE, 1, 1) {
 			@Override
 			public Structure create(int x, int y) {
 				return new Tree(x, y);
 			}
 		});
+		types.put("Stalagmite", new StructureType("Assets/EnvironmentObjects/Stalagmite.png",1,1) {
+			@Override
+			public Structure create(int x, int y) {
 
+				return new Structure(x,y,1,1,"Assets/EnvironmentObjects/Stalagmite.png");
+			}
+		});
 	}
 }

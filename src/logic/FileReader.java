@@ -164,7 +164,7 @@ public class FileReader {
 					line = buffer.readLine();
 					lineScanner.close();
 				}
-			
+
 
 			buffer.close();
 			fileReader.close();

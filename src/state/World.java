@@ -555,9 +555,11 @@ public class World {
 		else if (type.equals("Building"))
 			return true;
 		else if (type.equals("RoughGround"))
-				return true;
+			return true;
 		else if (type.equals("Sand"))
-				return true;
+			return true;
+		else if (type.equals("Stalagmite"))
+			return true;
 		else {
 			return false;
 		}
