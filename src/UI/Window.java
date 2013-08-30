@@ -375,11 +375,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						Structure s = new Structure((int) point.getX(),
 								(int) point.getY(), 1, 1,
 								"Assets/EnvironmentTiles/"+currentBuild+".png");
-
-<<<<<<< HEAD
-					Task t = new Task(tile, "dig");
-					display.getWorld().tasks.add(t);
-=======
 						/*
 						 * Copied from Java tutorial. Create a rescale filter op
 						 * that makes the image 50% opaque.
@@ -414,7 +409,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				}
 					// TODO make tile greyed out, ask man to dig it;
 
->>>>>>> ee3d6527f0b4ce75890d0905bbd121bda9746de9
 				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
 
 					// set tile to be somthing

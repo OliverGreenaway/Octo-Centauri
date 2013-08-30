@@ -557,8 +557,8 @@ public class World {
 			return true;
 		} else {
 			// otherwise reassign dude and repush task
-			tasks.add(new Task(t, "dig"));
-			return true;
+//			tasks.add(new Task(t, "dig"));
+			return false;
 		}
 	}
 

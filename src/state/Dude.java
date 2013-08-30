@@ -284,13 +284,9 @@ public class Dude implements Serializable {
 
 			//TODO Squids cant build so fix that instanceof dude
 
-<<<<<<< HEAD
-			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude)){
-					task = world.tasks.poll();
-=======
+
 			if(task == null && !isAlien()){
 				task = world.tasks.poll();
->>>>>>> ee3d6527f0b4ce75890d0905bbd121bda9746de9
 			}
 
 			if (attacking != null) {
