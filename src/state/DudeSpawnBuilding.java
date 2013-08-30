@@ -18,10 +18,11 @@ public class DudeSpawnBuilding extends Structure {
 		Tile t = getWorld().getTile(getX(), getY());
 		if(getWorld().isDudeSpawningEnabled() && t.getDude() == null) {
 			if(delay <= 0) {
-				if(new Random().nextBoolean())
-					getWorld().addDude(new Dude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
-				if (getWorld().getPlantResource() >= 50) {
-					getWorld().setPlantResource(getWorld().getPlantResource()- 50);//TODO Change amount if needed
+				if(new Random().nextBoolean()){
+					if (getWorld().getPlantResource() >= 50) {
+						getWorld().addDude(new Dude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
+						getWorld().setPlantResource(getWorld().getPlantResource()- 40);
+					}
 				}
 				delay = SPAWN_DELAY;
 			} else {
