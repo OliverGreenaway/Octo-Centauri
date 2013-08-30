@@ -86,7 +86,10 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
+		//WHAT STARTS WHERE
 		addStructure(new Crate(34, 34));
+		addStructure(new DudeSpawnBuilding(30,30));
+
 		Random r = new Random();
 		for(int k = 0; k < 50; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
