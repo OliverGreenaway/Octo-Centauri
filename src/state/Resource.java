@@ -1,7 +1,5 @@
 package state;
 
-import sound.AudioPlayer;
-
 public abstract class Resource extends Structure {
 
 	private static final long serialVersionUID = -9044185320248377571L;

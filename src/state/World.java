@@ -509,11 +509,9 @@ public class World {
 				if (type.equals("Tree")){
 					this.addStructure(new Structure(t.getX(),t.getY(),1,1,"Assets/EnvironmentObjects/DarkTree.png"));
 				}
-				else
+				else{
 					this.addStructure(StructureType.getTypes().get(type).create(this,t.getX(), t.getY()));
-
-				System.out.println("build at "+t.getX()+","+t.getY());
-
+				}
 			// plays audio
 			if (mixingDesk != null) {
 				mixingDesk.addAudioPlayer("PlaceItem.wav", true);
