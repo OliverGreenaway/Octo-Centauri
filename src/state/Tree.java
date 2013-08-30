@@ -58,18 +58,31 @@ public class Tree extends Resource{
 			getWorld().removeStructure(this);
 		} else if(amount > SPREAD) {
 			Set<Tile> neighbours = new HashSet<Tile>();
-			neighbours.add(getWorld().getTile(getX()-1, getY()));
-			neighbours.add(getWorld().getTile(getX()+1, getY()));
-			neighbours.add(getWorld().getTile(getX(), getY()+1));
-			neighbours.add(getWorld().getTile(getX(), getY()-1));
+			Tile temp;
+
+			temp = getWorld().getTile(getX()+-1, getY());
+			neighbours.add(temp);
+
+			temp = getWorld().getTile(getX()+1, getY());
+			neighbours.add(temp);
+
+			temp = (getWorld().getTile(getX(), getY()+1));
+
+			neighbours.add(temp);
+
+			temp = (getWorld().getTile(getX(), getY()-1));
+			neighbours.add(temp);
+
 			neighbours.remove(null);
 
 			if(neighbours.size() > 0) {
 				List<Tile> list = new ArrayList<Tile>(neighbours);
 				Collections.shuffle(list);
 				Tile t = list.get(0);
-				if(t.getStructure() == null && t.getHeight() == getWorld().getTile(getX(),getY()).getHeight())
-					getWorld().addStructure(new Tree(t.getX(), t.getY()));
+				if(t.getStructure() != null){ return; }
+				if(t.getHeight() != getWorld().getTile(getX(),getY()).getHeight()){ return; }
+				if(t.getImageName().equals("Water")){ return; }
+				getWorld().addStructure(new Tree(t.getX(), t.getY()));
 			}
 
 			amount = HALF;

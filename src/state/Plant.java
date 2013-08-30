@@ -55,10 +55,25 @@ public class Plant extends Resource{
 			getWorld().removeStructure(this);
 		} else if(amount > SPREAD) {
 			Set<Tile> neighbours = new HashSet<Tile>();
-			neighbours.add(getWorld().getTile(getX()-1, getY()));
-			neighbours.add(getWorld().getTile(getX()+1, getY()));
-			neighbours.add(getWorld().getTile(getX(), getY()+1));
-			neighbours.add(getWorld().getTile(getX(), getY()-1));
+			Tile temp;
+
+			temp = getWorld().getTile(getX()+-1, getY());
+			if(temp != null || !temp.getImageName().equals("Water")){
+				neighbours.add(temp);
+			}
+			temp = getWorld().getTile(getX()+1, getY());
+			if(temp != null || !temp.getImageName().equals("Water")){
+				neighbours.add(temp);
+			}
+
+			temp = (getWorld().getTile(getX(), getY()+1));
+			if(temp != null || !temp.getImageName().equals("Water")){
+				neighbours.add(temp);
+			}
+			temp = (getWorld().getTile(getX(), getY()-1));
+			if(temp != null || !temp.getImageName().equals("Water")){
+				neighbours.add(temp);
+			}
 			neighbours.remove(null);
 
 			if(neighbours.size() > 0) {
