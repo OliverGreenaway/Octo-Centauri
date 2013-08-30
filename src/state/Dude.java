@@ -13,10 +13,6 @@ import java.util.Stack;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import sound.AudioPlayer;
-
-import logic.Logic;
-
 import UI.Display;
 
 /**
