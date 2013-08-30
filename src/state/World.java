@@ -46,7 +46,7 @@ public class World {
 	private AudioPlayer audioPlayer;
 
 	private String currentBuild = "BarrenGrass";
-
+	private String currentStruct = "Ramp";
 	MixingDesk mixingDesk;
 
 	/**
@@ -552,5 +552,13 @@ public class World {
 			tasks.add(new Task(t, "dig"));
 			return true;
 		}
+	}
+
+	public String getCurrentStruct() {
+		return currentStruct;
+	}
+
+	public void setCurrentStruct(String currentStruct) {
+		this.currentStruct = currentStruct;
 	}
 }
