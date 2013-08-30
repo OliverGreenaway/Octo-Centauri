@@ -201,10 +201,7 @@ public class Logic {
 				if (!(temp < 0 || temp >= n.size())) {
 					target = n.get(temp);
 				}
-
-
 			}
-
 		}
 
 		while (!fringe.isEmpty()) {

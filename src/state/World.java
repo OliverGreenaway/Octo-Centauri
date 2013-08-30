@@ -163,6 +163,10 @@ public class World {
 	 * placed, returns false without changing anything.
 	 */
 	public boolean addStructure(Structure s) {
+		//TODO
+		Tile t = worldTile[s.getX()][s.getY()];
+		if(!t.isTraversible())
+			return false;
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
 		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
