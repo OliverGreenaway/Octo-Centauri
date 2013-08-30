@@ -242,7 +242,7 @@ public class World {
 		// check for overlap
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
-				if (worldTile[x - X][y - Y].getDude() != null)
+				if (worldTile[x - X][y - Y].getDude() != null || worldTile[x - X][y - Y].getImageName().equals("Water"))
 					return false; // can't have two structures on one tile
 									// <--The best comment! =)
 
@@ -486,6 +486,8 @@ public class World {
 
 				t.setImage(dude.getTask().getType());
 				t.setHeight(t.getHeight() + 1);
+				crystalResource -= 20;
+				woodResource -= -10;
 				// set tile non transparent
 				// reassign dude to new task
 				return true;
@@ -501,11 +503,10 @@ public class World {
 					removeStructure(t.getStructure());
 				}
 				if (type.equals("Tree")){
-					System.out.println("Tree");
 					this.addStructure(new Structure(t.getX(),t.getY(),1,1,"Assets/EnvironmentObjects/DarkTree.png"));
 				}
 				else
-					this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
+					this.addStructure(StructureType.getTypes().get(type).create(this,t.getX(), t.getY()));
 
 				System.out.println("build at "+t.getX()+","+t.getY());
 
@@ -555,6 +556,8 @@ public class World {
 		else if (type.equals("Sand"))
 			return true;
 		else if (type.equals("Stalagmite"))
+			return true;
+		else if (type.equals("Ramp"))
 			return true;
 		else {
 			return false;
