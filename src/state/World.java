@@ -165,7 +165,6 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				if (worldTile[x - X][y - Y].getStructure() != null) {
-					System.out.println("Cannot add structure: overlap");
 					return false; // can't have two structures on one tile
 				}
 
