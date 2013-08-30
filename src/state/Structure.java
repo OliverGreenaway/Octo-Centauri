@@ -85,6 +85,7 @@ public class Structure implements Serializable {
 
 	/**
 	 * Returns the width of the structure, in tiles.
+ * Stores information about a structure.
 	 */
 	public int getWidth() {
 		return width;
@@ -168,8 +169,7 @@ public class Structure implements Serializable {
 				g.drawImage(i, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
 
 		}
-		if (drawHealth && isAttackable()) {
-
+		if (drawHealth && isAttackable()) { // Attackable Structures have health bars
 			int tall = 10;
 			int hHeight = 3;
 			int hWidth = 16;

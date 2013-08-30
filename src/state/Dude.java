@@ -284,7 +284,7 @@ public class Dude implements Serializable {
 
 			//TODO Squids cant build so fix that instanceof dude
 
-			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude)){
+			if(task == null && !isAlien()){
 				task = world.tasks.poll();
 			}
 
@@ -297,6 +297,7 @@ public class Dude implements Serializable {
 				} else {
 					setFacing(attacking.getX(), attacking.getY());
 
+					// Attack dude or structure at target tile
 					Dude dude = attacking.getDude();
 					if(dude!=null){
 						attack(dude);
@@ -381,10 +382,12 @@ public class Dude implements Serializable {
 				if(t == null)
 					continue;
 
+				// Prioritze attacking dudes
 				Dude d = t.getDude();
 				if(d != null && this.getClass() != d.getClass())
 					return t;
 
+				// If no dude to target attack structure
 				Structure s = t.getStructure();
 				if(s != null && this.isAlien() && !(s instanceof Resource)){
 					if(s.isAttackable()){
