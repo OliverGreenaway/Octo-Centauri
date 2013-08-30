@@ -377,11 +377,39 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 				}
 				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK))
 				{
+					Structure s = display.getWorld()
+							.getTile(point.x, point.y).getStructure();
+					if (s instanceof Ramp) {
+						((Ramp) s)
+								.setDirection(Direction.values()[(((Ramp) s)
+										.getDirection().ordinal() + 1) % 4]);
+					} else {
+						display.getWorld().addStructure(
+								new Ramp(point.x, point.y, 1, 1,
+										"PathRamp",
+										Direction.values()[(display
+												.getRotation() + 2) % 4]));
+					}
+					display.getWorld().getLogic().mapChanged(point.x, point.y);
+			}
+				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
+
+					// set tile to be somthing
+					// if (e.getButton() == 3) {
+					// Dude d = new Dude("")
+					// Tile t = new Tile("Grass", 0, (int) point.getX(),
+					// (int) point.getY());
+					// display.getWorld().setTile((int) point.getX(),
+					// (int) point.getY(), t);
+				} else {
+
+
 					if (!display.getWorld().getBuildType())
 					{
 						String currentBuild = display.getWorld().getCurrentBuild();
 						if(display.getWorld().hasResources(currentBuild))
 						{
+							System.out.println(currentBuild);
 							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildTile",currentBuild));// TODO
 
@@ -427,31 +455,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						}
 
 				}
-			}
-				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
-
-					// set tile to be somthing
-					// if (e.getButton() == 3) {
-					// Dude d = new Dude("")
-					// Tile t = new Tile("Grass", 0, (int) point.getX(),
-					// (int) point.getY());
-					// display.getWorld().setTile((int) point.getX(),
-					// (int) point.getY(), t);
-				} else {
-					Structure s = display.getWorld()
-							.getTile(point.x, point.y).getStructure();
-					if (s instanceof Ramp) {
-						((Ramp) s)
-								.setDirection(Direction.values()[(((Ramp) s)
-										.getDirection().ordinal() + 1) % 4]);
-					} else {
-						display.getWorld().addStructure(
-								new Ramp(point.x, point.y, 1, 1,
-										"PathRamp",
-										Direction.values()[(display
-												.getRotation() + 2) % 4]));
-					}
-					display.getWorld().getLogic().mapChanged(point.x, point.y);
 				}
 			}
 		}

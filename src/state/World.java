@@ -19,7 +19,7 @@ import util.TileImageStorage;
  */
 public class World {
 
-	private int woodResource = 100;
+	private int woodResource = 200;
 	private int plantResource = 200;
 	private int crystalResource = 200;
 
@@ -149,6 +149,13 @@ public class World {
 		addDude(new Dude(this, 34, 31, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 31, 35, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 33, 33, 1, 1, "Assets/Characters/Man.png"));
+
+		// PLACE OCTO SPAWN POINTS
+		placeOctoSpawnBuilding(150,150);
+		placeOctoSpawnBuilding(150,50);
+		placeOctoSpawnBuilding(50,150);
+		placeOctoSpawnBuilding(100,100);
+
 	}
 
 	/**
@@ -511,6 +518,16 @@ public class World {
 			return true;
 		else if(type.equals("Tree"))
 			return true;
+		else if(type.equals("Stockpile"))
+			return true;
+		else if(type.equals("Water"))
+			return true;
+		else if (type.equals("Building"))
+			return true;
+		else if (type.equals("RoughGround"))
+				return true;
+		else if (type.equals("Sand"))
+				return true;
 		else {
 			return false;
 		}
@@ -569,9 +586,8 @@ public class World {
 		return buildingStructures;
 	}
 
-	public void setBuildType(){
-		buildingStructures = !buildingStructures;
-	}
+
+
 
 	public boolean dig(Tile t, Dude dude) {
 		if (dude.isAt(t.getX() - 1, t.getY())
@@ -617,5 +633,10 @@ public class World {
 	public void placeDudeSpawnBuilding(int x,int y){
 		DudeSpawnBuilding dsb = new DudeSpawnBuilding(x, y);
 		addStructure(dsb);
+	}
+
+	public void placeOctoSpawnBuilding(int x,int y){
+		OctoSpawnBuilding osb = new OctoSpawnBuilding(x, y);
+		addStructure(osb);
 	}
 }
