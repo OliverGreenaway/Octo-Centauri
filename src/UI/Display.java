@@ -205,16 +205,16 @@ public class Display extends JPanel {
 							"ButtonMuteOff")) {
 						// Mute here
 						if (world.getAudioPlayer() != null) {
-						//	world.getAudioPlayer().toggleMute();
-							world.getAudioPlayer().toggleMusic();
+							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMusic(); // to toggle no music and just sound
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
 
 						if (world.getAudioPlayer() != null) {
-						//	world.getAudioPlayer().toggleMute();
-						  world.getAudioPlayer().toggleMusic();
+							world.getAudioPlayer().toggleMute();
+						//  world.getAudioPlayer().toggleMusic(); // to toggle no music and just sound
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
@@ -277,7 +277,13 @@ public class Display extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					Point p = e.getPoint();
 					if (buildStruct) {
-
+						if (resourceSelect != null) {
+							for (String key : resourceSelect.keySet()) {
+								if (resourceSelect.get(key).contains(p)) {
+									world.setCurrentStruct(key);
+								}
+							}
+						}
 					} else {
 						if (resourceSelect != null) {
 							for (String key : resourceSelect.keySet()) {
