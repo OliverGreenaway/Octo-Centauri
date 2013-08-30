@@ -31,8 +31,7 @@ public class Plant extends Resource{
 
 	public Plant(int x, int y) {
 		super(x, y, 1, 1, "Assets/EnvironmentObjects/Plants.png");
-		this.amount = HALF;
-
+		this.amount = 200;
 	}
 
 	public int harvest() {

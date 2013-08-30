@@ -78,6 +78,7 @@ public class World {
 		for (Tile[] row : tiles)
 			for (Tile t : row)
 				t.setWorld(this);
+
 		start();
 	}
 
@@ -86,21 +87,60 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
+		//WHAT STARTS WHERE
+		addStructure(new Crate(34, 34));
+		addStructure(new DudeSpawnBuilding(30,30));
 
 		Random r = new Random();
 		for(int k = 0; k < 50; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+
+			while(getTile(x,y) != null && getTile(x,y).getImageName().equals("Water")){
+				x = r.nextInt(getXSize());
+				y = r.nextInt(getYSize());
+			}
+
 			addStructure(new Crystal(x, y));
 		}
 
 		for(int k = 0; k < 50; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+
+			while(getTile(x,y) != null && getTile(x,y).getImageName().equals("Water")){
+				x = r.nextInt(getXSize());
+				y = r.nextInt(getYSize());
+			}
+
 			int rad = 10;
 			for(int i = 0; i < 30; i++) {
 				int x2 = x + r.nextInt(rad), y2 = y + r.nextInt(rad);
+
+				while(getTile(x2,y2) != null && getTile(x2,y2).getImageName().equals("Water")){
+					x2 = r.nextInt(getXSize());
+					y2 = r.nextInt(getYSize());
+				}
+
 				Tile t = getTile(x2, y2);
 				if(t != null && t.getImageName().equals("DarkSand"))
 					addStructure(new Tree(x2, y2));
+			}
+		}
+
+		for(int k = 0; k < 20; k++) {
+			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+			int length = 7 + r.nextInt(3);
+			if(r.nextBoolean()) {
+				for(int i = 0; i < length; i++) {
+					x++;
+					if(getTile(x,y) == null || getTile(x, y).getImageName().equals("Water")){ continue; }
+					addStructure(new Plant(x, y));
+				}
+			} else {
+				for(int i = 0; i < length; i++) {
+					y++;
+					if(getTile(x,y) == null || getTile(x, y).getImageName().equals("Water")){ continue; }
+					addStructure(new Plant(x, y));
+				}
 			}
 		}
 
@@ -110,14 +150,12 @@ public class World {
 		addDude(new Dude(this, 31, 35, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 33, 33, 1, 1, "Assets/Characters/Man.png"));
 
+		// PLACE OCTO SPAWN POINTS
+		placeOctoSpawnBuilding(150,150);
+		placeOctoSpawnBuilding(150,50);
+		placeOctoSpawnBuilding(50,150);
+		placeOctoSpawnBuilding(100,100);
 
-
-//		addDude(new Octodude(this, 2, 2, 1, 1,
-//				"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-//		addDude(new Slugdude(this, 3, 3, 1, 1,
-//				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
-//		addDude(new Slugdude(this, 10, 10, 1, 1,
-//				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 	}
 
 	/**
@@ -134,7 +172,6 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				if (worldTile[x - X][y - Y].getStructure() != null) {
-					System.out.println("Cannot add structure: overlap");
 					return false; // can't have two structures on one tile
 				}
 
@@ -155,7 +192,7 @@ public class World {
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
 	}
-
+	
 	public boolean showHealth() {
 		return showHealth;
 	}
@@ -195,6 +232,10 @@ public class World {
 	 * returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
+//		if(allDudes.size()>50){
+//			return false;
+//		}
+
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
 		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
@@ -281,15 +322,15 @@ public class World {
 			int rand = (int) (Math.random()*100) + 1;
 			if( rand > 0 && rand <= 50){
 				if(toSpawnNear != null){
-					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY()));
 				}else{
-					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize())));
 				}
 			}else if ( rand > 50 && rand <= 100){
 				if(toSpawnNear != null){
 					addDude(new Slugdude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 				}else{
-					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize())));
 				}
 			}
 			counter = 0;
@@ -297,15 +338,15 @@ public class World {
 			int rand = (int) (Math.random()*100) + 1;
 			if(rand > 0 && rand <= 50)
 				if(toSpawnNear != null){
-					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY()));
 				}else{
-					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize())));
 				}
 			else if (rand > 50 && rand <= 100)
 				if(toSpawnNear != null){
 					addDude(new Slugdude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 				}else{
-					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize())));
 				}
 			counter = 0;
 		} else {
@@ -417,13 +458,10 @@ public class World {
 
 	public boolean build(Tile t, String type, Dude dude)
 	{
-		if (dude.getTask().getTask().equals("buildTile"))
-		{
-			if (dude.isAt(t.getX(), t.getY()))
-			{
+		if (dude.getTask().getTask().equals("buildTile")) {
+			if (dude.isAt(t.getX(), t.getY())) {
 				// finish building tile
-				if (t.getStructure() != null)
-				{
+				if (t.getStructure() != null) {
 					removeStructure(t.getStructure());
 				}
 
@@ -443,8 +481,12 @@ public class World {
 				{
 					removeStructure(t.getStructure());
 				}
-				this.addStructure(new Structure(t.getX(), t.getY(), 1, 1,
-						"Assets/EnvironmentObjects/"+type+".png"));
+				if (type.equals("Tree")){
+					System.out.println("Tree");
+					this.addStructure(new Structure(t.getX(),t.getY(),1,1,"Assets/EnvironmentObjects/DarkTree.png"));
+				}
+				else
+					this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
 
 			// plays audio
 			if (mixingDesk != null) {
@@ -463,6 +505,11 @@ public class World {
 		return false;
 	}
 
+	private boolean playerHasEnoughResource() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	public boolean hasResources(String type) {
 		if (type.equals("BarrenWall"))
 			return true;
@@ -474,6 +521,18 @@ public class World {
 			return true;
 		else if (type.equals("DarkTree"))
 			return true;
+		else if(type.equals("Tree"))
+			return true;
+		else if(type.equals("Stockpile"))
+			return true;
+		else if(type.equals("Water"))
+			return true;
+		else if (type.equals("Building"))
+			return true;
+		else if (type.equals("RoughGround"))
+				return true;
+		else if (type.equals("Sand"))
+				return true;
 		else {
 			return false;
 		}
@@ -524,6 +583,7 @@ public class World {
 
 	public void setCurrentBuild(String currentBuild) {
 		this.currentBuild = currentBuild;
+		buildingStructures = false;
 	}
 
 
@@ -531,9 +591,8 @@ public class World {
 		return buildingStructures;
 	}
 
-	public void setBuildType(){
-		buildingStructures = !buildingStructures;
-	}
+
+
 
 	public boolean dig(Tile t, Dude dude) {
 		if (dude.isAt(t.getX() - 1, t.getY())
@@ -566,7 +625,23 @@ public class World {
 		return currentStruct;
 	}
 
-	public void setCurrentStruct(String currentStruct) {
-		this.currentStruct = currentStruct;
+	public void setCurrentStruct(String struct) {
+		currentStruct = struct;
+		buildingStructures = true;
+	}
+
+	public void placeCrate(int x,int y){
+		Crate crate = new Crate(x,y);
+		addStructure(crate);
+	}
+
+	public void placeDudeSpawnBuilding(int x,int y){
+		DudeSpawnBuilding dsb = new DudeSpawnBuilding(x, y);
+		addStructure(dsb);
+	}
+
+	public void placeOctoSpawnBuilding(int x,int y){
+		OctoSpawnBuilding osb = new OctoSpawnBuilding(x, y);
+		addStructure(osb);
 	}
 }

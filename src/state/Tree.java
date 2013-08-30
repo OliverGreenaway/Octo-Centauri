@@ -30,6 +30,7 @@ public class Tree extends Resource{
 
 
 	public Tree(int x, int y) {
+
 		super(x, y, 1, 1, "Assets/EnvironmentObjects/DarkTree.png");
 		this.amount = HALF;
 
@@ -38,6 +39,7 @@ public class Tree extends Resource{
 	public int harvest() {
 		amount = amount - HARVEST;
 		return HARVEST;
+
 	}
 
 	public ResourceType getResType() {

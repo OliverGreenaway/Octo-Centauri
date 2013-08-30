@@ -29,6 +29,9 @@ public class MixingDesk {
 			AudioPlayer a = new AudioPlayer(sound, playOnce);
 			players.add(a);
 			a.start();
+			if(playOnce){
+				players.remove(a);
+			}
 		}
 	}
 

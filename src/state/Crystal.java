@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class Crystal extends Resource{
 
 	public static int SPREAD = 120;
+	public static final int SPAWN = 100;
 	public static final int MAX = 90;
 	public static final int HALF = 60;
 	public static final int MIN = 30;
@@ -74,11 +76,12 @@ public class Crystal extends Resource{
 				List<Tile> list = new ArrayList<Tile>(neighbours);
 				Collections.shuffle(list);
 				Tile t = list.get(0);
-				if(t.getStructure() == null && t.getHeight() == getWorld().getTile(getX(),getY()).getHeight())
+				if(t.getStructure() == null && t.getHeight() == getWorld().getTile(getX(),getY()).getHeight()) {
 					getWorld().addStructure(new Crystal(t.getX(), t.getY()));
+					amount = HALF;
+				}
 			}
 
-			amount = HALF;
 			updateImage();
 		}
 

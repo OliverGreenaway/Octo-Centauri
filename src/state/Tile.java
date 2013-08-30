@@ -58,8 +58,6 @@ public class Tile implements Serializable {
 		this.imgName = type;
 		try {
 			imgName = type;
-			File tileFile = new File("Assets/EnvironmentTiles/" + type + ".png");
-			assert (tileFile.exists());
 			imagesCache.add(type);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Image Not Found x01", "Warning",

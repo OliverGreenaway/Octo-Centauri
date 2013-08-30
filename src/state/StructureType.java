@@ -6,7 +6,7 @@ import java.util.Map;
 
 import util.ObjectImageStorage;
 
-public class StructureType {
+public abstract class StructureType {
 	private static Map<String, StructureType> types = new HashMap<String, StructureType>();
 
 	public static Map<String, StructureType> getTypes() {return types;}
@@ -19,6 +19,8 @@ public class StructureType {
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}
 
+	public abstract Structure create(int x, int y);
+
 	public StructureType(Image image, int w, int h) {
 		this.image = image;
 		this.width = w;
@@ -26,7 +28,19 @@ public class StructureType {
 	}
 
 	static {
-		types.put("Stockpile", new StructureType(ObjectImageStorage.getOrAdd(Crate.IMAGE), 1, 1));
-		types.put("Tree", new StructureType(ObjectImageStorage.getOrAdd("Assets/EnvironmentObjects/DarkTree.png"), 1, 1));
+
+		types.put("Stockpile", new StructureType(ObjectImageStorage.getOrAdd(Crate.IMAGE), 1, 1) {
+			@Override
+			public Structure create(int x, int y) {
+				return new Crate(x, y);
+			}
+		});
+		types.put("Tree", new StructureType(ObjectImageStorage.getOrAdd("Assets/EnvironmentObjects/DarkTree.png"), 1, 1) {
+			@Override
+			public Structure create(int x, int y) {
+				return new Tree(x, y);
+			}
+		});
+
 	}
 }

@@ -147,7 +147,6 @@ public class FileReader {
 					lineScanner.close();
 				}
 				//read height
-				System.out.println(line);
 				if(line != null){ numLines = Integer.parseInt(line); }
 				else{ numLines = 0; }
 				line = buffer.readLine();
