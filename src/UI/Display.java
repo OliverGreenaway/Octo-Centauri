@@ -497,7 +497,7 @@ public class Display extends JPanel {
 
 						if(t.hasDigTask) {
 
-							((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+							((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
 							g.drawImage(t.getImage(), getPixelX(i, j) - (TILE_WIDTH / 2), getPixelY(i, j) - TILE_HEIGHT, TILE_WIDTH, t.getImage().getHeight(null), null);
 

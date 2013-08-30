@@ -138,7 +138,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		addMouseWheelListener(this);
+		//addMouseWheelListener(this);
 		addKeyListener(this);
 		setFocusable(true);
 
