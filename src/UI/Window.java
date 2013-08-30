@@ -431,6 +431,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentBuild = display.getWorld().getCurrentBuild();
 						if(display.getWorld().hasResources(currentBuild))
 						{
+							if(display.getWorld().getTile((int)point.x,(int)point.y) != null){
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildTile",currentBuild));// TODO
 
@@ -448,6 +449,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 							s.setFilter(rop);
 
 							display.getWorld().addStructure(s);
+							}
 						}
 					}
 					else if (display.getWorld().getBuildType())
@@ -455,6 +457,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentStruct = display.getWorld().getCurrentStruct();
 						if(display.getWorld().hasResources(currentStruct))
 						{
+							if(display.getWorld().getTile((int)point.x,(int)point.y) != null){
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()), "buildStructure",currentStruct));// TODO
 
 							Structure s = (StructureType.getTypes().get(currentStruct).create(display.getWorld(),point.x, point.y));
@@ -472,6 +475,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 							// TODO make tile greyed out, ask man to dig it;
 						}
+					}
 
 				}
 				}
