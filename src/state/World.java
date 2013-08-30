@@ -149,15 +149,6 @@ public class World {
 		addDude(new Dude(this, 34, 31, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 31, 35, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 33, 33, 1, 1, "Assets/Characters/Man.png"));
-
-
-
-//		addDude(new Octodude(this, 2, 2, 1, 1,
-//				"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-//		addDude(new Slugdude(this, 3, 3, 1, 1,
-//				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
-//		addDude(new Slugdude(this, 10, 10, 1, 1,
-//				"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 	}
 
 	/**
@@ -463,20 +454,18 @@ public class World {
 
 	public boolean build(Tile t, String type, Dude dude)
 	{
-		if (playerHasEnoughResource()) {
-			if (dude.getTask().getTask().equals("buildTile")) {
-				if (dude.isAt(t.getX(), t.getY())) {
-					// finish building tile
-					if (t.getStructure() != null) {
-						removeStructure(t.getStructure());
-					}
-
-					t.setImage(dude.getTask().getType());
-					t.setHeight(t.getHeight() + 1);
-					// set tile non transparent
-					// reassign dude to new task
-					return true;
+		if (dude.getTask().getTask().equals("buildTile")) {
+			if (dude.isAt(t.getX(), t.getY())) {
+				// finish building tile
+				if (t.getStructure() != null) {
+					removeStructure(t.getStructure());
 				}
+
+				t.setImage(dude.getTask().getType());
+				t.setHeight(t.getHeight() + 1);
+				// set tile non transparent
+				// reassign dude to new task
+				return true;
 			}
 		}
 		else if (dude.getTask().getTask().equals("buildStructure"))
@@ -488,8 +477,7 @@ public class World {
 				{
 					removeStructure(t.getStructure());
 				}
-				this.addStructure(new Structure(t.getX(), t.getY(), 1, 1,
-						"Assets/EnvironmentObjects/"+type+".png"));
+				this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
 
 			// plays audio
 			if (mixingDesk != null) {
@@ -523,6 +511,8 @@ public class World {
 		else if(type.equals("Grass"))
 			return true;
 		else if (type.equals("DarkTree"))
+			return true;
+		else if(type.equals("Tree"))
 			return true;
 		else {
 			return false;
@@ -574,6 +564,7 @@ public class World {
 
 	public void setCurrentBuild(String currentBuild) {
 		this.currentBuild = currentBuild;
+		buildingStructures = false;
 	}
 
 
@@ -616,8 +607,9 @@ public class World {
 		return currentStruct;
 	}
 
-	public void setCurrentStruct(String currentStruct) {
-		this.currentStruct = currentStruct;
+	public void setCurrentStruct(String struct) {
+		currentStruct = struct;
+		buildingStructures = true;
 	}
 
 	public void placeCrate(int x,int y){
