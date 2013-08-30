@@ -400,7 +400,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					} else {
 						//TODO
 
-//						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+//						display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 //								"buildTile","PathRamp"));
 
 						display.getWorld().addStructure(
@@ -428,7 +428,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentBuild = display.getWorld().getCurrentBuild();
 						if(display.getWorld().hasResources(currentBuild))
 						{
-							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildTile",currentBuild));// TODO
 
 							Structure s = new Structure((int) point.getX(),
@@ -452,7 +452,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentStruct = display.getWorld().getCurrentStruct();
 						if(display.getWorld().hasResources(currentStruct))
 						{
-							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildStructure",currentStruct));// TODO
 
 							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
