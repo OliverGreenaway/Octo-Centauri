@@ -25,8 +25,11 @@ import state.Dude;
 
 import state.StructureType;
 
+import state.Crystal;
+import state.Plant;
 import state.Resource;
 import state.Structure;
+import state.Tree;
 
 import state.Tile;
 import state.World;
@@ -728,5 +731,24 @@ public class Display extends JPanel {
 
 	public void unHighlightTile() {
 		tileHighLighted = false;
+	}
+
+public void toggleResRegen(boolean insaneMode) {
+		if (insaneMode){
+	     Plant.REGEN_TIME = 10;
+	     Plant.SPREAD = 120;
+		 Tree.REGEN_TIME = 10;
+		 Tree.SPREAD = 120;
+		 Crystal.REGEN_TIME = 10;
+		 Crystal.SPREAD = 120;
+		} else {
+		    Plant.REGEN_TIME = 1;
+		    Plant.SPREAD = 2;
+			Tree.REGEN_TIME = 1;
+			Tree.SPREAD = 2;
+			Crystal.REGEN_TIME = 1;
+			Crystal.SPREAD =2;
+		}
+
 	}
 }

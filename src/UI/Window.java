@@ -256,9 +256,18 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	boolean toggleRes = false;
 	@Override
 	public void keyTyped(KeyEvent e) {
-
+		int code = e.getKeyCode();
+//		switch (code) {
+//		case KeyEvent.VK_T:
+//			display.toggleResRegen(toggleRes);
+//			toggleRes = !toggleRes;
+//			break;
+//		default:
+//			break;
+//		}
 	}
 
 	// gets key events for panning possibly add shortcuts
@@ -290,6 +299,11 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		case KeyEvent.VK_F:
 			display.toggleStruct();
 			break;
+		case KeyEvent.VK_T:
+			display.toggleResRegen(toggleRes);
+			break;
+		default:
+				break;
 		}
 		panMap();
 		repaint();

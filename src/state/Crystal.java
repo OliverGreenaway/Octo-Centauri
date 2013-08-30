@@ -8,12 +8,12 @@ import java.util.Set;
 
 public class Crystal extends Resource{
 
-	public static final int SPREAD = 120;
+	public static int SPREAD = 120;
 	public static final int MAX = 90;
 	public static final int HALF = 60;
 	public static final int MIN = 30;
 	public static final int HARVEST = 4;
-	public static final int REGEN_TIME = 10;
+	public static int REGEN_TIME = 10;
 
 	private String lastImg;
 	private boolean shouldOctoMine;
