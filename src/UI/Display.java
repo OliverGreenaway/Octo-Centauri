@@ -558,7 +558,7 @@ public class Display extends JPanel {
 
 		for (int x = 0; x < miniMapWidth; x++) {
 			for (int y = 0; y < miniMapHeight; y++) {
-				Tile t = world.getTile(x + camera.x, y + camera.y);
+				Tile t = world.getTile(x, y);
 				if (t != null) {
 					miniMap.setRGB(x, y, t.getColor().getRGB());
 
@@ -574,9 +574,10 @@ public class Display extends JPanel {
 				}
 			}
 		}
-		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding,
+		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding  ,
 				padding, null);
-
+		/*g2d.setColor(Color.yellow);
+		g2d.drawRect(camera.x+this.getWidth()-padding-miniMapWidth, camera.y+padding, 60, 30);*/
 		// draw the button panel
 		g2d.setColor(Color.black);
 		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
