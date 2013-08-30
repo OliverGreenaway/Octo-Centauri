@@ -418,6 +418,11 @@ public class World {
 			t.setImage(dude.getTask().getType());
 			t.setHeight(t.getHeight() + 1);
 
+			// plays audio
+			if (mixingDesk != null) {
+				mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+			}
+
 			// set tile non transparent
 			// reassign dude to new task
 			return true;
@@ -500,6 +505,11 @@ public class World {
 			}
 
 			t.setHeight(t.getHeight() - 1);
+
+			// plays audio
+			if (mixingDesk != null) {
+				mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+			}
 
 			// set tile non transparent
 			// reassign dude to new task

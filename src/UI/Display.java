@@ -205,16 +205,16 @@ public class Display extends JPanel {
 							"ButtonMuteOff")) {
 						// Mute here
 						if (world.getAudioPlayer() != null) {
-						//	world.getAudioPlayer().toggleMute();
-							world.getAudioPlayer().toggleMusic();
+							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMusic(); // to toggle no music and just sound
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
 
 						if (world.getAudioPlayer() != null) {
-						//	world.getAudioPlayer().toggleMute();
-						  world.getAudioPlayer().toggleMusic();
+							world.getAudioPlayer().toggleMute();
+						//  world.getAudioPlayer().toggleMusic(); // to toggle no music and just sound
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
