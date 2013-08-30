@@ -19,7 +19,7 @@ import util.TileImageStorage;
  */
 public class World {
 
-	private int woodResource = 100;
+	private int woodResource = 200;
 	private int plantResource = 200;
 	private int crystalResource = 200;
 
@@ -151,6 +151,11 @@ public class World {
 		addDude(new Dude(this, 33, 33, 1, 1, "Assets/Characters/Man.png"));
 
 
+		// PLACE OCTO SPAWN POINTS
+		placeOctoSpawnBuilding(150,150);
+		placeOctoSpawnBuilding(150,50);
+		placeOctoSpawnBuilding(50,150);
+		placeOctoSpawnBuilding(100,100);
 
 //		addDude(new Octodude(this, 2, 2, 1, 1,
 //				"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
@@ -622,5 +627,10 @@ public class World {
 	public void placeDudeSpawnBuilding(int x,int y){
 		DudeSpawnBuilding dsb = new DudeSpawnBuilding(x, y);
 		addStructure(dsb);
+	}
+
+	public void placeOctoSpawnBuilding(int x,int y){
+		OctoSpawnBuilding osb = new OctoSpawnBuilding(x, y);
+		addStructure(osb);
 	}
 }
