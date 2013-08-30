@@ -329,7 +329,7 @@ public class Dude implements Serializable {
 			} else if (task == null) {
 				getResources();
 
-			} else if (task.getTask().equals("build")) {
+			} else if (task.getTask().equals("buildTile") || task.getTask().equals("buildStructure"))  {
 				Tile t = task.getTile();
 				followPath(t.getX(), t.getY());
 				// rest(1000);//TODO

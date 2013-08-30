@@ -344,38 +344,45 @@ public class Window extends JPanel implements KeyListener, MouseListener, MouseM
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
 				if (e.getButton() == 3) {
 					display.getWorld().getTile(point.x, point.y).setImage("Grass");
-
 				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
-
-				// set tile to be somthing
-//				if (e.getButton() == 3) {
-					// Dude d = new Dude("")
-//					Tile t = new Tile("Grass", 0, (int) point.getX(),
-//							(int) point.getY());
-//					display.getWorld().setTile((int) point.getX(),
-//							(int) point.getY(), t);
-//			} else if (drawTransparent == true) {
-
-//					 System.out.println("drawing working");//TODO
 					String currentBuild = display.getWorld().getCurrentBuild();
-					if (display.getWorld().hasResources(currentBuild)){
-					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
-												"build",currentBuild));// TODO
+					if (display.getWorld().hasResources(currentBuild) && !display.getWorld().getBuildType()){
+						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+													"buildTile",currentBuild));// TODO
 
-					Structure s = new Structure((int) point.getX(),
-							(int) point.getY(), 1, 1,
-							"Assets/EnvironmentTiles/"+currentBuild+".png");
+						Structure s = new Structure((int) point.getX(),
+								(int) point.getY(), 1, 1,
+								"Assets/EnvironmentTiles/"+currentBuild+".png");
 
-					/*
-					 * Copied from Java tutorial. Create a rescale filter op
-					 * that makes the image 50% opaque.
-					 */
-					float[] scales = { 1f, 1f, 1f, 0.5f };
-					float[] offsets = new float[4];
-					RescaleOp rop = new RescaleOp(scales, offsets, null);
-					s.setFilter(rop);
+						/*
+						 * Copied from Java tutorial. Create a rescale filter op
+						 * that makes the image 50% opaque.
+						 */
+						float[] scales = { 1f, 1f, 1f, 0.5f };
+						float[] offsets = new float[4];
+						RescaleOp rop = new RescaleOp(scales, offsets, null);
+						s.setFilter(rop);
 
-					display.getWorld().addStructure(s);
+						display.getWorld().addStructure(s);
+					}
+					else if (display.getWorld().hasResources(currentBuild) && display.getWorld().getBuildType()){
+						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+													"buildStructure",currentBuild));// TODO
+
+						Structure s = new Structure((int) point.getX(),
+								(int) point.getY(), 1, 1,
+								"Assets/EnvironmentObjects/"+currentBuild+".png");
+
+						/*
+						 * Copied from Java tutorial. Create a rescale filter op
+						 * that makes the image 50% opaque.
+						 */
+						float[] scales = { 1f, 1f, 1f, 0.5f };
+						float[] offsets = new float[4];
+						RescaleOp rop = new RescaleOp(scales, offsets, null);
+						s.setFilter(rop);
+
+						display.getWorld().addStructure(s);
 
 				} else {
 					Structure s = display.getWorld().getTile(point.x, point.y).getStructure();
