@@ -68,6 +68,7 @@ public class Logic {
 	public void mapChanged(int i, int j) {
 		Stack<FourTupleInt> stack = new Stack<FourTupleInt>();
 
+		if (!(i >= 0 && j >= 0 && j < access.length && i < access[0].length)) return;
 		access[i][j] = level;
 
 		stack.push(new FourTupleInt(i + 1, j, i, j));

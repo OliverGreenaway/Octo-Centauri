@@ -165,7 +165,6 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				if (worldTile[x - X][y - Y].getStructure() != null) {
-					System.out.println("Cannot add structure: overlap");
 					return false; // can't have two structures on one tile
 				}
 
@@ -182,6 +181,8 @@ public class World {
 		gameUpdate.structureAdded(s); // Send change to the network class
 		return true;
 	}
+
+
 
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
@@ -226,6 +227,10 @@ public class World {
 	 * returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
+//		if(allDudes.size()>50){
+//			return false;
+//		}
+
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
 		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
