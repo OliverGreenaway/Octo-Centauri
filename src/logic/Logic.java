@@ -2,6 +2,7 @@ package logic;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Random;
 import java.util.Stack;
 
 import state.Dude;
+import state.Task;
 import state.Tile;
 import state.World;
 
@@ -253,6 +255,10 @@ public class Logic {
 		public Point getPrev() {
 			return prev;
 		}
+	}
+
+	public boolean canPath(Tile start, Tile target) {
+		return access[start.getX()][start.getY()] == access[target.getX()][target.getY()];
 	}
 
 }

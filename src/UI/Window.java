@@ -45,7 +45,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		MouseMotionListener, MouseWheelListener {
 
 	MainFrame frame = null;
-	public void setFrame(MainFrame frame) { this.frame = frame; }
+
+	public void setFrame(MainFrame frame) {
+		this.frame = frame;
+	}
 
 	// mouse x y points on a click
 	private int mouseX = 0;
@@ -161,7 +164,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 		if (mixingDesk != null) {
 
-
 			mixingDesk.stopAudio();
 			mixingDesk.addAudioPlayer("InGameMusic.wav", false);
 			world.setAudioPlayer(this.mixingDesk);
@@ -257,17 +259,18 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	boolean toggleRes = false;
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		int code = e.getKeyCode();
-//		switch (code) {
-//		case KeyEvent.VK_T:
-//			display.toggleResRegen(toggleRes);
-//			toggleRes = !toggleRes;
-//			break;
-//		default:
-//			break;
-//		}
+		// switch (code) {
+		// case KeyEvent.VK_T:
+		// display.toggleResRegen(toggleRes);
+		// toggleRes = !toggleRes;
+		// break;
+		// default:
+		// break;
+		// }
 	}
 
 	// gets key events for panning possibly add shortcuts
@@ -303,7 +306,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			display.toggleResRegen(toggleRes);
 			break;
 		default:
-				break;
+			break;
 		}
 		panMap();
 		repaint();
@@ -341,12 +344,12 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			display.rotate();
 			break;
 		case KeyEvent.VK_ESCAPE:
-			if (JOptionPane.showConfirmDialog(null,  "Do you really want to quit?") == 0)
+			if (JOptionPane.showConfirmDialog(null,
+					"Do you really want to quit?") == 0)
 				frame.close();
 			break;
 		}
 	}
-
 
 	// mouse commands, awaiting some level of world to play with
 	@Override
@@ -402,7 +405,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					} else {
 						//TODO
 
-//						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+//						display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 //								"buildTile","PathRamp"));
 
 						display.getWorld().addStructure(
@@ -430,13 +433,14 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentBuild = display.getWorld().getCurrentBuild();
 						if(display.getWorld().hasResources(currentBuild))
 						{
+
 							System.out.println(currentBuild);
 							Tile tile = display.getWorld().getTile((int) point.getX(), (int) point.getY());
 							if(!tile.isTraversible())
 								return;
 
-							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
-														"buildTile",currentBuild));// TODO
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),	"buildTile",currentBuild));// TODO
+
 
 							Structure s = new Structure((int) point.getX(),
 									(int) point.getY(), 1, 1,
@@ -466,7 +470,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildStructure",currentStruct));// TODO
 
-							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
+
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()), "buildStructure",currentStruct));// TODO
+
+							Structure s = (StructureType.getTypes().get(currentStruct).create(display.getWorld(),point.x, point.y));
 
 							/*
 							 * Copied from Java tutorial. Create a rescale filter op
@@ -489,7 +496,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	this.repaint();
 	}
-
 
 	/*
 	 * public void displayPath() { System.out.println("HIII!"); if
@@ -516,17 +522,15 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		} else {
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			Tile t = display.getWorld().getTile(point.x, point.y);
-			if (t != null) {
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 			display.getWorld().getLogic().mapChanged(point.x, point.y);
-			}
 		}
-//		// plays audio
-//		// System.out.println(mixingDesk);
-//		if (mixingDesk != null) {
-//			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
-//		}
-//		// new AudioPlayer("PlaceItem.wav", true);
+		// // plays audio
+		// // System.out.println(mixingDesk);
+		// if (mixingDesk != null) {
+		// mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+		// }
+		// // new AudioPlayer("PlaceItem.wav", true);
 
 	}
 
