@@ -38,8 +38,6 @@ public class Display extends JPanel {
 	private final Dimension DIMENSION = new Dimension(1920, 1080);
 	private final int VIEW_WIDTH = 70, VIEW_HEIGHT = 70; // Camera = 60x60
 
-	private final int SCREEN_Y_DISPLACEMENT = 490; // Arbitrary y axis
-													// displacement
 	private final int SCREEN_BUFFER_ZONE = 20; // Arbitrary screen edge buffer
 
 	private World world;
@@ -47,6 +45,8 @@ public class Display extends JPanel {
 	private boolean tileHighLighted = false;
 
 	private boolean trippy = false;
+
+	private int getYDisplacement() {return getHeight()/2; /* was 490 */}
 
 	// <UI
 	int miniMapWidth = 280;
@@ -411,7 +411,7 @@ public class Display extends JPanel {
 																	// / half
 																	// the width
 																	// of a tile
-		double xPlusY = ((y + SCREEN_Y_DISPLACEMENT) / (TILE_HEIGHT / 2.0)); // (
+		double xPlusY = ((y + getYDisplacement()) / (TILE_HEIGHT / 2.0)); // (
 																				// y
 																				// click
 																				// /
@@ -457,7 +457,7 @@ public class Display extends JPanel {
 	}
 
 	private int getPixelY(double x, double y) {
-		return (int) ((x + y) * (TILE_HEIGHT / 2) - SCREEN_Y_DISPLACEMENT + TILE_HEIGHT);
+		return (int) ((x + y) * (TILE_HEIGHT / 2) - getYDisplacement() + TILE_HEIGHT);
 	}
 
 	/**
