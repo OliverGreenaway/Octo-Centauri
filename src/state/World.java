@@ -104,6 +104,18 @@ public class World {
 			}
 		}
 
+		for(int k = 0; k < 50; k++) {
+			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+			int rad = 10;
+			for(int i = 0; i < 30; i++) {
+				int x2 = x + r.nextInt(rad), y2 = y + r.nextInt(rad);
+				Tile t = getTile(x2, y2);
+				if (t != null && t.getImageName().equals("BarrenGrass")){
+					addStructure(new Plant(x2, y2));
+				}
+			}
+		}
+
 		addDude(new Dude(this, 30, 30, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 32, 34, 1, 1, "Assets/Characters/Man.png"));
 		addDude(new Dude(this, 34, 31, 1, 1, "Assets/Characters/Man.png"));
@@ -417,21 +429,20 @@ public class World {
 
 	public boolean build(Tile t, String type, Dude dude)
 	{
-		if (dude.getTask().getTask().equals("buildTile"))
-		{
-			if (dude.isAt(t.getX(), t.getY()))
-			{
-				// finish building tile
-				if (t.getStructure() != null)
-				{
-					removeStructure(t.getStructure());
-				}
+		if (playerHasEnoughResource()) {
+			if (dude.getTask().getTask().equals("buildTile")) {
+				if (dude.isAt(t.getX(), t.getY())) {
+					// finish building tile
+					if (t.getStructure() != null) {
+						removeStructure(t.getStructure());
+					}
 
-				t.setImage(dude.getTask().getType());
-				t.setHeight(t.getHeight() + 1);
-				// set tile non transparent
-				// reassign dude to new task
-				return true;
+					t.setImage(dude.getTask().getType());
+					t.setHeight(t.getHeight() + 1);
+					// set tile non transparent
+					// reassign dude to new task
+					return true;
+				}
 			}
 		}
 		else if (dude.getTask().getTask().equals("buildStructure"))
@@ -460,6 +471,11 @@ public class World {
 //			tasks.add(new Task(t, "build", type));
 			return true;
 		}
+		return false;
+	}
+
+	private boolean playerHasEnoughResource() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
