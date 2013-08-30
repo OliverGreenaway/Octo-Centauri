@@ -457,7 +457,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildStructure",currentStruct));// TODO
 
-							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
+							Structure s = (StructureType.getTypes().get(currentStruct).create(display.getWorld(),point.x, point.y));
 
 							/*
 							 * Copied from Java tutorial. Create a rescale filter op
