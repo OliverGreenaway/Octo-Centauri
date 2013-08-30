@@ -4,7 +4,7 @@ public class Plant extends Resource{
 
 	public Plant(int x, int y) {
 		super(x, y, 1, 1, "Assets/EnvironmentObjects/Plants.png");
-		this.amount = 100;
+		this.amount = 200;
 	}
 
 	public ResourceType getResType() {

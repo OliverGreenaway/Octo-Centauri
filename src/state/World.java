@@ -19,7 +19,7 @@ import util.TileImageStorage;
  */
 public class World {
 
-	private int woodResource = 200;
+	private int woodResource = 100;
 	private int plantResource = 200;
 	private int crystalResource = 200;
 
@@ -78,6 +78,7 @@ public class World {
 		for (Tile[] row : tiles)
 			for (Tile t : row)
 				t.setWorld(this);
+
 		start();
 	}
 
@@ -86,35 +87,58 @@ public class World {
 	 * here and it's called from inside UpdateThread
 	 */
 	private void start() {
+		//WHAT STARTS WHERE
 		addStructure(new Crate(34, 34));
+		addStructure(new DudeSpawnBuilding(30,30));
+
 		Random r = new Random();
 		for(int k = 0; k < 50; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+
+			while(getTile(x,y) != null && getTile(x,y).getImageName().equals("Water")){
+				x = r.nextInt(getXSize());
+				y = r.nextInt(getYSize());
+			}
+
 			addStructure(new Crystal(x, y));
 		}
 
 		for(int k = 0; k < 50; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
+
+			while(getTile(x,y) != null && getTile(x,y).getImageName().equals("Water")){
+				x = r.nextInt(getXSize());
+				y = r.nextInt(getYSize());
+			}
+
 			int rad = 10;
 			for(int i = 0; i < 30; i++) {
 				int x2 = x + r.nextInt(rad), y2 = y + r.nextInt(rad);
+
+				while(getTile(x2,y2) != null && getTile(x2,y2).getImageName().equals("Water")){
+					x2 = r.nextInt(getXSize());
+					y2 = r.nextInt(getYSize());
+				}
+
 				Tile t = getTile(x2, y2);
 				if(t != null && t.getImageName().equals("DarkSand"))
 					addStructure(new Tree(x2, y2));
 			}
 		}
 
-		for(int k = 0; k < 10; k++) {
+		for(int k = 0; k < 20; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
 			int length = 7 + r.nextInt(3);
 			if(r.nextBoolean()) {
 				for(int i = 0; i < length; i++) {
 					x++;
+					if(getTile(x,y) == null || getTile(x, y).getImageName().equals("Water")){ continue; }
 					addStructure(new Plant(x, y));
 				}
 			} else {
 				for(int i = 0; i < length; i++) {
 					y++;
+					if(getTile(x,y) == null || getTile(x, y).getImageName().equals("Water")){ continue; }
 					addStructure(new Plant(x, y));
 				}
 			}
@@ -150,6 +174,7 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				if (worldTile[x - X][y - Y].getStructure() != null) {
+					System.out.println("Cannot add structure: overlap");
 					return false; // can't have two structures on one tile
 				}
 
@@ -593,5 +618,15 @@ public class World {
 
 	public void setCurrentStruct(String currentStruct) {
 		this.currentStruct = currentStruct;
+	}
+
+	public void placeCrate(int x,int y){
+		Crate crate = new Crate(x,y);
+		addStructure(crate);
+	}
+
+	public void placeDudeSpawnBuilding(int x,int y){
+		DudeSpawnBuilding dsb = new DudeSpawnBuilding(x, y);
+		addStructure(dsb);
 	}
 }

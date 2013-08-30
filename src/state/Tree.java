@@ -6,7 +6,7 @@ public class Tree extends Resource{
 
 	public Tree(int x, int y) {
 		super(x, y, 1, 1, IMAGE);
-		this.amount = 200;
+		this.amount = 100;
 	}
 
 	public ResourceType getResType() {
