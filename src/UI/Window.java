@@ -389,9 +389,12 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					s.setFilter(rop);
 
 					display.getWorld().addStructure(s);
-					tile.hasDigTask = true;
-					Task t = new Task(tile, "dig");
-					display.getWorld().addTask(t);
+
+					if(tile.isTraversible()){
+						Task t = new Task(tile, "dig");
+						display.getWorld().addTask(t);
+					}
+
 				}
 				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK))
 				{
@@ -433,6 +436,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						if(display.getWorld().hasResources(currentBuild))
 						{
 
+							System.out.println(currentBuild);
+							Tile tile = display.getWorld().getTile((int) point.getX(), (int) point.getY());
+							if(!tile.isTraversible())
+								return;
 
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),	"buildTile",currentBuild));// TODO
 
@@ -458,6 +465,13 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentStruct = display.getWorld().getCurrentStruct();
 						if(display.getWorld().hasResources(currentStruct))
 						{
+							Tile tile = display.getWorld().getTile((int) point.getX(), (int) point.getY());
+							if(!tile.isTraversible())
+								return;
+
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+														"buildStructure",currentStruct));// TODO
+
 
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()), "buildStructure",currentStruct));// TODO
 
