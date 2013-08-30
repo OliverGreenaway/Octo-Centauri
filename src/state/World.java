@@ -483,7 +483,12 @@ public class World {
 				{
 					removeStructure(t.getStructure());
 				}
-				this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
+				if (type.equals("Tree")){
+					System.out.println("Tree");
+					this.addStructure(new Structure(t.getX(),t.getY(),1,1,"Assets/EnvironmentObjects/DarkTree.png"));
+				}
+				else
+					this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
 
 			// plays audio
 			if (mixingDesk != null) {
