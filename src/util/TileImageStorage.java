@@ -55,15 +55,17 @@ public class TileImageStorage {
 	}
 
 	private int waterFrame;
+	int timer;
 	public void update() {
-		waterFrame = (waterFrame + 1) % 2;
-		if(waterFrame == 0) {
-			images.put("Water", get("Water1"));
-			colors.put("Water", colors.get("Water1"));
-		} else if(waterFrame == 1) {
-			images.put("Water", get("Water2"));
-			colors.put("Water", colors.get("Water2"));
+		if(--timer > 0) {
+			return;
 		}
+		timer = 5;
+		waterFrame = (waterFrame + 1) % 2;
+
+		String from = "Water" + (waterFrame+1);
+		images.put("Water", get(from));
+		colors.put("Water", colors.get(from));
 	}
 
 	public BufferedImage get(String key) {
