@@ -3,16 +3,15 @@ package state;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
-import java.util.Stack;
-
-import sound.AudioPlayer;
-import sound.MixingDesk;
 
 import logic.GameUpdate;
 import logic.Logic;
+import sound.AudioPlayer;
+import sound.MixingDesk;
 
 /**
  * Stores everything in the game.
@@ -261,50 +260,43 @@ public class World {
 		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
 
-		if (counter == 60 && dudeSpawningEnabled) {
-			int rand = (int) Math.random() * 100 + 1;
-			if (rand > 0 && rand <= 50)
-				addDude(new Octodude(this, /*
-											 * ((int)(Math.random() *
-											 * getXSize()) + 1)
-											 */2,/*
-												 * (int) ((Math.random() *
-												 * getYSize()) + 1)
-												 */2, 1, 1,
-						"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-			else if (rand > 50 && rand <= 100)
-				addDude(new Slugdude(this, /*
-											 * ((int)(Math.random() *
-											 * getXSize()) + 1)
-											 */2,/*
-												 * (int) ((Math.random() *
-												 * getYSize()) + 1)
-												 */2, 1, 1,
-						"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
-			counter = 0;
-		} else if (!dudeSpawningEnabled && counter == 150) {
 
-			double rand = Math.random();
-			// should be 50/50 spawning of each
-			if (rand <= .5) {
-				// System.out.println("you spawned an octodude");
-				addDude(new Octodude(this, /*
-											 * ((int)(Math.random() *
-											 * getXSize()) + 1)
-											 */2,/*
-												 * (int) ((Math.random() *
-												 * getYSize()) + 1)
-												 */2, 1, 1,
-						"Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
-			} else if (rand > .5) {
-				System.out.println("slugg");
-				// addDude(new Slugdude(this, /*((int)(Math.random() *
-				// getXSize()) + 1)*/2,/*(int) ((Math.random() * getYSize()) +
-				// 1)*/2, 1, 1,
-				// "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
-				addDude(new Slugdude(this, 5, 5, 1, 1,
-						"Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+		List<Resource> spawnResources = getEatableResources();
+		Resource toSpawnNear = null;
+		if(spawnResources.size() > 0){
+			toSpawnNear = spawnResources.get(new Random().nextInt(spawnResources.size()));
+		}
+
+		if(counter > 60 && dudeSpawningEnabled){
+			int rand = (int) (Math.random()*100) + 1;
+			if( rand > 0 && rand <= 50){
+				if(toSpawnNear != null){
+					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+				}else{
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+				}
+			}else if ( rand > 50 && rand <= 100){
+				if(toSpawnNear != null){
+					addDude(new Slugdude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+				}else{
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+				}
 			}
+			counter = 0;
+		} else if(!dudeSpawningEnabled && counter > 150){
+			int rand = (int) (Math.random()*100) + 1;
+			if(rand > 0 && rand <= 50)
+				if(toSpawnNear != null){
+					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+				}else{
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+				}
+			else if (rand > 50 && rand <= 100)
+				if(toSpawnNear != null){
+					addDude(new Slugdude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+				}else{
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+				}
 			counter = 0;
 		} else {
 			counter++;
@@ -377,6 +369,16 @@ public class World {
 
 		}
 		return bestStructure;
+	}
+
+	public List<Resource> getEatableResources(){
+		List<Resource> highResources = new ArrayList<Resource>();
+		for(Resource r : resources){
+			if(r instanceof Crystal && ((Crystal)r).shouldOctoMine()){
+				highResources.add(r);
+			}
+		}
+		return highResources;
 	}
 
 	public int getCrystalResource() {

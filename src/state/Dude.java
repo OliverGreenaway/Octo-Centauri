@@ -283,6 +283,7 @@ public class Dude implements Serializable {
 
 
 			//TODO Squids cant build so fix that instanceof dude
+
 			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude)){
 				task = world.tasks.poll();
 			}
@@ -417,7 +418,7 @@ public class Dude implements Serializable {
 
 		} else {
 			//SlugBalancing check
-			if(this instanceof Octodude && !world.isSlugBalancingEnabled()){
+			if((this instanceof Octodude || this instanceof Slugdude) && !world.isSlugBalancingEnabled()){
 				return;
 			}
 			Resource nowHarvesting = world.getNearestResource(
@@ -430,7 +431,7 @@ public class Dude implements Serializable {
 				boolean moved = followPath(nowHarvesting.getX(),
 						nowHarvesting.getY());
 				if (!moved) {
-					if (harvesting.getX() == x && harvesting.getY() == y) {
+					if (harvesting.getX() == x && harvesting.getY()      == y) {
 						harvest(harvesting);
 						harvesting = null;
 					}
