@@ -576,8 +576,10 @@ public class Display extends JPanel {
 		}
 		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding  ,
 				padding, null);
-		/*g2d.setColor(Color.yellow);
-		g2d.drawRect(camera.x+this.getWidth()-padding-miniMapWidth, camera.y+padding, 60, 30);*/
+		g2d.setColor(Color.yellow);
+		int x = Math.min(Math.max(camera.x+this.getWidth()-padding-miniMapWidth,this.getWidth()-padding-miniMapWidth),this.getWidth()-padding-miniMapWidth+world.getXSize()-60);
+		int y = Math.min(Math.max(camera.y+padding,padding),padding + world.getYSize()-30);
+		g2d.drawRect(x, y, 60, 30);
 		// draw the button panel
 		g2d.setColor(Color.black);
 		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
@@ -636,8 +638,8 @@ public class Display extends JPanel {
 
 		}
 
-		int x = 0;
-		int y = 0;
+		x = 0;
+		y = 0;
 
 		int start = 64 * 3 + 5 * 3 + 10 + 10 + padding;
 
