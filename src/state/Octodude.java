@@ -24,9 +24,8 @@ public class Octodude extends Dude implements Serializable{
 
 	private transient Image img[];
 
-	public Octodude(World world, int x, int y, int width, int height,
-			String image) {
-		super(world, x, y, width, height, image);
+	public Octodude(World world, int x, int y) {
+		super(world, x, y, 1, 1, "");
 		maxHealth = 50;
 	}
 
