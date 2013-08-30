@@ -58,20 +58,20 @@ public class Plant extends Resource{
 			Tile temp;
 
 			temp = getWorld().getTile(getX()+-1, getY());
-			if(temp != null || !temp.getImageName().equals("Water")){
+			if(temp != null && !temp.getImageName().equals("Water")){
 				neighbours.add(temp);
 			}
 			temp = getWorld().getTile(getX()+1, getY());
-			if(temp != null || !temp.getImageName().equals("Water")){
+			if(temp != null && !temp.getImageName().equals("Water")){
 				neighbours.add(temp);
 			}
 
 			temp = (getWorld().getTile(getX(), getY()+1));
-			if(temp != null || !temp.getImageName().equals("Water")){
+			if(temp != null && !temp.getImageName().equals("Water")){
 				neighbours.add(temp);
 			}
 			temp = (getWorld().getTile(getX(), getY()-1));
-			if(temp != null || !temp.getImageName().equals("Water")){
+			if(temp != null && !temp.getImageName().equals("Water")){
 				neighbours.add(temp);
 			}
 			neighbours.remove(null);

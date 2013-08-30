@@ -163,6 +163,10 @@ public class World {
 	 * placed, returns false without changing anything.
 	 */
 	public boolean addStructure(Structure s) {
+		//TODO
+		Tile t = worldTile[s.getX()][s.getY()];
+		if(!t.isTraversible())
+			return false;
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
 		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
@@ -503,14 +507,11 @@ public class World {
 					removeStructure(t.getStructure());
 				}
 				if (type.equals("Tree")){
-					System.out.println("Tree");
 					this.addStructure(new Structure(t.getX(),t.getY(),1,1,"Assets/EnvironmentObjects/DarkTree.png"));
 				}
-				else
+				else{
 					this.addStructure(StructureType.getTypes().get(type).create(this,t.getX(), t.getY()));
-
-				System.out.println("build at "+t.getX()+","+t.getY());
-
+				}
 			// plays audio
 			if (mixingDesk != null) {
 				mixingDesk.addAudioPlayer("PlaceItem.wav", true);
@@ -632,6 +633,7 @@ public class World {
 			}
 
 			t.setHeight(t.getHeight() - 1);
+			t.hasDigTask = false;
 
 			// plays audio
 			if (mixingDesk != null) {

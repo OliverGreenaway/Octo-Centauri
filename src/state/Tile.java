@@ -27,6 +27,8 @@ public class Tile implements Serializable {
 	private boolean occupied;
 	private String type;
 
+	public boolean hasDigTask = false;
+
 
 	private boolean collidable;
 	private transient RescaleOp filter;
