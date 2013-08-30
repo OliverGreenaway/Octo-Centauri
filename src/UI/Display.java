@@ -277,7 +277,13 @@ public class Display extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					Point p = e.getPoint();
 					if (buildStruct) {
-
+						if (resourceSelect != null) {
+							for (String key : resourceSelect.keySet()) {
+								if (resourceSelect.get(key).contains(p)) {
+									world.setCurrentStruct(key);
+								}
+							}
+						}
 					} else {
 						if (resourceSelect != null) {
 							for (String key : resourceSelect.keySet()) {
