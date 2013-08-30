@@ -232,9 +232,7 @@ public class World {
 	 * returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
-//		if(allDudes.size()>50){
-//			return false;
-//		}
+
 
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
@@ -244,7 +242,7 @@ public class World {
 		// check for overlap
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
-				if (worldTile[x - X][y - Y].getDude() != null)
+				if (worldTile[x - X][y - Y].getDude() != null || worldTile[x - X][y - Y].getImageName().equals("Water"))
 					return false; // can't have two structures on one tile
 									// <--The best comment! =)
 
@@ -410,9 +408,7 @@ public class World {
 			int squaredDistance = (r.getX() - x) * (r.getX() - x)
 					+ (r.getY() - y) * (r.getY() - y);
 			if (squaredDistance < bestSquaredDistance) {
-				if (!getLogic().findRoute(tile, getTile(r.getX(), r.getY()),
-						dude).isEmpty()
-						|| getTile(dude.getX(), dude.getY()) == tile) {
+				if (getLogic().canPath(tile, getTile(r.getX(), r.getY()))) {
 					bestSquaredDistance = squaredDistance;
 					bestStructure = r;
 				}
@@ -435,7 +431,7 @@ public class World {
 				continue;
 			int squaredDistance = (d.getX() - x) * (d.getX() - x) + (d.getY() - y) * (d.getY() - y);
 			if (squaredDistance < bestSquaredDistance) {
-				if (!getLogic().findRoute(getTile(d.getX(), d.getY()), tile, d).isEmpty() || getTile(d.getX(), d.getY()) == tile) {
+				if (getLogic().canPath(getTile(d.getX(), d.getY()), tile)) {
 					bestSquaredDistance = squaredDistance;
 					bestStructure = d;
 				}
@@ -490,6 +486,8 @@ public class World {
 
 				t.setImage(dude.getTask().getType());
 				t.setHeight(t.getHeight() + 1);
+				crystalResource -= 20;
+				woodResource -= -10;
 				// set tile non transparent
 				// reassign dude to new task
 				return true;
