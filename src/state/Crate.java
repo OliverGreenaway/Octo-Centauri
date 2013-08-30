@@ -3,7 +3,7 @@ package state;
 public class Crate extends Structure {
 	private static final long serialVersionUID = 2931626387167L;
 
-	public static final String IMAGE = "Assets/EnvironmentTiles/SpawnPoints/SpawnMan1.png";
+	public static final String IMAGE = "Assets/EnvironmentObjects/Stockpile/StockpileFrontLeft.png";
 
 	public Crate(int x, int y) {
 		super(x, y, 1, 1, IMAGE);

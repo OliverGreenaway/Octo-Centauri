@@ -58,7 +58,6 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void windowClosed(WindowEvent e) {
-				System.out.println("hi");
 			}
 
 			@Override
@@ -101,7 +100,6 @@ public class MainFrame extends JFrame {
 
 
 	public void close() {
-		System.out.println("hi");
 		System.exit(0);
 
 	}

@@ -43,7 +43,6 @@ private final boolean multiplayer;
     }
     w.setGameUpdate(gUpdate);
     network = n;
-    System.out.println("New update thread created;");
 	}
 
 	private void networkUpdate(){
