@@ -126,7 +126,7 @@ public class World {
 			}
 		}
 
-		for(int k = 0; k < 10; k++) {
+		for(int k = 0; k < 20; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
 			int length = 7 + r.nextInt(3);
 			if(r.nextBoolean()) {
