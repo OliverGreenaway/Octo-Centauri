@@ -490,6 +490,8 @@ public class World {
 
 				t.setImage(dude.getTask().getType());
 				t.setHeight(t.getHeight() + 1);
+				crystalResource -= 20;
+				woodResource -= -10;
 				// set tile non transparent
 				// reassign dude to new task
 				return true;

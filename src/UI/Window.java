@@ -428,7 +428,9 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentBuild = display.getWorld().getCurrentBuild();
 						if(display.getWorld().hasResources(currentBuild))
 						{
-							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+							System.out.println(currentBuild);
+
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildTile",currentBuild));// TODO
 
 							Structure s = new Structure((int) point.getX(),
@@ -453,7 +455,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						if(display.getWorld().hasResources(currentStruct))
 						{
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
-
+														"buildStructure",currentStruct));// TODO
 
 							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
 
@@ -479,6 +481,15 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	this.repaint();
 	}
 
+
+	/*
+	 * public void displayPath() { System.out.println("HIII!"); if
+	 * (selectedTile1 != null && selectedTile2 != null) { Stack<Tile> route =
+	 * new Logic(display.getWorld()).findRoute( selectedTile1, selectedTile2);
+	 * while (!route.isEmpty()) { Tile t = route.pop(); t.setImage("Path"); } }
+	 * }
+	 */
+
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 
@@ -496,11 +507,16 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		} else {
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			Tile t = display.getWorld().getTile(point.x, point.y);
-			if (t != null) {
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 			display.getWorld().getLogic().mapChanged(point.x, point.y);
-			}
 		}
+//		// plays audio
+//		// System.out.println(mixingDesk);
+//		if (mixingDesk != null) {
+//			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+//		}
+//		// new AudioPlayer("PlaceItem.wav", true);
+
 	}
 
 	@Override
