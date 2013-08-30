@@ -226,6 +226,9 @@ public class Dude implements Serializable {
 	}
 
 	public boolean canMove(Tile from, Tile to) {
+		if(!to.isTraversible()){
+			return false;
+		}
 		if(to.getImageName().equals("Water")){
 			return false;
 		}
