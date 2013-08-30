@@ -25,6 +25,7 @@ public class Tile implements Serializable {
 	private World world;
 	private boolean visited;
 	private boolean occupied;
+	private String type;
 
 
 	private boolean collidable;
@@ -55,6 +56,7 @@ public class Tile implements Serializable {
 	 *            The Y coordinate.
 	 */
 	public Tile(String type, int ht, World world, int x, int y) {
+		this.type = type;
 		this.imgName = type;
 		try {
 			imgName = type;
@@ -194,6 +196,13 @@ public class Tile implements Serializable {
 
 	public String getImageName() {
 		return imgName;
+	}
+
+	public boolean isTraversible(){
+		if(type.equals("Water"))
+			return false;
+
+		return true;
 	}
 
 }
