@@ -386,6 +386,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					s.setFilter(rop);
 
 					display.getWorld().addStructure(s);
+					tile.hasDigTask = true;
 					Task t = new Task(tile, "dig");
 					display.getWorld().addTask(t);
 				}

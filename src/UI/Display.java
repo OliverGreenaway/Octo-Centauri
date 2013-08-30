@@ -1,5 +1,6 @@
 package UI;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -493,10 +494,19 @@ public class Display extends JPanel {
 						int i = x - σ;
 						int j = y - σ;
 						// displays each tile
-						g.drawImage(t.getImage(), getPixelX(i, j)
-								- (TILE_WIDTH / 2), getPixelY(i, j)
-								- TILE_HEIGHT, TILE_WIDTH, t.getImage()
-								.getHeight(null), null);
+
+						if(t.hasDigTask) {
+
+							((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+
+							g.drawImage(t.getImage(), getPixelX(i, j) - (TILE_WIDTH / 2), getPixelY(i, j) - TILE_HEIGHT, TILE_WIDTH, t.getImage().getHeight(null), null);
+
+							((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
+						} else {
+							g.drawImage(t.getImage(), getPixelX(i, j) - (TILE_WIDTH / 2), getPixelY(i, j) - TILE_HEIGHT, TILE_WIDTH, t.getImage().getHeight(null), null);
+						}
+
 						if (tileHighLighted && t.getX() == hoverX
 								&& t.getY() == hoverY)
 							g.drawImage(hoverImage, getPixelX(i, j)
@@ -696,8 +706,8 @@ public class Display extends JPanel {
 			}
 			tileMap.remove("Water1");
 			tileMap.remove("Water2");
-			
-			
+
+
 			int selectHeight = (tileMap.size() + 1) / 2;
 			resourceSelectRect = new Rectangle(padding, padding + start, 2
 					* (tpad + TILE_WIDTH) + tpad, selectHeight

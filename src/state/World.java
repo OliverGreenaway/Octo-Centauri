@@ -628,6 +628,7 @@ public class World {
 			}
 
 			t.setHeight(t.getHeight() - 1);
+			t.hasDigTask = false;
 
 			// plays audio
 			if (mixingDesk != null) {
