@@ -189,12 +189,10 @@ public class World {
 		return true;
 	}
 
-
-
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
 	}
-
+	
 	public boolean showHealth() {
 		return showHealth;
 	}
