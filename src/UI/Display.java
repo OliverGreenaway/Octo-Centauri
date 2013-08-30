@@ -670,8 +670,15 @@ public class Display extends JPanel {
 				x %= 2;
 			}
 		} else {
-			Map<String, BufferedImage> tileMap = Tile.getImagesCache().getMap();
-
+			Map<String, BufferedImage> tileMapReal = Tile.getImagesCache().getMap();
+			Map<String, BufferedImage> tileMap = new HashMap<String, BufferedImage>();
+			for (String key : tileMapReal.keySet()) {
+				tileMap.put(key, tileMapReal.get(key));
+			}
+			tileMap.remove("Water1");
+			tileMap.remove("Water2");
+			
+			
 			int selectHeight = (tileMap.size() + 1) / 2;
 			resourceSelectRect = new Rectangle(padding, padding + start, 2
 					* (tpad + TILE_WIDTH) + tpad, selectHeight
