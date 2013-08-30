@@ -277,7 +277,13 @@ public class Display extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					Point p = e.getPoint();
 					if (buildStruct) {
-
+						if (resourceSelect != null) {
+							for (String key : resourceSelect.keySet()) {
+								if (resourceSelect.get(key).contains(p)) {
+									world.setCurrentStruct(key);
+								}
+							}
+						}
 					} else {
 						if (resourceSelect != null) {
 							for (String key : resourceSelect.keySet()) {
@@ -306,16 +312,6 @@ public class Display extends JPanel {
 	}
 
 	private static final long serialVersionUID = 8274011568777903027L;
-
-	// WHAT DOES THIS EVEN DO??
-
-	public int[] getCameraCoordinates() {
-		return new int[] { camera.x, camera.y };
-	}
-
-	// public void setCameraCoordinates(int[] coord){
-	// camera = new Coord(coord[0],coord[1]);
-	// }
 
 	public World getWorld() {
 		return world;
@@ -558,7 +554,7 @@ public class Display extends JPanel {
 
 		for (int x = 0; x < miniMapWidth; x++) {
 			for (int y = 0; y < miniMapHeight; y++) {
-				Tile t = world.getTile(x + camera.x, y + camera.y);
+				Tile t = world.getTile(x, y);
 				if (t != null) {
 					miniMap.setRGB(x, y, t.getColor().getRGB());
 
@@ -574,9 +570,12 @@ public class Display extends JPanel {
 				}
 			}
 		}
-		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding,
+		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding  ,
 				padding, null);
-
+		g2d.setColor(Color.yellow);
+		int x = Math.min(Math.max(camera.x+this.getWidth()-padding-miniMapWidth,this.getWidth()-padding-miniMapWidth),this.getWidth()-padding-miniMapWidth+world.getXSize()-60);
+		int y = Math.min(Math.max(camera.y+padding,padding),padding + world.getYSize()-30);
+		g2d.drawRect(x, y, 60, 30);
 		// draw the button panel
 		g2d.setColor(Color.black);
 		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
@@ -635,8 +634,8 @@ public class Display extends JPanel {
 
 		}
 
-		int x = 0;
-		int y = 0;
+		x = 0;
+		y = 0;
 
 		int start = 64 * 3 + 5 * 3 + 10 + 10 + padding;
 
@@ -671,8 +670,15 @@ public class Display extends JPanel {
 				x %= 2;
 			}
 		} else {
-			Map<String, BufferedImage> tileMap = Tile.getImagesCache().getMap();
-
+			Map<String, BufferedImage> tileMapReal = Tile.getImagesCache().getMap();
+			Map<String, BufferedImage> tileMap = new HashMap<String, BufferedImage>();
+			for (String key : tileMapReal.keySet()) {
+				tileMap.put(key, tileMapReal.get(key));
+			}
+			tileMap.remove("Water1");
+			tileMap.remove("Water2");
+			
+			
 			int selectHeight = (tileMap.size() + 1) / 2;
 			resourceSelectRect = new Rectangle(padding, padding + start, 2
 					* (tpad + TILE_WIDTH) + tpad, selectHeight

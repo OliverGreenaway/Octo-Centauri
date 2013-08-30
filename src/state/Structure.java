@@ -14,6 +14,8 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import util.ObjectImageStorage;
+
 import UI.Display;
 
 /**
@@ -34,7 +36,6 @@ public class Structure implements Serializable {
 	public int currentHealth = WALL_HEALTH; // !!!
 
 	private transient BufferedImageOp filter;
-	private transient BufferedImage bufferedImage;
 
 	private boolean drawHealth = true;
 
@@ -51,10 +52,7 @@ public class Structure implements Serializable {
 	/**
 	 * The structure's image.
 	 */
-	private transient Image image; //We don't want to serialize this either
-
-	//This is used to get the image from later
-	private transient ImageIcon imageIcon; //And also don't want to serialize this
+	private transient BufferedImage image; //We don't want to serialize this either
 
 	/**
 	 * Returns the X coordinate of the bottom corner of the structure.
@@ -64,16 +62,7 @@ public class Structure implements Serializable {
 	}
 
 	public void setImage(String image){
-		File imgFile = new File(image);
-		assert(imgFile.exists()) : image+" not found";
-		try {
-			imageIcon = new ImageIcon(image);
-			this.image = new ImageIcon(image).getImage();
-			bufferedImage = ImageIO.read(imgFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Unable to read buffered image of structure: "+e.getMessage());
-		}
+		this.image = (BufferedImage)ObjectImageStorage.getOrAdd(image);
 	}
 
 	/**
@@ -122,16 +111,7 @@ public class Structure implements Serializable {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		File imgFile = new File(image);
-		assert(imgFile.exists()) : image+" not found";
-		try {
-			imageIcon = new ImageIcon(image);
-			this.image = new ImageIcon(image).getImage();
-			bufferedImage = ImageIO.read(imgFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Unable to read buffered image of structure: "+e.getMessage());
-		}
+		this.image = (BufferedImage)ObjectImageStorage.getOrAdd(image);
 	}
 
 	/**	/**
@@ -162,14 +142,14 @@ public class Structure implements Serializable {
 	public void draw(Graphics g, Display d, int bottomPixelX, int bottomPixelY) {
 		if(filter != null){
 			Graphics2D g2d = (Graphics2D) g;
-			g2d.drawImage(bufferedImage, filter, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null));
+			g2d.drawImage(image, filter, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null));
 		} else {
 			Image i = getImage(d.getRotation());
 			if(i != null)
 				g.drawImage(i, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
 
 		}
-		if (drawHealth && isAttackable()) { // Attackable Structures have health bars
+		if (world.showHealth() && isAttackable()) { // Attackable Structures have health bars
 			int tall = 10;
 			int hHeight = 3;
 			int hWidth = 16;
