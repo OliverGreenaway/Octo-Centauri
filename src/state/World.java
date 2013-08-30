@@ -12,6 +12,7 @@ import logic.GameUpdate;
 import logic.Logic;
 import sound.AudioPlayer;
 import sound.MixingDesk;
+import util.TileImageStorage;
 
 /**
  * Stores everything in the game.
@@ -261,6 +262,7 @@ public class World {
 			d.update();
 		for (Structure s : new ArrayList<Structure>(structures))
 			s.update();
+		Tile.getImagesCache().update();
 
 
 		List<Resource> spawnResources = getEatableResources();
