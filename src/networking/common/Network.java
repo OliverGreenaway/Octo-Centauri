@@ -33,12 +33,10 @@ public class Network {
 			} catch (IOException e) {
 				throw new SocketBusyException();
 			}
-			System.out.println("server established");
 			peer = output;
 		}
 		
 		else {
-			System.out.println("listening");
 			ServerSocket listen;
 			try {
 				listen = new ServerSocket(port);
@@ -51,7 +49,6 @@ public class Network {
 			} catch (IOException e) {
 				throw e;
 			}
-			System.out.println("connection established");
 			peer = input;
 		}
 
@@ -106,7 +103,6 @@ public class Network {
 			SocketBusyException, IOException, ClassNotFoundException {
 		if (args.length == 0) {
 			Network n = new Network("cafe-saint-paul", 10020);
-			System.out.println(n.getUpdate());
 		} else {
 			Network n = new Network(null, 10020);
 			n.sendUpdate(new ConcreteUpdate("hey"));
