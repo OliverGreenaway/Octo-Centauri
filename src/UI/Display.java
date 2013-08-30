@@ -667,7 +667,8 @@ public class Display extends JPanel {
 					* (tpad + TILE_WIDTH) + tpad, selectHeight
 					* (tpad + TILE_HEIGHT * 2) + tpad);
 
-			resourceSelect = new HashMap<String, Rectangle>();
+			//if (resourceSelect == null) resourceSelect = new HashMap<String, Rectangle>();
+			resourceSelect.clear();
 
 			g2d.setColor(Color.gray);
 			g2d.fill(resourceSelectRect);
