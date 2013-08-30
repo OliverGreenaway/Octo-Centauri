@@ -367,20 +367,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					display.getWorld().addStructure(s);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 					Task t = new Task(tile, "dig");
 					display.getWorld().tasks.add(t);
 				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {

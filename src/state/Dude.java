@@ -285,14 +285,14 @@ public class Dude implements Serializable {
 			//TODO Squids cant build so fix that instanceof dude
 
 			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude)){
-				task = world.tasks.poll();
+					task = world.tasks.poll();
 			}
 
 			if (attacking != null) {
 				if(Math.abs(x - attacking.getX()) + Math.abs(y - attacking.getY()) > 1) {
 					// too far, move closer
 					moveTowards(attacking.getX(), attacking.getY());
-					System.out.println("Charge!");
+//					System.out.println("Charge!");
 					attacking = null;
 				} else {
 					setFacing(attacking.getX(), attacking.getY());
