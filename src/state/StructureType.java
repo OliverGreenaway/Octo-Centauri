@@ -47,5 +47,11 @@ public abstract class StructureType {
 				return new Structure(x,y,1,1,"Assets/EnvironmentObjects/Stalagmite.png");
 			}
 		});
+//		types.put("Ramp", new StructureType(",1,1) {
+//			@Override
+//			public Structure create(int x, int y){
+//				return new Ramp(x,y, 1, 1, null, null);
+//			}
+//		});
 	}
 }
