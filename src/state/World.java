@@ -20,7 +20,7 @@ import util.TileImageStorage;
 public class World {
 
 	private int woodResource = 100;
-	private int plantResource = 100;
+	private int plantResource = 200;
 	private int crystalResource = 200;
 
 	private boolean showHealth = true;
