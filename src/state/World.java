@@ -25,7 +25,7 @@ public class World {
 
 	private boolean showHealth = true;
 
-	public Queue<Task> tasks = new ArrayDeque<Task>();
+	private Queue<Task> tasks = new ArrayDeque<Task>();
 
 	private Tile[][] worldTile;
 
@@ -192,7 +192,7 @@ public class World {
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
 	}
-	
+
 	public boolean showHealth() {
 		return showHealth;
 	}
@@ -422,6 +422,29 @@ public class World {
 		return bestStructure;
 	}
 
+	public Dude getNearestDude(Tile tile) {
+		int x = tile.getX();
+		int y = tile.getY();
+		int bestSquaredDistance = Integer.MAX_VALUE;
+		Dude bestStructure = null;
+
+		for (Dude d : allDudes) {
+			if(d.getClass() != Dude.class)
+				continue;
+			if(d.hasTask())
+				continue;
+			int squaredDistance = (d.getX() - x) * (d.getX() - x) + (d.getY() - y) * (d.getY() - y);
+			if (squaredDistance < bestSquaredDistance) {
+				if (!getLogic().findRoute(getTile(d.getX(), d.getY()), tile, d).isEmpty() || getTile(d.getX(), d.getY()) == tile) {
+					bestSquaredDistance = squaredDistance;
+					bestStructure = d;
+				}
+			}
+
+		}
+		return bestStructure;
+	}
+
 	public List<Resource> getEatableResources(){
 		List<Resource> highResources = new ArrayList<Resource>();
 		for(Resource r : resources){
@@ -488,6 +511,8 @@ public class World {
 				else
 					this.addStructure(StructureType.getTypes().get(type).create(t.getX(), t.getY()));
 
+				System.out.println("build at "+t.getX()+","+t.getY());
+
 			// plays audio
 			if (mixingDesk != null) {
 				mixingDesk.addAudioPlayer("PlaceItem.wav", true);
@@ -500,7 +525,7 @@ public class World {
 		{
 			// otherwise reassign dude and repush task
 //			tasks.add(new Task(t, "build", type));
-			return true;
+			throw new Error("task type is "+dude.getTask().getTask());
 		}
 		return false;
 	}
@@ -638,6 +663,19 @@ public class World {
 	public void placeDudeSpawnBuilding(int x,int y){
 		DudeSpawnBuilding dsb = new DudeSpawnBuilding(x, y);
 		addStructure(dsb);
+	}
+
+	public Task pollTask() {
+		return tasks.poll();
+	}
+
+	public void addTask(Task t) {
+		Dude d = getNearestDude(t.getTile());
+		if(d == null) {
+			tasks.add(t);
+		} else {
+			d.setTask(t);
+		}
 	}
 
 	public void placeOctoSpawnBuilding(int x,int y){
