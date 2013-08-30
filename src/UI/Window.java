@@ -448,8 +448,8 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						display.getWorld().addStructure(
 								new Ramp(point.x, point.y, 1, 1,
 										"PathRamp",
-										Direction.values()[display
-												.getRotation()]));
+										Direction.values()[(display
+												.getRotation() + 2) % 4]));
 					}
 					display.getWorld().getLogic().mapChanged(point.x, point.y);
 				}

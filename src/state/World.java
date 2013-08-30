@@ -506,6 +506,8 @@ public class World {
 			return true;
 		else if (type.equals("DarkTree"))
 			return true;
+		else if(type.equals("Tree"))
+			return true;
 		else {
 			return false;
 		}
