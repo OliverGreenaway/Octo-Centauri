@@ -152,6 +152,8 @@ public class World {
 		return true;
 	}
 
+
+
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
 	}
@@ -195,6 +197,10 @@ public class World {
 	 * returns false without changing anything.
 	 */
 	public boolean addDude(Dude s) {
+//		if(allDudes.size()>50){
+//			return false;
+//		}
+
 		int x = s.getX(), y = s.getY(), w = s.getWidth(), h = s.getHeight();
 
 		if (x - w < -1 || y - h < -1 || x >= getXSize() || y >= getYSize())
