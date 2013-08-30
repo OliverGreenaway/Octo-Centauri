@@ -28,17 +28,19 @@ public abstract class StructureType {
 	}
 
 	static {
+
 		types.put("Stockpile", new StructureType(ObjectImageStorage.getOrAdd(Crate.IMAGE), 1, 1) {
 			@Override
 			public Structure create(int x, int y) {
 				return new Crate(x, y);
 			}
 		});
-		types.put("Tree", new StructureType(ObjectImageStorage.getOrAdd(Tree.IMAGE), 1, 1) {
+		types.put("Tree", new StructureType(ObjectImageStorage.getOrAdd("Assets/EnvironmentObjects/DarkTree.png"), 1, 1) {
 			@Override
 			public Structure create(int x, int y) {
 				return new Tree(x, y);
 			}
 		});
+
 	}
 }
