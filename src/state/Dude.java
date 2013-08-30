@@ -318,8 +318,10 @@ public class Dude implements Serializable {
 				followPath(t.getX(), t.getY());
 				// rest(1000);//TODO
 				if (world.build(t, task.getType(), this)) {
-					if(t.getStructure()!=null){
-						t.getStructure().setBuilt();
+					if(t!=null){
+						if(t.getStructure()!=null){
+							t.getStructure().setBuilt();
+						}
 					}
 					task = null;
 				}
