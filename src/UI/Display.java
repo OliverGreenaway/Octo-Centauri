@@ -476,9 +476,6 @@ public class Display extends JPanel {
 			for (int y = 0; y < VIEW_HEIGHT; y++) {
 				Tile t = getCameraRelativeTile(x, y);
 				if (t != null) {
-					// System.out.println("CAMERA: " + camera.x + " " + camera.y
-					// +".");
-
 					// minimum depth to render to
 					int minDepth;
 					Tile t1 = getCameraRelativeTile(x + 1, y);

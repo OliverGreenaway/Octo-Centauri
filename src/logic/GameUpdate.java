@@ -77,7 +77,6 @@ public class GameUpdate extends Update {
 		for(Dude d: dudesRemoved){
 			world.removeDude(d);
 		}
-		System.out.println("Updates applied.");
 	}
 
 	/**
