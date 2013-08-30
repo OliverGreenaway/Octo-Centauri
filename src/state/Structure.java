@@ -149,7 +149,7 @@ public class Structure implements Serializable {
 				g.drawImage(i, bottomPixelX-image.getWidth(null)/2, bottomPixelY-image.getHeight(null), null);
 
 		}
-		if (drawHealth && isAttackable()) { // Attackable Structures have health bars
+		if (world.showHealth() && isAttackable()) { // Attackable Structures have health bars
 			int tall = 10;
 			int hHeight = 3;
 			int hWidth = 16;
