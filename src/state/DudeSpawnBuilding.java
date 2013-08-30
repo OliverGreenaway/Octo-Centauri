@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class DudeSpawnBuilding extends Structure {
 	public DudeSpawnBuilding(int x, int y) {
-		super(x, y, 1, 1, "Assets/EnvironmentObjects/Stalagmite.png");
+		super(x, y, 1, 1, "Assets/EnvironmentTiles/SpawnPoints/SpawnMan1.png");
 	}
 
 	int delay;

@@ -240,7 +240,6 @@ public class Dude implements Serializable {
 				if(!(to.getStructure() instanceof Ramp))
 					return false;
 				if(((Ramp)to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from)) {
-					System.out.println("need "+Direction.getDirectionBetween(to, from)+", have "+((Ramp)to.getStructure()).getDirection()+", ramp on "+to.getX()+"/"+to.getY());
 					return false;
 				}
 
@@ -337,7 +336,6 @@ public class Dude implements Serializable {
 	}
 
 	public void attack(Dude victim) {
-		System.out.println("Attack Dude");
 		if(world.getAudioPlayer()!=null)
 			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
 
@@ -356,7 +354,6 @@ public class Dude implements Serializable {
 	}
 
 	public void attack(Structure victim) {
-		System.out.println("Attack Struct");
 		if(world.getAudioPlayer()!=null)
 			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
 
@@ -395,7 +392,6 @@ public class Dude implements Serializable {
 				Structure s = t.getStructure();
 				if(s != null && this.isAlien() && !(s instanceof Resource)){
 					if(s.isAttackable()){
-						System.out.println("Structure Targetted!");
 						return t;
 					}
 				}
