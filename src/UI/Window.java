@@ -384,6 +384,11 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 								.setDirection(Direction.values()[(((Ramp) s)
 										.getDirection().ordinal() + 1) % 4]);
 					} else {
+						//TODO
+
+//						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+//								"buildTile","PathRamp"));
+
 						display.getWorld().addStructure(
 								new Ramp(point.x, point.y, 1, 1,
 										"PathRamp",
@@ -411,7 +416,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						{
 							System.out.println(currentBuild);
 							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
-														"buildTile",currentBuild));// TODO
+														"buildTile",currentBuild));
 
 							Structure s = new Structure((int) point.getX(),
 									(int) point.getY(), 1, 1,

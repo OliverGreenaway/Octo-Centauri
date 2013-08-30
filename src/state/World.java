@@ -192,7 +192,7 @@ public class World {
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
 	}
-	
+
 	public boolean showHealth() {
 		return showHealth;
 	}
