@@ -104,14 +104,18 @@ public class World {
 			}
 		}
 
-		for(int k = 0; k < 50; k++) {
+		for(int k = 0; k < 10; k++) {
 			int x = r.nextInt(getXSize()), y = r.nextInt(getYSize());
-			int rad = 10;
-			for(int i = 0; i < 30; i++) {
-				int x2 = x + r.nextInt(rad), y2 = y + r.nextInt(rad);
-				Tile t = getTile(x2, y2);
-				if (t != null && t.getImageName().equals("BarrenGrass")){
-					addStructure(new Plant(x2, y2));
+			int length = 7 + r.nextInt(3);
+			if(r.nextBoolean()) {
+				for(int i = 0; i < length; i++) {
+					x++;
+					addStructure(new Plant(x, y));
+				}
+			} else {
+				for(int i = 0; i < length; i++) {
+					y++;
+					addStructure(new Plant(x, y));
 				}
 			}
 		}
@@ -293,15 +297,15 @@ public class World {
 			int rand = (int) (Math.random()*100) + 1;
 			if( rand > 0 && rand <= 50){
 				if(toSpawnNear != null){
-					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY()));
 				}else{
-					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize())));
 				}
 			}else if ( rand > 50 && rand <= 100){
 				if(toSpawnNear != null){
 					addDude(new Slugdude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 				}else{
-					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize())));
 				}
 			}
 			counter = 0;
@@ -309,15 +313,15 @@ public class World {
 			int rand = (int) (Math.random()*100) + 1;
 			if(rand > 0 && rand <= 50)
 				if(toSpawnNear != null){
-					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+					addDude(new Octodude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY()));
 				}else{
-					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienOctopus/EyeFrontRight.png"));
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize())));
 				}
 			else if (rand > 50 && rand <= 100)
 				if(toSpawnNear != null){
 					addDude(new Slugdude(this, Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile.length-1) + toSpawnNear.getX(),Math.min(Math.max(0,new Random().nextInt(40) - 20), worldTile[0].length-1) + toSpawnNear.getY(), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
 				}else{
-					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize()), 1, 1, "Assets/Characters/Enemies/AlienSlug/SlugFrontRight.png"));
+					addDude(new Octodude(this, new Random().nextInt(this.getXSize()), new Random().nextInt(this.getYSize())));
 				}
 			counter = 0;
 		} else {
