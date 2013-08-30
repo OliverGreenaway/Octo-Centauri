@@ -287,8 +287,8 @@ public class Dude implements Serializable {
 			//TODO Squids cant build so fix that instanceof dude
 
 
-			if(task == null && !isAlien()){
-				task = world.tasks.poll();
+			if(task == null && !isAlien() && storedResources == 0){
+				task = world.pollTask();
 			}
 
 			if (attacking != null) {
@@ -318,7 +318,8 @@ public class Dude implements Serializable {
 				followPath(t.getX(), t.getY());
 				// rest(1000);//TODO
 				if (world.build(t, task.getType(), this)) {
-					t.getStructure().setBuilt();
+					if(t.getStructure() != null)
+						t.getStructure().setBuilt();
 					task = null;
 				}
 			}else if(task.getTask().equals("dig")){
@@ -343,7 +344,7 @@ public class Dude implements Serializable {
 		if(victim.currentHealth <= 0) {
 			//dude killed needs his task readded to queue
 			if(victim.hasTask()){
-				world.tasks.add(victim.task);
+				world.addTask(victim.task);
 			}
 			world.removeDude(victim);
 			if(world.getAudioPlayer()!=null){
@@ -366,7 +367,7 @@ public class Dude implements Serializable {
 		}
 	}
 
-	private boolean hasTask() {
+	public boolean hasTask() {
 		if(task != null){
 			return true;
 		}
@@ -597,5 +598,10 @@ public class Dude implements Serializable {
 		if(r.getResType() == null)
 			return false;
 		return true;
+	}
+
+	public void setTask(Task t) {
+		assert task == null;
+		task = t;
 	}
 }
