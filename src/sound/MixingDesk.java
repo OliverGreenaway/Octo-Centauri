@@ -16,9 +16,8 @@ public class MixingDesk {
 	}
 
 
-
 	/**
-	 * Plays specified sound name 
+	 * Plays specified sound name
 	 * @param sound
 	 * @param playOnce
 	 */
@@ -31,20 +30,36 @@ public class MixingDesk {
 			players.add(a);
 			a.start();
 		}
-
-
 	}
 
-	public void toggleMute(){
+
+	/**
+	 * toggles whether sound is on or not.
+	 */
+	public boolean toggleMute(){
 		for(AudioPlayer a : players){
 			a.togglePaused();
 		}
 		muted = !muted;
+		return muted;
 	}
 
 	/**
-	 * 
-	 * 
+	 * turns off all the music but leaves sound effects on.
+	 *
+	 */
+	public void toggleMusic(){
+		for(AudioPlayer a : players){
+			if(!a.getRunOnce()){
+				a.togglePaused();
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 *
 	 */
 	public void stopAudio(){
 		for(AudioPlayer a : players){
@@ -68,7 +83,6 @@ public class MixingDesk {
 
 
 		desk.toggleMute();
-
 	}
 
 }

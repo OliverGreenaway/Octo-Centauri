@@ -14,7 +14,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import sound.AudioPlayer;
-import util.ObjectImageStorage;
 
 import logic.Logic;
 
@@ -36,7 +35,6 @@ public class Dude implements Serializable {
 	protected int maxHealth;
 	protected int currentHealth;
 	private int damage;
-	private boolean isAlien = false;
 
 	private static final int RES_CAPACITY = 20;
 
@@ -45,17 +43,11 @@ public class Dude implements Serializable {
 	private int buildTicks;
 
 	private Random randomGen = new Random();
-	private int rand = randomGen.nextInt(5);
+	private int rand  = randomGen.nextInt(5);
 
 	private boolean isDeleted;
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted() {
-		isDeleted = true;
-	}
+	public boolean isDeleted() {return isDeleted;}
+	public void setDeleted() {isDeleted = true;}
 
 	/**
 	 * Size of the structure, in tiles.
@@ -70,9 +62,8 @@ public class Dude implements Serializable {
 	protected int width, height; // ???
 	protected int facing = DOWN; // Facing constant
 	protected int oldX, oldY;
-	private transient Image[][] images = new Image[4][4]; // A single image
-															// stored per
-	// facing
+	private transient Image[][] images = new Image[4][4]; // A single image stored per
+												// facing
 
 	/**
 	 * The dude's image.
@@ -146,7 +137,6 @@ public class Dude implements Serializable {
 		loadImage(image);
 
 	}
-
 	protected void loadImage(String image) {
 		JPanel panel = new JPanel(); // Instantiated JPanel to use createImage
 										// method
@@ -159,25 +149,16 @@ public class Dude implements Serializable {
 			// array of images per facing
 			// Idea: Make images double array?
 			for (int j = 0; j < 4; j++) {
-				String key = image + "_" + i + "_" + j;
-
-				Image loadedImage = ObjectImageStorage.get(key);
-
-				if(loadedImage == null) {
-					loadedImage = new ImageIcon(image).getImage();
-					CropImageFilter filter = new CropImageFilter(
-							(loadedImage.getWidth(null) / NUM_SPRITES) * (i * 4 + j), 0,
-							(loadedImage.getWidth(null) / NUM_SPRITES),
-							loadedImage.getHeight(null));
-					loadedImage = panel.createImage(new FilteredImageSource(loadedImage.getSource(), filter));
-
-					ObjectImageStorage.add(key, loadedImage);
-				}
-
-				images[i][j] = loadedImage;
+				images[i][j] = new ImageIcon(image).getImage();
+				CropImageFilter filter = new CropImageFilter(
+						(images[i][j].getWidth(null) / NUM_SPRITES)
+								* (i * 4 + j), 0,
+						(images[i][j].getWidth(null) / NUM_SPRITES),
+						images[i][j].getHeight(null));
+				images[i][j] = panel.createImage(new FilteredImageSource(
+						images[i][j].getSource(), filter));
 			}
 		}
-
 	}
 
 	/**
@@ -195,10 +176,10 @@ public class Dude implements Serializable {
 			return false;
 
 		// check for overlap with other dudes, and invalid moves
-		for (int X = 0; X < width; X++)
-			for (int Y = 0; Y < height; Y++) {
-				Tile tile = world.getTile(newX - X, newY - Y);
-				if (!canMove(world.getTile(x - X, y - Y), tile))
+		for(int X = 0; X < width; X++)
+			for(int Y = 0; Y < height; Y++) {
+				Tile tile = world.getTile(newX-X, newY-Y);
+				if(!canMove(world.getTile(x-X, y-Y), tile))
 					return false;
 			}
 
@@ -245,26 +226,25 @@ public class Dude implements Serializable {
 	}
 
 	public boolean canMove(Tile from, Tile to) {
-		if (to.getDude() != null && to.getDude() != this)
+		if(to.getDude() != null && to.getDude() != this)
 			return false;
 		return areTilesConnected(from, to);
 	}
 
 	public static boolean areTilesConnected(Tile from, Tile to) {
-		if (from.getHeight() != to.getHeight()) {
-			if (from.getHeight() - 1 == to.getHeight()) {
-				if (!(to.getStructure() instanceof Ramp))
+		if(from.getHeight() != to.getHeight()) {
+			if(from.getHeight() - 1 == to.getHeight()) {
+				if(!(to.getStructure() instanceof Ramp))
 					return false;
-				if (((Ramp) to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from))
-
+				if(((Ramp)to.getStructure()).getDirection() != Direction.getDirectionBetween(to, from)) {
+					System.out.println("need "+Direction.getDirectionBetween(to, from)+", have "+((Ramp)to.getStructure()).getDirection()+", ramp on "+to.getX()+"/"+to.getY());
 					return false;
+				}
 
-
-			} else if (from.getHeight() + 1 == to.getHeight()) {
-				if (!(from.getStructure() instanceof Ramp))
+			} else if(from.getHeight() + 1 == to.getHeight()) {
+				if(!(from.getStructure() instanceof Ramp))
 					return false;
-				if (((Ramp) from.getStructure()).getDirection() != Direction
-						.getDirectionBetween(from, to))
+				if(((Ramp)from.getStructure()).getDirection() != Direction.getDirectionBetween(from, to))
 					return false;
 
 			} else {
@@ -289,13 +269,12 @@ public class Dude implements Serializable {
 	 * Called every tick. Does stuff.
 	 */
 	public void update() {
-		if (isDeleted)
-			return;
+		if(isDeleted) return;
 
 		count++;
 		if (count == 4) {
-			// if (buildTicks > 0) {
-			// buildTicks--;
+//			if (buildTicks > 0) {
+//			buildTicks--;
 			unlinkTiles(oldX, oldY);
 			linkTiles(x, y);
 			oldX = x;
@@ -304,23 +283,25 @@ public class Dude implements Serializable {
 
 
 			//TODO Squids cant build so fix that instanceof dude
-			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude)){
 
+			if(task == null && !(this instanceof Octodude) && !(this instanceof Slugdude)){
 				task = world.tasks.poll();
 			}
 
 			if (attacking != null) {
-				if (Math.abs(x - attacking.getX())
-						+ Math.abs(y - attacking.getY()) > 1) {
+				if(Math.abs(x - attacking.getX()) + Math.abs(y - attacking.getY()) > 1) {
 					// too far, move closer
 					moveTowards(attacking.getX(), attacking.getY());
+					System.out.println("Charge!");
 					attacking = null;
 				} else {
 					setFacing(attacking.getX(), attacking.getY());
+
 					Dude dude = attacking.getDude();
 					if(dude!=null){
 						attack(dude);
 					}
+
 					Structure struct = attacking.getStructure();
 					if(struct!=null){
 						attack(struct);
@@ -337,47 +318,55 @@ public class Dude implements Serializable {
 				if (world.build(t, task.getType(), this)) {
 					task = null;
 				}
+			}else if(task.getTask().equals("dig")){
+				Tile t = task.getTile();
+				followPath(t.getX(), t.getY());
+				// rest(1000);//TODO
+
+				if (world.dig(t, this)) {
+					task = null;
+				}
 			}
 			count = 0;
 		}
 	}
 
-	public void attack(Structure victim) {
-
-		if (world.getAudioPlayer() != null)
-			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
-
-		// new AudioPlayer("SinglePunch.wav", true).start();
-		victim.currentHealth -= 15;
-		if (victim.currentHealth <= 0) {
-			world.removeStructure(victim);
-			if (world.getAudioPlayer() != null) {
-				world.getAudioPlayer().addAudioPlayer("ResourceMining.wav", true); //NO STRUCTURE DYING SOUND
-			}
-		}
-	}
-
 	public void attack(Dude victim) {
-
-		if (world.getAudioPlayer() != null)
+		System.out.println("Attack Dude");
+		if(world.getAudioPlayer()!=null)
 			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
 
-		// new AudioPlayer("SinglePunch.wav", true).start();
+		//new AudioPlayer("SinglePunch.wav", true).start();
 		victim.currentHealth -= 15;
-		if (victim.currentHealth <= 0) {
-			// dude killed needs his task readded to queue
-			if (victim.hasTask()) {
+		if(victim.currentHealth <= 0) {
+			//dude killed needs his task readded to queue
+			if(victim.hasTask()){
 				world.tasks.add(victim.task);
 			}
 			world.removeDude(victim);
-			if (world.getAudioPlayer() != null) {
+			if(world.getAudioPlayer()!=null){
 				world.getAudioPlayer().addAudioPlayer("DyingDude.wav", true);
-			}
+				}
+		}
+	}
+
+	public void attack(Structure victim) {
+		System.out.println("Attack Struct");
+		if(world.getAudioPlayer()!=null)
+			world.getAudioPlayer().addAudioPlayer("SinglePunch.wav", true);
+
+		//new AudioPlayer("SinglePunch.wav", true).start();
+		victim.currentHealth -= 15;
+		if(victim.currentHealth <= 0) {
+			world.removeStructure(victim);
+			if(world.getAudioPlayer()!=null){
+				world.getAudioPlayer().addAudioPlayer("ResourceMining.wav", true);
+				}
 		}
 	}
 
 	private boolean hasTask() {
-		if (task != null) {
+		if(task != null){
 			return true;
 		}
 		return false;
@@ -386,19 +375,23 @@ public class Dude implements Serializable {
 	public Tile findAttackTarget() {
 		final int RANGE = 2;
 
-		for (int dx = -RANGE; dx <= RANGE; dx++)
-			for (int dy = -RANGE; dy <= RANGE; dy++) {
-				Tile t = world.getTile(x + dx, y + dy);
-				if (t == null)
+		for(int dx = -RANGE; dx <= RANGE; dx++)
+			for(int dy = -RANGE; dy <= RANGE; dy++) {
+				Tile t = world.getTile(x+dx, y+dy);
+				if(t == null)
 					continue;
 
 				Dude d = t.getDude();
-				if (d != null && this.getClass() != d.getClass())
+				if(d != null && this.getClass() != d.getClass())
 					return t;
 
 				Structure s = t.getStructure();
-				if (s != null && this.isAlien())
-					return t;
+				if(s != null && this.isAlien() && !(s instanceof Resource)){
+					if(s.isAttackable()){
+						System.out.println("Structure Targetted!");
+						return t;
+					}
+				}
 			}
 
 		return null;
@@ -424,8 +417,8 @@ public class Dude implements Serializable {
 			}
 
 		} else {
-			// SlugBalancing check
-			if (this instanceof Octodude && !world.isSlugBalancingEnabled()) {
+			//SlugBalancing check
+			if((this instanceof Octodude || this instanceof Slugdude) && !world.isSlugBalancingEnabled()){
 				return;
 			}
 			Resource nowHarvesting = world.getNearestResource(
@@ -438,7 +431,7 @@ public class Dude implements Serializable {
 				boolean moved = followPath(nowHarvesting.getX(),
 						nowHarvesting.getY());
 				if (!moved) {
-					if (harvesting.getX() == x && harvesting.getY() == y) {
+					if (harvesting.getX() == x && harvesting.getY()      == y) {
 						harvest(harvesting);
 						harvesting = null;
 					}
@@ -450,8 +443,7 @@ public class Dude implements Serializable {
 
 	}
 
-	protected void idle() {
-	}
+	protected void idle() {}
 
 	protected void harvest(Resource harvesting) {
 		storedResources += harvesting.harvest();
@@ -463,8 +455,7 @@ public class Dude implements Serializable {
 	int failedMoveCount = 0;
 
 	private boolean followPath(int x, int y) {
-		if (x != targetX || y != targetY || path == null || path.size() == 0
-				|| failedMoveCount > rand) {
+		if(x != targetX || y != targetY || path == null || path.size() == 0 || failedMoveCount > rand) {
 
 			targetX = x;
 			targetY = y;
@@ -489,20 +480,17 @@ public class Dude implements Serializable {
 	}
 
 	private boolean moveTowards(int tx, int ty) {
-		if (x < tx && move(x + 1, y))
-			return true;
-		if (x > tx && move(x - 1, y))
-			return true;
-		if (y < ty && move(x, y + 1))
-			return true;
-		if (y > ty && move(x, y - 1))
-			return true;
+		if(x < tx && move(x+1, y)) return true;
+		if(x > tx && move(x-1, y)) return true;
+		if(y < ty && move(x, y+1)) return true;
+		if(y > ty && move(x, y-1)) return true;
 		return false;
 	}
 
-	public void rest(int rest) {
-		buildTicks = rest;// TODO
+	public void rest(int rest){
+		buildTicks = rest;//TODO
 	}
+
 
 	/**
 	 * Draws the dude.
@@ -521,10 +509,11 @@ public class Dude implements Serializable {
 
 		double percentMoved = count * 0.25;
 
+
 		// Tile coordinates of The Dude (x,y)
 		double x, y;
 
-		if (attacking == null) {
+		if(attacking == null) {
 			x = this.oldX + (this.x - this.oldX) * percentMoved;
 			y = this.oldY + (this.y - this.oldY) * percentMoved;
 		} else {
@@ -557,14 +546,9 @@ public class Dude implements Serializable {
 			int hWidth = 16;
 			int barWidth = 10;
 			g.setColor(Color.red);
-			g.fillRect(posX - barWidth / 2, posY - tall, hWidth + barWidth,
-					hHeight);
+			g.fillRect(posX - barWidth / 2, posY - tall, hWidth + barWidth, hHeight);
 			g.setColor(Color.green);
-			g.fillRect(
-					posX - barWidth / 2,
-					posY - tall,
-					(int) ((hWidth + barWidth) * currentHealth / (float) maxHealth),
-					hHeight);
+			g.fillRect(posX - barWidth / 2, posY - tall, (int)((hWidth + barWidth) * currentHealth / (float)maxHealth), hHeight);
 		}
 	}
 
@@ -585,36 +569,30 @@ public class Dude implements Serializable {
 	}
 
 	public boolean isAt(int x2, int y2) {
-		if (x2 == x && y2 == y) {
+		if(x2 == x && y2 == y){
 			return true;
 		}
 		return false;
 	}
 
-	public void setWorld(World w) {
+	public void setWorld(World w){
 		this.world = w;
 	}
-
-	public int getOldX() {
-		return oldX;
-	}
-
-	public int getOldY() {
-		return oldY;
-	}
-
-	public boolean isAlien(){
-		return isAlien;
-	}
+	public int getOldX() {return oldX;}
+	public int getOldY() {return oldY;}
 
 	public Task getTask(){
 		return task;
 	}
 
+	public boolean isAlien(){
+		return false;
+	}
+
 	public boolean canMine(Resource r) {
-		if (storedResType != null && r.getResType() != storedResType)
+		if(storedResType != null && r.getResType() != storedResType)
 			return false;
-		if (r.getResType() == null)
+		if(r.getResType() == null)
 			return false;
 		return true;
 	}

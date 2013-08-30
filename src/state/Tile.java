@@ -75,7 +75,7 @@ public class Tile implements Serializable {
 	public static TileImageStorage getImagesCache() {
 		return imagesCache;
 	}
-	
+
 	/**
 	 * Returns the tile's icon.
 	 */
@@ -192,6 +192,10 @@ public class Tile implements Serializable {
 	public void setWorld(World world) {
 		assert this.world == null || this.world == world;
 		this.world = world;
+	}
+
+	public String getImageName() {
+		return imgName;
 	}
 
 }

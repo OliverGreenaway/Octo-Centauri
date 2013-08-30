@@ -42,16 +42,20 @@ public class MainFrame extends JFrame {
 
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = ge.getScreenDevices();
-		for (int i = 0; i < 1; i++) {
-			if (devices[i].isFullScreenSupported()) {
-				this.setUndecorated(true);
-				devices[i].setFullScreenWindow(this);
-				//this.setSize(this.getToolkit().getScreenSize());
-				this.validate();
-				//this.setVisible(true);
-			}
-		}
 
+
+		/*if (devices.length == 1 && devices[0].isFullScreenSupported()) {
+			this.setUndecorated(true);
+			devices[0].setFullScreenWindow(this);
+			this.validate();
+
+		} else {*/
+			this.setVisible(true);
+			this.setResizable(true);
+			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//}
+
+		
 
 		this.addWindowListener(new WindowListener() {
 

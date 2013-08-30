@@ -22,6 +22,12 @@ import javax.swing.JPanel;
 
 import sound.AudioPlayer;
 import state.Dude;
+
+import state.StructureType;
+
+import state.Resource;
+import state.Structure;
+
 import state.Tile;
 import state.World;
 import util.UIImageStorage;
@@ -32,8 +38,6 @@ public class Display extends JPanel {
 	private final Dimension DIMENSION = new Dimension(1920, 1080);
 	private final int VIEW_WIDTH = 70, VIEW_HEIGHT = 70; // Camera = 60x60
 
-	private final int SCREEN_Y_DISPLACEMENT = 490; // Arbitrary y axis
-													// displacement
 	private final int SCREEN_BUFFER_ZONE = 20; // Arbitrary screen edge buffer
 
 	private World world;
@@ -41,6 +45,8 @@ public class Display extends JPanel {
 	private boolean tileHighLighted = false;
 
 	private boolean trippy = false;
+
+	private int getYDisplacement() {return getHeight()/2; /* was 490 */}
 
 	// <UI
 	int miniMapWidth = 280;
@@ -51,12 +57,18 @@ public class Display extends JPanel {
 	int toggleImageSize = 64;
 	int tpad = (75 - 64) / 2;
 
+	private boolean buildStruct = false;
+
+	public void toggleStruct() { buildStruct = !buildStruct; }
+
 	Map<String, Rectangle> toggleButtons = null;
 	Map<String, MouseListener> toggleButtonsListener = null;
 	Map<String, String> toggleButtonsImages = null;
 	HashSet<Rectangle> UISpace = null;
 	Map<String, Rectangle> resourceSelect = null;
-	
+	Map<String, Rectangle> structureSelect = null;
+
+
 	Rectangle resourceSelectRect = null;
 	// UI/>
 
@@ -180,6 +192,7 @@ public class Display extends JPanel {
 
 				@Override
 				public void mouseExited(MouseEvent e) {
+
 				}
 
 				@Override
@@ -192,14 +205,16 @@ public class Display extends JPanel {
 							"ButtonMuteOff")) {
 						// Mute here
 						if (world.getAudioPlayer() != null) {
-							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMute();
+							world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOn");
 					} else {
 						// Unmute here
 
 						if (world.getAudioPlayer() != null) {
-							world.getAudioPlayer().toggleMute();
+						//	world.getAudioPlayer().toggleMute();
+						  world.getAudioPlayer().toggleMusic();
 						}
 						toggleButtonsImages.put("ButtonMute", "ButtonMuteOff");
 					}
@@ -242,28 +257,33 @@ public class Display extends JPanel {
 
 			toggleButtonsListener.put("ButtonBG", listener);
 			toggleButtonsImages.put("ButtonBG", "ButtonBGOff");
-			
+
 			listener = new MouseListener() {
-				
+
 				@Override
+
 				public void mouseReleased(MouseEvent e) {}
-				
+
 				@Override
 				public void mousePressed(MouseEvent e) {}
-				
+
 				@Override
 				public void mouseExited(MouseEvent e) {}
-				
+
 				@Override
 				public void mouseEntered(MouseEvent e) {}
-				
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					Point p = e.getPoint();
-					if (resourceSelect != null) {
-						for (String key : resourceSelect.keySet()) {
-							if (resourceSelect.get(key).contains(p)) {
-								world.setCurrentBuild(key);
+					if (buildStruct) {
+
+					} else {
+						if (resourceSelect != null) {
+							for (String key : resourceSelect.keySet()) {
+								if (resourceSelect.get(key).contains(p)) {
+									world.setCurrentBuild(key);
+								}
 							}
 						}
 					}
@@ -281,7 +301,7 @@ public class Display extends JPanel {
 		return toggleButtons;
 	}
 
-	public MouseListener buttonClicked(String key) {		
+	public MouseListener buttonClicked(String key) {
 		return toggleButtonsListener.get(key);
 	}
 
@@ -378,9 +398,9 @@ public class Display extends JPanel {
 	public Point displayToTileCoordinates(int x, int y) {
 		/*
 		 * x -= camera.x; y -= camera.y;
-		 * 
-		 * 
-		 * 
+		 *
+		 *
+		 *
 		 * return new Point(getPixelX(x, y), getPixelY(x, y));
 		 */
 
@@ -391,7 +411,7 @@ public class Display extends JPanel {
 																	// / half
 																	// the width
 																	// of a tile
-		double xPlusY = ((y + SCREEN_Y_DISPLACEMENT) / (TILE_HEIGHT / 2.0)); // (
+		double xPlusY = ((y + getYDisplacement()) / (TILE_HEIGHT / 2.0)); // (
 																				// y
 																				// click
 																				// /
@@ -437,7 +457,7 @@ public class Display extends JPanel {
 	}
 
 	private int getPixelY(double x, double y) {
-		return (int) ((x + y) * (TILE_HEIGHT / 2) - SCREEN_Y_DISPLACEMENT + TILE_HEIGHT);
+		return (int) ((x + y) * (TILE_HEIGHT / 2) - getYDisplacement() + TILE_HEIGHT);
 	}
 
 	/**
@@ -521,7 +541,7 @@ public class Display extends JPanel {
 
 	/**
 	 * Displays the HUD on the main game window
-	 * 
+	 *
 	 * @param g
 	 *            Display graphics object
 	 */
@@ -540,12 +560,16 @@ public class Display extends JPanel {
 			for (int y = 0; y < miniMapHeight; y++) {
 				Tile t = world.getTile(x + camera.x, y + camera.y);
 				if (t != null) {
-					g2d.setColor(t.getColor());
 					miniMap.setRGB(x, y, t.getColor().getRGB());
+
+					Structure struc = t.getStructure();
+					if (struc != null) {
+						miniMap.setRGB(x, y, (struc instanceof Resource ? Color.blue : Color.cyan).getRGB());
+					}
+
 					Dude dude = t.getDude();
 					if (dude != null) {
 						miniMap.setRGB(x, y, Color.yellow.getRGB());
-						g2d.setColor(Color.yellow);
 					}
 				}
 			}
@@ -579,16 +603,19 @@ public class Display extends JPanel {
 
 		getToggleMap();
 		for (String key : toggleButtons.keySet()) {
-			if (key.equals("selectTile")) continue;
+			if (key.equals("selectTile"))
+				continue;
 			g2d.drawImage(UIImageStorage.get(toggleButtonsImages.get(key)),
 					toggleButtons.get(key).x, toggleButtons.get(key).y, null);
 		}
 
 		g2d.setColor(Color.black);
 		g2d.setStroke(new BasicStroke(3));
-		g2d.fillRect(padding, padding, TILE_WIDTH * 2 + tpad * 3, 64 * 3 + 5 * 3 + 10 + 10);
+		g2d.fillRect(padding, padding, TILE_WIDTH * 2 + tpad * 3, 64 * 3 + 5
+				* 3 + 10 + 10);
 		g2d.setColor(new Color(212, 175, 55));
-		g2d.drawRoundRect(padding, padding, TILE_WIDTH * 2 + tpad * 3, 64 * 3 + 5 * 3 + 10 + 10, r, r);
+		g2d.drawRoundRect(padding, padding, TILE_WIDTH * 2 + tpad * 3, 64 * 3
+				+ 5 * 3 + 10 + 10, r, r);
 
 		for (int i = 0; i < 3; i++) {
 
@@ -608,41 +635,74 @@ public class Display extends JPanel {
 
 		}
 
-		Map<String, BufferedImage> tileMap = Tile.getImagesCache().getMap();
-
 		int x = 0;
 		int y = 0;
 
 		int start = 64 * 3 + 5 * 3 + 10 + 10 + padding;
 
-		int selectHeight = (tileMap.size() + 1) / 2;
-		resourceSelectRect = new Rectangle(padding, padding + start,
-				2 * (tpad + TILE_WIDTH) + tpad, selectHeight
-						* (tpad + TILE_HEIGHT * 2) + tpad);
 
-		g2d.setColor(Color.gray);
-		g2d.fill(resourceSelectRect);
 
-		resourceSelect = new HashMap<String, Rectangle>();
-		
-		for (String key : tileMap.keySet()) {
-			BufferedImage image = tileMap.get(key);
-			Rectangle rect = new Rectangle(tpad + resourceSelectRect.x + x * (TILE_WIDTH + tpad),
-					tpad + resourceSelectRect.y + y * (TILE_HEIGHT * 2 + tpad), image.getWidth(), image.getHeight());
-			
-			g2d.drawImage(image, rect.x, rect.y, null);
+		if (buildStruct) {
+			Map<String, StructureType> structureMap = StructureType.getTypes();
 
-			resourceSelect.put(key, rect);
-			
-			x++;
-			y += x / 2;
-			x %= 2;
+			int selectHeight = (structureMap.size() + 1) / 2;
+			resourceSelectRect = new Rectangle(padding, padding + start, 2
+					* (tpad + TILE_WIDTH) + tpad, selectHeight
+					* (tpad + TILE_HEIGHT * 2) + tpad);
+
+			resourceSelect = new HashMap<String, Rectangle>();
+
+			g2d.setColor(Color.gray);
+			g2d.fill(resourceSelectRect);
+
+			for (String key : structureMap.keySet()) {
+				Image image = structureMap.get(key).getImage();
+
+				Rectangle rect = new Rectangle(tpad + resourceSelectRect.x + x
+						* (TILE_WIDTH + tpad), tpad + resourceSelectRect.y + y
+						* (TILE_HEIGHT * 2 + tpad), TILE_WIDTH,
+						TILE_HEIGHT * 2);
+				g2d.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
+
+				resourceSelect.put(key, rect);
+
+				x++;
+				y += x / 2;
+				x %= 2;
+			}
+		} else {
+			Map<String, BufferedImage> tileMap = Tile.getImagesCache().getMap();
+
+			int selectHeight = (tileMap.size() + 1) / 2;
+			resourceSelectRect = new Rectangle(padding, padding + start, 2
+					* (tpad + TILE_WIDTH) + tpad, selectHeight
+					* (tpad + TILE_HEIGHT * 2) + tpad);
+
+			g2d.setColor(Color.gray);
+			g2d.fill(resourceSelectRect);
+
+			resourceSelect = new HashMap<String, Rectangle>();
+
+			for (String key : tileMap.keySet()) {
+				BufferedImage image = tileMap.get(key);
+				Rectangle rect = new Rectangle(tpad + resourceSelectRect.x + x
+						* (TILE_WIDTH + tpad), tpad + resourceSelectRect.y + y
+						* (TILE_HEIGHT * 2 + tpad), image.getWidth(),
+						image.getHeight());
+
+				g2d.drawImage(image, rect.x, rect.y, null);
+
+				resourceSelect.put(key, rect);
+
+				x++;
+				y += x / 2;
+				x %= 2;
+			}
 		}
 		g2d.setColor(new Color(212, 175, 55));
 		g2d.setStroke(new BasicStroke(3));
-		g2d.drawRoundRect(resourceSelectRect.x, resourceSelectRect.y, resourceSelectRect.width, resourceSelectRect.height, r, r);
-		
-		
+		g2d.drawRoundRect(resourceSelectRect.x, resourceSelectRect.y,
+				resourceSelectRect.width, resourceSelectRect.height, r, r);
 	}
 
 	public void rotate() {
