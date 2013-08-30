@@ -138,7 +138,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		addMouseWheelListener(this);
+		//addMouseWheelListener(this);
 		addKeyListener(this);
 		setFocusable(true);
 
@@ -389,10 +389,12 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					s.setFilter(rop);
 
 					display.getWorld().addStructure(s);
+
 					if(tile.isTraversible()){
 						Task t = new Task(tile, "dig");
 						display.getWorld().addTask(t);
 					}
+
 				}
 				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK))
 				{
