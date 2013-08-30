@@ -256,9 +256,18 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	boolean toggleRes = false;
 	@Override
 	public void keyTyped(KeyEvent e) {
-
+		int code = e.getKeyCode();
+//		switch (code) {
+//		case KeyEvent.VK_T:
+//			display.toggleResRegen(toggleRes);
+//			toggleRes = !toggleRes;
+//			break;
+//		default:
+//			break;
+//		}
 	}
 
 	// gets key events for panning possibly add shortcuts
@@ -290,6 +299,11 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		case KeyEvent.VK_F:
 			display.toggleStruct();
 			break;
+		case KeyEvent.VK_T:
+			display.toggleResRegen(toggleRes);
+			break;
+		default:
+				break;
 		}
 		panMap();
 		repaint();
@@ -373,7 +387,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 					display.getWorld().addStructure(s);
 					Task t = new Task(tile, "dig");
-					display.getWorld().tasks.add(t);
+					display.getWorld().addTask(t);
 				}
 				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK))
 				{
@@ -384,6 +398,11 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 								.setDirection(Direction.values()[(((Ramp) s)
 										.getDirection().ordinal() + 1) % 4]);
 					} else {
+						//TODO
+
+//						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+//								"buildTile","PathRamp"));
+
 						display.getWorld().addStructure(
 								new Ramp(point.x, point.y, 1, 1,
 										"PathRamp",
@@ -433,7 +452,11 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentStruct = display.getWorld().getCurrentStruct();
 						if(display.getWorld().hasResources(currentStruct))
 						{
+<<<<<<< HEAD
 							display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+=======
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+>>>>>>> 74c8cda99549e2aec21e4edfa538234d0c295989
 														"buildStructure",currentStruct));// TODO
 
 							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
@@ -477,8 +500,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		} else {
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			Tile t = display.getWorld().getTile(point.x, point.y);
+			if (t != null) {
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 			display.getWorld().getLogic().mapChanged(point.x, point.y);
+			}
 		}
 	}
 
