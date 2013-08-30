@@ -244,7 +244,7 @@ public class World {
 		// check for overlap
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
-				if (worldTile[x - X][y - Y].getDude() != null)
+				if (worldTile[x - X][y - Y].getDude() != null || worldTile[x - X][y - Y].getImageName().equals("Water"))
 					return false; // can't have two structures on one tile
 									// <--The best comment! =)
 
