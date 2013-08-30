@@ -71,14 +71,14 @@ public abstract class AbstractMenuPanel extends JPanel {
 	}
 
 	protected void paintComponent(Graphics g) {
-		g.drawImage(background, 0, 0, null);
-		g.drawImage(planet, 0, 0, null);
+		g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
+		g.drawImage(planet, 0, 0, this.getWidth(), this.getHeight(), null);
 		float zoom = 0.6f;
 		g.drawImage(logo,
-				(int)((this.getWidth() - logo.getWidth(null) * zoom) / 2),
-				(int)((this.getHeight() - logo.getHeight(null)) / 2),
-				(int)(logo.getWidth(null) * zoom),
-				(int)(logo.getHeight(null) * zoom),
+				(int)(((this.getWidth() - (logo.getWidth(null) * zoom) * this.getWidth() / 1920) / 2) ),
+				(int)(((this.getHeight() - (logo.getHeight(null) * zoom) * this.getHeight() / 1080)) / 2),
+				(int)((logo.getWidth(null) * zoom) * this.getWidth() / 1920),
+				(int)((logo.getHeight(null) * zoom) * this.getHeight() / 1080),
 				null);
 	}
 }

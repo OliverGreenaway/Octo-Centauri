@@ -3,6 +3,7 @@ package util;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,7 +31,11 @@ public class ObjectImageStorage {
 	public static Image getOrAdd(String path) {
 		Image i = get(path);
 		if(i == null) {
-			i = new ImageIcon(path).getImage();
+			try {
+				i = ImageIO.read(new File(path));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 			add(path, i);
 		}
 		return i;
