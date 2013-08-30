@@ -172,7 +172,6 @@ public class World {
 		for (int X = 0; X < w; X++)
 			for (int Y = 0; Y < h; Y++)
 				if (worldTile[x - X][y - Y].getStructure() != null) {
-					System.out.println("Cannot add structure: overlap");
 					return false; // can't have two structures on one tile
 				}
 
@@ -521,6 +520,16 @@ public class World {
 			return true;
 		else if(type.equals("Tree"))
 			return true;
+		else if(type.equals("Stockpile"))
+			return true;
+		else if(type.equals("Water"))
+			return true;
+		else if (type.equals("Building"))
+			return true;
+		else if (type.equals("RoughGround"))
+				return true;
+		else if (type.equals("Sand"))
+				return true;
 		else {
 			return false;
 		}
@@ -579,9 +588,8 @@ public class World {
 		return buildingStructures;
 	}
 
-	public void setBuildType(){
-		buildingStructures = !buildingStructures;
-	}
+
+
 
 	public boolean dig(Tile t, Dude dude) {
 		if (dude.isAt(t.getX() - 1, t.getY())
