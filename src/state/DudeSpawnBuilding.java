@@ -2,7 +2,12 @@ package state;
 
 import java.util.Random;
 
+
+
 public class DudeSpawnBuilding extends Structure {
+
+	private final int SPAWN_DELAY = 50;
+
 	public DudeSpawnBuilding(int x, int y) {
 		super(x, y, 1, 1, "Assets/EnvironmentTiles/SpawnPoints/SpawnMan1.png");
 	}
@@ -18,7 +23,7 @@ public class DudeSpawnBuilding extends Structure {
 				if (getWorld().getCrystalResource() > 50) {
 					getWorld().setCrystalResource(getWorld().getCrystalResource()- 50);//TODO Change amount if needed
 				}
-				delay = 15;
+				delay = SPAWN_DELAY;
 			} else {
 				delay--;
 			}

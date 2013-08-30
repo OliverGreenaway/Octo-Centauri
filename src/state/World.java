@@ -19,8 +19,8 @@ import util.TileImageStorage;
  */
 public class World {
 
-	private int woodResource = 200;
-	private int plantResource = 200;
+	private int woodResource = 100;
+	private int plantResource = 100;
 	private int crystalResource = 200;
 
 	private boolean showHealth = true;
@@ -78,6 +78,7 @@ public class World {
 		for (Tile[] row : tiles)
 			for (Tile t : row)
 				t.setWorld(this);
+
 		start();
 	}
 
@@ -611,5 +612,15 @@ public class World {
 
 	public void setCurrentStruct(String currentStruct) {
 		this.currentStruct = currentStruct;
+	}
+
+	public void placeCrate(int x,int y){
+		Crate crate = new Crate(x,y);
+		addStructure(crate);
+	}
+
+	public void placeDudeSpawnBuilding(int x,int y){
+		DudeSpawnBuilding dsb = new DudeSpawnBuilding(x, y);
+		addStructure(dsb);
 	}
 }
