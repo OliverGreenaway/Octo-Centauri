@@ -192,7 +192,7 @@ public class World {
 	public void toggleShowHealth() {
 		showHealth = !showHealth;
 	}
-	
+
 	public boolean showHealth() {
 		return showHealth;
 	}
@@ -482,7 +482,6 @@ public class World {
 					removeStructure(t.getStructure());
 				}
 				if (type.equals("Tree")){
-					System.out.println("Tree");
 					this.addStructure(new Structure(t.getX(),t.getY(),1,1,"Assets/EnvironmentObjects/DarkTree.png"));
 				}
 				else
