@@ -44,18 +44,15 @@ public class MainFrame extends JFrame {
 		GraphicsDevice[] devices = ge.getScreenDevices();
 
 
-		/*if (devices.length == 1 && devices[0].isFullScreenSupported()) {
+		if (devices.length == 1 && devices[0].isFullScreenSupported()) {
 			this.setUndecorated(true);
 			devices[0].setFullScreenWindow(this);
 			this.validate();
-
-		} else {*/
+		} else {
 			this.setVisible(true);
 			this.setResizable(true);
 			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		//}
-
-		
+		}
 
 		this.addWindowListener(new WindowListener() {
 

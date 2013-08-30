@@ -15,6 +15,12 @@ public class TileImageStorage {
 	private transient Map<String, Color> colors = new HashMap<String, Color>();
 
 	public void add(String key) {
+		if(key.equals("Water")) {
+			add("Water1");
+			add("Water2");
+			return;
+		}
+
 		try {
 			if (!images.containsKey(key)) {
 				BufferedImage img = ImageIO.read(new FileInputStream(
@@ -45,6 +51,18 @@ public class TileImageStorage {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Image Not Found x02 "+key,
 					"Warning", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+	private int waterFrame;
+	public void update() {
+		waterFrame = (waterFrame + 1) % 2;
+		if(waterFrame == 0) {
+			images.put("Water", get("Water1"));
+			colors.put("Water", colors.get("Water1"));
+		} else if(waterFrame == 1) {
+			images.put("Water", get("Water2"));
+			colors.put("Water", colors.get("Water2"));
 		}
 	}
 

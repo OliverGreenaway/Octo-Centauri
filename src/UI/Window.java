@@ -344,11 +344,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			Point point = display.displayToTileCoordinates(e.getX(), e.getY());
 			if (0 == (e.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK)) {
 				if (e.getButton() == 3) {
-					// TODO make tile greyed out, ask man to dig it;
 					Tile tile = display.getWorld().getTile(point.x,point.y);
-
-
-
 
 					Structure s = new Structure((int) point.getX(),
 							(int) point.getY(), 0, 1,
@@ -365,10 +361,60 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 					s.setFilter(rop);
 
 					display.getWorld().addStructure(s);
-
-
 					Task t = new Task(tile, "dig");
 					display.getWorld().tasks.add(t);
+				}
+				else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK))
+				{
+					String currentBuild = display.getWorld().getCurrentBuild();
+					if (display.getWorld().hasResources(currentBuild) && !display.getWorld().getBuildType())
+					{
+						display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+													"buildTile",currentBuild));// TODO
+
+						Structure s = new Structure((int) point.getX(),
+								(int) point.getY(), 1, 1,
+								"Assets/EnvironmentTiles/"+currentBuild+".png");
+
+<<<<<<< HEAD
+					Task t = new Task(tile, "dig");
+					display.getWorld().tasks.add(t);
+=======
+						/*
+						 * Copied from Java tutorial. Create a rescale filter op
+						 * that makes the image 50% opaque.
+						 */
+						float[] scales = { 1f, 1f, 1f, 0.5f };
+						float[] offsets = new float[4];
+						RescaleOp rop = new RescaleOp(scales, offsets, null);
+						s.setFilter(rop);
+
+						display.getWorld().addStructure(s);
+					}
+				else if (display.getWorld().hasResources(currentBuild) && display.getWorld().getBuildType())
+				{
+					display.getWorld().tasks.add(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
+												"buildStructure",currentBuild));// TODO
+
+					Structure s = new Structure((int) point.getX(),
+							(int) point.getY(), 1, 1,
+							"Assets/EnvironmentObjects/"+currentBuild+".png");
+
+
+					/*
+					 * Copied from Java tutorial. Create a rescale filter op
+					 * that makes the image 50% opaque.
+					 */
+					float[] scales = { 1f, 1f, 1f, 0.5f };
+					float[] offsets = new float[4];
+					RescaleOp rop = new RescaleOp(scales, offsets, null);
+					s.setFilter(rop);
+
+					display.getWorld().addStructure(s);
+				}
+					// TODO make tile greyed out, ask man to dig it;
+
+>>>>>>> ee3d6527f0b4ce75890d0905bbd121bda9746de9
 				} else if (0 != (e.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK)) {
 
 					// set tile to be somthing
