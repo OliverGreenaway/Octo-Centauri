@@ -107,7 +107,6 @@ public class Structure implements Serializable {
 	 * @param image The path to the structure's image.
 	 */
 	public Structure(int x, int y, int width, int height, String image) {
-		System.out.println("building");
 		this.x = x;
 		this.y = y;
 		this.width = width;
