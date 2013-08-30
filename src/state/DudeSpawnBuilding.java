@@ -18,8 +18,8 @@ public class DudeSpawnBuilding extends Structure {
 		Tile t = getWorld().getTile(getX(), getY());
 		if(getWorld().isDudeSpawningEnabled() && t.getDude() == null) {
 			if(delay <= 0) {
-				if(new Random().nextBoolean())
-					getWorld().addDude(new Dude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
+//				if(new Random().nextBoolean())
+//					getWorld().addDude(new Dude(getWorld(), getX(), getY(), 1, 1, "Assets/Characters/Man.png"));
 				if (getWorld().getCrystalResource() > 50) {
 					getWorld().setCrystalResource(getWorld().getCrystalResource()- 50);//TODO Change amount if needed
 				}
