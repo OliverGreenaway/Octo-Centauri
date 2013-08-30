@@ -45,7 +45,10 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 		MouseMotionListener, MouseWheelListener {
 
 	MainFrame frame = null;
-	public void setFrame(MainFrame frame) { this.frame = frame; }
+
+	public void setFrame(MainFrame frame) {
+		this.frame = frame;
+	}
 
 	// mouse x y points on a click
 	private int mouseX = 0;
@@ -161,7 +164,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 		if (mixingDesk != null) {
 
-
 			mixingDesk.stopAudio();
 			mixingDesk.addAudioPlayer("InGameMusic.wav", false);
 			world.setAudioPlayer(this.mixingDesk);
@@ -257,17 +259,18 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 	}
 
 	boolean toggleRes = false;
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		int code = e.getKeyCode();
-//		switch (code) {
-//		case KeyEvent.VK_T:
-//			display.toggleResRegen(toggleRes);
-//			toggleRes = !toggleRes;
-//			break;
-//		default:
-//			break;
-//		}
+		// switch (code) {
+		// case KeyEvent.VK_T:
+		// display.toggleResRegen(toggleRes);
+		// toggleRes = !toggleRes;
+		// break;
+		// default:
+		// break;
+		// }
 	}
 
 	// gets key events for panning possibly add shortcuts
@@ -303,7 +306,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			display.toggleResRegen(toggleRes);
 			break;
 		default:
-				break;
+			break;
 		}
 		panMap();
 		repaint();
@@ -341,12 +344,12 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			display.rotate();
 			break;
 		case KeyEvent.VK_ESCAPE:
-			if (JOptionPane.showConfirmDialog(null,  "Do you really want to quit?") == 0)
+			if (JOptionPane.showConfirmDialog(null,
+					"Do you really want to quit?") == 0)
 				frame.close();
 			break;
 		}
 	}
-
 
 	// mouse commands, awaiting some level of world to play with
 	@Override
@@ -428,8 +431,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentBuild = display.getWorld().getCurrentBuild();
 						if(display.getWorld().hasResources(currentBuild))
 						{
-							System.out.println(currentBuild);
-
 							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
 														"buildTile",currentBuild));// TODO
 
@@ -454,8 +455,7 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 						String currentStruct = display.getWorld().getCurrentStruct();
 						if(display.getWorld().hasResources(currentStruct))
 						{
-							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()),
-														"buildStructure",currentStruct));// TODO
+							display.getWorld().addTask(new Task(display.getWorld().getTile((int) point.getX(), (int) point.getY()), "buildStructure",currentStruct));// TODO
 
 							Structure s = (StructureType.getTypes().get(currentStruct).create(point.x, point.y));
 
@@ -480,7 +480,6 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 
 	this.repaint();
 	}
-
 
 	/*
 	 * public void displayPath() { System.out.println("HIII!"); if
@@ -510,12 +509,12 @@ public class Window extends JPanel implements KeyListener, MouseListener,
 			t.setHeight(t.getHeight() - e.getWheelRotation());
 			display.getWorld().getLogic().mapChanged(point.x, point.y);
 		}
-//		// plays audio
-//		// System.out.println(mixingDesk);
-//		if (mixingDesk != null) {
-//			mixingDesk.addAudioPlayer("PlaceItem.wav", true);
-//		}
-//		// new AudioPlayer("PlaceItem.wav", true);
+		// // plays audio
+		// // System.out.println(mixingDesk);
+		// if (mixingDesk != null) {
+		// mixingDesk.addAudioPlayer("PlaceItem.wav", true);
+		// }
+		// // new AudioPlayer("PlaceItem.wav", true);
 
 	}
 
