@@ -570,12 +570,30 @@ public class Display extends JPanel {
 				}
 			}
 		}
-		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding  ,
-				padding, null);
-		g2d.setColor(Color.yellow);
+
+		Graphics imageG = miniMap.getGraphics();
+
+		imageG.setColor(Color.yellow);
 		int x = Math.min(Math.max(camera.x+this.getWidth()-padding-miniMapWidth,this.getWidth()-padding-miniMapWidth),this.getWidth()-padding-miniMapWidth+world.getXSize()-60);
 		int y = Math.min(Math.max(camera.y+padding,padding),padding + world.getYSize()-30);
-		g2d.drawRect(x, y, 60, 30);
+		x = camera.x;
+		y = camera.y;
+
+
+		int w = this.getWidth() / TILE_WIDTH;
+		int h = this.getHeight() / TILE_HEIGHT;
+
+
+
+		imageG.drawLine(x + w, y, x + w*2, y + h);
+		imageG.drawLine(x + w, y + h*2, x + w*2, y + h);
+		imageG.drawLine(x, y + h, x + w, y);
+		imageG.drawLine(x, y + h, x + w, y + h*2);
+
+		miniMap.flush();
+
+		g2d.drawImage(miniMap, this.getWidth() - miniMapWidth - padding  ,
+				padding, null);
 		// draw the button panel
 		g2d.setColor(Color.black);
 		g2d.fillRect(this.getWidth() - miniMapWidth - toggleSize - padding,
@@ -702,6 +720,7 @@ public class Display extends JPanel {
 		g2d.setStroke(new BasicStroke(3));
 		g2d.drawRoundRect(resourceSelectRect.x, resourceSelectRect.y,
 				resourceSelectRect.width, resourceSelectRect.height, r, r);
+
 	}
 
 	public void rotate() {
